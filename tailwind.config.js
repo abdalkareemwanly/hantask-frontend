@@ -11,6 +11,7 @@ export default {
         'secondary-color': '#000',
         'dark-gray-color': '#000',
         'hard-gray-color': '#000',
+        'hard-gray-color-2': '#fff',
         'gray-color': '#000',
         'md-gray-color': '#f00',
         'light-gray-color': '#f00',
