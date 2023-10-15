@@ -1,5 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import DefaultLayout from "./Components/DefaultLayout";
+import Index from "./views/Index";
+import ChatUsers from "./views/ChatUsers";
 
 
 const router = createBrowserRouter([
@@ -8,7 +10,12 @@ const router = createBrowserRouter([
     element: <DefaultLayout />,
     children: [
       {
-        path: '/index',
+        path: '/Dashboard',
+        element: <Index />
+      },
+      {
+        path: "/Chat Users",
+        element: <ChatUsers />
       }
     ]
   }

@@ -1,0 +1,149 @@
+{
+    "Dashboard": null,
+    "Live Chat": [
+        "Chat Users",
+        "Chat Login Text"
+    ],
+    "Blogs": [
+        "All Blogs",
+        "Tags",
+        "Add New Post",
+        "All Trashed Items",
+        "Blog Details Settings"
+    ],
+    "Subscription": [
+        "Subscription Users",
+        "Subscription Login Text"
+    ],
+    "Jobs": [
+        "All Jobs",
+        "Jobs Sitting"
+    ],
+    "Wallet": [
+        "Wallet Lists",
+        "Wallet History"
+    ],
+    "Admin Role Manage": [
+        "All Admin",
+        "Add New Admin",
+        "All Admin Role"
+    ],
+    "Admin Services": [
+        "Admin Services",
+        "Add Services"
+    ],
+    "Users Manage": [
+        "All Users",
+        "Deactive Users"
+    ],
+    "Seller Settings": [
+        "Payout Request",
+        "Admin Commission",
+        "Amount Settings",
+        "User Register Settings",
+        "All Seller"
+    ],
+    "Seller Buyer Report": null,
+    "Pages": [
+        " All Pages",
+        "Add New Page"
+    ],
+    "Categories": [
+        "All test",
+        "Add New test"
+    ],
+    "Sub Category": [
+        "All Sub Category",
+        "Add New Sub Category"
+    ],
+    "Child Categories": [
+        "All Child Categories",
+        "Add New Child Categories"
+    ],
+    "Brands": [
+        "All Brands",
+        "Add New Brands"
+    ],
+    "Service Country": [
+        "All Country",
+        "Add New Country",
+        "Import Country"
+    ],
+    "Service City": [
+        "All City",
+        "Add New City",
+        "Import City"
+    ],
+    "Service Area": [
+        "All Area",
+        "Add New Area",
+        "Import Area"
+    ],
+    "Services": [
+        "All Services",
+        "Login Register Settings",
+        "Service Details Settings",
+        "Service Create Settings",
+        "Service Book Settings",
+        "Order Create Settings",
+        "Load More Settings",
+        "Google Map Settings"
+    ],
+    "Orders": [
+        "All Orders",
+        "Cancelled Orders",
+        "Order Success Settings",
+        "Order Request Complete",
+        "Decline Complete Request",
+        "Extra Orders"
+    ],
+    "Tickets": [
+        "All Tickets"
+    ],
+    "Notifications": [
+        "All Notifications"
+    ],
+    "Email Template Settings": [
+        "Email Templates"
+    ],
+    "Form Builder": [
+        "All Custom Form"
+    ],
+    "Appearance Settings": [
+        "Seller/Buyer Panel Settings",
+        "Media Images Manage",
+        "Widget Builder",
+        "Menu Manage"
+    ],
+    "Other Page Settings": [
+        "404 Page Manage",
+        "Maintain Page Manage"
+    ],
+    "General Settings": [
+        "Mobile Settings",
+        "Reading",
+        "Navbar Global Variant",
+        "Footer Global Variant",
+        "Payment Gateway Settings",
+        "Live Chat Settings",
+        "Site Identity",
+        "Basic Settings",
+        "OTP Settings",
+        "Color Settings",
+        "Typography Settings",
+        "SEO Settings",
+        "Third Party Scripts",
+        "Email Template",
+        "Email Settings",
+        "SMTP Settings",
+        "Custom CSS",
+        "Custom JS",
+        "Gdpr Settings",
+        "Licence Settings",
+        "SCheck Update",
+        "Cache Settings",
+        "Database Upgrade"
+    ],
+    "Languages": null,
+    "Back To Site": null
+}

@@ -7,15 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        'primary-color': '#000',
-        'secondary-color': '#000',
-        'dark-gray-color': '#000',
-        'hard-gray-color': '#000',
-        'hard-gray-color-2': '#fff',
-        'gray-color': '#000',
-        'md-gray-color': '#f00',
-        'light-gray-color': '#f00',
-        'dark-color': '#f00',
+        'primary-color': '#00697f',
+        'secondary-color': '#5dd16e',
+        'dark-gray-color': '#18181b',
+        'hard-gray-color': '#27272a',
+        'gray-color': '#52525b',
+        'md-gray-color': '#71717a',
+        'light-gray-color': '#a1a1aa',
+        'dark-color': '#000',
       },
     },
   },
