@@ -7,11 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        'primary-color': '#00697f',
-        'secondary-color': '#5dd16e',
-        'dark-gray-color': '#27272a',
-        'hard-gray-color': '#3f3f46',
-        'gray-color': '#a1a1aa',
+        'primary-color': '#000',
+        'secondary-color': '#000',
+        'dark-gray-color': '#000',
+        'hard-gray-color': '#000',
+        'gray-color': '#000',
         'md-gray-color': '#f00',
         'light-gray-color': '#f00',
         'dark-color': '#f00',
