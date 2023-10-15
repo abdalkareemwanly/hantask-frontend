@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Styling for WebKit-based browsers (Chrome, Safari) */
+.scroll::-webkit-scrollbar {
+    width: 0px; /* Width of the scrollbar */
+    transition: width 0.4s ease-in-out;
+  }
+  
+  .scroll::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the thumb (draggable part) */
+    border-radius: 5px; /* Rounded corners for the thumb */
+  }
+  
+  .scroll::-webkit-scrollbar-thumb:hover {
+    background-color: #2b2d42; /* Color of the thumb on hover */
+  }
+  
+  .scroll::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Color of the track (non-draggable area) */
+  }
+  
+  /* Dropdown.css */
+  .dropdown-container {
+    position: relative;
+  }
+  
+  .dropdown-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  
+  .dropdown-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 500ms, transform 500ms;
+  }
+  
+  .dropdown-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .dropdown-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 500ms, transform 500ms;
+  }
