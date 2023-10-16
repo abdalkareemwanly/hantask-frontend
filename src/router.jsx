@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import DefaultLayout from "./Components/DefaultLayout";
-import Index from "./views/Index";
-import ChatUsers from "./views/ChatUsers";
+import DefaultLayout from "./admin/Components/DefaultLayout";
+import Index from "./admin/index/Index";
+import ChatUsers from "./admin/ChatUsers/ChatUsers";
 
 
 const router = createBrowserRouter([
