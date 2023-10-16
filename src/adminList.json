@@ -79,6 +79,7 @@
         "Add New Area",
         "Import Area"
     ],
+    "Tax": null,
     "Services": [
         "All Services",
         "Login Register Settings",

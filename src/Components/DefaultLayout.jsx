@@ -9,7 +9,7 @@ import {
 } from "react-icons/bi";
 import { useState } from "react";
 import classnames from "classnames/bind";
-import SidebarAdmin1 from "./SidebarAdmin1";
+import SidebarAdmin from "./SidebarAdmin";
 
  // Define class names for light and dark mode
  const lightsidebarClasses = "bg-gray-color text-black shadow-black";
@@ -58,7 +58,7 @@ export default function DefaultLayout() {
           sidebarOpen ? "w-[280px]" : "w-0"
         }`}
       >
-        <SidebarAdmin1 />
+        <SidebarAdmin />
       </div>
       <div className='flex flex-col grow'>
         <div
