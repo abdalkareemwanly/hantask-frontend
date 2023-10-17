@@ -52,19 +52,19 @@ export default function Chart() {
       };
   return (
     <>
-    <div className="flex flex-col lg:flex-row md:flex-none  justify-around w-[95%] mt-9 text-left">
-        <div className="flex flex-col bg-inherit p-5 text-inherit w-[100%] lg:w-[45%] border-2 shadow-lg">
+    <div className="flex flex-col lg:flex-row md:flex-none justify-around w-[95%] mt-9 text-left">
+        <div className="flex flex-col bg-inherit p-5 text-inherit w-[100%] lg:w-[45%] border-2 shadow-md shadow-gray-color dark:shadow-gray-color bg-white">
           <Bar data={data} options={options}></Bar>
         </div>
-        <div className="flex flex-col bg-inherit p-5 text-inherit w-[100%] lg:w-[45%] border-2 shadow-lg">
+        <div className="flex flex-col bg-inherit p-5 text-inherit w-[100%] lg:w-[45%] border-2 shadow-md shadow-gray-color dark:shadow-gray-color bg-white">
           <Bar data={data} options={options}></Bar>
         </div>
       </div>
       <div className="flex flex-col lg:flex-row md:flex-none  justify-around w-[95%] mt-9 text-left">
-        <div className="flex flex-col bg-inherit p-5 text-inherit w-[100%] lg:w-[45%] border-2 shadow-lg">
+        <div className="flex flex-col bg-inherit p-5 text-inherit w-[100%] lg:w-[45%] border-2 shadow-md shadow-gray-color dark:shadow-gray-color bg-white">
           <Bar data={data} options={options}></Bar>
         </div>
-        <div className="flex flex-col bg-inherit p-5 text-inherit w-[100%] lg:w-[45%] border-2 shadow-lg">
+        <div className="flex flex-col bg-inherit p-5 text-inherit w-[100%] lg:w-[45%] border-2 shadow-md shadow-gray-color dark:shadow-gray-color bg-white">
           <Bar data={data} options={options}></Bar>
         </div>
       </div>

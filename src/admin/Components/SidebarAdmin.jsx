@@ -62,7 +62,6 @@ const iconMap = {
 };
 
 export default function SidebarAdmin() {
-  const mode = sessionStorage.getItem("mode");
   const [DropdownOpen, setDropdownOpen] = useState(false);
   const [listName, setListName] = useState(null);
   const [sideList, setSideList] = useState({});
@@ -81,7 +80,7 @@ export default function SidebarAdmin() {
   }, []);
 
   const getSideBar = () => {
-    fetch("/src/adminList.json")
+    fetch("/src/admin/Json/adminList.json")
       .then((response) => response.json())
       .then((data) => {
         setSideList(data);
@@ -94,19 +93,11 @@ export default function SidebarAdmin() {
   return (
     <>
       <h2 className="w-full sticky top-0 bg-inherit px-5 py-[17px] shadow-sm shadow-[gray]">
-        {mode === "light" ? (
-          <img
-            src="/public/images/logo-light.png"
-            className="img-fluid"
-            alt="Logo"
-          />
-        ) : (
           <img
             src="/public/images/logo-dark.png"
             className="img-fluid"
             alt="Logo"
           />
-        )}
       </h2>
 
       {Object.entries(sideList).map(([key, value]) =>
@@ -114,7 +105,7 @@ export default function SidebarAdmin() {
           <Link
             key={key}
             className="flex flex-row w-full items-center hover:bg-hard-gray-color"
-            to={`/${key}`}
+            to={`/admin/${key}`}
           >
             {Object.entries(iconMap).map(([index, value]) =>
               index === key ? (
@@ -160,7 +151,7 @@ export default function SidebarAdmin() {
                   <Link
                     key={k}
                     className="py-[10px] px-[43px] hover:bg-dark-gray-color hover:text-[white] focus:font-extrabold focus:bg-hard-gray-color"
-                    to={`/${val}`}
+                    to={`/admin/${val}`}
                   >
                     {val}
                   </Link>

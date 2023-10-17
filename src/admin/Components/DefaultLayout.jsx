@@ -8,53 +8,34 @@ import {
   BiSolidChevronDown,
 } from "react-icons/bi";
 import { useState } from "react";
-import classnames from "classnames/bind";
 import SidebarAdmin from "./SidebarAdmin";
 
- // Define class names for light and dark mode
- const lightsidebarClasses = "bg-gray-color text-black shadow-black";
- const darksidebarClasses = "bg-dark-color text-white shadow-white";
- const lightheaderClasses = "bg-md-gray-color text-black shadow-[gray]";
- const darkheaderClasses = "bg-hard-gray-color text-white shadow-[gray]";
- const lightbodyClasses = "bg-light text-black";
- const darkbodyClasses = "bg-dark-gray-color text-white";
+//  // Define class names for light and dark mode
+//  const lightsidebarClasses = "";
+//  const darksidebarClasses = "";
+//  const lightheaderClasses = "";
+//  const darkheaderClasses = "";
+//  const lightbodyClasses = "bg-light text-black";
+//  const darkbodyClasses = "";
 
 export default function DefaultLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [adminmenuOpen, setAdminMenuOpen] = useState(false);
-  const [mode, setMode] = useState("light");
 
   const handleSideBar = () => {
     setSidebarOpen(!sidebarOpen);
   };
   const handleMode = () => {
-    // Toggle between light and dark mode
-    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+    document.documentElement.classList.toggle('dark');
   };
   const handleAdminMenu = () => {
     setAdminMenuOpen(!adminmenuOpen);
   };
 
-  // Create a classnames function for conditional class application
-  const side = classnames("transition-all duration-500 ease-in-out", {
-    [lightsidebarClasses]: mode === "light",
-    [darksidebarClasses]: mode === "dark",
-  });
-
-  const header = classnames("transition-all duration-500 ease-in-out", {
-    [lightheaderClasses]: mode === "light",
-    [darkheaderClasses]: mode === "dark",
-  });
-
-  const boody = classnames("transition-all duration-500 ease-in-out", {
-    [lightbodyClasses]: mode === "light",
-    [darkbodyClasses]: mode === "dark",
-  });
-
   return (
-    <div className={`flex flex-row h-screen ${boody}`}>
+    <div className={`flex flex-row h-screen`}>
       <div
-        className={`flex flex-col h-screen overflow-y-auto scroll rounded-tr-lg z-20 shadow-lg ${side} ${
+        className={`flex flex-col h-screen bg-gray-color text-black shadow-black dark:bg-dark-color dark:text-white dark:shadow-white overflow-y-auto scroll rounded-tr-lg z-20 shadow-lg transition-all duration-500 ease-in-out ${
           sidebarOpen ? "w-[280px]" : "w-0"
         }`}
       >
@@ -62,7 +43,7 @@ export default function DefaultLayout() {
       </div>
       <div className='flex flex-col grow'>
         <div
-          className={`flex flex-row items-center ml-[-15px] w-lg-[100.75%] w-sm-[100%] px-[30px] z-10 shadow-md ${header}`}
+          className={`flex flex-row items-center bg-md-gray-color text-black shadow-[gray] dark:bg-hard-gray-color dark:text-white dark:shadow-[gray]  ml-[-15px] w-lg-[100.75%] w-sm-[100%] px-[30px] z-10 shadow-md`}
         >
           <button className="flex-none w-20" onClick={handleSideBar}>
             <BiMenuAltLeft style={{ fontSize: "24px" }} />
@@ -73,24 +54,21 @@ export default function DefaultLayout() {
               className="flex flex-row items-center px-[25px] py-[24px] w-[160px] justify-between border-l border-[gray]"
               onClick={handleAdminMenu}
             >
-              {mode === "light" ? (
                 <img
-                  className="w-[30px]"
+                  className="w-[30px] block dark:hidden"
                   src="/public/images/user-light.png"
                   alt=""
                 />
-              ) : (
                 <img
-                  className="w-[30px]"
+                  className="w-[30px] hidden dark:block"
                   src="/public/images/user-dark.png"
                   alt=""
                 />
-              )}
               <div>Admin</div>
               <BiSolidChevronDown style={{ fontSize: "18px" }} />
             </button>
             <div
-              className={`absolute flex flex-col mt-[210px] w-[180px] overflow-y-auto me-[-20px] shadow-md${header} ${
+              className={`absolute flex flex-col mt-[210px] w-[180px] overflow-y-auto me-[-20px] shadow-md ${
                 adminmenuOpen ? "h-[auto]" : "h-0"
               }`}
             >
@@ -99,27 +77,22 @@ export default function DefaultLayout() {
               <Link className="font-bold ps-6 py-2 hover:bg-gray-color">Logout</Link>
             </div>
             <button onClick={handleMode} className="me-5">
-              {mode === "light" ? (
-                <BiSolidBrightness style={{ fontSize: "24px" }} />
-              ) : (
-                <BiSolidBrightnessHalf style={{ fontSize: "24px" }} />
-              )}
+                <BiSolidBrightness className="img-fluid block dark:hidden" style={{ fontSize: "24px" }} />
+                <BiSolidBrightnessHalf className="img-fluid hidden dark:block" style={{ fontSize: "24px" }} />
             </button>
             <button className="me-5">
               <BiSolidBellRing style={{ fontSize: "24px" }} />
             </button>
           </div>
         </div>
-        <div className="overflow-y-auto scroll w-[100%] h-[120%] sm:">
+        <div className="overflow-y-auto bg-gray-50 dark:bg-dark-gray-color dark:text-white scroll w-[100%] h-[120%] sm:">
           <Outlet/>
         </div>
-        <div className={`flex flex-row justify-between px-3 ${header}`}>
+        <div className="flex flex-row justify-between px-3 border-t-2 py-2 bg-gray-color text-black shadow-black dark:bg-dark-color dark:text-white dark:shadow-white">
           <span>
             &copy; Copyright 2023{" "}
             <span
-              className={`font-bold ${
-                mode === "light" ? "text-primary-color" : "text-secondary-color"
-              }`}
+              className="text-secondary-color font-bold"
             >
               HanTask
             </span>

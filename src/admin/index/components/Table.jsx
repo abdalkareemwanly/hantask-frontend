@@ -2,7 +2,7 @@ export default function Table() {
   return (
     <>
     <div className="flex flex-col lg:flex-row md:flex-none justify-around w-[95%] mt-9 text-left">
-        <div className="flex flex-col bg-inherit p-5 text-inherit w-[100%] lg:w-[45%] border-2 shadow-lg">
+        <div className="flex flex-col bg-inherit p-5 text-inherit w-[100%] lg:w-[45%] border-2 shadow-md shadow-md-gray-color dark:shadow-gray-color bg-white dark:text-gray-color">
           <table className="w-full border-collapse border border-slate-500">
             <caption className="caption-top text-left py-4 font-bold text-[22px]">
               Most Viewed Services
@@ -45,7 +45,7 @@ export default function Table() {
             </tbody>
           </table>
         </div>
-        <div className="flex flex-col bg-inherit p-5 text-inherit w-[100%] lg:w-[45%] border-2 shadow-lg">
+        <div className="flex flex-col bg-inherit p-5 text-inherit w-[100%] lg:w-[45%] border-2 shadow-md shadow-md-gray-color dark:shadow-gray-color bg-white dark:text-gray-color">
           <table className="w-full border-collapse border border-slate-500">
             <caption className="caption-top text-left py-4 font-bold text-[22px]">
               Most Ordered Services
