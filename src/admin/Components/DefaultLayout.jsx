@@ -85,7 +85,7 @@ export default function DefaultLayout() {
             </button>
           </div>
         </div>
-        <div className="overflow-y-auto bg-gray-50 dark:bg-dark-gray-color dark:text-white scroll w-[100%] h-[120%] sm:">
+        <div className="overflow-y-auto bg-gray-100 dark:bg-dark-gray-color dark:text-white scroll w-[100%] h-[120%] sm:">
           <Outlet/>
         </div>
         <div className="flex flex-row justify-between px-3 border-t-2 py-2 bg-gray-color text-black shadow-black dark:bg-dark-color dark:text-white dark:shadow-white">

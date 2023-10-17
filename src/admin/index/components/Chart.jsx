@@ -27,7 +27,7 @@ export default function Chart() {
           {
             label: "Monthly Income Overview",
             data: [10, 20, 30, 10, 60, 50, 30, 20, 90],
-            backgroundColor: "rgb(93, 209, 110, 0.4)",
+            backgroundColor: "rgb(0, 105, 127, 0.7)",
             borderColor: "rgb(43, 45, 66)",
             pointBorderColor: "rgb(216, 0, 50, 0.5)",
           },
