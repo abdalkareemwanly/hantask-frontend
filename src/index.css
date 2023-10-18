@@ -2,48 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  .component-shadow {
+    box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075),
+      0 0.9px 1.5px hsla(0, 0%, 0%, 0.0001), 0 3.5px 6px hsla(0, 0%, 0%, 0.05);
+  }
+
+  :root[data-theme="dark"] {
+    --primary-text: 255 255 255;
+    --secondary-text: 175 190 196;
+    --error-text: 192 4 0;
+    --interactive-text: 3 110 190;
+    --disabled-text: 208 216 220;
+    --background-color: 43 46 55;
+    --blocks-color: 50 54 63;
+  }
+
+  :root[data-theme="light"] {
+    --primary-text: 34 34 34;
+    --secondary-text: 69 90 99;
+    --error-text: 192 4 0;
+    --interactive-text: 3 110 190;
+    --disabled-text: 208 216 220;
+    --background-color: 244 248 251;
+    --blocks-color: 255 255 255;
+  }
+}
+
 /* Styling for WebKit-based browsers (Chrome, Safari) */
 .scroll::-webkit-scrollbar {
-    width: 0px; /* Width of the scrollbar */
-    transition: width 0.4s ease-in-out;
-  }
-  
-  .scroll::-webkit-scrollbar-thumb {
-    background-color: #888; /* Color of the thumb (draggable part) */
-    border-radius: 5px; /* Rounded corners for the thumb */
-  }
-  
-  .scroll::-webkit-scrollbar-thumb:hover {
-    background-color: #2b2d42; /* Color of the thumb on hover */
-  }
-  
-  .scroll::-webkit-scrollbar-track {
-    background-color: #f1f1f1; /* Color of the track (non-draggable area) */
-  }
-  
-  /* Dropdown.css */
-  .dropdown-container {
-    position: relative;
-  }
-  
-  .dropdown-enter {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  
-  .dropdown-enter-active {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 500ms, transform 500ms;
-  }
-  
-  .dropdown-exit {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  .dropdown-exit-active {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 500ms, transform 500ms;
-  }
+  width: 0px; /* Width of the scrollbar */
+  transition: width 0.4s ease-in-out;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the thumb (draggable part) */
+  border-radius: 5px; /* Rounded corners for the thumb */
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #2b2d42; /* Color of the thumb on hover */
+}
+
+.scroll::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Color of the track (non-draggable area) */
+}
+
+/* Dropdown.css */
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.dropdown-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 500ms, transform 500ms;
+}
+
+.dropdown-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 500ms, transform 500ms;
+}

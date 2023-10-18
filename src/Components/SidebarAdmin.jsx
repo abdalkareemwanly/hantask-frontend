@@ -46,7 +46,7 @@ export default function SidebarAdmin() {
 
   return (
     <>
-      <h2 className="w-full sticky top-0 bg-inherit px-5 py-[17px] shadow-sm shadow-[gray]">
+      <h2 className="w-full sticky top-0 bg-inherit px-5 py-[20px] bg-blocks-color ">
         {mode === "light" ? (
           <img
             src="/public/images/logo-light.png"

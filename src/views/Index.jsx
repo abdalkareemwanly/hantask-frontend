@@ -57,8 +57,8 @@ export default function Index() {
     <div className="flex flex-col justify-center items-center my-10">
       {/* Statistics for important data */}
       <div className="flex flex-col lg:flex-row md:flex-none justify-around lg:w-[95%] sm:w-full">
-        <div className="flex flex-row flex-none lg:w-[20%] sm:w-[90%] items-center lg:px-5 sm:px-1 rounded-md  shadow-md shadow-primary-color bg-primary-color py-[10px] text-white">
-          <div className="rounded-full p-2 bg-[white]">
+        <div className="flex flex-row flex-none bg-blocks-color lg:w-[20%] sm:w-[90%] items-center lg:px-5 sm:px-1 rounded-md  component-shadow bg-primary-color py-[10px] text-white">
+          <div className="rounded-full p-2 ">
             <BiUserCircle className="text-primary-color text-[42px]" />
           </div>
           <div className="flex flex-col justify-center ms-5 mt-2">
@@ -66,8 +66,8 @@ export default function Index() {
             <span className="text-[16px] font-semibold">Total Admin</span>
           </div>
         </div>
-        <div className="flex flex-row flex-none w-[20%] items-center px-5 rounded-md  shadow-md shadow-secondary-color bg-secondary-color py-[10px] text-white">
-          <div className="rounded-full p-2 bg-[white]">
+        <div className="flex flex-row flex-none bg-blocks-color w-[20%] items-center px-5 rounded-md  component-shadow bg-secondary-color py-[10px] text-white">
+          <div className="rounded-full p-2 ">
             <BiUserCircle className="text-secondary-color text-[42px]" />
           </div>
           <div className="flex flex-col justify-center ms-5 mt-2">
@@ -75,8 +75,8 @@ export default function Index() {
             <span className="text-[16px] font-semibold">Total Seller</span>
           </div>
         </div>
-        <div className="flex flex-row flex-none w-[20%] items-center px-5 rounded-md  shadow-md shadow-primary-color bg-primary-color py-[10px] text-white">
-          <div className="rounded-full p-2 bg-[white]">
+        <div className="flex flex-row flex-none bg-blocks-color w-[20%] items-center px-5 rounded-md  component-shadow bg-primary-color py-[10px] text-white">
+          <div className="rounded-full p-2 ">
             <BiUserCircle className="text-primary-color text-[42px]" />
           </div>
           <div className="flex flex-col justify-center ms-5 mt-2">
@@ -84,8 +84,8 @@ export default function Index() {
             <span className="text-[16px] font-semibold">Total Buyer</span>
           </div>
         </div>
-        <div className="flex flex-row flex-none w-[20%] items-center px-5 rounded-md  shadow-md shadow-secondary-color bg-secondary-color py-[10px] text-white">
-          <div className="rounded-full p-2 bg-[white]">
+        <div className="flex flex-row flex-none bg-blocks-color w-[20%] items-center px-5 rounded-md  component-shadow bg-secondary-color py-[10px] text-white">
+          <div className="rounded-full p-2 ">
             <BiUserCircle className="text-secondary-color text-[42px]" />
           </div>
           <div className="flex flex-col justify-center ms-5 mt-2">
@@ -95,8 +95,8 @@ export default function Index() {
         </div>
       </div>
       <div className="flex flex-col lg:flex-row md:flex-none justify-around w-[95%] mt-7">
-        <div className="flex flex-row flex-none w-[20%] items-center px-5 rounded-md  shadow-md shadow-primary-color bg-primary-color py-[10px] text-white">
-          <div className="rounded-full p-2 bg-[white]">
+        <div className="flex flex-row flex-none bg-blocks-color w-[20%] items-center px-5 rounded-md  component-shadow bg-primary-color py-[10px] text-white">
+          <div className="rounded-full p-2 ">
             <BiUserCircle className="text-primary-color text-[42px]" />
           </div>
           <div className="flex flex-col justify-center ms-5 mt-2">
@@ -104,8 +104,8 @@ export default function Index() {
             <span className="text-[16px] font-semibold">Order Pending</span>
           </div>
         </div>
-        <div className="flex flex-row flex-none w-[20%] items-center px-5 rounded-md  shadow-md shadow-secondary-color bg-secondary-color py-[10px] text-white">
-          <div className="rounded-full p-2 bg-[white]">
+        <div className="flex flex-row flex-none bg-blocks-color w-[20%] items-center px-5 rounded-md  component-shadow bg-secondary-color py-[10px] text-white">
+          <div className="rounded-full p-2 ">
             <BiUserCircle className="text-secondary-color text-[42px]" />
           </div>
           <div className="flex flex-col justify-center ms-5 mt-2">
@@ -113,8 +113,8 @@ export default function Index() {
             <span className="text-[16px] font-semibold">Pending Service</span>
           </div>
         </div>
-        <div className="flex flex-row flex-none w-[20%] items-center px-5 rounded-md  shadow-md shadow-primary-color bg-primary-color py-[10px] text-white">
-          <div className="rounded-full p-2 bg-[white]">
+        <div className="flex flex-row flex-none bg-blocks-color w-[20%] items-center px-5 rounded-md  component-shadow bg-primary-color py-[10px] text-white">
+          <div className="rounded-full p-2 ">
             <BiUserCircle className="text-primary-color text-[42px]" />
           </div>
           <div className="flex flex-col justify-center ms-5 mt-2">
@@ -124,8 +124,8 @@ export default function Index() {
             </span>
           </div>
         </div>
-        <div className="flex flex-row flex-none w-[20%] items-center px-5 rounded-md  shadow-md shadow-secondary-color bg-secondary-color py-[10px] text-white">
-          <div className="rounded-full p-2 bg-[white]">
+        <div className="flex flex-row flex-none bg-blocks-color w-[20%] items-center px-5 rounded-md  component-shadow bg-secondary-color py-[10px] text-white">
+          <div className="rounded-full p-2 ">
             <BiUserCircle className="text-secondary-color text-[42px]" />
           </div>
           <div className="flex flex-col justify-center ms-5 mt-2">

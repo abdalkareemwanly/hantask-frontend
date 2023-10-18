@@ -5,18 +5,16 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    colors: {
+      'background-color': 'rgb(var(--background-color) / <alpha-value>)',
+      'blocks-color': 'rgb(var(--blocks-color) / <alpha-value>)',
+      'primary-text': 'rgb(var(--primary-text) / <alpha-value>)',
+      'secondary-text': 'rgb(var(--secondary-text) / <alpha-value>)',
+      'error-text': 'rgb(var(--error-text) / <alpha-value>)',
+      'interactive-text': 'rgb(var(--interactive-text) / <alpha-value>)',
+      'disabled-text': 'rgb(var(--disabled-text) / <alpha-value>)',
+    },
     extend: {
-      colors: {
-        'primary-color': '#000',
-        'secondary-color': '#000',
-        'dark-gray-color': '#000',
-        'hard-gray-color': '#000',
-        'hard-gray-color-2': '#fff',
-        'gray-color': '#000',
-        'md-gray-color': '#f00',
-        'light-gray-color': '#f00',
-        'dark-color': '#f00',
-      },
     },
   },
   plugins: [],
