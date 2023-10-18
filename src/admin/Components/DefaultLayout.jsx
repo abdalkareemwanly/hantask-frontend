@@ -10,14 +10,6 @@ import {
 import { useState } from "react";
 import SidebarAdmin from "./SidebarAdmin";
 
-//  // Define class names for light and dark mode
-//  const lightsidebarClasses = "";
-//  const darksidebarClasses = "";
-//  const lightheaderClasses = "";
-//  const darkheaderClasses = "";
-//  const lightbodyClasses = "bg-light text-black";
-//  const darkbodyClasses = "";
-
 export default function DefaultLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [adminmenuOpen, setAdminMenuOpen] = useState(false);
@@ -72,7 +64,7 @@ export default function DefaultLayout() {
                 adminmenuOpen ? "h-[auto]" : "h-0"
               }`}
             >
-              <Link className="font-bold ps-6 py-2 hover:bg-gray-color ">Edit Profile</Link>
+              <Link className="font-bold ps-6 py-2 hover:bg-gray-color">Edit Profile</Link>
               <Link className="font-bold ps-6 py-2 hover:bg-gray-color">Password Change</Link>
               <Link className="font-bold ps-6 py-2 hover:bg-gray-color">Logout</Link>
             </div>
