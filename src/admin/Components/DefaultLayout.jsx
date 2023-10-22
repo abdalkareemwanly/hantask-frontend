@@ -1,4 +1,3 @@
-// import React from 'react'
 import { Link, Outlet } from "react-router-dom";
 import {
   BiMenuAltLeft,
@@ -9,7 +8,6 @@ import {
 } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import SidebarAdmin from "./SidebarAdmin";
-// import { document } from "postcss";
 
 export default function DefaultLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -28,6 +26,7 @@ export default function DefaultLayout() {
   const handleMode = () => {
     // Toggle between light and dark mode
     setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+    sessionStorage.setItem("mode", mode)
   };
   const handleAdminMenu = () => {
     setAdminMenuOpen(!adminmenuOpen);
@@ -61,7 +60,7 @@ export default function DefaultLayout() {
               {mode === "light" ? (
                 <img
                   className="w-[30px]"
-                  src="/public/images/user-light.png"
+                  src="/src/images/user-light.png"
                   alt=""
                 />
               ) : (
@@ -82,13 +81,13 @@ export default function DefaultLayout() {
                 adminmenuOpen ? "h-[auto]" : "h-0"
               }`}
             >
-              <Link className="font-bold ps-6 py-2 text-primary-text ">
+              <Link className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out">
                 Edit Profile
               </Link>
-              <Link className="font-bold ps-6 py-2 text-primary-text">
+              <Link className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out">
                 Password Change
               </Link>
-              <Link className="font-bold ps-6 py-2 text-primary-text">
+              <Link className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out">
                 Logout
               </Link>
             </div>

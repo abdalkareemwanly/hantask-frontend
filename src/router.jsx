@@ -10,15 +10,15 @@ const router = createBrowserRouter([
     element: <DefaultLayout />,
     children: [
       {
-        path: "/admin/Dashboard",
+        path: "/admin/dashboard",
         element: <Index />,
       },
       {
-        path: "/admin/Chat Users",
+        path: "/admin/chatUsers",
         element: <ChatUsers />,
       },
       {
-        path: "/admin/Languages",
+        path: "/admin/languages",
         element: <Languages />,
       },
     ],

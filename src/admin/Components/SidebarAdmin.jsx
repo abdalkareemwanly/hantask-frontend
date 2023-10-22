@@ -71,12 +71,17 @@ export default function SidebarAdmin() {
       setDropdownOpen(true);
       setListName(name);
     } else {
-      setDropdownOpen(false);
+      if (listName === name) {
+        setDropdownOpen(false);
+      } else {
+        setListName(name);
+      }
     }
   };
 
   useEffect(() => {
     getSideBar();
+    // console.log(mode);
   }, []);
 
   const getSideBar = () => {
@@ -93,74 +98,76 @@ export default function SidebarAdmin() {
   return (
     <>
       <h2 className="w-full sticky top-0 bg-inherit px-5 py-[20px] bg-blocks-color ">
-        <img
-          src="/public/images/logo-dark.png"
-          className="img-fluid"
-          alt="Logo"
-        />
+        <img src="/src/images/logo-dark.png" className="img-fluid" alt="Logo" />
       </h2>
 
-      {Object.entries(sideList).map(([key, value]) =>
-        value == null ? (
-          <Link
-            key={key}
-            className="flex flex-row w-full items-center hover:bg-hard-gray-color"
-            to={`/admin/${key}`}
-          >
-            {Object.entries(iconMap).map(([index, value]) =>
-              index === key ? (
-                <strong key={key} className="m-3">
-                  {value}
-                </strong>
-              ) : null
-            )}
-            <strong className="m-1">{key}</strong>
-          </Link>
-        ) : (
-          <div key={key}>
-            <button
-              className="flex flex-row w-full items-center hover:bg-hard-gray-color"
-              title="User Tools"
-              onClick={() => getdropdownopen(key)}
+      {Object.entries(sideList).map(([title, sublist]) => (
+        <div key={title}>
+          {sublist && typeof sublist === "object" && sublist.name === null ? (
+            <Link
+              className="flex flex-row w-full items-center hover:bg-hard-gray-color hover:bg-background-color transition-all duration-400 ease-in-out"
+              to={`${sublist.path}`}
             >
-              <div className="flex grow items-center">
-                {Object.entries(iconMap).map(([index, value]) =>
-                  index === key ? (
-                    <strong key={key} className="m-3">
-                      {value}
-                    </strong>
-                  ) : null
-                )}
-                <strong
-                  className={listName === key ? "ms-1 text-danger" : "ms-1"}
-                >
-                  {key}
-                </strong>
-              </div>
-              <div className="me-3">
-                {DropdownOpen === true && listName === key ? (
-                  <BiSolidChevronUp />
-                ) : (
-                  <BiSolidChevronDown />
-                )}
-              </div>
-            </button>
-            {DropdownOpen === true && listName === key ? (
-              <div className="flex flex-col">
-                {Object.entries(value).map(([k, val]) => (
-                  <Link
-                    key={k}
-                    className="py-[10px] px-[43px] hover:bg-dark-gray-color hover:text-[white] focus:font-extrabold focus:bg-hard-gray-color"
-                    to={`/admin/${val}`}
+              {Object.entries(iconMap).map(([index, value]) =>
+                index === title ? (
+                  <strong className="m-3" key={index}>
+                    {value}
+                  </strong>
+                ) : null
+              )}
+              <strong className="m-1 text-black">{title}</strong>
+            </Link>
+          ) : (
+            <div>
+              <button
+                className="flex flex-row w-full items-center hover:bg-background-color transition-all duration-400 ease-in-out"
+                title="User Tools"
+                onClick={() => getdropdownopen(title)}
+              >
+                <div className="flex grow items-center">
+                  {Object.entries(iconMap).map(([index, value]) =>
+                    index === title ? (
+                      <strong className="m-3" key={index}>
+                        {value}
+                      </strong>
+                    ) : null
+                  )}
+                  <strong
+                    className={listName === title ? "ms-1 text-danger" : "ms-1"}
                   >
-                    {val}
-                  </Link>
-                ))}
+                    {title}
+                  </strong>
+                </div>
+                <div className="me-3">
+                  {DropdownOpen === true && listName === title ? (
+                    <BiSolidChevronUp />
+                  ) : (
+                    <BiSolidChevronDown />
+                  )}
+                </div>
+              </button>
+              <div
+                className={
+                  DropdownOpen === true && listName === title
+                    ? "flex flex-col"
+                    : "hidden"
+                }
+              >
+                {sublist &&
+                  Object.entries(sublist).map(([k, val]) => (
+                    <Link
+                      key={k}
+                      className="py-[10px] px-[43px] hover:bg-background-color active:bg-background-color focus:bg-background-color transition-all duration-400 ease-in-out"
+                      to={`${val}`}
+                    >
+                      {k}
+                    </Link>
+                  ))}
               </div>
-            ) : null}
-          </div>
-        )
-      )}
+            </div>
+          )}
+        </div>
+      ))}
     </>
   );
 }
