@@ -26,6 +26,8 @@ import {
   BiSolidObjectsHorizontalCenter,
 } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import Logo from "./Logo";
+import { ContextProvider, useStateContext } from "../../contexts/ContextsProvider";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
@@ -63,6 +65,7 @@ const iconMap = {
 
 export default function SidebarAdmin() {
   const [DropdownOpen, setDropdownOpen] = useState(false);
+  const { translation } = useStateContext();
   const [listName, setListName] = useState(null);
   const [sideList, setSideList] = useState({});
 
@@ -81,7 +84,6 @@ export default function SidebarAdmin() {
 
   useEffect(() => {
     getSideBar();
-    // console.log(mode);
   }, []);
 
   const getSideBar = () => {
@@ -98,7 +100,7 @@ export default function SidebarAdmin() {
   return (
     <>
       <h2 className="w-full sticky top-0 bg-inherit px-5 py-[20px] bg-blocks-color ">
-        <img src="/src/images/logo-dark.png" className="img-fluid" alt="Logo" />
+        <Logo />
       </h2>
 
       {Object.entries(sideList).map(([title, sublist]) => (
@@ -115,7 +117,7 @@ export default function SidebarAdmin() {
                   </strong>
                 ) : null
               )}
-              <strong className="m-1 text-black">{title}</strong>
+              <strong className="m-1 text-black">{title in translation ? translation[title] : title}</strong>
             </Link>
           ) : (
             <div>
@@ -135,7 +137,7 @@ export default function SidebarAdmin() {
                   <strong
                     className={listName === title ? "ms-1 text-danger" : "ms-1"}
                   >
-                    {title}
+                      { title in translation? translation[title]: title }
                   </strong>
                 </div>
                 <div className="me-3">
@@ -160,7 +162,7 @@ export default function SidebarAdmin() {
                       className="py-[10px] px-[43px] hover:bg-background-color active:bg-background-color focus:bg-background-color transition-all duration-400 ease-in-out"
                       to={`${val}`}
                     >
-                      {k}
+                      {k in translation ? translation[k] : k}
                     </Link>
                   ))}
               </div>

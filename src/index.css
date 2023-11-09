@@ -11,21 +11,25 @@
   :root[data-theme="dark"] {
     --primary-text: 255 255 255;
     --secondary-text: 175 190 196;
+    --logo-text: 0 105 127;
     --error-text: 192 4 0;
     --interactive-text: 3 110 190;
     --disabled-text: 208 216 220;
     --background-color: 43 46 55;
     --blocks-color: 50 54 63;
+    --logo-color: 93 209 110;
   }
 
   :root[data-theme="light"] {
     --primary-text: 34 34 34;
     --secondary-text: 69 90 99;
+    --logo-text: 255 255 255;
     --error-text: 192 4 0;
     --interactive-text: 3 110 190;
     --disabled-text: 208 216 220;
     --background-color: 244 248 251;
     --blocks-color: 255 255 255;
+    --logo-color: 93 209 110;
   }
 }
 

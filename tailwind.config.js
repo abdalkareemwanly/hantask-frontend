@@ -8,6 +8,8 @@ export default {
     colors: {
       'background-color': 'rgb(var(--background-color) / <alpha-value>)',
       'blocks-color': 'rgb(var(--blocks-color) / <alpha-value>)',
+      'logo-color': 'rgb(var(--logo-color) / <alpha-value>)',
+      'logo-text': 'rgb(var(--logo-text) / <alpha-value>)',
       'primary-text': 'rgb(var(--primary-text) / <alpha-value>)',
       'secondary-text': 'rgb(var(--secondary-text) / <alpha-value>)',
       'error-text': 'rgb(var(--error-text) / <alpha-value>)',

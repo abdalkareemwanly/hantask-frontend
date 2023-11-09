@@ -158,5 +158,8 @@
     "name": null,
     "path": "/admin/languages"
   },
-  "Back To Site": null
+  "Back To Site": {
+    "name": null,
+    "path": "/admin/languages"
+  }
 }
