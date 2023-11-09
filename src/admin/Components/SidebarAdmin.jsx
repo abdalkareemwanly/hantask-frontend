@@ -26,6 +26,8 @@ import {
   BiSolidObjectsHorizontalCenter,
 } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { useTWThemeContext } from "./ThemeProvider";
+import { AiOutlineClose } from "react-icons/ai";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
@@ -61,11 +63,10 @@ const iconMap = {
   "Back To Site": <BiSolidArrowFromRight />,
 };
 
-export default function SidebarAdmin() {
+export default function SidebarAdmin({ setSidebarOpen }) {
   const [DropdownOpen, setDropdownOpen] = useState(false);
   const [listName, setListName] = useState(null);
   const [sideList, setSideList] = useState({});
-
   const getdropdownopen = (name) => {
     if (DropdownOpen === false) {
       setDropdownOpen(true);
@@ -90,40 +91,55 @@ export default function SidebarAdmin() {
       });
   };
 
+  const { theme } = useTWThemeContext();
+  const handleCloseSideBar = () => {
+    setSidebarOpen((prev) => !prev);
+  };
   return (
     <>
-      <h2 className="w-full sticky top-0 bg-inherit px-5 py-[20px] bg-blocks-color ">
-        <img
-          src="/public/images/logo-dark.png"
-          className="img-fluid"
-          alt="Logo"
-        />
-      </h2>
+      <div className="w-full sticky top-0 bg-inherit px-3 py-[20px] bg-blocks-color flex items-center justify-between">
+        {theme === "light" ? (
+          <img
+            src="/public/images/logo-light.png"
+            className="w-[80%] md:w-full"
+            alt="Logo"
+          />
+        ) : (
+          <img
+            src="/public/images/logo-dark.png"
+            className="w-[80%] md:w-full"
+            alt="Logo"
+          />
+        )}
+        <span className="md:hidden cursor-pointer" onClick={handleCloseSideBar}>
+          <AiOutlineClose size={27} />
+        </span>
+      </div>
 
       {Object.entries(sideList).map(([key, value]) =>
         value == null ? (
           <Link
             key={key}
-            className="flex flex-row w-full items-center hover:bg-hard-gray-color"
+            className="flex flex-row w-full items-center"
             to={`/admin/${key}`}
           >
             {Object.entries(iconMap).map(([index, value]) =>
               index === key ? (
-                <strong key={key} className="m-3">
+                <strong key={key} className="m-3 ">
                   {value}
                 </strong>
               ) : null
             )}
-            <strong className="m-1">{key}</strong>
+            <strong className="m-1 ">{key}</strong>
           </Link>
         ) : (
           <div key={key}>
             <button
-              className="flex flex-row w-full items-center hover:bg-hard-gray-color"
+              className="flex flex-row w-full items-center"
               title="User Tools"
               onClick={() => getdropdownopen(key)}
             >
-              <div className="flex grow items-center">
+              <div className="flex grow items-center ">
                 {Object.entries(iconMap).map(([index, value]) =>
                   index === key ? (
                     <strong key={key} className="m-3">
@@ -132,7 +148,7 @@ export default function SidebarAdmin() {
                   ) : null
                 )}
                 <strong
-                  className={listName === key ? "ms-1 text-danger" : "ms-1"}
+                  className={listName === key ? "ms-1 text-danger" : "ms-1 "}
                 >
                   {key}
                 </strong>
@@ -150,7 +166,7 @@ export default function SidebarAdmin() {
                 {Object.entries(value).map(([k, val]) => (
                   <Link
                     key={k}
-                    className="py-[10px] px-[43px] hover:bg-dark-gray-color hover:text-[white] focus:font-extrabold focus:bg-hard-gray-color"
+                    className="py-[10px] px-[43px] hover:bg-greenBtn hover:text-white focus:font-extrabold focus:bg-hard-gray-color"
                     to={`/admin/${val}`}
                   >
                     {val}

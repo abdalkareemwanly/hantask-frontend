@@ -1,14 +1,10 @@
+import { Page } from "../../../Components/StyledComponents";
 import Chart from "./components/Chart";
 import Statistics from "./components/Statistics";
 import Table from "./components/Table";
-
-
-
 export default function Index() {
-  
-
   return (
-    <div className="flex flex-col justify-center items-center my-10">
+    <Page>
       {/* Statistics for important data */}
       <Statistics />
 
@@ -17,7 +13,6 @@ export default function Index() {
 
       {/* Chart For Information */}
       <Chart />
-      
-    </div>
+    </Page>
   );
 }

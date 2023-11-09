@@ -4,6 +4,7 @@ import Index from "./admin/pages/index/Index";
 import ChatUsers from "./admin/pages/ChatUsers/ChatUsers";
 import Languages from "./admin/pages/Languages/Languages";
 import Pagenotfound from "./Components/Pagenotfound";
+import Users from "./admin/pages/users/Users";
 const router = createBrowserRouter([
   {
     path: "/admin/",
@@ -13,6 +14,7 @@ const router = createBrowserRouter([
         path: "/admin/Dashboard",
         element: <Index />,
       },
+      { path: "/admin/All Users", element: <Users /> },
       {
         path: "/admin/Chat Users",
         element: <ChatUsers />,

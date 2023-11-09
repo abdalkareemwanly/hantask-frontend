@@ -9,14 +9,21 @@ import {
 } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import SidebarAdmin from "./SidebarAdmin";
+import { TWThemeProvider, useTWThemeContext } from "./ThemeProvider";
+import { ToastContainer } from "react-toastify";
 // import { document } from "postcss";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function DefaultLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [adminmenuOpen, setAdminMenuOpen] = useState(false);
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState(localStorage.getItem("theme") || "light");
+  const { setTheme } = useTWThemeContext();
+
   useEffect(() => {
     const htmlElement = document.querySelector("html");
+    localStorage.setItem("theme", mode);
+    setTheme(mode);
     if (htmlElement) {
       htmlElement.setAttribute("data-theme", mode);
     }
@@ -26,7 +33,6 @@ export default function DefaultLayout() {
     setSidebarOpen(!sidebarOpen);
   };
   const handleMode = () => {
-    // Toggle between light and dark mode
     setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
   };
   const handleAdminMenu = () => {
@@ -35,20 +41,21 @@ export default function DefaultLayout() {
 
   return (
     <div className={`flex flex-row h-screen bg-background-color`}>
+      <ToastContainer />
       <div
-        className={`flex flex-col h-screen text-primary-text overflow-y-auto scroll bg-blocks-color rounded-tr-lg z-20 shadow-lg gap-4  ${
-          sidebarOpen ? "w-[280px]" : "w-0"
+        className={`flex flex-col h-screen transition-all ease-in text-primary-text overflow-y-auto scroll bg-blocks-color  z-10 shadow-lg gap-4 fixed md:static  ${
+          sidebarOpen ? "md:w-[280px] w-[230px]" : "w-0"
         }`}
       >
-        <SidebarAdmin />
+        <SidebarAdmin setSidebarOpen={setSidebarOpen} />
       </div>
       <div className="flex flex-col grow">
         <div
-          className={`flex flex-row items-center component-shadow ml-[-15px] w-lg-[100.75%] w-sm-[100%] px-[30px] z-10  bg-blocks-color `}
+          className={`flex flex-row items-center component-shadow w-sm-[100%] px-2 md:px-14 z-10  bg-blocks-color `}
         >
-          <button className="flex-none w-20" onClick={handleSideBar}>
+          <button className="" onClick={handleSideBar}>
             <BiMenuAltLeft
-              style={{ fontSize: "24px" }}
+              style={{ fontSize: "30px" }}
               className="text-primary-text"
             />
           </button>
@@ -113,7 +120,7 @@ export default function DefaultLayout() {
             </button>
           </div>
         </div>
-        <div className="overflow-y-auto text-primary-text scroll w-[100%] h-[120%] sm:">
+        <div className="overflow-y-auto text-primary-text scroll w-[100%] h-[120%] px-2 md:px-14">
           <Outlet />
         </div>
         <div
