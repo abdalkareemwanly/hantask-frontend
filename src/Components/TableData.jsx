@@ -124,7 +124,6 @@ const TableData = ({ columns, data, paginationBool, selectableRows }) => {
       paginationIconPrevious={<FaAngleLeft />}
       paginationIconFirstPage={<FaAnglesLeft />}
       paginationIconLastPage={<FaAnglesRight />}
-      className="component-shadow"
     />
   );
 };

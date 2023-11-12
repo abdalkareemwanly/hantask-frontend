@@ -28,6 +28,7 @@ import {
 import { Link } from "react-router-dom";
 import { useTWThemeContext } from "./ThemeProvider";
 import { AiOutlineClose } from "react-icons/ai";
+import { useStateContext } from "../../contexts/ContextsProvider";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
@@ -65,6 +66,7 @@ const iconMap = {
 
 export default function SidebarAdmin({ setSidebarOpen }) {
   const [DropdownOpen, setDropdownOpen] = useState(false);
+  const { translation } = useStateContext();
   const [listName, setListName] = useState(null);
   const [sideList, setSideList] = useState({});
   const getdropdownopen = (name) => {
@@ -72,7 +74,11 @@ export default function SidebarAdmin({ setSidebarOpen }) {
       setDropdownOpen(true);
       setListName(name);
     } else {
-      setDropdownOpen(false);
+      if (listName === name) {
+        setDropdownOpen(false);
+      } else {
+        setListName(name);
+      }
     }
   };
 
@@ -100,13 +106,13 @@ export default function SidebarAdmin({ setSidebarOpen }) {
       <div className="w-full sticky top-0 bg-inherit px-3 py-[20px] bg-blocks-color flex items-center justify-between">
         {theme === "light" ? (
           <img
-            src="/public/images/logo-light.png"
+            src="/src/images/logo-light.png"
             className="w-[80%] md:w-full"
             alt="Logo"
           />
         ) : (
           <img
-            src="/public/images/logo-dark.png"
+            src="/src/images/logo-dark.png"
             className="w-[80%] md:w-full"
             alt="Logo"
           />
@@ -116,67 +122,75 @@ export default function SidebarAdmin({ setSidebarOpen }) {
         </span>
       </div>
 
-      {Object.entries(sideList).map(([key, value]) =>
-        value == null ? (
-          <Link
-            key={key}
-            className="flex flex-row w-full items-center"
-            to={`/admin/${key}`}
-          >
-            {Object.entries(iconMap).map(([index, value]) =>
-              index === key ? (
-                <strong key={key} className="m-3 ">
-                  {value}
-                </strong>
-              ) : null
-            )}
-            <strong className="m-1 ">{key}</strong>
-          </Link>
-        ) : (
-          <div key={key}>
-            <button
-              className="flex flex-row w-full items-center"
-              title="User Tools"
-              onClick={() => getdropdownopen(key)}
+      {Object.entries(sideList).map(([title, sublist]) => (
+        <div key={title}>
+          {sublist && typeof sublist === "object" && sublist.name === null ? (
+            <Link
+              className="flex flex-row w-full items-center hover:bg-hard-gray-color hover:bg-background-color transition-all duration-400 ease-in-out"
+              to={`${sublist.path}`}
             >
-              <div className="flex grow items-center ">
-                {Object.entries(iconMap).map(([index, value]) =>
-                  index === key ? (
-                    <strong key={key} className="m-3">
-                      {value}
-                    </strong>
-                  ) : null
-                )}
-                <strong
-                  className={listName === key ? "ms-1 text-danger" : "ms-1 "}
-                >
-                  {key}
-                </strong>
-              </div>
-              <div className="me-3">
-                {DropdownOpen === true && listName === key ? (
-                  <BiSolidChevronUp />
-                ) : (
-                  <BiSolidChevronDown />
-                )}
-              </div>
-            </button>
-            {DropdownOpen === true && listName === key ? (
-              <div className="flex flex-col">
-                {Object.entries(value).map(([k, val]) => (
-                  <Link
-                    key={k}
-                    className="py-[10px] px-[43px] hover:bg-greenBtn hover:text-white focus:font-extrabold focus:bg-hard-gray-color"
-                    to={`/admin/${val}`}
+              {Object.entries(iconMap).map(([index, value]) =>
+                index === title ? (
+                  <strong className="m-3" key={index}>
+                    {value}
+                  </strong>
+                ) : null
+              )}
+              <strong className="m-1 text-primary-text">
+                {title in translation ? translation[title] : title}
+              </strong>
+            </Link>
+          ) : (
+            <div>
+              <button
+                className="flex flex-row w-full items-center hover:bg-background-color transition-all duration-400 ease-in-out"
+                title="User Tools"
+                onClick={() => getdropdownopen(title)}
+              >
+                <div className="flex grow items-center">
+                  {Object.entries(iconMap).map(([index, value]) =>
+                    index === title ? (
+                      <strong className="m-3" key={index}>
+                        {value}
+                      </strong>
+                    ) : null
+                  )}
+                  <strong
+                    className={listName === title ? "ms-1 text-danger" : "ms-1"}
                   >
-                    {val}
-                  </Link>
-                ))}
+                    {title in translation ? translation[title] : title}
+                  </strong>
+                </div>
+                <div className="me-3">
+                  {DropdownOpen === true && listName === title ? (
+                    <BiSolidChevronUp />
+                  ) : (
+                    <BiSolidChevronDown />
+                  )}
+                </div>
+              </button>
+              <div
+                className={
+                  DropdownOpen === true && listName === title
+                    ? "flex flex-col"
+                    : "hidden"
+                }
+              >
+                {sublist &&
+                  Object.entries(sublist).map(([k, val]) => (
+                    <Link
+                      key={k}
+                      className="py-[10px] px-[43px] hover:bg-background-color active:bg-background-color focus:bg-background-color transition-all duration-400 ease-in-out"
+                      to={`${val}`}
+                    >
+                      {k in translation ? translation[k] : k}
+                    </Link>
+                  ))}
               </div>
-            ) : null}
-          </div>
-        )
-      )}
+            </div>
+          )}
+        </div>
+      ))}
     </>
   );
 }

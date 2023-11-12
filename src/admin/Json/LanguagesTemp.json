@@ -1,738 +1,738 @@
 [
     {
         "code": "aa",
-        "name": "Afar"
+        "lanName": "Afar"
     },
     {
         "code": "ab",
-        "name": "Abkhazian"
+        "lanName": "Abkhazian"
     },
     {
         "code": "ae",
-        "name": "Avestan"
+        "lanName": "Avestan"
     },
     {
         "code": "af",
-        "name": "Afrikaans"
+        "lanName": "Afrikaans"
     },
     {
         "code": "ak",
-        "name": "Akan"
+        "lanName": "Akan"
     },
     {
         "code": "am",
-        "name": "Amharic"
+        "lanName": "Amharic"
     },
     {
         "code": "an",
-        "name": "Aragonese"
+        "lanName": "Aragonese"
     },
     {
         "code": "ar",
-        "name": "Arabic"
+        "lanName": "Arabic"
     },
     {
         "code": "as",
-        "name": "Assamese"
+        "lanName": "Assamese"
     },
     {
         "code": "av",
-        "name": "Avaric"
+        "lanName": "Avaric"
     },
     {
         "code": "ay",
-        "name": "Aymara"
+        "lanName": "Aymara"
     },
     {
         "code": "az",
-        "name": "Azerbaijani"
+        "lanName": "Azerbaijani"
     },
     {
         "code": "ba",
-        "name": "Bashkir"
+        "lanName": "Bashkir"
     },
     {
         "code": "be",
-        "name": "Belarusian"
+        "lanName": "Belarusian"
     },
     {
         "code": "bg",
-        "name": "Bulgarian"
+        "lanName": "Bulgarian"
     },
     {
         "code": "bh",
-        "name": "Bihari languages"
+        "lanName": "Bihari languages"
     },
     {
         "code": "bi",
-        "name": "Bislama"
+        "lanName": "Bislama"
     },
     {
         "code": "bm",
-        "name": "Bambara"
+        "lanName": "Bambara"
     },
     {
         "code": "bn",
-        "name": "Bengali"
+        "lanName": "Bengali"
     },
     {
         "code": "bo",
-        "name": "Tibetan"
+        "lanName": "Tibetan"
     },
     {
         "code": "br",
-        "name": "Breton"
+        "lanName": "Breton"
     },
     {
         "code": "bs",
-        "name": "Bosnian"
+        "lanName": "Bosnian"
     },
     {
         "code": "ca",
-        "name": "Catalan; Valencian"
+        "lanName": "Catalan; Valencian"
     },
     {
         "code": "ce",
-        "name": "Chechen"
+        "lanName": "Chechen"
     },
     {
         "code": "ch",
-        "name": "Chamorro"
+        "lanName": "Chamorro"
     },
     {
         "code": "co",
-        "name": "Corsican"
+        "lanName": "Corsican"
     },
     {
         "code": "cr",
-        "name": "Cree"
+        "lanName": "Cree"
     },
     {
         "code": "cs",
-        "name": "Czech"
+        "lanName": "Czech"
     },
     {
         "code": "cu",
-        "name": "Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic"
+        "lanName": "Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic"
     },
     {
         "code": "cv",
-        "name": "Chuvash"
+        "lanName": "Chuvash"
     },
     {
         "code": "cy",
-        "name": "Welsh"
+        "lanName": "Welsh"
     },
     {
         "code": "da",
-        "name": "Danish"
+        "lanName": "Danish"
     },
     {
         "code": "de",
-        "name": "German"
+        "lanName": "German"
     },
     {
         "code": "dv",
-        "name": "Divehi; Dhivehi; Maldivian"
+        "lanName": "Divehi; Dhivehi; Maldivian"
     },
     {
         "code": "dz",
-        "name": "Dzongkha"
+        "lanName": "Dzongkha"
     },
     {
         "code": "ee",
-        "name": "Ewe"
+        "lanName": "Ewe"
     },
     {
         "code": "el",
-        "name": "Greek, Modern (1453-)"
+        "lanName": "Greek, Modern (1453-)"
     },
     {
         "code": "en",
-        "name": "English"
+        "lanName": "English"
     },
     {
         "code": "eo",
-        "name": "Esperanto"
+        "lanName": "Esperanto"
     },
     {
         "code": "es",
-        "name": "Spanish; Castilian"
+        "lanName": "Spanish; Castilian"
     },
     {
         "code": "et",
-        "name": "Estonian"
+        "lanName": "Estonian"
     },
     {
         "code": "eu",
-        "name": "Basque"
+        "lanName": "Basque"
     },
     {
         "code": "fa",
-        "name": "Persian"
+        "lanName": "Persian"
     },
     {
         "code": "ff",
-        "name": "Fulah"
+        "lanName": "Fulah"
     },
     {
         "code": "fi",
-        "name": "Finnish"
+        "lanName": "Finnish"
     },
     {
         "code": "fj",
-        "name": "Fijian"
+        "lanName": "Fijian"
     },
     {
         "code": "fo",
-        "name": "Faroese"
+        "lanName": "Faroese"
     },
     {
         "code": "fr",
-        "name": "French"
+        "lanName": "French"
     },
     {
         "code": "fy",
-        "name": "Western Frisian"
+        "lanName": "Western Frisian"
     },
     {
         "code": "ga",
-        "name": "Irish"
+        "lanName": "Irish"
     },
     {
         "code": "gd",
-        "name": "Gaelic; Scomttish Gaelic"
+        "lanName": "Gaelic; Scomttish Gaelic"
     },
     {
         "code": "gl",
-        "name": "Galician"
+        "lanName": "Galician"
     },
     {
         "code": "gn",
-        "name": "Guarani"
+        "lanName": "Guarani"
     },
     {
         "code": "gu",
-        "name": "Gujarati"
+        "lanName": "Gujarati"
     },
     {
         "code": "gv",
-        "name": "Manx"
+        "lanName": "Manx"
     },
     {
         "code": "ha",
-        "name": "Hausa"
+        "lanName": "Hausa"
     },
     {
         "code": "he",
-        "name": "Hebrew"
+        "lanName": "Hebrew"
     },
     {
         "code": "hi",
-        "name": "Hindi"
+        "lanName": "Hindi"
     },
     {
         "code": "ho",
-        "name": "Hiri Motu"
+        "lanName": "Hiri Motu"
     },
     {
         "code": "hr",
-        "name": "Croatian"
+        "lanName": "Croatian"
     },
     {
         "code": "ht",
-        "name": "Haitian; Haitian Creole"
+        "lanName": "Haitian; Haitian Creole"
     },
     {
         "code": "hu",
-        "name": "Hungarian"
+        "lanName": "Hungarian"
     },
     {
         "code": "hy",
-        "name": "Armenian"
+        "lanName": "Armenian"
     },
     {
         "code": "hz",
-        "name": "Herero"
+        "lanName": "Herero"
     },
     {
         "code": "ia",
-        "name": "Interlingua (International Auxiliary Language Association)"
+        "lanName": "Interlingua (International Auxiliary Language Association)"
     },
     {
         "code": "id",
-        "name": "Indonesian"
+        "lanName": "Indonesian"
     },
     {
         "code": "ie",
-        "name": "Interlingue; Occidental"
+        "lanName": "Interlingue; Occidental"
     },
     {
         "code": "ig",
-        "name": "Igbo"
+        "lanName": "Igbo"
     },
     {
         "code": "ii",
-        "name": "Sichuan Yi; Nuosu"
+        "lanName": "Sichuan Yi; Nuosu"
     },
     {
         "code": "ik",
-        "name": "Inupiaq"
+        "lanName": "Inupiaq"
     },
     {
         "code": "io",
-        "name": "Ido"
+        "lanName": "Ido"
     },
     {
         "code": "is",
-        "name": "Icelandic"
+        "lanName": "Icelandic"
     },
     {
         "code": "it",
-        "name": "Italian"
+        "lanName": "Italian"
     },
     {
         "code": "iu",
-        "name": "Inuktitut"
+        "lanName": "Inuktitut"
     },
     {
         "code": "ja",
-        "name": "Japanese"
+        "lanName": "Japanese"
     },
     {
         "code": "jv",
-        "name": "Javanese"
+        "lanName": "Javanese"
     },
     {
         "code": "ka",
-        "name": "Georgian"
+        "lanName": "Georgian"
     },
     {
         "code": "kg",
-        "name": "Kongo"
+        "lanName": "Kongo"
     },
     {
         "code": "ki",
-        "name": "Kikuyu; Gikuyu"
+        "lanName": "Kikuyu; Gikuyu"
     },
     {
         "code": "kj",
-        "name": "Kuanyama; Kwanyama"
+        "lanName": "Kuanyama; Kwanyama"
     },
     {
         "code": "kk",
-        "name": "Kazakh"
+        "lanName": "Kazakh"
     },
     {
         "code": "kl",
-        "name": "Kalaallisut; Greenlandic"
+        "lanName": "Kalaallisut; Greenlandic"
     },
     {
         "code": "km",
-        "name": "Central Khmer"
+        "lanName": "Central Khmer"
     },
     {
         "code": "kn",
-        "name": "Kannada"
+        "lanName": "Kannada"
     },
     {
         "code": "ko",
-        "name": "Korean"
+        "lanName": "Korean"
     },
     {
         "code": "kr",
-        "name": "Kanuri"
+        "lanName": "Kanuri"
     },
     {
         "code": "ks",
-        "name": "Kashmiri"
+        "lanName": "Kashmiri"
     },
     {
         "code": "ku",
-        "name": "Kurdish"
+        "lanName": "Kurdish"
     },
     {
         "code": "kv",
-        "name": "Komi"
+        "lanName": "Komi"
     },
     {
         "code": "kw",
-        "name": "Cornish"
+        "lanName": "Cornish"
     },
     {
         "code": "ky",
-        "name": "Kirghiz; Kyrgyz"
+        "lanName": "Kirghiz; Kyrgyz"
     },
     {
         "code": "la",
-        "name": "Latin"
+        "lanName": "Latin"
     },
     {
         "code": "lb",
-        "name": "Luxembourgish; Letzeburgesch"
+        "lanName": "Luxembourgish; Letzeburgesch"
     },
     {
         "code": "lg",
-        "name": "Ganda"
+        "lanName": "Ganda"
     },
     {
         "code": "li",
-        "name": "Limburgan; Limburger; Limburgish"
+        "lanName": "Limburgan; Limburger; Limburgish"
     },
     {
         "code": "ln",
-        "name": "Lingala"
+        "lanName": "Lingala"
     },
     {
         "code": "lo",
-        "name": "Lao"
+        "lanName": "Lao"
     },
     {
         "code": "lt",
-        "name": "Lithuanian"
+        "lanName": "Lithuanian"
     },
     {
         "code": "lu",
-        "name": "Luba-Katanga"
+        "lanName": "Luba-Katanga"
     },
     {
         "code": "lv",
-        "name": "Latvian"
+        "lanName": "Latvian"
     },
     {
         "code": "mg",
-        "name": "Malagasy"
+        "lanName": "Malagasy"
     },
     {
         "code": "mh",
-        "name": "Marshallese"
+        "lanName": "Marshallese"
     },
     {
         "code": "mi",
-        "name": "Maori"
+        "lanName": "Maori"
     },
     {
         "code": "mk",
-        "name": "Macedonian"
+        "lanName": "Macedonian"
     },
     {
         "code": "ml",
-        "name": "Malayalam"
+        "lanName": "Malayalam"
     },
     {
         "code": "mn",
-        "name": "Mongolian"
+        "lanName": "Mongolian"
     },
     {
         "code": "mr",
-        "name": "Marathi"
+        "lanName": "Marathi"
     },
     {
         "code": "ms",
-        "name": "Malay"
+        "lanName": "Malay"
     },
     {
         "code": "mt",
-        "name": "Maltese"
+        "lanName": "Maltese"
     },
     {
         "code": "my",
-        "name": "Burmese"
+        "lanName": "Burmese"
     },
     {
         "code": "na",
-        "name": "Nauru"
+        "lanName": "Nauru"
     },
     {
         "code": "nb",
-        "name": "Bokmål, Norwegian; Norwegian Bokmål"
+        "lanName": "Bokmål, Norwegian; Norwegian Bokmål"
     },
     {
         "code": "nd",
-        "name": "Ndebele, North; North Ndebele"
+        "lanName": "Ndebele, North; North Ndebele"
     },
     {
         "code": "ne",
-        "name": "Nepali"
+        "lanName": "Nepali"
     },
     {
         "code": "ng",
-        "name": "Ndonga"
+        "lanName": "Ndonga"
     },
     {
         "code": "nl",
-        "name": "Dutch; Flemish"
+        "lanName": "Dutch; Flemish"
     },
     {
         "code": "nn",
-        "name": "Norwegian Nynorsk; Nynorsk, Norwegian"
+        "lanName": "Norwegian Nynorsk; Nynorsk, Norwegian"
     },
     {
         "code": "no",
-        "name": "Norwegian"
+        "lanName": "Norwegian"
     },
     {
         "code": "nr",
-        "name": "Ndebele, South; South Ndebele"
+        "lanName": "Ndebele, South; South Ndebele"
     },
     {
         "code": "nv",
-        "name": "Navajo; Navaho"
+        "lanName": "Navajo; Navaho"
     },
     {
         "code": "ny",
-        "name": "Chichewa; Chewa; Nyanja"
+        "lanName": "Chichewa; Chewa; Nyanja"
     },
     {
         "code": "oc",
-        "name": "Occitan (post 1500)"
+        "lanName": "Occitan (post 1500)"
     },
     {
         "code": "oj",
-        "name": "Ojibwa"
+        "lanName": "Ojibwa"
     },
     {
         "code": "om",
-        "name": "Oromo"
+        "lanName": "Oromo"
     },
     {
         "code": "or",
-        "name": "Oriya"
+        "lanName": "Oriya"
     },
     {
         "code": "os",
-        "name": "Ossetian; Ossetic"
+        "lanName": "Ossetian; Ossetic"
     },
     {
         "code": "pa",
-        "name": "Panjabi; Punjabi"
+        "lanName": "Panjabi; Punjabi"
     },
     {
         "code": "pi",
-        "name": "Pali"
+        "lanName": "Pali"
     },
     {
         "code": "pl",
-        "name": "Polish"
+        "lanName": "Polish"
     },
     {
         "code": "ps",
-        "name": "Pushto; Pashto"
+        "lanName": "Pushto; Pashto"
     },
     {
         "code": "pt",
-        "name": "Portuguese"
+        "lanName": "Portuguese"
     },
     {
         "code": "qu",
-        "name": "Quechua"
+        "lanName": "Quechua"
     },
     {
         "code": "rm",
-        "name": "Romansh"
+        "lanName": "Romansh"
     },
     {
         "code": "rn",
-        "name": "Rundi"
+        "lanName": "Rundi"
     },
     {
         "code": "ro",
-        "name": "Romanian; Moldavian; Moldovan"
+        "lanName": "Romanian; Moldavian; Moldovan"
     },
     {
         "code": "ru",
-        "name": "Russian"
+        "lanName": "Russian"
     },
     {
         "code": "rw",
-        "name": "Kinyarwanda"
+        "lanName": "Kinyarwanda"
     },
     {
         "code": "sa",
-        "name": "Sanskrit"
+        "lanName": "Sanskrit"
     },
     {
         "code": "sc",
-        "name": "Sardinian"
+        "lanName": "Sardinian"
     },
     {
         "code": "sd",
-        "name": "Sindhi"
+        "lanName": "Sindhi"
     },
     {
         "code": "se",
-        "name": "Northern Sami"
+        "lanName": "Northern Sami"
     },
     {
         "code": "sg",
-        "name": "Sango"
+        "lanName": "Sango"
     },
     {
         "code": "si",
-        "name": "Sinhala; Sinhalese"
+        "lanName": "Sinhala; Sinhalese"
     },
     {
         "code": "sk",
-        "name": "Slovak"
+        "lanName": "Slovak"
     },
     {
         "code": "sl",
-        "name": "Slovenian"
+        "lanName": "Slovenian"
     },
     {
         "code": "sm",
-        "name": "Samoan"
+        "lanName": "Samoan"
     },
     {
         "code": "sn",
-        "name": "Shona"
+        "lanName": "Shona"
     },
     {
         "code": "so",
-        "name": "Somali"
+        "lanName": "Somali"
     },
     {
         "code": "sq",
-        "name": "Albanian"
+        "lanName": "Albanian"
     },
     {
         "code": "sr",
-        "name": "Serbian"
+        "lanName": "Serbian"
     },
     {
         "code": "ss",
-        "name": "Swati"
+        "lanName": "Swati"
     },
     {
         "code": "st",
-        "name": "Sotho, Southern"
+        "lanName": "Sotho, Southern"
     },
     {
         "code": "su",
-        "name": "Sundanese"
+        "lanName": "Sundanese"
     },
     {
         "code": "sv",
-        "name": "Swedish"
+        "lanName": "Swedish"
     },
     {
         "code": "sw",
-        "name": "Swahili"
+        "lanName": "Swahili"
     },
     {
         "code": "ta",
-        "name": "Tamil"
+        "lanName": "Tamil"
     },
     {
         "code": "te",
-        "name": "Telugu"
+        "lanName": "Telugu"
     },
     {
         "code": "tg",
-        "name": "Tajik"
+        "lanName": "Tajik"
     },
     {
         "code": "th",
-        "name": "Thai"
+        "lanName": "Thai"
     },
     {
         "code": "ti",
-        "name": "Tigrinya"
+        "lanName": "Tigrinya"
     },
     {
         "code": "tk",
-        "name": "Turkmen"
+        "lanName": "Turkmen"
     },
     {
         "code": "tl",
-        "name": "Tagalog"
+        "lanName": "Tagalog"
     },
     {
         "code": "tn",
-        "name": "Tswana"
+        "lanName": "Tswana"
     },
     {
         "code": "to",
-        "name": "Tonga (Tonga Islands)"
+        "lanName": "Tonga (Tonga Islands)"
     },
     {
         "code": "tr",
-        "name": "Turkish"
+        "lanName": "Turkish"
     },
     {
         "code": "ts",
-        "name": "Tsonga"
+        "lanName": "Tsonga"
     },
     {
         "code": "tt",
-        "name": "Tatar"
+        "lanName": "Tatar"
     },
     {
         "code": "tw",
-        "name": "Twi"
+        "lanName": "Twi"
     },
     {
         "code": "ty",
-        "name": "Tahitian"
+        "lanName": "Tahitian"
     },
     {
         "code": "ug",
-        "name": "Uighur; Uyghur"
+        "lanName": "Uighur; Uyghur"
     },
     {
         "code": "uk",
-        "name": "Ukrainian"
+        "lanName": "Ukrainian"
     },
     {
         "code": "ur",
-        "name": "Urdu"
+        "lanName": "Urdu"
     },
     {
         "code": "uz",
-        "name": "Uzbek"
+        "lanName": "Uzbek"
     },
     {
         "code": "ve",
-        "name": "Venda"
+        "lanName": "Venda"
     },
     {
         "code": "vi",
-        "name": "Vietnamese"
+        "lanName": "VietlanNamese"
     },
     {
         "code": "vo",
-        "name": "Volapük"
+        "lanName": "Volapük"
     },
     {
         "code": "wa",
-        "name": "Walloon"
+        "lanName": "Walloon"
     },
     {
         "code": "wo",
-        "name": "Wolof"
+        "lanName": "Wolof"
     },
     {
         "code": "xh",
-        "name": "Xhosa"
+        "lanName": "Xhosa"
     },
     {
         "code": "yi",
-        "name": "Yiddish"
+        "lanName": "Yiddish"
     },
     {
         "code": "yo",
-        "name": "Yoruba"
+        "lanName": "Yoruba"
     },
     {
         "code": "za",
-        "name": "Zhuang; Chuang"
+        "lanName": "Zhuang; Chuang"
     },
     {
         "code": "zh",
-        "name": "Chinese"
+        "lanName": "Chinese"
     },
     {
         "code": "zu",
-        "name": "Zulu"
+        "lanName": "Zulu"
     }
 ]

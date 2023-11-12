@@ -1,7 +1,7 @@
 import DataTable from "react-data-table-component";
 import styled from "styled-components";
 export const DataTableStyled = styled(DataTable)`
-  margin: 16px 0;
+  margin: 0 0;
   & .rdt_Table {
     background-color: ${(props) =>
       props.$mode === "dark" ? "rgb(50, 54, 63)" : "#fff"};
@@ -14,7 +14,9 @@ export const DataTableStyled = styled(DataTable)`
       background-color: var(--blocks-color);
       color: var(--primary-text);
     }
-
+    .rdt_TableHeadRow {
+      font-size: 16px;
+    }
     .jWOtlo:not(:last-of-type),
     .idxdtx {
       border-bottom-color: ${(props) =>
@@ -37,5 +39,5 @@ export const DataTableStyled = styled(DataTable)`
 `;
 
 export const Page = styled.div`
-  margin: 2rem 0;
+  margin: 2rem 0px;
 `;

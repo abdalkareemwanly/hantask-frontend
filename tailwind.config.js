@@ -5,9 +5,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        greenBtn: "#5dd16e",
-        blueBtn: "#3b82f6",
-        redBtn: "#fb7185",
+        greenColor: "#4fc961",
+        blueColor: "#3b82f6",
+        redColor: "#fb7185",
+        orangeColor: "#FFAC1C",
         "background-color": "rgb(var(--background-color) / <alpha-value>)",
         "blocks-color": "rgb(var(--blocks-color) / <alpha-value>)",
         "primary-text": "rgb(var(--primary-text) / <alpha-value>)",

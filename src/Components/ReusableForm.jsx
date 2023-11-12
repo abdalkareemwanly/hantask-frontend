@@ -8,6 +8,7 @@ const ReusableForm = ({
   validate,
   btnWidth,
   btnText,
+  addedStyles,
 }) => {
   let { title, fields } = template;
 
@@ -69,7 +70,25 @@ const ReusableForm = ({
 
   const renderFields = (fields) => {
     return fields?.map((field) => {
-      let { title, type, name, validationProps, readOnly, disabled } = field;
+      let {
+        title,
+        type,
+        name,
+        validationProps,
+        readOnly,
+        disabled,
+        optionValue,
+        optionText,
+      } = field;
+
+      // const minVal = 0;
+      // const maxVal = 999;
+
+      // const handleRandomNum = () => {
+      //   return Math.floor(Math.random() * (maxVal - minVal + 1) + minVal);
+      // };
+
+      // let customName = name + handleRandomNum();
       switch (type) {
         case "text":
           return (
@@ -80,6 +99,26 @@ const ReusableForm = ({
               <input
                 className="input-box"
                 type="text"
+                name={name}
+                id={name}
+                readOnly={readOnly}
+                disabled={disabled}
+                {...register(name, validationProps)}
+              />
+              {errors && errors[name] && (
+                <span className="red-text">{errors[name]["message"]}</span>
+              )}
+            </div>
+          );
+        case "password":
+          return (
+            <div key={name} className="input-field">
+              <label htmlFor={name} className="input-label">
+                {title}
+              </label>
+              <input
+                className="input-box"
+                type="password"
                 name={name}
                 id={name}
                 readOnly={readOnly}
@@ -142,8 +181,8 @@ const ReusableForm = ({
               >
                 <option value="">select an option</option>
                 {field.options?.map((option) => (
-                  <option key={option.title} value={option.value}>
-                    {option.title}
+                  <option key={option[optionValue]} value={option[optionValue]}>
+                    {option[optionText]}
                   </option>
                 ))}
               </select>
@@ -152,6 +191,7 @@ const ReusableForm = ({
               )}
             </div>
           );
+
         default:
           return (
             <div key={name}>
@@ -163,23 +203,20 @@ const ReusableForm = ({
   };
 
   return (
-    <div>
-      <form
-        className="flex flex-col gap-2 w-full"
-        onSubmit={handleSubmit(onSubmit)}
+    <form
+      className={`flex flex-col gap-2 w-full text-primary-text ${addedStyles}`}
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <h3 className="font-bold text-2xl bt-3">{title}</h3>
+      {renderFields(fields)}
+      <button
+        type="submit"
+        disabled={!isValid}
+        className={`bg-greenColor text-white  p-2 outline-none border-none ${btnWidth} text-base mt-3  px-6 rounded-[4px] disabled:bg-gray-600`}
       >
-        <h3 className="font-bold text-2xl">{title}</h3>
-        {renderFields(fields)}
-        <button
-          type="submit"
-          name={name}
-          disabled={!isValid}
-          className={`bg-greenBtn p-2 outline-none border-none ${btnWidth} mt-3  px-6 rounded-[4px] disabled:bg-gray-600`}
-        >
-          {btnText}
-        </button>
-      </form>
-    </div>
+        {btnText}
+      </button>
+    </form>
   );
 };
 

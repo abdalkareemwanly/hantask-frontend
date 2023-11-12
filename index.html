@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -9,5 +9,12 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      var e = document.querySelectorAll("option");
+      e.forEach((x) => {
+        if (x.textContent.length > 20)
+          x.textContent = x.textContent.substring(0, 20) + "...";
+      });
+    </script>
   </body>
 </html>

@@ -1,5 +1,4 @@
-// import React from 'react'
-import { Link, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet } from "react-router-dom";
 import {
   BiMenuAltLeft,
   BiSolidBellRing,
@@ -9,9 +8,11 @@ import {
 } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import SidebarAdmin from "./SidebarAdmin";
-import { TWThemeProvider, useTWThemeContext } from "./ThemeProvider";
-import { ToastContainer } from "react-toastify";
+import { useTWThemeContext } from "./ThemeProvider";
 // import { document } from "postcss";
+import { useStateContext } from "../../contexts/ContextsProvider";
+import axiosClient from "../../axios-client";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function DefaultLayout() {
@@ -19,13 +20,17 @@ export default function DefaultLayout() {
   const [adminmenuOpen, setAdminMenuOpen] = useState(false);
   const [mode, setMode] = useState(localStorage.getItem("theme") || "light");
   const { setTheme } = useTWThemeContext();
+  const { token, setTranslation } = useStateContext({});
+  const user = JSON.parse(localStorage.getItem("USER"));
 
   useEffect(() => {
+    getTranslation();
     const htmlElement = document.querySelector("html");
     localStorage.setItem("theme", mode);
     setTheme(mode);
     if (htmlElement) {
       htmlElement.setAttribute("data-theme", mode);
+      sessionStorage.setItem("mode", mode);
     }
   }, [mode]);
 
@@ -39,9 +44,30 @@ export default function DefaultLayout() {
     setAdminMenuOpen(!adminmenuOpen);
   };
 
+  if (!token) {
+    return <Navigate to={"/admin/login"} />;
+  }
+
+  const getTranslation = () => {
+    axiosClient.get("/admin/translation").then((response) => {
+      setTranslation(response.data);
+    });
+  };
+
   return (
-    <div className={`flex flex-row h-screen bg-background-color`}>
-      <ToastContainer />
+    <div className={` flex-row md:flex h-screen bg-background-color`}>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme={mode}
+      />
       <div
         className={`flex flex-col h-screen transition-all ease-in text-primary-text overflow-y-auto scroll bg-blocks-color  z-10 shadow-lg gap-4 fixed md:static  ${
           sidebarOpen ? "md:w-[280px] w-[230px]" : "w-0"
@@ -51,7 +77,7 @@ export default function DefaultLayout() {
       </div>
       <div className="flex flex-col grow">
         <div
-          className={`flex flex-row items-center component-shadow w-sm-[100%] px-2 md:px-14 z-10  bg-blocks-color `}
+          className={`flex flex-row items-center component-shadow w-sm-[100%] px-2 md:px-14 z-8 bg-blocks-color `}
         >
           <button className="" onClick={handleSideBar}>
             <BiMenuAltLeft
@@ -62,40 +88,43 @@ export default function DefaultLayout() {
           <div className="flex flex-row-reverse items-center grow">
             {/* admin Image And Menu */}
             <button
-              className="flex flex-row items-center px-[25px] py-[24px] w-[160px] justify-between border-l border-[gray]"
+              className="flex flex-row items-center px-[25px] py-[24px] w-[220px] justify-between border-l border-[gray]"
               onClick={handleAdminMenu}
             >
               {mode === "light" ? (
                 <img
                   className="w-[30px]"
-                  src="/public/images/user-light.png"
+                  src="/src/images/user-light.png"
                   alt=""
                 />
               ) : (
                 <img
                   className="w-[30px]"
-                  src="/public/images/user-dark.png"
+                  src="/src/images/user-dark.png"
                   alt=""
                 />
               )}
-              <div className="text-primary-text">Admin</div>
+              <div className="text-primary-text px-3">{user.username}</div>
               <BiSolidChevronDown
                 style={{ fontSize: "18px" }}
                 className="text-primary-text"
               />
             </button>
             <div
-              className={`absolute flex flex-col mt-[210px] w-[180px] overflow-y-auto me-[-20px] bg-blocks-color rounded-md ${
+              className={`absolute flex flex-col mt-[210px] w-[240px] overflow-y-auto me-[-20px] bg-blocks-color rounded-md ${
                 adminmenuOpen ? "h-[auto]" : "h-0"
               }`}
             >
-              <Link className="font-bold ps-6 py-2 text-primary-text ">
+              <Link className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out">
                 Edit Profile
               </Link>
-              <Link className="font-bold ps-6 py-2 text-primary-text">
+              <Link className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out">
                 Password Change
               </Link>
-              <Link className="font-bold ps-6 py-2 text-primary-text">
+              <Link
+                className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out"
+                to={"/admin/logout"}
+              >
                 Logout
               </Link>
             </div>

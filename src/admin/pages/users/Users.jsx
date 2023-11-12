@@ -3,9 +3,9 @@ import Button from "../../../Components/Button";
 import PageTitle from "../../../Components/PageTitle";
 import { Page } from "../../../Components/StyledComponents";
 import TableData from "../../../Components/TableData";
-import EditUserModal from "./components/EditUserModal";
 import ReusableForm from "../../../Components/ReusableForm";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import ModalContainer from "../../../Components/ModalContainer";
 
 const EditUser = ({ data }) => {
   let template = {
@@ -40,16 +40,14 @@ const EditUser = ({ data }) => {
     }
   };
   return (
-    <div className="p-8 bg-background-color rounded-lg component-shadow w-[500px]">
-      <ReusableForm
-        template={template}
-        watchFields={["username", "fullname"]}
-        onSubmit={onSubmit}
-        validate={validate}
-        btnWidth={"w-full text-white"}
-        btnText={"sign in"}
-      />
-    </div>
+    <ReusableForm
+      template={template}
+      watchFields={["username", "fullname"]}
+      onSubmit={onSubmit}
+      validate={validate}
+      btnWidth={"w-full text-white"}
+      btnText={"sign in"}
+    />
   );
 };
 
@@ -82,20 +80,16 @@ const Users = () => {
           <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
             <Button
               isLink={false}
-              color={"bg-redBtn"}
+              color={"bg-redColor"}
               title={"edit"}
               onClickFun={() => editBtnFun(row)}
             />
             <Button
               isLink={false}
               // goto={`../Chat Users/${row.id}`}
-              color={"bg-blueBtn"}
+              color={"bg-blueColor"}
               title={"change status"}
-              onClickFun={() =>
-                toast.success("Success Notification !", {
-                  position: toast.POSITION.TOP_CENTER,
-                })
-              }
+              onClickFun={() => toast.success("Success Notification !")}
             />
 
             {/* <Button
@@ -136,7 +130,7 @@ const Users = () => {
     <Page>
       <PageTitle text={"manage all users"} />
       {isModalOpen && (
-        <EditUserModal
+        <ModalContainer
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           component={<EditUser data={clickedRow} />}

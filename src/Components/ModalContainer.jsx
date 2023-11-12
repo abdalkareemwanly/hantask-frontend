@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-const EditUserModal = ({ setIsModalOpen, component }) => {
+const ModalContainer = ({ setIsModalOpen, component }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -18,7 +18,9 @@ const EditUserModal = ({ setIsModalOpen, component }) => {
           zIndex: "100",
         }}
       >
-        {component}
+        <div className="p-8 bg-background-color rounded-lg component-shadow md:w-fit w-[350px]">
+          {component}
+        </div>
       </motion.div>
       <div
         onClick={handleCloseModal}
@@ -28,4 +30,4 @@ const EditUserModal = ({ setIsModalOpen, component }) => {
   );
 };
 
-export default EditUserModal;
+export default ModalContainer;
