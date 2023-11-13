@@ -7,6 +7,8 @@ import Users from "./admin/pages/users/Users";
 import EditWord from "./admin/pages/Languages/EditWord";
 import AdminLogin from "./admin/pages/Auth/admin/AdminLogin";
 import AdminLogout from "./admin/pages/Auth/admin/AdminLogout";
+import ArchivedUsers from "./admin/pages/users/ArchivedUsers";
+import Categories from "./admin/pages/categories/Categories";
 const router = createBrowserRouter([
   {
     path: "/admin/",
@@ -17,6 +19,9 @@ const router = createBrowserRouter([
         element: <Index />,
       },
       { path: "/admin/dashboard/users", element: <Users /> },
+      { path: "/admin/dashboard/archivedUsers", element: <ArchivedUsers /> },
+      { path: "/admin/dashboard/categories", element: <Categories /> },
+
       {
         path: "/admin/logout",
         element: <AdminLogout />,
@@ -25,7 +30,6 @@ const router = createBrowserRouter([
         path: "/admin/EditWord",
         element: <EditWord />,
       },
-
       {
         path: "/admin/languages",
         element: <Languages />,

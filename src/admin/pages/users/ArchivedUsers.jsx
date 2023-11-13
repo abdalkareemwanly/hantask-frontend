@@ -1,22 +1,17 @@
-import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import Button from "../../../Components/Button";
+import ModalContainer from "../../../Components/ModalContainer";
 import PageTitle from "../../../Components/PageTitle";
 import { Page } from "../../../Components/StyledComponents";
 import TableData from "../../../Components/TableData";
-import { toast } from "react-toastify";
-import ModalContainer from "../../../Components/ModalContainer";
 import axiosClient from "../../../axios-client";
-import { AddUser } from "./components/AddUser";
-import { EditUser } from "./components/EditUser";
+import { useEffect, useState } from "react";
 
-const Users = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+const ArchivedUsers = () => {
   const [users, setUsers] = useState([]);
-  const [clickedRow, setClickedRow] = useState();
   console.log(users);
   const getUsers = async () => {
-    const res = await axiosClient.get("/admin/users");
+    const res = await axiosClient.get("/admin/user/viewArchived");
     setUsers(res.data?.data);
   };
 
@@ -24,13 +19,9 @@ const Users = () => {
     getUsers();
   }, []);
 
-  const editBtnFun = (row) => {
-    setIsModalOpen(true);
-    setClickedRow(row);
-  };
-  const handleChangeStatus = async (id) => {
+  const handleRestore = async (id) => {
     const toastId = toast.loading("processing");
-    const res = await axiosClient.get(`/admin/user/changeStatusMethod/${id}`);
+    const res = await axiosClient.get(`/admin/user/unarchiveMethod/${id}`);
     console.log(res);
     if (res.data.success == false) {
       toast.update(toastId, {
@@ -57,7 +48,7 @@ const Users = () => {
   };
   const handleDelete = async (id) => {
     const toastId = toast.loading("processing");
-    const res = await axiosClient.get(`/admin/user/archiveMethod/${id}`);
+    const res = await axiosClient.get(`/admin/user/deleteMethod/${id}`);
     console.log(res);
     if (res.data.success == false) {
       toast.update(toastId, {
@@ -120,20 +111,14 @@ const Users = () => {
           <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
             <Button
               isLink={false}
-              color={"bg-orangeColor"}
-              title={"edit"}
-              onClickFun={() => editBtnFun(row)}
-            />
-            <Button
-              isLink={false}
-              color={"bg-blueColor"}
-              title={"change status"}
-              onClickFun={() => handleChangeStatus(row.id)}
+              color={"bg-greenColor"}
+              title={"restore account"}
+              onClickFun={() => handleRestore(row.id)}
             />
             <Button
               isLink={false}
               color={"bg-redColor"}
-              title={"archive"}
+              title={"delete"}
               onClickFun={() => handleDelete(row.id)}
             />
           </div>
@@ -144,51 +129,13 @@ const Users = () => {
 
   return (
     <Page>
-      <PageTitle
-        text={"manage all users"}
-        right={
-          <div>
-            <Button
-              isLink={false}
-              color={"bg-greenColor"}
-              title={"add new"}
-              onClickFun={() => setIsAddModalOpen((prev) => !prev)}
-            />
-          </div>
-        }
-      />
-      {isModalOpen && (
-        <ModalContainer
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          component={
-            <EditUser
-              data={clickedRow}
-              getUsers={getUsers}
-              setIsModalOpen={setIsModalOpen}
-            />
-          }
-        />
-      )}
-
-      {isAddModalOpen && (
-        <ModalContainer
-          isModalOpen={isAddModalOpen}
-          setIsModalOpen={setIsAddModalOpen}
-          component={
-            <AddUser
-              getUsers={getUsers}
-              setIsAddModalOpen={setIsAddModalOpen}
-            />
-          }
-        />
-      )}
+      <PageTitle text={"manage all archived users"} />
 
       <div className="my-4">
-        <TableData columns={columns} data={users} paginationBool={true} />
+        <TableData columns={columns} data={users} />
       </div>
     </Page>
   );
 };
 
-export default Users;
+export default ArchivedUsers;

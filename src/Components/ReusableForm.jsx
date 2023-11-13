@@ -9,6 +9,8 @@ const ReusableForm = ({
   btnWidth,
   btnText,
   addedStyles,
+  setImage,
+  image,
 }) => {
   let { title, fields } = template;
 
@@ -21,6 +23,7 @@ const ReusableForm = ({
     clearErrors,
     setValue,
     resetField,
+    trigger,
   } = useForm({
     // for returning every value from field in the fields array to set it as default value
     defaultValues: fields.reduce((acc, field) => {
@@ -68,6 +71,27 @@ const ReusableForm = ({
     }
   }, [watchValues, memoizedValidateFunction, previousMergedObject]);
 
+  const handleFileChange = (name) => (event) => {
+    const fileInput = event.target;
+    const image = document.getElementById("imageFile");
+    setImage(event.target.files[0]);
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+      console.log("form state:", watch());
+      reader.onload = function (e) {
+        if (/^image/.test(fileInput.files[0].type)) {
+          image.src = e.target.result;
+          setValue(name, fileInput.files[0]);
+          clearErrors(name);
+        } else {
+          alert("Selected file is not an image!");
+        }
+      };
+
+      reader.readAsDataURL(fileInput.files[0]);
+    }
+  };
+
   const renderFields = (fields) => {
     return fields?.map((field) => {
       let {
@@ -79,20 +103,13 @@ const ReusableForm = ({
         disabled,
         optionValue,
         optionText,
+        styles,
       } = field;
 
-      // const minVal = 0;
-      // const maxVal = 999;
-
-      // const handleRandomNum = () => {
-      //   return Math.floor(Math.random() * (maxVal - minVal + 1) + minVal);
-      // };
-
-      // let customName = name + handleRandomNum();
       switch (type) {
         case "text":
           return (
-            <div key={name} className="input-field">
+            <div key={name} className={`input-field w-full ${styles}`}>
               <label htmlFor={name} className="input-label">
                 {title}
               </label>
@@ -112,7 +129,7 @@ const ReusableForm = ({
           );
         case "password":
           return (
-            <div key={name} className="input-field">
+            <div key={name} className={`input-field w-full ${styles}`}>
               <label htmlFor={name} className="input-label">
                 {title}
               </label>
@@ -132,7 +149,7 @@ const ReusableForm = ({
           );
         case "email":
           return (
-            <div key={name} className="input-field">
+            <div key={name} className={`input-field w-full ${styles}`}>
               <label htmlFor={name} className="input-label">
                 {title}
               </label>
@@ -152,7 +169,7 @@ const ReusableForm = ({
           );
         case "checkbox":
           return (
-            <div key={name} className="form-group">
+            <div key={name} className={`form-group w-full ${styles}`}>
               <input
                 type="checkbox"
                 name={name}
@@ -170,7 +187,7 @@ const ReusableForm = ({
           );
         case "select":
           return (
-            <div key={name} className="input-field">
+            <div key={name} className={`input-field w-full ${styles}`}>
               <label htmlFor={name}>{title}</label>
               <select
                 className="input-box"
@@ -191,6 +208,60 @@ const ReusableForm = ({
               )}
             </div>
           );
+        case "file":
+          return (
+            <div key={name} className={`input-field w-full  ${styles}`}>
+              {field?.fileFor === "image" ? (
+                <>
+                  <div className={`${field.imgStyle} relative`}>
+                    <img
+                      src=""
+                      alt=""
+                      onClick={() => {
+                        const fileInput = document.getElementById(name);
+                        fileInput.click();
+                      }}
+                      id="imageFile"
+                      className={`absolute w-full rounded-full text-center object-cover cursor-pointer ${field.imgStyle}`}
+                    />
+                    {!image && (
+                      <span
+                        className="absolute top-[50%] left-[50%] text-sm w-max"
+                        style={{ transform: "translate(-50%, -50%)" }}
+                      >
+                        choose image
+                      </span>
+                    )}
+                  </div>
+                  <input
+                    type="file"
+                    name={name}
+                    {...register(name, validationProps)}
+                    id={name}
+                    onChange={handleFileChange(name)}
+                    className="imageFileInput"
+                  />
+                  {errors && errors[name] && (
+                    <span className="red-text">{errors[name]["message"]}</span>
+                  )}
+                </>
+              ) : (
+                <>
+                  <label htmlFor={name}>{title}</label>
+                  <input
+                    type="file"
+                    name={name}
+                    className="fileInput"
+                    {...register(name, validationProps)}
+                    id={name}
+                  />
+                </>
+              )}
+              {/* {errors && errors[name] && (
+                  <span className="red-text">{errors[name]["message"]}</span>
+                )} */}
+            </div>
+          );
 
         default:
           return (
@@ -204,11 +275,13 @@ const ReusableForm = ({
 
   return (
     <form
-      className={`flex flex-col gap-2 w-full text-primary-text ${addedStyles}`}
+      className={`flex flex-col gap-2 text-primary-text ${addedStyles}`}
       onSubmit={handleSubmit(onSubmit)}
     >
       <h3 className="font-bold text-2xl bt-3">{title}</h3>
-      {renderFields(fields)}
+      <div className="flex gap-2 flex-wrap justify-between">
+        {renderFields(fields)}
+      </div>
       <button
         type="submit"
         disabled={!isValid}

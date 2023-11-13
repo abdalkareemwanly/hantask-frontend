@@ -14,6 +14,9 @@ export const DataTableStyled = styled(DataTable)`
       background-color: var(--blocks-color);
       color: var(--primary-text);
     }
+    .rdt_TableRow {
+      padding: 8px 0px;
+    }
     .rdt_TableHeadRow {
       font-size: 16px;
     }

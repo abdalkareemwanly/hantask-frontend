@@ -6,31 +6,35 @@ import TableData from "../../../Components/TableData";
 import { toast } from "react-toastify";
 import ModalContainer from "../../../Components/ModalContainer";
 import axiosClient from "../../../axios-client";
-import { AddUser } from "./components/AddUser";
-import { EditUser } from "./components/EditUser";
+import { AddCategory } from "./components/AddCategory";
+import { EditCategory } from "./components/EditCategory";
 
-const Users = () => {
+const Categories = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [users, setUsers] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [clickedRow, setClickedRow] = useState();
-  console.log(users);
-  const getUsers = async () => {
-    const res = await axiosClient.get("/admin/users");
-    setUsers(res.data?.data);
+  console.log(categories);
+
+  const getCategories = async () => {
+    const res = await axiosClient.get("/admin/categories");
+    setCategories(res.data?.data);
   };
 
   useEffect(() => {
-    getUsers();
+    getCategories();
   }, []);
 
   const editBtnFun = (row) => {
     setIsModalOpen(true);
     setClickedRow(row);
   };
+
   const handleChangeStatus = async (id) => {
     const toastId = toast.loading("processing");
-    const res = await axiosClient.get(`/admin/user/changeStatusMethod/${id}`);
+    const res = await axiosClient.get(
+      `/admin/category/changeStatusMethod/${id}`
+    );
     console.log(res);
     if (res.data.success == false) {
       toast.update(toastId, {
@@ -43,7 +47,7 @@ const Users = () => {
         pauseOnHover: false,
       });
     } else {
-      getUsers();
+      getCategories();
       toast.update(toastId, {
         type: "success",
         render: res.data.mes,
@@ -55,9 +59,10 @@ const Users = () => {
       });
     }
   };
+
   const handleDelete = async (id) => {
     const toastId = toast.loading("processing");
-    const res = await axiosClient.get(`/admin/user/archiveMethod/${id}`);
+    const res = await axiosClient.get(`/admin/category/deleteMethod/${id}`);
     console.log(res);
     if (res.data.success == false) {
       toast.update(toastId, {
@@ -70,7 +75,7 @@ const Users = () => {
         pauseOnHover: false,
       });
     } else {
-      getUsers();
+      getCategories();
       toast.update(toastId, {
         type: "success",
         render: res.data.mes,
@@ -82,34 +87,42 @@ const Users = () => {
       });
     }
   };
+
   const columns = [
     {
       name: "Id",
       selector: (row) => row.id,
+      maxWidth: "9%",
     },
     {
       name: "username",
-      selector: (row) => row.username,
-    },
-    {
-      name: "full name",
       selector: (row) => row.name,
+      maxWidth: "15%",
     },
     {
-      name: "email",
-      selector: (row) => row.email,
+      name: "slug",
+      selector: (row) => row.slug,
+      maxWidth: "15%",
     },
     {
-      name: "phone",
-      selector: (row) => row.phone,
+      name: "description",
+      selector: (row) =>
+        row?.description?.length >= 50
+          ? row?.description.substring(0, 50) + "..."
+          : row?.description,
+      maxWidth: "30%",
     },
     {
       name: "status",
       selector: (row) =>
         row.status == 1 ? (
-          <h1 className="bg-greenColor p-2 block rounded-md">active</h1>
+          <span className="bg-greenColor p-2 block rounded-md text-white">
+            active
+          </span>
         ) : (
-          <h1 className="bg-redColor p-2 block rounded-md">unactive</h1>
+          <span className="bg-redColor p-2 block rounded-md text-white">
+            unactive
+          </span>
         ),
       maxWidth: "10%",
     },
@@ -133,7 +146,7 @@ const Users = () => {
             <Button
               isLink={false}
               color={"bg-redColor"}
-              title={"archive"}
+              title={"delete"}
               onClickFun={() => handleDelete(row.id)}
             />
           </div>
@@ -145,7 +158,7 @@ const Users = () => {
   return (
     <Page>
       <PageTitle
-        text={"manage all users"}
+        text={"manage all categories"}
         right={
           <div>
             <Button
@@ -162,9 +175,9 @@ const Users = () => {
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           component={
-            <EditUser
+            <EditCategory
               data={clickedRow}
-              getUsers={getUsers}
+              getCategories={getCategories}
               setIsModalOpen={setIsModalOpen}
             />
           }
@@ -176,8 +189,8 @@ const Users = () => {
           isModalOpen={isAddModalOpen}
           setIsModalOpen={setIsAddModalOpen}
           component={
-            <AddUser
-              getUsers={getUsers}
+            <AddCategory
+              getCategories={getCategories}
               setIsAddModalOpen={setIsAddModalOpen}
             />
           }
@@ -185,10 +198,10 @@ const Users = () => {
       )}
 
       <div className="my-4">
-        <TableData columns={columns} data={users} paginationBool={true} />
+        <TableData columns={columns} data={categories} paginationBool={true} />
       </div>
     </Page>
   );
 };
 
-export default Users;
+export default Categories;

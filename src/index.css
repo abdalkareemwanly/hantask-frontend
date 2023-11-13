@@ -109,6 +109,28 @@
     z-index: 2;
     opacity: 1;
   }
+  input[type="file"].imageFileInput {
+    visibility: hidden;
+    opacity: 0;
+    height: 0px;
+  }
+
+  .fileInput {
+    background-color: rgb(var(--blocks-color));
+    color: var(--primary-text);
+    border: 1px solid rgb(var(--border-color));
+    border-radius: 4px;
+  }
+  .fileInput:is(:focus, :hover) {
+    outline: 1px solid rgb(var(--outline-color));
+  }
+  .fileInput::-webkit-file-upload-button {
+    background-color: rgb(var(--background-color));
+    color: rgb(var(--primary-text));
+    padding: 8px;
+    border: none;
+    border-right: 1px solid rgb(var(--border-color));
+  }
 
   .red-text {
     color: rgb(var(--error-text));

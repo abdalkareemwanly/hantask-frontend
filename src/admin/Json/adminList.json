@@ -37,7 +37,7 @@
   },
   "Users Manage": {
     "All Users": "/admin/dashboard/users",
-    "Deactive Users": ""
+    "Deactive Users": "/admin/dashboard/archivedUsers"
   },
   "Seller Settings": {
     "Payout Request": "",
@@ -55,8 +55,7 @@
     "Add New Page": ""
   },
   "Categories": {
-    "All test": "",
-    "Add New test": ""
+    "All": "/admin/dashboard/categories"
   },
   "Sub Category": {
     "All Sub Category": "",

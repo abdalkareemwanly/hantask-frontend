@@ -9,6 +9,7 @@ export default function exampleForForm() {
    ****** email
    ****** select
    ****** checkbox
+   ****** file
   and field props can take
       1. title
       2. name
@@ -16,8 +17,17 @@ export default function exampleForForm() {
       4. readOnly
       5. disabled
       6. value
-      7. validationProps for validation in every input registered in react hook form
-        7.1. required: {value: true/ false, message: ""}
+      7. styles
+      8. (for files): 1. fileFor: "image", 2. imgStyle: "w-[150px] h-[150px]",
+      8. validationProps for validation in every input registered in react hook form
+        8.1. required: {value: true/ false, message: ""}
+        {
+        name: "image",
+        type: "file",
+        styles: "w-[100%] items-center justify-center",
+        fileFor: "image",
+        imgStyle: "w-[150px] h-[150px]",
+      },
    */
   let template = {
     title: "Job Application Form",

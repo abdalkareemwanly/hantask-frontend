@@ -1,23 +1,18 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../../axios-client";
 import Addlanguage from "./components/Addlanguage";
-// import LanguageTable from "./components/LanguageTable";
 import { Page } from "../../../Components/StyledComponents";
 import TableData from "../../../Components/TableData";
 import Button from "../../../Components/Button";
 import EditLanguage from "./components/EditLanguage";
 import { toast } from "react-toastify";
 import ModalContainer from "../../../Components/ModalContainer";
-// import { BiX } from "react-icons/bi";
 export default function Languages() {
   const [allLanguages, setAllLanguages] = useState([]);
   const [langs, setLangs] = useState();
 
-  // const [editLanguage, setEditLanguage] = useState(null);
-  // const [editLanguageForm, setEditLanguageForm] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState();
-  // const navigate = useNavigate();
 
   useEffect(() => {
     getAllLanguages();
@@ -60,7 +55,6 @@ export default function Languages() {
   };
 
   const handleEdit = (row) => {
-    // selectLang(id);
     setSelectedLang(row);
     setIsModalOpen((prev) => !prev);
   };
@@ -80,10 +74,6 @@ export default function Languages() {
       });
     });
   };
-
-  // const handleEditWords = (slug) => {
-  //   navigate(`/admin/EditWord?slug=${slug}`);
-  // };
 
   const columns = [
     {
