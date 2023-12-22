@@ -154,8 +154,12 @@ export default function Languages() {
 
   return (
     <Page className="flex md:flex-row items-start flex-col-reverse justify-between gap-2">
-      <div className="flex flex-col lg:w-[65%] w-[100%]">
-        <TableData columns={columns} data={allLanguages} />
+      <div className="flex flex-col lg:w-[60%] w-[100%]">
+        <TableData
+          noDataMessage={"no languages yet!"}
+          columns={columns}
+          data={allLanguages}
+        />
       </div>
       <div className="flex flex-col bg-blocks-color component-shadow px-4 py-3 rounded-md lg:w-[35%] w-[100%]">
         {langs && (

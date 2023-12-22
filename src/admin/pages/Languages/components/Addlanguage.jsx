@@ -107,6 +107,7 @@ export default function Addlanguage(props) {
         watchFields={["language"]}
         validate={validate}
         onSubmit={handleSubmit}
+        addedStyles={"w-full"}
       />
     </>
   );

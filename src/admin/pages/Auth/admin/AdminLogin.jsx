@@ -37,7 +37,7 @@ export default function AdminLogin() {
           pauseOnHover: false,
         });
         setToken(response.data.token);
-        setUser(response.data.admin);
+        setUser(response.data.data);
         sessionStorage.setItem("mode", "light");
         localStorage.setItem("USER", JSON.stringify(response.data.admin));
         if (!response.data.token) {

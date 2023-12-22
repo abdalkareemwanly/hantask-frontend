@@ -4,34 +4,37 @@ const StateContext = createContext({
   currentUser: null,
   token: null,
   notification: null,
-  setUser: () => { },
-  setToken: () => { },
-  setNotification: () => { },
+  setUser: () => {},
+  setToken: () => {},
+  setNotification: () => {},
   translation: null,
-  setTranslation: () => { }
+  setTranslation: () => {},
 });
 
 export const ContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
-  const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
-  const [translation, _setTranslation] = useState(JSON.parse(localStorage.getItem('TRANSLATION')) || {});
-  const [notification, _setNotification] = useState('');
+  const [token, _setToken] = useState(localStorage.getItem("ACCESS_TOKEN"));
+  const [translation, _setTranslation] = useState(
+    JSON.parse(localStorage.getItem("TRANSLATION")) || {}
+  );
+  const [notification, _setNotification] = useState("");
+  const [permissions, setPermissions] = useState([]);
 
   const setToken = (newToken) => {
     _setToken(newToken);
     if (newToken) {
-      localStorage.setItem('ACCESS_TOKEN', newToken);
+      localStorage.setItem("ACCESS_TOKEN", newToken);
     } else {
-      localStorage.removeItem('ACCESS_TOKEN');
+      localStorage.removeItem("ACCESS_TOKEN");
     }
   };
 
   const setTranslation = (newTranslation) => {
     _setTranslation(newTranslation);
     if (newTranslation) {
-      localStorage.setItem('TRANSLATION', JSON.stringify(newTranslation));
+      localStorage.setItem("TRANSLATION", JSON.stringify(newTranslation));
     } else {
-      localStorage.removeItem('TRANSLATION');
+      localStorage.removeItem("TRANSLATION");
     }
   };
 
@@ -41,12 +44,25 @@ export const ContextProvider = ({ children }) => {
 
   // Ensure that the user data is updated from localStorage on page load
   useEffect(() => {
-    const storedToken = localStorage.getItem('ACCESS_TOKEN');
+    const fetchPermissions = async () => {
+      try {
+        const response = await fetch("/src/admin/Json/permissions.json");
+        const data = await response.json();
+        localStorage.setItem("permissions", JSON.stringify(data));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchPermissions();
+
+    const storedToken = localStorage.getItem("ACCESS_TOKEN");
     if (storedToken) {
       _setToken(storedToken);
     }
 
-    const storedTranslation = JSON.parse(localStorage.getItem('TRANSLATION')) || {};
+    const storedTranslation =
+      JSON.parse(localStorage.getItem("TRANSLATION")) || {};
     _setTranslation(storedTranslation);
   }, []);
 
@@ -60,7 +76,8 @@ export const ContextProvider = ({ children }) => {
         notification,
         setNotification,
         translation,
-        setTranslation
+        setTranslation,
+        permissions,
       }}
     >
       {children}

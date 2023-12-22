@@ -12,32 +12,62 @@ export const AddCategory = ({ getCategories, setIsAddModalOpen }) => {
       {
         name: "image",
         type: "file",
-        styles: "w-[100%] items-center justify-center",
+        styles: "w-[100%] items-center",
         fileFor: "image",
-        imgStyle: "w-[150px] h-[150px]",
+        imgStyle: "w-[125px] h-[125px]",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
       },
       {
         title: "category name",
         name: "name",
         type: "text",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
       {
         title: "description",
         name: "description",
         type: "text",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
       {
         title: "slug",
         name: "slug",
         type: "text",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
       {
         title: "code",
         name: "code",
         type: "text",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
       // {
@@ -122,9 +152,9 @@ export const AddCategory = ({ getCategories, setIsAddModalOpen }) => {
         watchFields={["username", "fullname"]}
         onSubmit={onSubmit}
         validate={validate}
-        btnWidth={"w-[100px] text-white"}
+        btnWidth={"w-full"}
         btnText={"add"}
-        addedStyles={"md:w-[600px] lg:w-[800px]"}
+        addedStyles={"md:w-[600px] lg:w-[600px]"}
         image={image}
         setImage={setImage}
       />

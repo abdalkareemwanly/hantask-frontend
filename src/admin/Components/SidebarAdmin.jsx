@@ -5,7 +5,6 @@ import {
   BiSolidMessageRoundedDetail,
   BiSolidArrowFromRight,
   BiSolidCategory,
-  BiSolidFile,
   BiSolidUser,
   BiSolidHome,
   BiSolidDirections,
@@ -29,11 +28,12 @@ import { Link } from "react-router-dom";
 import { useTWThemeContext } from "./ThemeProvider";
 import { AiOutlineClose } from "react-icons/ai";
 import { useStateContext } from "../../contexts/ContextsProvider";
+import useCheckPermission from "../../hooks/checkPermissions";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
   "Live Chat": <BiSolidMessageRoundedDetail />,
-  Blogs: <BiSolidMessageDetail />,
+  posts: <BiSolidMessageDetail />,
   Subscription: <BiSolidObjectsHorizontalCenter />,
   Jobs: <BiSolidBriefcaseAlt2 />,
   Wallet: <BiSolidDollarCircle />,
@@ -42,14 +42,11 @@ const iconMap = {
   "Users Manage": <BiSolidUser />,
   "Seller Settings": <BiSolidUser />,
   "Seller Buyer Report": <BiSolidUser />,
-  Pages: <BiSolidFile />,
   Categories: <BiSolidCategory />,
   "Sub Category": <BiSolidCategory />,
   "Child Categories": <BiSolidCategory />,
   Brands: <BiSolidCreditCard />,
-  "Service Country": <BiSolidMap />,
-  "Service City": <BiSolidMap />,
-  "Service Area": <BiSolidMap />,
+  locations: <BiSolidMap />,
   Tax: <BiSolidTachometer />,
   Services: <BiSolidServer />,
   Orders: <BiSolidTruck />,
@@ -69,6 +66,11 @@ export default function SidebarAdmin({ setSidebarOpen }) {
   const { translation } = useStateContext();
   const [listName, setListName] = useState(null);
   const [sideList, setSideList] = useState({});
+  const initialUserPermissions = JSON.parse(
+    localStorage.getItem("USER")
+  ).permission;
+  const { hasPermissionFun } = useCheckPermission(initialUserPermissions);
+
   const getdropdownopen = (name) => {
     if (DropdownOpen === false) {
       setDropdownOpen(true);
@@ -122,75 +124,92 @@ export default function SidebarAdmin({ setSidebarOpen }) {
         </span>
       </div>
 
-      {Object.entries(sideList).map(([title, sublist]) => (
-        <div key={title}>
-          {sublist && typeof sublist === "object" && sublist.name === null ? (
-            <Link
-              className="flex flex-row w-full items-center hover:bg-hard-gray-color hover:bg-background-color transition-all duration-400 ease-in-out"
-              to={`${sublist.path}`}
-            >
-              {Object.entries(iconMap).map(([index, value]) =>
-                index === title ? (
-                  <strong className="m-3" key={index}>
-                    {value}
-                  </strong>
-                ) : null
-              )}
-              <strong className="m-1 text-primary-text">
-                {title in translation ? translation[title] : title}
-              </strong>
-            </Link>
-          ) : (
-            <div>
-              <button
-                className="flex flex-row w-full items-center hover:bg-background-color transition-all duration-400 ease-in-out"
-                title="User Tools"
-                onClick={() => getdropdownopen(title)}
+      {Object.entries(sideList).map(([title, sublist]) => {
+        const isShowen =
+          sublist?.perId === undefined
+            ? Object.entries(sublist).some(([k, val]) => {
+                return hasPermissionFun(val?.perId) ? true : false;
+              })
+            : hasPermissionFun(sublist?.perId);
+
+        return isShowen ? (
+          <div key={title}>
+            {sublist && typeof sublist === "object" && sublist.name === null ? (
+              <Link
+                className="flex flex-row w-full items-center hover:bg-hard-gray-color hover:bg-background-color transition-all duration-400 ease-in-out"
+                to={`${sublist.path}`}
               >
-                <div className="flex grow items-center">
-                  {Object.entries(iconMap).map(([index, value]) =>
-                    index === title ? (
-                      <strong className="m-3" key={index}>
-                        {value}
-                      </strong>
-                    ) : null
-                  )}
-                  <strong
-                    className={listName === title ? "ms-1 text-danger" : "ms-1"}
-                  >
-                    {title in translation ? translation[title] : title}
-                  </strong>
-                </div>
-                <div className="me-3">
-                  {DropdownOpen === true && listName === title ? (
-                    <BiSolidChevronUp />
-                  ) : (
-                    <BiSolidChevronDown />
-                  )}
-                </div>
-              </button>
-              <div
-                className={
-                  DropdownOpen === true && listName === title
-                    ? "flex flex-col"
-                    : "hidden"
-                }
-              >
-                {sublist &&
-                  Object.entries(sublist).map(([k, val]) => (
-                    <Link
-                      key={k}
-                      className="py-[10px] px-[43px] hover:bg-background-color active:bg-background-color focus:bg-background-color transition-all duration-400 ease-in-out"
-                      to={`${val}`}
+                {Object.entries(iconMap).map(([index, value]) =>
+                  index === title ? (
+                    <strong className="m-3" key={index}>
+                      {value}
+                    </strong>
+                  ) : null
+                )}
+                <strong className="m-1 text-primary-text">
+                  {title in translation ? translation[title] : title}
+                </strong>
+              </Link>
+            ) : (
+              <div>
+                <button
+                  className="flex flex-row w-full items-center hover:bg-background-color transition-all duration-400 ease-in-out"
+                  title="User Tools"
+                  onClick={() => getdropdownopen(title)}
+                >
+                  <div className="flex grow items-center">
+                    {Object.entries(iconMap).map(([index, value]) =>
+                      index === title ? (
+                        <strong className="m-3" key={index}>
+                          {value}
+                        </strong>
+                      ) : null
+                    )}
+                    <strong
+                      className={
+                        listName === title ? "ms-1 text-danger" : "ms-1"
+                      }
                     >
-                      {k in translation ? translation[k] : k}
-                    </Link>
-                  ))}
+                      {title in translation ? translation[title] : title}
+                    </strong>
+                  </div>
+                  <div className="me-3">
+                    {DropdownOpen === true && listName === title ? (
+                      <BiSolidChevronUp />
+                    ) : (
+                      <BiSolidChevronDown />
+                    )}
+                  </div>
+                </button>
+                <div
+                  className={
+                    DropdownOpen === true && listName === title
+                      ? "flex flex-col"
+                      : "hidden"
+                  }
+                >
+                  {sublist &&
+                    Object.entries(sublist).map(([k, val]) => {
+                      return hasPermissionFun(val.perId) ? (
+                        <Link
+                          key={k}
+                          className="py-[10px] px-[43px] hover:bg-background-color active:bg-background-color focus:bg-background-color transition-all duration-400 ease-in-out"
+                          to={`${val.path}`}
+                        >
+                          {k in translation ? translation[k] : k}
+                        </Link>
+                      ) : (
+                        ""
+                      );
+                    })}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      ))}
+            )}
+          </div>
+        ) : (
+          ""
+        );
+      })}
     </>
   );
 }

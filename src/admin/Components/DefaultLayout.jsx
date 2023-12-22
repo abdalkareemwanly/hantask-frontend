@@ -55,7 +55,7 @@ export default function DefaultLayout() {
   };
 
   return (
-    <div className={` flex-row md:flex h-screen bg-background-color`}>
+    <div className={`flex-row md:flex bg-background-color `}>
       <ToastContainer
         position="bottom-right"
         autoClose={2000}
@@ -69,13 +69,13 @@ export default function DefaultLayout() {
         theme={mode}
       />
       <div
-        className={`flex flex-col h-screen transition-all ease-in text-primary-text overflow-y-auto scroll bg-blocks-color  z-10 shadow-lg gap-4 fixed md:static  ${
+        className={`flex flex-col h-screen transition-all ease-in text-primary-text overflow-y-auto scroll bg-blocks-color  z-10 shadow-lg gap-4 fixed md:sticky top-0  ${
           sidebarOpen ? "md:w-[280px] w-[230px]" : "w-0"
         }`}
       >
         <SidebarAdmin setSidebarOpen={setSidebarOpen} />
       </div>
-      <div className="flex flex-col grow">
+      <div className="flex flex-col flex-1">
         <div
           className={`flex flex-row items-center component-shadow w-sm-[100%] px-2 md:px-14 z-8 bg-blocks-color `}
         >
@@ -111,7 +111,7 @@ export default function DefaultLayout() {
               />
             </button>
             <div
-              className={`absolute flex flex-col mt-[210px] w-[240px] overflow-y-auto me-[-20px] bg-blocks-color rounded-md ${
+              className={`absolute flex flex-col mt-[210px] w-[240px] overflow-y-auto me-[-20px] component-shadow bg-blocks-color z-10 rounded-md ${
                 adminmenuOpen ? "h-[auto]" : "h-0"
               }`}
             >
@@ -149,10 +149,10 @@ export default function DefaultLayout() {
             </button>
           </div>
         </div>
-        <div className="overflow-y-auto text-primary-text scroll w-[100%] h-[120%] px-2 md:px-14">
+        <div className="text-primary-text min-h-[91.7vh] px-2 md:px-14">
           <Outlet />
         </div>
-        <div
+        {/* <div
           className={`flex flex-row justify-between px-3 bg-blocks-color text-primary-text`}
         >
           <span>
@@ -167,7 +167,7 @@ export default function DefaultLayout() {
             . All Rights Reserved.
           </span>
           <span>Design : Muhammed Nasser Edden</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );

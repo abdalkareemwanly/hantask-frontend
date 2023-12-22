@@ -7,63 +7,82 @@ export const EditCategory = ({ data, getCategories, setIsModalOpen }) => {
   const [image, setImage] = useState(data?.image);
 
   let template = {
-    title: "update user data",
+    title: "add new category",
     fields: [
       {
         name: "image",
         type: "file",
-        styles: "w-[100%] items-center justify-center",
+        styles: "w-[100%] items-center",
         fileFor: "image",
-        imgStyle: "w-[150px] h-[150px]",
+        imgStyle: "w-[125px] h-[125px]",
       },
       {
-        title: "fullname",
+        title: "category name",
         name: "name",
-        value: data?.name,
         type: "text",
+        value: data.name,
+
         styles: "md:w-[45%]",
       },
       {
-        title: "email",
-        name: "email",
-        value: data?.email,
+        title: "description",
+        name: "description",
         type: "text",
+        value: data.description,
+
         styles: "md:w-[45%]",
       },
       {
-        title: "username",
-        name: "username",
-        value: data?.username,
+        title: "slug",
+        name: "slug",
+        value: data.slug,
         type: "text",
+
         styles: "md:w-[45%]",
       },
       {
-        title: "phone",
-        name: "phone",
-        value: data?.phone,
+        title: "code",
+        name: "code",
         type: "text",
+        value: data.slug,
+
         styles: "md:w-[45%]",
       },
+      // {
+      //   title: "icon",
+      //   name: "icon",
+      //   type: "file",
+      //   fileFor: "icon",
+      //   styles: "md:w-[45%] mt-2",
+      // },
+      // {
+      //   title: "mobile icon",
+      //   name: "mobile_icon",
+      //   type: "file",
+      //   fileFor: "icon",
+      //   styles: "md:w-[45%] mt-2",
+      // },
     ],
   };
 
   const onSubmit = async (values) => {
     const id = toast.loading("please wait...");
-    const user = {
+    const category = {
       ...values,
       image,
     };
     const formData = new FormData();
-
-    formData.append("name", user.name);
-    formData.append("username", user.username);
-    formData.append("email", user.email);
-    formData.append("phone", user.phone);
-    if (typeof user?.image !== "string") {
-      formData.append("image", user.image);
+    formData.append("name", category.name);
+    formData.append("description", category.description);
+    formData.append("slug", category.slug);
+    // formData.append("code", category.code);
+    if (/^image/.test(image?.type)) {
+      formData.append("image", category.image);
     }
+    // formData.append("icon", category.icon);
+    // formData.append("mobile_icon", category.mobile_icon);
     axiosClient
-      .post(`/admin/user/update/${data?.id}`, formData)
+      .post(`/admin/category/update/${data.id}`, formData)
       .then((res) => {
         if (res.data.success == false) {
           toast.update(id, {
@@ -91,9 +110,10 @@ export const EditCategory = ({ data, getCategories, setIsModalOpen }) => {
       })
       .catch((err) => {
         toast.update(id, {
-          type: "error",
-          render: err,
+          type: "success",
+          render: err.response.data.mes,
           closeOnClick: true,
+          isLoading: false,
           autoClose: true,
           closeButton: true,
           pauseOnHover: false,

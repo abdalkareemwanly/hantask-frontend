@@ -1,10 +1,13 @@
 import DataTable from "react-data-table-component";
 import styled from "styled-components";
 export const DataTableStyled = styled(DataTable)`
+  .laPPHD {
+    background-color: transparent;
+  }
   margin: 0 0;
   & .rdt_Table {
     background-color: ${(props) =>
-      props.$mode === "dark" ? "rgb(50, 54, 63)" : "#fff"};
+      props.$mode === "dark" ? "rgb(50, 50, 60)" : "#fff"};
     color: var(--primary-text);
     padding: 16px;
 
@@ -28,7 +31,7 @@ export const DataTableStyled = styled(DataTable)`
   }
   ~ div .rdt_Pagination {
     background-color: ${(props) =>
-      props.$mode === "dark" ? "rgb(50, 54, 63)" : "#fff"};
+      props.$mode === "dark" ? "rgb(50, 50, 60)" : "#fff"};
     color: var(--primary-text);
     padding: 16px;
 

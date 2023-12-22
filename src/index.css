@@ -8,8 +8,8 @@
   --error-text: 250 70 70; /* red color in modes */
   --interactive-text: 3 110 190; /* white dark color in modes */
   --disabled-text: 190 200 210;
-  --background-color: 43 46 55; /* white dark color in modes */
-  --blocks-color: 50 54 63; /* white dark color in modes */
+  --background-color: 43 43 50; /* white dark color in modes */
+  --blocks-color: 50 50 60; /* white dark color in modes */
   --border-color: 90 90 90; /* main border color in modes */
   --secondary-border-color: 255 255 255; /* second border color for checkbox in modes */
   --outline-color: 120 180 120; /* outline color in modes */
@@ -24,7 +24,7 @@
   --error-text: 230 10 10;
   --interactive-text: 3 110 190;
   --disabled-text: 190 200 210;
-  --background-color: 235 235 238;
+  --background-color: 240 240 245;
   --blocks-color: 255 255 255;
   --border-color: 200 200 200;
   --secondary-border-color: 0 0 0;
@@ -43,13 +43,13 @@
   .input-field {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
   }
   .input-box {
     background-color: rgb(var(--blocks-color));
     color: var(--primary-text);
     border: 1px solid rgb(var(--border-color));
-    padding: 8px;
+    padding: 6px;
     border-radius: 4px;
   }
   .input-box:is(:focus, :hover) {
@@ -110,11 +110,42 @@
     opacity: 1;
   }
   input[type="file"].imageFileInput {
-    visibility: hidden;
+    width: 100%;
+    height: 100%;
     opacity: 0;
-    height: 0px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
   }
+  img[alt]:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(var(--blocks-color));
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 6;
+    text-align: center;
+    content: attr(alt);
+  }
+  /*
 
+  .imageFileInput::-webkit-file-upload-button {
+    content: "hi";
+    border-radius: 8px;
+    background-color: rgb(var(--blocks-color));
+    color: rgb(var(--primary-text));
+    cursor: pointer;
+    padding: 8px;
+    overflow: hidden;
+    border: 1px solid rgb(var(--border-color));
+    border-right: 1px solid rgb(var(--border-color));
+  } */
   .fileInput {
     background-color: rgb(var(--blocks-color));
     color: var(--primary-text);
@@ -171,4 +202,53 @@
   opacity: 0;
   transform: translateY(-10px);
   transition: opacity 500ms, transform 500ms;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  /* width: 52px; */
+  height: 34px;
+  display: flex;
+  gap: 1rem;
+  outline: none;
+  align-items: center;
+}
+.switch label {
+  /* margin-left: 80px; */
+  cursor: pointer;
+}
+.slider {
+  width: 52px;
+  position: inherit;
+  height: 26px;
+  cursor: pointer;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  top: 0px;
+  height: 26px;
+  width: 26px;
+  /* left: 4px; */
+  /* bottom: 4px; */
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: #4fc961;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #4fc961;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
 }

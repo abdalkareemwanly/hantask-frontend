@@ -8,8 +8,21 @@ import ModalContainer from "../../../Components/ModalContainer";
 import axiosClient from "../../../axios-client";
 import { AddCategory } from "./components/AddCategory";
 import { EditCategory } from "./components/EditCategory";
+import { SuccessIcon, ErrorIcon } from "../../../Components/Icons";
+import useCheckPermission from "../../../hooks/checkPermissions";
+import { useNavigate } from "react-router-dom";
 
 const Categories = () => {
+  // Check for specific permissions
+  const { hasPermissionFun } = useCheckPermission();
+  const nav = useNavigate();
+  const hasShowPermission = hasPermissionFun("showCategories");
+  const hasAddPermission = hasPermissionFun("addCategory");
+  const hasEditPermission = hasPermissionFun("editCategory");
+  const hasDeletePermission = hasPermissionFun("deleteCategory");
+  const hasChangeMethod = hasPermissionFun("changeStatusCategory");
+  // Check for specific permissions
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -116,13 +129,15 @@ const Categories = () => {
       name: "status",
       selector: (row) =>
         row.status == 1 ? (
-          <span className="bg-greenColor p-2 block rounded-md text-white">
-            active
-          </span>
+          <SuccessIcon
+            className="p-2 block rounded-md text-greenColor"
+            size={45}
+          />
         ) : (
-          <span className="bg-redColor p-2 block rounded-md text-white">
-            unactive
-          </span>
+          <ErrorIcon
+            className=" p-2 block rounded-md text-redColor"
+            size={45}
+          />
         ),
       maxWidth: "10%",
     },
@@ -131,42 +146,50 @@ const Categories = () => {
       cell: (row) => {
         return (
           <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
-            <Button
-              isLink={false}
-              color={"bg-orangeColor"}
-              title={"edit"}
-              onClickFun={() => editBtnFun(row)}
-            />
-            <Button
-              isLink={false}
-              color={"bg-blueColor"}
-              title={"change status"}
-              onClickFun={() => handleChangeStatus(row.id)}
-            />
-            <Button
-              isLink={false}
-              color={"bg-redColor"}
-              title={"delete"}
-              onClickFun={() => handleDelete(row.id)}
-            />
+            {hasEditPermission && (
+              <Button
+                isLink={false}
+                color={"bg-orangeColor"}
+                title={"edit"}
+                onClickFun={() => editBtnFun(row)}
+              />
+            )}
+            {hasChangeMethod && (
+              <Button
+                isLink={false}
+                color={"bg-blueColor"}
+                title={"change status"}
+                onClickFun={() => handleChangeStatus(row.id)}
+              />
+            )}
+            {hasDeletePermission && (
+              <Button
+                isLink={false}
+                color={"bg-redColor"}
+                title={"delete"}
+                onClickFun={() => handleDelete(row.id)}
+              />
+            )}
           </div>
         );
       },
     },
   ];
 
-  return (
+  return hasShowPermission ? (
     <Page>
       <PageTitle
         text={"manage all categories"}
         right={
           <div>
-            <Button
-              isLink={false}
-              color={"bg-greenColor"}
-              title={"add new"}
-              onClickFun={() => setIsAddModalOpen((prev) => !prev)}
-            />
+            {hasAddPermission && (
+              <Button
+                isLink={false}
+                color={"bg-greenColor"}
+                title={"add new"}
+                onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+              />
+            )}
           </div>
         }
       />
@@ -198,9 +221,16 @@ const Categories = () => {
       )}
 
       <div className="my-4">
-        <TableData columns={columns} data={categories} paginationBool={true} />
+        <TableData
+          columns={columns}
+          data={categories}
+          paginationBool={true}
+          noDataMessage={"no categories to show!"}
+        />
       </div>
     </Page>
+  ) : (
+    nav("/admin/dashboard")
   );
 };
 

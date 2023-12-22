@@ -2,8 +2,16 @@ import { toast } from "react-toastify";
 import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
 import { useState } from "react";
-
-export const EditUser = ({ data, getUsers, setIsModalOpen }) => {
+import { useMutationHook } from "../../../../hooks/useMutationHook";
+const postData = async (data) => {
+  console.log(data.formData, data.userId);
+  const res = await axiosClient.post(
+    `/admin/user/update/${data.userId}`,
+    data.formData
+  );
+  return res;
+};
+export const EditUser = ({ data, setIsModalOpen }) => {
   const [image, setImage] = useState(data?.image);
 
   let template = {
@@ -46,15 +54,14 @@ export const EditUser = ({ data, getUsers, setIsModalOpen }) => {
       },
     ],
   };
-
+  const mutation = useMutationHook(postData, ["users"]);
+  let userId = data?.id;
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
     const user = {
       ...values,
       image,
     };
     const formData = new FormData();
-
     formData.append("name", user.name);
     formData.append("username", user.username);
     formData.append("email", user.email);
@@ -62,43 +69,30 @@ export const EditUser = ({ data, getUsers, setIsModalOpen }) => {
     if (typeof user?.image !== "string") {
       formData.append("image", user.image);
     }
-    axiosClient
-      .post(`/admin/user/update/${data?.id}`, formData)
-      .then((res) => {
-        if (res.data.success == false) {
-          toast.update(id, {
-            type: "error",
-            render: res.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        } else {
-          getUsers();
-          setIsModalOpen((prev) => !prev);
-          toast.update(id, {
-            type: "success",
-            render: res.data.mes,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.update(id, {
-          type: "error",
-          render: err,
-          closeOnClick: true,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
+    const id = toast.loading("please wait...");
+    try {
+      const user = await mutation.mutateAsync({ formData, userId });
+      setIsModalOpen((prev) => !prev);
+      toast.update(id, {
+        type: "success",
+        render: user.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
       });
+    } catch (error) {
+      toast.update(id, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
   };
 
   const validate = () => {
