@@ -4,13 +4,22 @@ import axiosClient from "../../../../axios-client";
 import { BiX } from "react-icons/bi";
 import ReusableForm from "../../../../Components/ReusableForm";
 import { toast } from "react-toastify";
-
+import { useMutationHook } from "../../../../hooks/useMutationHook";
+const postData = async (formData) => {
+  const res = await axiosClient.post("/admin/language/store", formData);
+  if (res.data.success === true) {
+    axiosClient.post("/admin/translation/store", {
+      slug: formData.slug,
+    });
+  }
+  return res;
+};
 export default function Addlanguage(props) {
   const { getAllLanguages, langs } = props;
 
-  const handleSubmit = (values) => {
-    const id = toast.loading("Please wait...");
+  const mutation = useMutationHook(postData, ["languages"]);
 
+  const handleSubmit = async (values) => {
     let language;
     langs.map((ele) => {
       if (ele.code === values.language) {
@@ -25,22 +34,31 @@ export default function Addlanguage(props) {
       slug: values.slug,
       status: values.status,
     };
-    axiosClient.post("/admin/language/store", formData).then(() => {
-      axiosClient
-        .post("/admin/translation/store", { slug: formData.slug })
-        .then((response) => {
-          getAllLanguages();
-          toast.update(id, {
-            render: response.data.message,
-            type: "success",
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-            closeOnClick: true,
-          });
-        });
-    });
+
+    const id = toast.loading("please wait...");
+    try {
+      const res = await mutation.mutateAsync(formData);
+      console.log(res);
+      toast.update(id, {
+        type: "success",
+        render: res.data.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    } catch (error) {
+      toast.update(id, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
   };
 
   let template = {
@@ -55,12 +73,14 @@ export default function Addlanguage(props) {
         },
         options: [...langs],
         optionValue: "code",
+        styles: "md:w-[45%]",
         optionText: "lanName",
       },
       {
         title: "Direction",
         name: "direction",
         type: "select",
+        styles: "md:w-[45%]",
         validationProps: {
           required: { value: true, message: "this field is required" },
         },
@@ -71,6 +91,7 @@ export default function Addlanguage(props) {
       {
         title: "status",
         name: "status",
+        styles: "md:w-[45%]",
         type: "select",
         validationProps: {
           required: { value: true, message: "this field is required" },
@@ -81,6 +102,7 @@ export default function Addlanguage(props) {
       },
       {
         title: "slug",
+        styles: "md:w-[45%]",
         name: "slug",
         type: "text",
         readOnly: true,
@@ -99,16 +121,13 @@ export default function Addlanguage(props) {
   };
 
   return (
-    <>
-      <ReusableForm
-        template={template}
-        btnText={"add new language"}
-        btnWidth={"w-[200px]  "}
-        watchFields={["language"]}
-        validate={validate}
-        onSubmit={handleSubmit}
-        addedStyles={"w-full"}
-      />
-    </>
+    <ReusableForm
+      template={template}
+      btnText={"add new language"}
+      btnWidth={"w-[200px] "}
+      watchFields={["language"]}
+      validate={validate}
+      onSubmit={handleSubmit}
+    />
   );
 }

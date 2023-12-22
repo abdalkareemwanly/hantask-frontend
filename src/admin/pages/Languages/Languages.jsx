@@ -7,25 +7,42 @@ import Button from "../../../Components/Button";
 import EditLanguage from "./components/EditLanguage";
 import { toast } from "react-toastify";
 import ModalContainer from "../../../Components/ModalContainer";
+import { useQueryHook } from "../../../hooks/useQueryHook";
+import { useMutationHook } from "../../../hooks/useMutationHook";
+const getData = async (page) => {
+  try {
+    const response = await axiosClient.get(`/admin/languages?page=${page}`);
+    return response;
+  } catch (error) {
+    console.error("Error fetching languages:", error);
+  }
+};
+const deleteFunc = async (Id) => {
+  const res = await axiosClient.get(`/admin/language/delete/${Id}`);
+  return res;
+};
+const changeFunc = async (Id) => {
+  const res = await axiosClient.get(`/admin/language/update_default/${Id}`);
+  return res;
+};
 export default function Languages() {
-  const [allLanguages, setAllLanguages] = useState([]);
   const [langs, setLangs] = useState();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState();
 
   useEffect(() => {
-    getAllLanguages();
     getLanguages();
   }, []);
-  const getAllLanguages = async () => {
-    try {
-      const response = await axiosClient.get("/admin/languages");
-      setAllLanguages(response.data.data);
-    } catch (error) {
-      console.error("Error fetching languages:", error);
-    }
-  };
+  const [page, setPage] = useState(1);
+  const { data: languages } = useQueryHook(
+    ["languages", page],
+    () => getData(page),
+    "paginate"
+  );
+  const deleteMutation = useMutationHook(deleteFunc, ["languages", page]);
+  const changeMutation = useMutationHook(changeFunc, ["languages", page]);
+
   const getLanguages = () => {
     fetch("/src/admin/Json/LanguagesTemp.json")
       .then((response) => response.json())
@@ -37,21 +54,30 @@ export default function Languages() {
       });
   };
 
-  const handleChangeStatus = (id) => {
-    const toastId = toast.loading("Please wait...");
-
-    axiosClient.get(`/admin/language/update_default/${id}`).then(() => {
-      getAllLanguages();
-      toast.update(toastId, {
-        render: "ok",
+  const handleChangeStatus = async (id) => {
+    const toastID = toast.loading("please wait...");
+    try {
+      const res = await changeMutation.mutateAsync(id);
+      toast.update(toastID, {
         type: "success",
+        render: res.data.mes,
+        closeOnClick: true,
         isLoading: false,
         autoClose: true,
         closeButton: true,
-        closeOnClick: true,
         pauseOnHover: false,
       });
-    });
+    } catch (error) {
+      toast.update(toastID, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
   };
 
   const handleEdit = (row) => {
@@ -59,20 +85,31 @@ export default function Languages() {
     setIsModalOpen((prev) => !prev);
   };
 
-  const deleteLang = (Id) => {
-    const id = toast.loading("Please wait...");
-
-    axiosClient.get(`/admin/language/delete/${Id}`).then(() => {
-      getAllLanguages();
+  const deleteLang = async (Id) => {
+    const id = toast.loading("please wait...");
+    try {
+      const res = await deleteMutation.mutateAsync(Id);
+      console.log(res);
       toast.update(id, {
-        render: "ok",
         type: "success",
+        render: res.data.mes,
+        closeOnClick: true,
         isLoading: false,
         autoClose: true,
         closeButton: true,
         pauseOnHover: false,
       });
-    });
+    } catch (error) {
+      toast.update(id, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
   };
 
   const columns = [
@@ -80,37 +117,25 @@ export default function Languages() {
       name: "Id",
       selector: (row) => row.id,
       sortable: true,
-      maxWidth: "100px",
-      minWidth: "fit-content",
     },
     {
       name: "name",
       selector: (row) => row.name,
-      maxWidth: "100px",
-      minWidth: "fit-content",
     },
     {
       name: "direction",
       selector: (row) => row.direction,
-      maxWidth: "100px",
-      minWidth: "fit-content",
     },
     {
       name: "slug",
       selector: (row) => row.slug,
-      maxWidth: "100px",
-      minWidth: "fit-content",
     },
     {
       name: "status",
       selector: (row) => row.status,
-      maxWidth: "100px",
-      minWidth: "80px",
     },
     {
       name: "default",
-      maxWidth: "150px",
-      minWidth: "max-content",
       cell: (row) => {
         return (
           <Button
@@ -124,7 +149,7 @@ export default function Languages() {
     },
     {
       name: "actions",
-      maxWidth: "350px",
+      minWidth: "30%",
       cell: (row) => {
         return (
           <div className="flex gap-1 items-center flex-wrap">
@@ -153,18 +178,19 @@ export default function Languages() {
   ];
 
   return (
-    <Page className="flex md:flex-row items-start flex-col-reverse justify-between gap-2">
-      <div className="flex flex-col lg:w-[60%] w-[100%]">
+    <Page className="flex items-start flex-col-reverse justify-between gap-2">
+      <div className="flex flex-col w-full">
         <TableData
           noDataMessage={"no languages yet!"}
           columns={columns}
-          data={allLanguages}
+          response={languages}
+          actualData={languages?.data.data}
+          setPage={setPage}
+          paginationBool={true}
         />
       </div>
-      <div className="flex flex-col bg-blocks-color component-shadow px-4 py-3 rounded-md lg:w-[35%] w-[100%]">
-        {langs && (
-          <Addlanguage getAllLanguages={getAllLanguages} langs={langs} />
-        )}
+      <div className="bg-blocks-color component-shadow px-4 py-3 rounded-md w-full">
+        {langs && <Addlanguage langs={langs} />}
       </div>
 
       {isModalOpen && (
@@ -177,7 +203,6 @@ export default function Languages() {
               langData={selectedLang}
               languages={langs}
               setIsModalOpen={setIsModalOpen}
-              getAllLanguages={getAllLanguages}
             />
           }
         />

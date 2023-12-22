@@ -1,13 +1,12 @@
 import { toast } from "react-toastify";
 import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
-
-const EditLanguage = ({
-  langData,
-  languages,
-  setIsModalOpen,
-  getAllLanguages,
-}) => {
+import { useMutationHook } from "../../../../hooks/useMutationHook";
+const postData = async ({ formLanguage, id }) => {
+  const res = axiosClient.post(`/admin/language/update/${id}`, formLanguage);
+  return res;
+};
+const EditLanguage = ({ langData, languages, setIsModalOpen }) => {
   let template = {
     title: "Edit language",
     fields: [
@@ -65,9 +64,9 @@ const EditLanguage = ({
       resetField("slugEdit");
     }
   };
+  const mutation = useMutationHook(postData, ["languages"]);
 
-  const handleSubmit = (values) => {
-    const id = toast.loading("please wait...");
+  const handleSubmit = async (values) => {
     let language;
     languages?.map((ele) => {
       if (ele.code === values.languageEdit) {
@@ -82,25 +81,33 @@ const EditLanguage = ({
       slug: values?.slugEdit,
       status: values?.statusEdit,
     };
-
-    axiosClient
-      .post(`/admin/language/update/${langData?.id}`, formLanguage)
-      .then(() => {
-        getAllLanguages();
-        setIsModalOpen((prev) => !prev);
-        toast.update(id, {
-          render: "deal",
-          type: "success",
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-          closeOnClick: true,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
+    const toastId = toast.loading("please wait...");
+    try {
+      const res = await mutation.mutateAsync({
+        formLanguage,
+        id: langData?.id,
       });
+      setIsModalOpen(false);
+      toast.update(toastId, {
+        type: "success",
+        render: res.data.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    } catch (error) {
+      toast.update(toastId, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
   };
 
   return (

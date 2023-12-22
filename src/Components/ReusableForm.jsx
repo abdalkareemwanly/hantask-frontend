@@ -312,7 +312,7 @@ const ReusableForm = ({
 
   return (
     <form
-      className={`${addedStyles}  flex flex-col items-center gap-2 text-primary-text  min-w-fit`}
+      className={`${addedStyles}  flex flex-col  gap-4 text-primary-text w-auto`}
       onSubmit={handleSubmit(onSubmit)}
     >
       <h3 className="font-bold text-2xl bt-3">{title}</h3>
