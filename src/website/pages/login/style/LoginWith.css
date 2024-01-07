@@ -1,0 +1,34 @@
+.bar-wrap {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.bar-wrap .bar {
+    display: inline-block;
+    border: 1px solid var(--border);
+    width: 100%;
+    height: 2px;
+    margin-top: 22px;
+}
+
+.bar-wrap .or {
+    padding: 10px;
+    display: inline-block;
+    text-transform: initial;
+    color: var(--gray-text);
+}
+
+.sign-in-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    text-align: center;
+    margin-top: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--light-text);
+    padding: 10px;
+}

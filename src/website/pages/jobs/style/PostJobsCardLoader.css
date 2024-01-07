@@ -1,0 +1,110 @@
+.loader .post-jobs-card {
+    margin-top: 30px;
+    padding: 12px;
+    border-radius: 10px;
+    background: var(--color-white);
+    box-shadow: var(--shadow);
+    margin: 15px;
+    width: 100%;
+    height: max-content;
+}
+
+.loader .jobs-card-top-image {
+    width: 100%;
+    height: 238px;
+    background-color: var(--border);
+    position: relative;
+    border-radius: 6px 6px 0 0 !important;
+}
+
+.loader .jobs-card-location {
+    background-color: var(--gray-text);
+    width: 50%;
+    height: 15px;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.loader .post-jobs-card-content {
+    padding: 0 30px 30px;
+    width: 100%;
+    height: 250px;
+    background-color: var(--gray-text);
+    border-radius: 0 0 6px 6px !important;
+}
+
+.loader .top-section {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 0 0 20px;
+    width: 100%;
+    height: 35px;
+}
+
+.loader .top-section span {
+    width: 70%;
+    height: 20px;
+    background-color: var(--border);
+}
+
+
+.loader .top-section-image {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--border);
+}
+
+.loader .online-circle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--border);
+    bottom: 0;
+    right: 0;
+    border-radius: 50%;
+}
+
+.loader .top-section-image span {
+    width: 10px;
+    height: 10px;
+    background-color: var(--light-text);
+    border: 1px solid var(--color-white);
+}
+
+.loader .jobs-card-title {
+    margin-bottom: 0;
+    width: 70%;
+    height: 30px;
+    background-color: var(--light-text);
+}
+
+.loader .jobs-card-p {
+    margin-top: 20px;
+    padding: 5px;
+    width: 100%;
+    height: 100px;
+    background-color: var(--border);
+}
+
+.loader .jobs-card-price {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 18px 0 13px 0;
+    width: 70%;
+    height: 20px;
+    background-color: var(--gray-text);
+}
+
+.loader .jobs-card-price .price {
+    width: 70%;
+    height: 20px;
+    background-color: var(--border);
+}

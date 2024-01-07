@@ -1,0 +1,87 @@
+.loader .image-container {
+    height: 400px;
+    width: 100%;
+    background-color: var(--gray-text);
+}
+
+
+.loader .personal-image {
+    width: max-content;
+    aspect-ratio: 1 / 1;
+    padding: 20px;
+    background-color: var(--border);
+    margin-right: 10px;
+}
+
+
+.loader .personal-info h5 {
+    width: 10vw;
+    height: 20px;
+    background-color: var(--border);
+    margin-bottom: 5px;
+}
+
+.loader .personal-info-container {
+    padding: 5px 0;
+    height: 80px;
+}
+
+.loader .personal-info-details div {
+    width: 10vw;
+    height: 20px;
+    background-color: var(--gray-text);
+}
+
+
+.loader .personal-info-paragraph h4 {
+    width: 10vw;
+    height: 20px;
+    background-color: var(--border);
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+.loader .personal-info-paragraph h5 {
+    width: 10vw;
+    height: 20px;
+    background-color: var(--light-text);
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+.loader .personal-info-paragraph p {
+    width: 100%;
+    height: 200px;
+    background-color: var(--gray-text);
+}
+
+
+.loader .job-overview h4 {
+    width: 20vw;
+    height: 20px;
+    background-color: var(--border);
+}
+
+.loader .job-overview-icon-container {
+    margin-right: 20px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid var(--border);
+    background-color: var(--color-white);
+    border-radius: 5px;
+}
+
+.loader .job-overview h5 {
+    width: 15vw;
+    height: 20px;
+    background-color: var(--dark-gray);
+    padding: 0;
+}
+
+.loader .job-overview span {
+    width: 15vw;
+    height: 20px;
+    background-color: var(--light-text);
+    padding: 0;
+    margin-top: 5px;
+}

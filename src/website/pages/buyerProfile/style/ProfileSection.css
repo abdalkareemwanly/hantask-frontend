@@ -1,0 +1,69 @@
+.profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+}
+
+.profile-image img {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.profile-buyer-name {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 36px;
+}
+
+.profile-buyer-check {
+    color: var(--main-color);
+    font-size: 18px;
+}
+
+.rating-number {
+    color: var(--gray-text);
+}
+
+.profile-info {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.profile-info span {
+    color: var(--light-text);
+}
+
+.buyer-profile-card {
+    background: var(--main-color);
+    border-radius: 10px;
+    height: 180px;
+    min-width: 180px;
+    color: var(--color-white);
+}
+
+.buyer-profile-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: var(--color-white);
+    color: var(--main-color);
+    font-size: 20px;
+    margin: 0 auto;
+}
+
+.buyer-profile-card h4 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 36px;
+}
+
+.buyer-profile-card span {
+    line-height: 20px;
+    font-size: 18px;
+    display: block;
+}

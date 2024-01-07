@@ -1,0 +1,27 @@
+.buyer-profile-container div h3 {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--dark-gray);
+    line-height: 46px;
+    margin: -10px 0 0;
+}
+
+.slider-dots {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.slider-dots li button {
+    background-color: var(--border);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    color: transparent;
+}
+
+.slider-dots li.slick-active button {
+    background-color: var(--main-color);
+
+}

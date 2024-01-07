@@ -1,0 +1,16 @@
+.other-jobs h4,
+.similar-jobs h4 {
+    font-size: 32px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin-bottom: 10px;
+}
+
+.job-header-title {
+    font-size: 32px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--dark-gray);
+
+}

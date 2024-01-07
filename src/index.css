@@ -2,20 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* abullah colors */
+  --main-color: rgb(255, 107, 44);
+  --card-background: rgba(255, 107, 44, 0.1);
+  --second-color: #4d77ff;
+  --light-text: #666;
+  --gray-text: #999;
+  --border: #ddd;
+  --dark-gray-text: rgb(102, 102, 102);
+  --shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  --color-white: white;
+  --dark-gray: #333;
+  --third-color: #dc3545;
+}
+
 :root[data-theme="dark"] {
-  --primary-text: 255 255 255; /* white, dark color in modes */
-  --secondary-text: 220 220 225; /* white, dark color in modes */
-  --error-text: 250 70 70; /* red color in modes */
-  --interactive-text: 3 110 190; /* white dark color in modes */
+  --primary-text: 255 255 255;
+  /* white, dark color in modes */
+  --secondary-text: 220 220 225;
+  /* white, dark color in modes */
+  --error-text: 250 70 70;
+  /* red color in modes */
+  --interactive-text: 3 110 190;
+  /* white dark color in modes */
   --disabled-text: 190 200 210;
-  --background-color: 43 43 50; /* white dark color in modes */
-  --blocks-color: 50 50 60; /* white dark color in modes */
-  --border-color: 90 90 90; /* main border color in modes */
-  --secondary-border-color: 255 255 255; /* second border color for checkbox in modes */
-  --outline-color: 120 180 120; /* outline color in modes */
-  --checkbox-bg-color: 120 250 120; /* checkbox color in modes */
-  --checkbox-icon-color: 22 22 22; /* checkbox icon color  in modes */
+  --background-color: 43 43 50;
+  /* white dark color in modes */
+  --blocks-color: 50 50 60;
+  /* white dark color in modes */
+  --border-color: 90 90 90;
+  /* main border color in modes */
+  --secondary-border-color: 255 255 255;
+  /* second border color for checkbox in modes */
+  --outline-color: 120 180 120;
+  /* outline color in modes */
+  --checkbox-bg-color: 120 250 120;
+  /* checkbox color in modes */
+  --checkbox-icon-color: 22 22 22;
+  /* checkbox icon color  in modes */
   --toastify-color-dark: rgb(50, 54, 63);
+
+  /* abullah colors */
+  --main-color: rgb(255, 107, 44);
+  --card-background: rgba(255, 107, 44, 0.1);
+  --second-color: #4d77ff;
+  --light-text: #666;
+  --gray-text: #999;
+  --dark-gray-text: rgb(102, 102, 102);
+  --shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  --color-white: white;
 }
 
 :root[data-theme="light"] {
@@ -32,7 +68,19 @@
   --checkbox-bg-color: 0 0 0;
   --checkbox-icon-color: 255 255 255;
   --toastify-color-light: rgb(255, 255, 255);
+
+  /* abullah colors */
+  --main-color: rgb(255, 107, 44);
+  --card-background: rgba(255, 107, 44, 0.1);
+  --second-color: #4d77ff;
+  --light-text: #666;
+  --gray-text: #999;
+  --dark-gray-text: rgb(102, 102, 102);
+  --shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  --color-white: white;
 }
+
+
 
 @layer base {
   .component-shadow {
@@ -45,6 +93,7 @@
     flex-direction: column;
     gap: 2px;
   }
+
   .input-box {
     background-color: rgb(var(--blocks-color));
     color: var(--primary-text);
@@ -52,6 +101,7 @@
     padding: 6px;
     border-radius: 4px;
   }
+
   .input-box:is(:focus, :hover) {
     outline: 1px solid rgb(var(--outline-color));
   }
@@ -73,14 +123,17 @@
     appearance: none;
     transition: all 0.2s ease;
   }
+
   input[type="checkbox"]:hover {
     opacity: 1;
   }
+
   input[type="checkbox"]:checked {
     background-color: rgb(var(--checkbox-bg-color));
     opacity: 1;
     border-color: rgba(0, 0, 0, 0);
   }
+
   input[type="checkbox"]::before {
     content: "";
     position: absolute;
@@ -95,6 +148,7 @@
     z-index: 2;
     opacity: 0;
   }
+
   input[type="checkbox"]:checked::before {
     content: "";
     position: absolute;
@@ -109,6 +163,7 @@
     z-index: 2;
     opacity: 1;
   }
+
   input[type="file"].imageFileInput {
     width: 100%;
     height: 100%;
@@ -119,6 +174,7 @@
     bottom: 0;
     right: 0;
   }
+
   img[alt]:after {
     display: block;
     position: absolute;
@@ -133,6 +189,7 @@
     text-align: center;
     content: attr(alt);
   }
+
   /*
 
   .imageFileInput::-webkit-file-upload-button {
@@ -152,9 +209,11 @@
     border: 1px solid rgb(var(--border-color));
     border-radius: 4px;
   }
+
   .fileInput:is(:focus, :hover) {
     outline: 1px solid rgb(var(--outline-color));
   }
+
   .fileInput::-webkit-file-upload-button {
     background-color: rgb(var(--background-color));
     color: rgb(var(--primary-text));
@@ -173,6 +232,7 @@
   height: 3px;
   background-color: rgb(var(--border-color));
 }
+
 ::-webkit-scrollbar-thumb {
   background-color: rgb(var(--primary-text));
 }
@@ -214,10 +274,12 @@
   outline: none;
   align-items: center;
 }
+
 .switch label {
   /* margin-left: 80px; */
   cursor: pointer;
 }
+
 .slider {
   width: 52px;
   position: inherit;
@@ -228,6 +290,7 @@
   transition: 0.4s;
   border-radius: 34px;
 }
+
 .slider:before {
   position: absolute;
   content: "";
@@ -241,13 +304,16 @@
   transition: 0.4s;
   border-radius: 50%;
 }
-input:checked + .slider {
+
+input:checked+.slider {
   background-color: #4fc961;
 }
-input:focus + .slider {
+
+input:focus+.slider {
   box-shadow: 0 0 1px #4fc961;
 }
-input:checked + .slider:before {
+
+input:checked+.slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);

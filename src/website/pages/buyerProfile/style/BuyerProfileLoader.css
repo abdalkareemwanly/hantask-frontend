@@ -1,0 +1,21 @@
+.buyer-profile-container.loader div h3 {
+    width: 30%;
+    background-color: var(--light-text);
+    height: 20px;
+    margin: -10px 0 0;
+}
+
+.loader .slider-dots {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.loader .slider-dots li button {
+    background-color: var(--border);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    color: transparent;
+}

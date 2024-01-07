@@ -1,0 +1,159 @@
+.registration-tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 0;
+}
+
+.registration-tabs li {
+    border: 1px solid var(--main-color);
+    padding: 7px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    background: var(--color-white);
+    position: relative;
+    z-index: 1;
+    margin: 10px 0;
+    color: var(--main-color);
+    line-height: 28px;
+    cursor: pointer;
+    transition: 300ms;
+    position: relative;
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.registration-tabs li.active {
+    background: var(--main-color);
+    border-color: var(--main-color);
+    color: var(--color-white);
+}
+
+.registration-tabs li.active::after {
+    font-family: "Line Awesome Free";
+    font-weight: 900;
+    content: "✔";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 27px;
+    width: 27px;
+    border: 2px solid var(--color-white);
+    background: var(--main-color);
+    color: var(--color-white);
+    font-size: 16px;
+    border-radius: 50%;
+    position: absolute;
+    top: -14px;
+    right: -13px;
+}
+
+.single-tabs-registration {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.single-tabs-registration .title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 36px;
+}
+
+.single-tabs-registration .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 41px;
+    width: 41px;
+    border-radius: 50%;
+    background: var(--main-color);
+    color: var(--color-white);
+    font-size: 24px;
+}
+
+li.active .icon {
+    background: var(--color-white);
+    color: var(--main-color);
+}
+
+.registration-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.registration-list .list:not(:last-child) {
+    padding-right: 70px;
+}
+
+.list .list-click {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--light-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    position: relative;
+}
+
+.list.active .list-click {
+    background: var(--main-color);
+    color: var(--color-white);
+    border-color: var(--main-color);
+}
+
+.list:not(:last-child) .list-click::after {
+    position: absolute;
+    content: "";
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: -55px;
+    background: var(--border);
+    height: 2px;
+    width: 40px;
+}
+
+.list.active:not(:last-child) .list-click::after {
+    background-color: var(--main-color);
+}
+
+.step-three label,
+.step-three a {
+    width: max-content;
+}
+
+.step-three a {
+    position: absolute;
+    left: 140px;
+    bottom: 0;
+    transition: all .3s;
+    color: var(--main-color);
+}
+
+.step-three a:hover {
+    color: var(--light-text);
+    cursor: pointer;
+}
+
+.register-container h3 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 36px;
+    text-align: center;
+    margin: 30px 0;
+}
+
+.step-three .checkbox-input {
+    width: 280px;
+}

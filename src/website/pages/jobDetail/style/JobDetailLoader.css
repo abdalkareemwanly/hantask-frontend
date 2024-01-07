@@ -1,0 +1,36 @@
+.loader .other-jobs h4,
+.loader .similar-jobs h4 {
+    width: 10vw;
+    height: 20px;
+    background-color: var(--dark-gray);
+    margin-bottom: 10px;
+}
+
+.loader .job-header-title {
+    width: 10vw;
+    height: 20px;
+    background-color: var(--dark-gray);
+    color: var(--dark-gray);
+
+}
+
+.loader * {
+    opacity: .9;
+    animation: skeletonLoader 2s infinite;
+    border-radius: 6px;
+}
+
+
+@keyframes skeletonLoader {
+    0% {
+        opacity: .8;
+    }
+
+    50% {
+        opacity: .9;
+    }
+
+    100% {
+        opacity: .8;
+    }
+}

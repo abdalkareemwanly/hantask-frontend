@@ -31,26 +31,17 @@ const Header = () => {
       </div>
       <div className="hidden md:block">
         <AnimatePresence>
-          <motion.div
-            onHoverStart={handleHover}
-            onHoverEnd={handleHoverExit}
-            className="relative"
-          >
+          <motion.div onHoverStart={handleHover} onHoverEnd={handleHoverExit} className="relative">
             <p className="flex items-center gap-2">
               Account <IoPersonOutline />
             </p>
-            <motion.div
-              animate={controls}
-              initial={{ opacity: 0, y: 10 }}
-              className="flex flex-col gap-3  p-3 rounded-md component-shadow min-w-[150px] absolute right-0"
-              transition={{ duration: 0.2 }}
-            >
+            <motion.div animate={controls} initial={{ opacity: 0, y: 10 }} className="flex flex-col gap-3  p-3 rounded-md component-shadow min-w-[150px] absolute right-0" transition={{ duration: 0.2 }}>
               <motion.ul>
                 <li>
-                  <span>hi</span>
+                  <Link to={"/login"}>Login</Link>
                 </li>
                 <li>
-                  <a href="#">Link 2</a>
+                  <Link to={"/register"}>Register</Link>
                 </li>
                 {/* Add more links as needed */}
               </motion.ul>
@@ -61,20 +52,11 @@ const Header = () => {
       {/* small screens  */}
       <div className="md:hidden flex gap-2 items-center">
         <AnimatePresence>
-          <motion.div
-            onHoverStart={handleHover}
-            onHoverEnd={handleHoverExit}
-            className="relative"
-          >
+          <motion.div onHoverStart={handleHover} onHoverEnd={handleHoverExit} className="relative">
             <p className="flex items-center gap-2">
               <IoPersonOutline size={25} />
             </p>
-            <motion.div
-              animate={controls}
-              initial={{ opacity: 0, y: 10 }}
-              className="flex flex-col gap-3  p-3 rounded-md component-shadow min-w-[150px] absolute right-0"
-              transition={{ duration: 0.2 }}
-            >
+            <motion.div animate={controls} initial={{ opacity: 0, y: 10 }} className="flex flex-col gap-3  p-3 rounded-md component-shadow min-w-[150px] absolute right-0" transition={{ duration: 0.2 }}>
               <motion.ul>
                 <li>
                   <span>hi</span>
@@ -93,14 +75,7 @@ const Header = () => {
       </div>
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            style={{ overflow: "hidden" }}
-            className="absolute left-0 top-20 bg-black w-full text-white flex flex-col gap-2 z-10 "
-          >
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} style={{ overflow: "hidden" }} className="absolute left-0 top-20 bg-black w-full text-white flex flex-col gap-2 z-10 ">
             <Link>home</Link>
             <Link>home</Link>
             <Link>home</Link>

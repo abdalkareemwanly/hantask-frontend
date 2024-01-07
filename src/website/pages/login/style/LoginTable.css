@@ -1,0 +1,25 @@
+.table {
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 1rem;
+    vertical-align: top;
+    border-color: var(--light-text);
+    caption-side: bottom;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    text-align: center;
+    padding: 0.5rem 0.5rem;
+    border-bottom-width: 1px;
+}
+
+.autoLogin {
+    border: none;
+    background-color: green !important;
+    color: var(--color-white);
+    border-radius: 5px;
+    padding: 5px;
+    transition: all 300ms;
+}

@@ -23,6 +23,16 @@ import Chat from "./admin/pages/chat/Chat";
 import Homepage from "./website/pages/home/Homepage";
 import Layout from "./website/components/layout/websiteLayout/Layout";
 import Subscription from "./website/pages/subscription/Subscription";
+import PostJobs from "./website/pages/jobs/PostJobs";
+import Policy from "./website/pages/policy/Policy";
+import Condition from "./website/pages/condition/Condition";
+import Contact from "./website/pages/contact/Contact";
+import Login from "./website/pages/login/Login";
+import Register from "./website/pages/Register/Register";
+import ForgotPassword from "./website/pages/forgotPassword/ForgotPassword";
+import VerifyEmail from "./website/pages/verifyEmail/VerifyEmail";
+import JobDetail from "./website/pages/jobDetail/JobDetail";
+import BuyerProfile from "./website/pages/buyerProfile/BuyerProfile";
 const router = createBrowserRouter([
   {
     path: "/admin/",
@@ -91,6 +101,62 @@ const router = createBrowserRouter([
       {
         path: "subscription",
         element: <Subscription />,
+      },
+      {
+        path: "jobs",
+        element: <PostJobs />,
+      },
+      {
+        path: "job-detail",
+        element: <JobDetail />,
+      },
+      {
+        path: "buyer-profile",
+        element: <BuyerProfile />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "verify",
+        element: <VerifyEmail />,
+      },
+      {
+        path: "policy",
+        element: (
+          <Policy
+            policyContent={
+              <>
+                <div>policy here</div>
+              </>
+            }
+          />
+        ),
+      },
+      {
+        path: "condition",
+        element: (
+          <Condition
+            conditionContent={
+              <>
+                <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat blanditiis accusantium hic atque magni beatae aliquam facilis cupiditate dolorum ab!</div>
+              </>
+            }
+          />
+        ),
       },
     ],
   },
