@@ -10,20 +10,42 @@ import { EditArea } from "./components/EditArea";
 import { AddArea } from "./components/AddArea";
 import { ExcelIcon } from "../../../Components/Icons";
 import ImportExcel from "./components/ImportExcel";
-
+import { useMutationHook } from "../../../hooks/useMutationHook";
+import { useQueryHook } from "../../../hooks/useQueryHook";
+import Swal from "sweetalert2";
+const getData = async (page = 1, searchTerm) => {
+  const res = await axiosClient.get(
+    `admin/areas?page=${page}${
+      searchTerm.length > 0 ? `&search=${searchTerm}` : ""
+    }`
+  );
+  return res;
+};
+const deleteFunc = async (id) => {
+  const res = await axiosClient.get(`/admin/area/delete/${id}`);
+  return res;
+};
 const Areas = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
-  const [areas, setAreas] = useState([]);
   const [clickedRow, setClickedRow] = useState();
-  console.log(areas);
-  const getAreas = async () => {
-    const res = await axiosClient.get("/admin/areas");
-    setAreas(res.data?.data);
-  };
+  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data: areas } = useQueryHook(
+    ["areas", page, searchTerm],
+    () => getData(page, searchTerm),
+    "paginate",
+    page
+  );
+  const deleteMutation = useMutationHook(deleteFunc, [
+    "areas",
+    page,
+    searchTerm,
+  ]);
+
   const getCities = async () => {
     const res = await axiosClient.get("/admin/citys");
     setCities(res.data?.data);
@@ -32,9 +54,7 @@ const Areas = () => {
     const res = await axiosClient.get("/admin/countries");
     setCountries(res.data?.data);
   };
-
   useEffect(() => {
-    areas.length === 0 && getAreas();
     setTimeout(() => {
       getCountries();
       getCities();
@@ -46,25 +66,39 @@ const Areas = () => {
     setClickedRow(row);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      theme: "dark",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteFun(id);
+      }
+    });
+  };
+  const deleteFun = async (id) => {
     const toastId = toast.loading("processing");
-    const res = await axiosClient.get(`/admin/area/delete/${id}`);
-    console.log(res);
-    if (res.data.success == false) {
+    try {
+      const area = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
-        type: "error",
-        render: res.data.message,
+        type: "success",
+        render: area.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
         closeButton: true,
         pauseOnHover: false,
       });
-    } else {
-      getAreas();
+    } catch (error) {
       toast.update(toastId, {
-        type: "success",
-        render: res.data.mes,
+        type: "error",
+        render: error.response.data.message,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -73,7 +107,6 @@ const Areas = () => {
       });
     }
   };
-
   const columns = [
     {
       name: "Id",
@@ -165,7 +198,7 @@ const Areas = () => {
           component={
             <EditArea
               data={clickedRow}
-              getAreas={getAreas}
+              // getAreas={getAreas}
               countries={countries}
               cities={cities}
               setIsModalOpen={setIsModalOpen}
@@ -180,7 +213,7 @@ const Areas = () => {
           setIsModalOpen={setIsAddModalOpen}
           component={
             <AddArea
-              getAreas={getAreas}
+              // getAreas={getAreas}
               setIsAddModalOpen={setIsAddModalOpen}
               countries={countries}
               cities={cities}
@@ -194,7 +227,7 @@ const Areas = () => {
           setIsModalOpen={setIsImportModalOpen}
           component={
             <ImportExcel
-              getMethod={getAreas}
+              // getMethod={getAreas}
               setIsModalOpen={setIsImportModalOpen}
               apiLink={"/admin/area/import"}
             />
@@ -204,9 +237,13 @@ const Areas = () => {
       <div className="my-4">
         <TableData
           columns={columns}
-          data={areas}
+          enableSearch={true}
+          response={areas}
+          actualData={areas?.data.data}
+          setPage={setPage}
           paginationBool={true}
           noDataMessage={"no countries to show!"}
+          setSearchTerm={setSearchTerm}
         />
       </div>
     </Page>

@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axiosClient from "../../../../axios-client";
 import ReusableForm from "../../../../Components/ReusableForm";
-
-export const AddCountry = ({
-  getCountries,
-  setIsAddModalOpen,
-  allCountries,
-}) => {
+import { useMutationHook } from "../../../../hooks/useMutationHook";
+const postData = async (formData) => {
+  const res = await axiosClient.post("/admin/country/store", formData);
+  return res;
+};
+export const AddCountry = ({ setIsAddModalOpen, allCountries }) => {
   let template = {
     title: "add new category",
     fields: [
@@ -28,7 +28,7 @@ export const AddCountry = ({
       },
     ],
   };
-
+  const mutation = useMutationHook(postData, ["countries"]);
   const onSubmit = async (values) => {
     const id = toast.loading("please wait...");
     const country = {
@@ -36,44 +36,29 @@ export const AddCountry = ({
     };
     const formData = new FormData();
     formData.append("country", country.name.toLowerCase());
-    axiosClient
-      .post("/admin/country/store", formData)
-      .then((data) => {
-        if (data.data.success == false) {
-          toast.update(id, {
-            type: "error",
-            render: data.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        } else {
-          getCountries();
-          setIsAddModalOpen((prev) => !prev);
-          toast.update(id, {
-            type: "success",
-            render: data.data.mes,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.update(id, {
-          type: "success",
-          render: err.response.data.mes,
-          closeOnClick: true,
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
+    try {
+      const country = await mutation.mutateAsync(formData);
+      setIsAddModalOpen((prev) => !prev);
+      toast.update(id, {
+        type: "success",
+        render: country.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
       });
+    } catch (error) {
+      toast.update(id, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
   };
 
   const validate = () => {

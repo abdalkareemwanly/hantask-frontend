@@ -1,7 +1,11 @@
 import { toast } from "react-toastify";
 import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
-
+import { useMutationHook } from "../../../../hooks/useMutationHook";
+const postData = async (formData) => {
+  const res = await axiosClient.post("/admin/country/import", formData);
+  return res;
+};
 const ImportExcel = ({ getMethod, setIsModalOpen, apiLink }) => {
   let template = {
     title: "select a file to import",
@@ -21,41 +25,28 @@ const ImportExcel = ({ getMethod, setIsModalOpen, apiLink }) => {
       },
     ],
   };
+  const mutation = useMutationHook(postData, ["countries"]);
 
   const onSubmit = async (values) => {
     const toastId = toast.loading("please wait");
     const formData = new FormData();
     formData.append("file", values.file[0]);
     try {
-      const res = await axiosClient.post(apiLink, formData);
-
-      if (res.data.success === true) {
-        getMethod();
-        setIsModalOpen((prev) => !prev);
-        toast.update(toastId, {
-          type: "success",
-          render: res.data.mes,
-          closeOnClick: true,
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
-      } else {
-        toast.update(toastId, {
-          type: "error",
-          render: res.data.message,
-          closeOnClick: true,
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
-      }
+      const country = await mutation.mutateAsync(formData);
+      setIsModalOpen((prev) => !prev);
+      toast.update(toastId, {
+        type: "success",
+        render: country.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
     } catch (error) {
       toast.update(toastId, {
         type: "error",
-        render: "error",
+        render: error.response.data.message,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

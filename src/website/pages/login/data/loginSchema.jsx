@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const Login_SCHEMA = {
-  username: z.string().min(3).max(50),
+  email: z.string().regex(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g),
   password: z.string().min(3).max(12),
   rememberme: z.boolean(),
 };

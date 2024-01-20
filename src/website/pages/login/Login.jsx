@@ -5,49 +5,82 @@ import Input from "../../components/form/Input";
 import Login_SCHEMA from "./data/loginSchema";
 import SubmitButton from "../../components/form/SubmitButton";
 import "./style/Login.css";
-import { Link } from "react-router-dom";
-import LoginTable from "./components/LoginTable";
-import LoginWith from "./components/LoginWith";
-import DEFAULT_USERS from "./data/defaultUsers";
+import { Link, useNavigate } from "react-router-dom";
+import axiosClient from "../../../axios-client";
+import { useStateContext } from "../../../contexts/ContextsProvider";
 
 function Login(props) {
-  try {
-    const schema = z.object(Login_SCHEMA);
-    const {
-      register,
-      handleSubmit,
-      setValue,
-      formState: { errors },
-    } = useForm({ resolver: zodResolver(schema) });
-    const submitData = (data) => {
-      console.log(data);
-    };
-    return (
-      <>
-        <div className="login-container my-12 sm:mx-auto mx-5 sm:py-12 py-6 sm:px-12 px-6 lg:w-2/5 md:w-2/3 sm:w-3/4">
-          <h3>Sign In</h3>
-          <form onSubmit={handleSubmit(submitData)}>
-            <div className="grid grid-cols-1 gap-8 my-12 relative">
-              <Input type={"text"} placeholder={"Username"} register={register} name={"username"} label={"Username *"} errors={errors} />
-              <Input type={"password"} placeholder={"Password"} register={register} name={"password"} label={"Your Password *"} errors={errors} />
-              <Input type={"checkbox"} placeholder={"Password"} register={register} name={"rememberme"} label={"Remember Me"} errors={errors} />
-              <Link to={"/forgot-password"}>Forgot Password</Link>
-            </div>
-            <SubmitButton text={"Sign In"} width={"100%"} />
-          </form>
-          <div className="signup-sentence">
-            <span>Do Not Have Account?</span>
-            <Link to={"/register"}> {" Register"}</Link>
-          </div>
-          <LoginTable users={DEFAULT_USERS} setValue={setValue} />
+  const schema = z.object(Login_SCHEMA);
+  const { token, setUser, setToken } = useStateContext();
+  const navigate = useNavigate();
 
-          <LoginWith />
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(schema) });
+  const submitData = async (data) => {
+    const formData = new FormData();
+
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+
+    const res = await axiosClient.post("/site/login", formData);
+
+    if (res.data.success) {
+      setToken(res.data.token);
+      setUser(res.data.data);
+      sessionStorage.setItem("mode", "light");
+      localStorage.setItem("USER", JSON.stringify(res.data.user));
+      if (res.data.user.user_type === "buyer") {
+        navigate("/customer/home");
+      } else {
+        navigate("/serviceProvider/home");
+      }
+    }
+  };
+  return (
+    <>
+      <div className="login-container my-12 sm:mx-auto mx-5 sm:py-12 py-6 sm:px-12 px-6 lg:w-2/5 md:w-2/3 sm:w-3/4">
+        <h3>Sign In</h3>
+        <form onSubmit={handleSubmit(submitData)}>
+          <div className="grid grid-cols-1 gap-8 my-12 relative">
+            <Input
+              type={"email"}
+              placeholder={"email"}
+              register={register}
+              name={"email"}
+              label={"email *"}
+              errors={errors}
+            />
+            <Input
+              type={"password"}
+              placeholder={"Password"}
+              register={register}
+              name={"password"}
+              label={"Your Password *"}
+              errors={errors}
+            />
+            <Input
+              type={"checkbox"}
+              placeholder={"Password"}
+              register={register}
+              name={"rememberme"}
+              label={"Remember Me"}
+              errors={errors}
+            />
+            <Link to={"/forgot-password"}>Forgot Password</Link>
+          </div>
+          <SubmitButton text={"Sign In"} width={"100%"} />
+        </form>
+        <div className="signup-sentence">
+          <span>Do Not Have Account?</span>
+          <Link to={"/register"}> {" Register"}</Link>
         </div>
-      </>
-    );
-  } catch (err) {
-    console.log(err);
-  }
+      </div>
+    </>
+  );
 }
 
 export default Login;

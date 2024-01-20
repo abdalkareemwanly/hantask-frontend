@@ -9,52 +9,80 @@ import axiosClient from "../../../axios-client";
 import { AddTax } from "./components/AddTax";
 import { EditTax } from "./components/EditTax";
 import { SuccessIcon, ErrorIcon } from "../../../Components/Icons";
+import { useQueryHook } from "../../../hooks/useQueryHook";
+import { useMutationHook } from "../../../hooks/useMutationHook";
+import Swal from "sweetalert2";
+
+const getData = async () => {
+  const res = await axiosClient.get("/admin/taxes");
+  return res;
+};
+const deleteFunc = async (id) => {
+  const res = await axiosClient.get(`/admin/taxe/delete/${id}`);
+  return res;
+};
 
 const Tax = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [tax, setTax] = useState([]);
   const [countries, setCountries] = useState([]);
   const [clickedRow, setClickedRow] = useState();
-
-  const getTax = async () => {
-    const res = await axiosClient.get("/admin/taxes");
-    setTax(res.data?.data);
-  };
   const getCountries = async () => {
     const res = await axiosClient.get("/admin/countries");
     setCountries(res.data?.data);
   };
 
   useEffect(() => {
-    getTax();
     getCountries();
   }, []);
+
+  const [page, setPage] = useState(1);
+
+  const { data: tax, queryClient } = useQueryHook(
+    ["taxes", page],
+    () => getData(page),
+    "paginate",
+    page
+  );
+  const deleteMutation = useMutationHook(deleteFunc, ["taxes", page]);
 
   const editBtnFun = (row) => {
     setIsModalOpen(true);
     setClickedRow(row);
   };
-
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      theme: "dark",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteFun(id);
+      }
+    });
+  };
+  const deleteFun = async (id) => {
     const toastId = toast.loading("processing");
-    const res = await axiosClient.get(`/admin/taxe/delete/${id}`);
-    console.log(res);
-    if (res.data.success == false) {
+    try {
+      const country = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
-        type: "error",
-        render: res.data.message,
+        type: "success",
+        render: country.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
         closeButton: true,
         pauseOnHover: false,
       });
-    } else {
-      getTax();
+    } catch (error) {
       toast.update(toastId, {
-        type: "success",
-        render: res.data.mes,
+        type: "error",
+        render: error.response.data.message,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -127,7 +155,7 @@ const Tax = () => {
             <EditTax
               data={clickedRow}
               countries={countries}
-              getTax={getTax}
+              // getTax={getTax}
               setIsModalOpen={setIsModalOpen}
             />
           }
@@ -141,7 +169,7 @@ const Tax = () => {
           component={
             <AddTax
               countries={countries}
-              getTax={getTax}
+              // getTax={getTax}
               setIsAddModalOpen={setIsAddModalOpen}
             />
           }
@@ -151,9 +179,12 @@ const Tax = () => {
       <div className="my-4">
         <TableData
           columns={columns}
-          data={tax}
+          enableSearch={false}
+          response={tax}
+          actualData={tax?.data.data}
+          setPage={setPage}
           paginationBool={true}
-          noDataMessage={"no countries tax to show!"}
+          noDataMessage={"no taxes to show!"}
         />
       </div>
     </Page>

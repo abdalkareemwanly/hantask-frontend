@@ -1,8 +1,17 @@
 import { toast } from "react-toastify";
 import ReusableForm from "../../../../../Components/ReusableForm";
 import axiosClient from "../../../../../axios-client";
-
+import { useMutationHook } from "../../../../../hooks/useMutationHook";
+const postData = async (data) => {
+  const res = await axiosClient.post(
+    `/admin/role/update/${data.roleId}`,
+    data.formData
+  );
+  return res;
+};
 export const EditRole = ({ data, getRoles, setIsModalOpen }) => {
+  const mutation = useMutationHook(postData, ["roles"]);
+
   let template = {
     title: "add new category",
     fields: [
@@ -26,44 +35,30 @@ export const EditRole = ({ data, getRoles, setIsModalOpen }) => {
     const id = toast.loading("please wait...");
     const formData = new FormData();
     formData.append("name", values.name);
-    axiosClient
-      .post(`/admin/role/update/${data.id}`, formData)
-      .then((res) => {
-        if (res.data.success == false) {
-          toast.update(id, {
-            type: "error",
-            render: res.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        } else {
-          getRoles();
-          setIsModalOpen((prev) => !prev);
-          toast.update(id, {
-            type: "success",
-            render: res.data.mes,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.update(id, {
-          type: "success",
-          render: err.response.data.mes,
-          closeOnClick: true,
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
+    const roleId = data.id;
+    try {
+      const user = await mutation.mutateAsync({ formData, roleId });
+      setIsModalOpen((prev) => !prev);
+      toast.update(id, {
+        type: "success",
+        render: user.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
       });
+    } catch (error) {
+      toast.update(id, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
   };
 
   const validate = () => {

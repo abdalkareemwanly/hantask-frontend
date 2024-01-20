@@ -2,7 +2,14 @@ import { toast } from "react-toastify";
 import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
 import { useState } from "react";
-
+import { useMutationHook } from "../../../../hooks/useMutationHook";
+const postData = async (data) => {
+  const res = await axiosClient.post(
+    `/admin/city/update/${data?.cityId}`,
+    data.formData
+  );
+  return res;
+};
 export const EditCity = ({ data, getCities, setIsModalOpen, countries }) => {
   let country = countries.find((obj) => obj.country === data.country);
 
@@ -39,53 +46,40 @@ export const EditCity = ({ data, getCities, setIsModalOpen, countries }) => {
       },
     ],
   };
-
+  const mutation = useMutationHook(postData, ["cities"]);
   const onSubmit = async (values) => {
     const id = toast.loading("please wait...");
     const city = {
       ...values,
     };
     const formData = new FormData();
-
     formData.append("service_city", city.city);
     formData.append("country_id", city.country_id);
-    axiosClient
-      .post(`/admin/city/update/${data?.id}`, formData)
-      .then((res) => {
-        if (res.data.success == false) {
-          toast.update(id, {
-            type: "error",
-            render: res.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        } else {
-          getCities();
-          setIsModalOpen((prev) => !prev);
-          toast.update(id, {
-            type: "success",
-            render: res.data.mes,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.update(id, {
-          type: "error",
-          render: err,
-          closeOnClick: true,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
+    try {
+      const cityId = data?.id;
+
+      const city = await mutation.mutateAsync({ cityId, formData });
+      setIsModalOpen((prev) => !prev);
+      toast.update(id, {
+        type: "success",
+        render: city.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
       });
+    } catch (error) {
+      toast.update(id, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
   };
 
   const validate = () => {

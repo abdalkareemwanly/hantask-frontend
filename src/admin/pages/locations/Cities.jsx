@@ -10,54 +10,90 @@ import { AddCity } from "./components/AddCity";
 import { EditCity } from "./components/EditCity";
 import { ExcelIcon } from "../../../Components/Icons";
 import ImportExcel from "./components/ImportExcel";
+import { useQueryHook } from "../../../hooks/useQueryHook";
+import { useMutationHook } from "../../../hooks/useMutationHook";
+import Swal from "sweetalert2";
 
+const getData = async (page = 1, searchTerm) => {
+  const res = await axiosClient.get(
+    `admin/citys?page=${page}${
+      searchTerm.length > 0 ? `&search=${searchTerm}` : ""
+    }`
+  );
+  return res;
+};
+const deleteFunc = async (id) => {
+  const res = await axiosClient.get(`/admin/city/delete/${id}`);
+  return res;
+};
 const Cities = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [countries, setCountries] = useState([]);
-  const [cities, setCities] = useState([]);
   const [clickedRow, setClickedRow] = useState();
-  console.log(cities);
 
-  const getCities = async () => {
-    const res = await axiosClient.get("/admin/citys");
-    setCities(res.data?.data);
-  };
   const getCountries = async () => {
     const res = await axiosClient.get("/admin/countries");
     setCountries(res.data?.data);
   };
 
   useEffect(() => {
-    cities.length === 0 && getCities();
     getCountries();
   }, []);
+
+  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data: cities } = useQueryHook(
+    ["cities", page, searchTerm],
+    () => getData(page, searchTerm),
+    "paginate",
+    page
+  );
+  const deleteMutation = useMutationHook(deleteFunc, [
+    "cities",
+    page,
+    searchTerm,
+  ]);
 
   const editBtnFun = (row) => {
     setIsModalOpen(true);
     setClickedRow(row);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      theme: "dark",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteFun(id);
+      }
+    });
+  };
+  const deleteFun = async (id) => {
     const toastId = toast.loading("processing");
-    const res = await axiosClient.get(`/admin/city/delete/${id}`);
-    console.log(res);
-    if (res.data.success == false) {
+    try {
+      const country = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
-        type: "error",
-        render: res.data.message,
+        type: "success",
+        render: country.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
         closeButton: true,
         pauseOnHover: false,
       });
-    } else {
-      getCities();
+    } catch (error) {
       toast.update(toastId, {
-        type: "success",
-        render: res.data.mes,
+        type: "error",
+        render: error.response.data.message,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -154,7 +190,7 @@ const Cities = () => {
           component={
             <EditCity
               data={clickedRow}
-              getCities={getCities}
+              // getCities={getCities}
               countries={countries}
               setIsModalOpen={setIsModalOpen}
             />
@@ -168,7 +204,7 @@ const Cities = () => {
           setIsModalOpen={setIsAddModalOpen}
           component={
             <AddCity
-              getCities={getCities}
+              // getCities={getCities}
               setIsAddModalOpen={setIsAddModalOpen}
               countries={countries}
             />
@@ -181,7 +217,7 @@ const Cities = () => {
           setIsModalOpen={setIsImportModalOpen}
           component={
             <ImportExcel
-              getMethod={getCities}
+              // getMethod={getCities}
               setIsModalOpen={setIsImportModalOpen}
               apiLink={"/admin/city/import"}
             />
@@ -191,9 +227,13 @@ const Cities = () => {
       <div className="my-4">
         <TableData
           columns={columns}
-          data={cities}
+          enableSearch={true}
+          response={cities}
+          actualData={cities?.data.data}
+          setPage={setPage}
           paginationBool={true}
-          noDataMessage={"no cities to show!"}
+          noDataMessage={"no countries to show!"}
+          setSearchTerm={setSearchTerm}
         />
       </div>
     </Page>

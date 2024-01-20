@@ -9,56 +9,83 @@ import axiosClient from "../../../axios-client";
 import { AddSubCategory } from "./components/AddSubCategory";
 import { EditSubCategory } from "./components/EditSubCategory";
 import { SuccessIcon, ErrorIcon } from "../../../Components/Icons";
+import { useQueryHook } from "../../../hooks/useQueryHook";
+import { useMutationHook } from "../../../hooks/useMutationHook";
+import Swal from "sweetalert2";
+const getData = async (page = 1, searchTerm) => {
+  const res = await axiosClient.get(
+    `admin/subCategories?page=${page}${
+      searchTerm.length > 0 ? `&search=${searchTerm}` : ""
+    }`
+  );
+  return res;
+};
+const changeStatusFunc = async (id) => {
+  const res = await axiosClient.get(
+    `/admin/subCategory/changeStatusMethod/${id}`
+  );
+  return res;
+};
+
+const deleteFunc = async (id) => {
+  const res = await axiosClient.get(`/admin/subCategory/deleteMethod/${id}`);
+  return res;
+};
 
 const SubCategories = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [subCategories, setSubCategories] = useState([]);
   const [categories, setCategories] = useState([]);
   const [clickedRow, setClickedRow] = useState();
-  console.log(subCategories);
-
   const getCategories = async () => {
     const res = await axiosClient.get("/admin/categories");
     setCategories(res.data?.data);
   };
+  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const getSubCategories = async () => {
-    const res = await axiosClient.get("/admin/subCategories");
-    setSubCategories(res.data?.data);
-  };
+  const { data: subCategories, queryClient } = useQueryHook(
+    ["subCategories", page, searchTerm],
+    () => getData(page, searchTerm),
+    "paginate",
+    page
+  );
+  const changeStatusMutation = useMutationHook(changeStatusFunc, [
+    "subCategories",
+    page,
+    searchTerm,
+  ]);
+  const deleteMutation = useMutationHook(deleteFunc, [
+    "subCategories",
+    page,
+    searchTerm,
+  ]);
 
   useEffect(() => {
     getCategories();
-    getSubCategories();
   }, []);
 
   const editBtnFun = (row) => {
     setIsModalOpen(true);
     setClickedRow(row);
   };
-
   const handleChangeStatus = async (id) => {
-    const toastId = toast.loading("processing");
-    const res = await axiosClient.get(
-      `/admin/subCategory/changeStatusMethod/${id}`
-    );
-    console.log(res);
-    if (res.data.success == false) {
+    const toastId = toast.loading("processing...");
+    try {
+      const subCategory = await changeStatusMutation.mutateAsync(id);
       toast.update(toastId, {
-        type: "error",
-        render: res.data.message,
+        type: "success",
+        render: subCategory.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
         closeButton: true,
         pauseOnHover: false,
       });
-    } else {
-      getSubCategories();
+    } catch (error) {
       toast.update(toastId, {
-        type: "success",
-        render: res.data.mes,
+        type: "error",
+        render: error.response.data.message,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -68,25 +95,23 @@ const SubCategories = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    const toastId = toast.loading("processing");
-    const res = await axiosClient.get(`/admin/subCategory/deleteMethod/${id}`);
-    console.log(res);
-    if (res.data.success == false) {
+  const deleteFun = async (id) => {
+    const toastId = toast.loading("deleting..");
+    try {
+      const subCategory = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
-        type: "error",
-        render: res.data.message,
+        type: "success",
+        render: subCategory.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
         closeButton: true,
         pauseOnHover: false,
       });
-    } else {
-      getSubCategories();
+    } catch (error) {
       toast.update(toastId, {
-        type: "success",
-        render: res.data.mes,
+        type: "error",
+        render: error.response.data.message,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -94,6 +119,23 @@ const SubCategories = () => {
         pauseOnHover: false,
       });
     }
+  };
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      theme: "dark",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteFun(id);
+      }
+    });
   };
 
   const columns = [
@@ -173,7 +215,7 @@ const SubCategories = () => {
   return (
     <Page>
       <PageTitle
-        text={"manage all categories"}
+        text={"manage all sub categories"}
         right={
           <div>
             <Button
@@ -193,7 +235,7 @@ const SubCategories = () => {
             <EditSubCategory
               categories={categories}
               data={clickedRow}
-              getSubCategories={getSubCategories}
+              // getSubCategories={getSubCategories}
               setIsModalOpen={setIsModalOpen}
             />
           }
@@ -207,7 +249,7 @@ const SubCategories = () => {
           component={
             <AddSubCategory
               categories={categories}
-              getSubCategories={getSubCategories}
+              // getSubCategories={getSubCategories}
               setIsAddModalOpen={setIsAddModalOpen}
             />
           }
@@ -217,9 +259,13 @@ const SubCategories = () => {
       <div className="my-4">
         <TableData
           columns={columns}
-          data={subCategories}
+          enableSearch={true}
+          response={subCategories}
+          actualData={subCategories?.data.data}
+          setPage={setPage}
           paginationBool={true}
-          noDataMessage={"no categories to show!"}
+          noDataMessage={"no users to show!"}
+          setSearchTerm={setSearchTerm}
         />
       </div>
     </Page>

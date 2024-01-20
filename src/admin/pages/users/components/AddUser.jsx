@@ -26,7 +26,6 @@ export const AddUser = ({ setIsAddModalOpen }) => {
             message: "please choose a profile image first",
           },
         },
-        // required: { value: true, message: "please set an image first" },
         imgStyle: "w-[100px] h-[100px]",
       },
       {

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import DefaultLayout from "./admin/Components/DefaultLayout";
 import Index from "./admin/pages/index/Index";
 import Languages from "./admin/pages/Languages/Languages";
@@ -33,6 +33,26 @@ import ForgotPassword from "./website/pages/forgotPassword/ForgotPassword";
 import VerifyEmail from "./website/pages/verifyEmail/VerifyEmail";
 import JobDetail from "./website/pages/jobDetail/JobDetail";
 import BuyerProfile from "./website/pages/buyerProfile/BuyerProfile";
+import Home from "./serviceProvider/pages/mainPage/Home";
+import ServiceProviderLayout from "./serviceProvider/layoutComponents/ServiceProviderLayout";
+import CustomerLayout from "./customer/layoutComponents/CustomerLayout";
+import CustomerHomePage from "./customer/pages/mainPage/CustomerHomePage";
+import ServiceProviderChat from "./serviceProvider/pages/chat/ServiceProviderChat";
+
+import Profile from "./serviceProvider/pages/profile/Profile";
+
+const PrivateRoute = ({ element, role }) => {
+  const thereisToken = localStorage.getItem("ACCESS_TOKEN");
+  const userRole = JSON.parse(localStorage.getItem("USER")).user_type;
+  return thereisToken && userRole === role ? (
+    element
+  ) : userRole === "admin" ? (
+    <Navigate to="/admin/login" />
+  ) : (
+    <Navigate to="/" />
+  );
+};
+
 const router = createBrowserRouter([
   {
     path: "/admin/",
@@ -152,11 +172,45 @@ const router = createBrowserRouter([
           <Condition
             conditionContent={
               <>
-                <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat blanditiis accusantium hic atque magni beatae aliquam facilis cupiditate dolorum ab!</div>
+                <div>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Placeat blanditiis accusantium hic atque magni beatae aliquam
+                  facilis cupiditate dolorum ab!
+                </div>
               </>
             }
           />
         ),
+      },
+    ],
+  },
+  {
+    path: "/serviceProvider/",
+    element: (
+      <PrivateRoute element={<ServiceProviderLayout />} role={"seller"} />
+    ),
+    children: [
+      {
+        path: "home",
+        element: <Home />,
+      },
+      {
+        path: "chatInbox",
+        element: <ServiceProviderChat />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+    ],
+  },
+  {
+    path: "/customer/",
+    element: <PrivateRoute element={<CustomerLayout />} role={"buyer"} />,
+    children: [
+      {
+        path: "home",
+        element: <CustomerHomePage />,
       },
     ],
   },

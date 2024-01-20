@@ -4,7 +4,6 @@ import axiosClient from "../../../../axios-client";
 import { useState } from "react";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
 const postData = async (data) => {
-  console.log(data.formData, data.userId);
   const res = await axiosClient.post(
     `/admin/user/update/${data.userId}`,
     data.formData

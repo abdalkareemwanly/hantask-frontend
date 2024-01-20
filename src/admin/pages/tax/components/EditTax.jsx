@@ -1,7 +1,14 @@
 import { toast } from "react-toastify";
 import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
-
+import { useMutationHook } from "../../../../hooks/useMutationHook";
+const postData = async (data) => {
+  const res = await axiosClient.post(
+    `/admin/taxe/update/${data.taxId}`,
+    data.formData
+  );
+  return res;
+};
 export const EditTax = ({ data, getTax, setIsModalOpen, countries }) => {
   const country = countries.find((obj) => obj.country === data.country);
   let template = {
@@ -38,50 +45,37 @@ export const EditTax = ({ data, getTax, setIsModalOpen, countries }) => {
       },
     ],
   };
+  const mutation = useMutationHook(postData, ["taxes"]);
 
   const onSubmit = async (values) => {
     const id = toast.loading("please wait...");
     const formData = new FormData();
     formData.append("tax", values.tax);
     formData.append("country_id", values.country_id);
-    axiosClient
-      .post(`/admin/taxe/update/${data.id}`, formData)
-      .then((res) => {
-        if (res.data.success == false) {
-          toast.update(id, {
-            type: "error",
-            render: res.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        } else {
-          getTax();
-          setIsModalOpen((prev) => !prev);
-          toast.update(id, {
-            type: "success",
-            render: res.data.mes,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.update(id, {
-          type: "success",
-          render: err.response.data.mes,
-          closeOnClick: true,
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
+    const taxId = data?.id;
+    try {
+      const taxData = await mutation.mutateAsync({ formData, taxId });
+      setIsModalOpen((prev) => !prev);
+      toast.update(id, {
+        type: "success",
+        render: taxData.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
       });
+    } catch (error) {
+      toast.update(id, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
   };
 
   const validate = () => {

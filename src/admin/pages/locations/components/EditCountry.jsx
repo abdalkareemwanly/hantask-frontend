@@ -2,7 +2,14 @@ import { toast } from "react-toastify";
 import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
 import { useEffect, useState } from "react";
-
+import { useMutationHook } from "../../../../hooks/useMutationHook";
+const postData = async (data) => {
+  const res = await axiosClient.post(
+    `/admin/country/update/${data.countryId}`,
+    data.formData
+  );
+  return res;
+};
 export const EditCountry = ({
   data,
   getCountries,
@@ -24,6 +31,7 @@ export const EditCountry = ({
       },
     ],
   };
+  const mutation = useMutationHook(postData, ["countries"]);
 
   const onSubmit = async (values) => {
     const id = toast.loading("please wait...");
@@ -33,43 +41,30 @@ export const EditCountry = ({
     const formData = new FormData();
 
     formData.append("country", country.name.toLowerCase());
-    axiosClient
-      .post(`/admin/country/update/${data?.id}`, formData)
-      .then((res) => {
-        if (res.data.success == false) {
-          toast.update(id, {
-            type: "error",
-            render: res.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        } else {
-          getCountries();
-          setIsModalOpen((prev) => !prev);
-          toast.update(id, {
-            type: "success",
-            render: res.data.mes,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.update(id, {
-          type: "error",
-          render: err,
-          closeOnClick: true,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
+    const countryId = data?.id;
+    try {
+      const countryData = await mutation.mutateAsync({ formData, countryId });
+      setIsModalOpen((prev) => !prev);
+      toast.update(id, {
+        type: "success",
+        render: countryData.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
       });
+    } catch (error) {
+      toast.update(id, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
   };
 
   const validate = () => {

@@ -13,7 +13,6 @@ export const EditChildCategory = ({
   const [image, setImage] = useState(data?.image);
   let mainCategory = categories.find((obj) => obj.name === data?.categoryName);
   let subCategory = subCategories.find((obj) => obj.name === data?.subcategoryName);
-  console.log(subCategory)
   const [filteredSubCategories, setFilteredSubCategories] = useState([subCategory]);
   // const [mainCategory, setMainCategory] = useState(null);
   console.log(filteredSubCategories)

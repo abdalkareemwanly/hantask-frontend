@@ -1,0 +1,18 @@
+{
+  "Dashboard": {
+    "name": null,
+    "path": "home"
+  },
+  "profile": {
+    "name": null,
+    "path": "profile"
+  },
+  "Live Chat": {
+    "name": null,
+    "path": "chatInbox"
+  },
+  "services": {
+    "name": null,
+    "path": "services"
+  }
+}

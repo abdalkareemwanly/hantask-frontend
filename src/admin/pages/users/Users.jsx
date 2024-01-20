@@ -42,6 +42,7 @@ const Users = () => {
   let hasEditPermission = hasPermissionFun("editUser");
   let hasArchivePermission = hasPermissionFun("archiveUser");
   let hasChangeMethod = hasPermissionFun("archiveUser");
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState();
@@ -122,16 +123,6 @@ const Users = () => {
       });
     }
   };
-  // Prefetch the next page!
-  useEffect(() => {
-    setTimeout(() => {
-      queryClient.prefetchQuery({
-        queryKey: ["users", page + 1, searchTerm],
-        queryFn: () => getData(page + 1),
-        staleTime: 60 * 60 * 1000,
-      });
-    }, 500);
-  }, [users, page, queryClient, searchTerm]);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -150,15 +141,34 @@ const Users = () => {
     });
   };
 
+  // Prefetch the next page!
+  useEffect(() => {
+    setTimeout(() => {
+      queryClient.prefetchQuery({
+        queryKey: ["users", page + 1, searchTerm],
+        queryFn: () => getData(page + 1),
+        staleTime: 60 * 60 * 1000,
+      });
+    }, 500);
+  }, [users, page, queryClient, searchTerm]);
+
   const columns = [
     {
       name: "Id",
       selector: (row) => row.id,
-      sortable: true,
+      // sortable: true,
     },
     {
       name: "username",
-      selector: (row) => row.username,
+      width: "20%",
+      selector: (row) => {
+        return (
+          <div className="flex items-center gap-2">
+            <img className="w-[50px] h-[50px]  rounded-full" src={`https://api.hantask.at/${row.image}`} alt="" />
+            <span>{row.username}</span>
+          </div>
+        )
+      },
     },
     {
       name: "full name",

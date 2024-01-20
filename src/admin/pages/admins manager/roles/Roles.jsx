@@ -8,46 +8,68 @@ import ModalContainer from "../../../../Components/ModalContainer";
 import axiosClient from "../../../../axios-client";
 import { AddRole } from "./components/AddRole";
 import { EditRole } from "./components/EditRole";
+import { useQueryHook } from "../../../../hooks/useQueryHook";
+import { useMutationHook } from "../../../../hooks/useMutationHook";
+import Swal from "sweetalert2";
+const getRoles = async () => {
+  const res = await axiosClient.get("/admin/roles");
+  return res;
+};
 
+const deleteFunc = async (id) => {
+  const res = await axiosClient.get(`/admin/role/delete/${id}`);
+  return res;
+};
 const Roles = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [roles, setRoles] = useState([]);
   const [clickedRow, setClickedRow] = useState();
-
-  const getRoles = async () => {
-    const res = await axiosClient.get("/admin/roles");
-    setRoles(res.data?.data);
-  };
-
-  useEffect(() => {
-    getRoles();
-  }, []);
+  const [page, setPage] = useState(1);
+  const { data: roles, queryClient } = useQueryHook(
+    ["roles", page],
+    () => getRoles(page),
+    "paginate",
+    page
+  );
+  const deleteMutation = useMutationHook(deleteFunc, ["roles", page]);
 
   const editBtnFun = (row) => {
     setIsModalOpen(true);
     setClickedRow(row);
   };
-
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      theme: "dark",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteCall(id);
+      }
+    });
+  };
+  const deleteCall = async (id) => {
     const toastId = toast.loading("processing");
-    const res = await axiosClient.get(`/admin/role/delete/${id}`);
-    console.log(res);
-    if (res.data.success == false) {
+    try {
+      const role = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
-        type: "error",
-        render: res.data.message,
+        type: "success",
+        render: role.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
         closeButton: true,
         pauseOnHover: false,
       });
-    } else {
-      getRoles();
+    } catch (error) {
       toast.update(toastId, {
-        type: "success",
-        render: res.data.mes,
+        type: "error",
+        render: error.response.data.message,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -143,9 +165,12 @@ const Roles = () => {
       <div className="my-4">
         <TableData
           columns={columns}
-          data={roles}
+          enableSearch={false}
+          response={roles}
+          actualData={roles?.data.data}
+          setPage={setPage}
           paginationBool={true}
-          noDataMessage={"no roles to show!"}
+          noDataMessage={"no users to show!"}
         />
       </div>
     </Page>

@@ -10,6 +10,19 @@ import { EditAdmin } from "./components/EditAdmin";
 import { AddAdmin } from "./components/AddAdmin";
 import useCheckPermission from "../../../../hooks/checkPermissions";
 import { useNavigate } from "react-router-dom";
+import { useQueryHook } from "../../../../hooks/useQueryHook";
+import { useMutationHook } from "../../../../hooks/useMutationHook";
+import Swal from "sweetalert2";
+
+const getAdmins = async () => {
+  const res = await axiosClient.get("/admin/all");
+  return res;
+};
+
+const deleteFunc = async (id) => {
+  const res = await axiosClient.get(`/admin/role/delete/${id}`);
+  return res;
+};
 
 const Admins = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,41 +47,42 @@ const Admins = () => {
   //   }
   // }, []);
   // Check for specific permissions
-  const [admins, setAdmins] = useState([]);
-  const getAdmins = async () => {
-    const res = await axiosClient.get("/admin/all");
-    setAdmins(res.data?.data);
-  };
+  const [page, setPage] = useState(1);
+  const { data: admins, queryClient } = useQueryHook(
+    ["admins", page],
+    () => getAdmins(page),
+    "paginate",
+    page
+  );
 
   useEffect(() => {
-    getAdmins();
     getRoles();
   }, []);
+
+  const deleteMutation = useMutationHook(deleteFunc, ["admins", page]);
 
   const editBtnFun = (row) => {
     setIsModalOpen(true);
     setClickedRow(row);
   };
 
-  const handleDelete = async (id) => {
-    const toastId = toast.loading("processing");
-    const res = await axiosClient.get(`/admin/role/delete/${id}`);
-    console.log(res);
-    if (res.data.success == false) {
+  const deleteFun = async (id) => {
+    const toastId = toast.loading("deleting..");
+    try {
+      const user = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
-        type: "error",
-        render: res.data.message,
+        type: "success",
+        render: user.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
         closeButton: true,
         pauseOnHover: false,
       });
-    } else {
-      getRoles();
+    } catch (error) {
       toast.update(toastId, {
-        type: "success",
-        render: res.data.mes,
+        type: "error",
+        render: error.response.data.message,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -78,6 +92,22 @@ const Admins = () => {
     }
   };
 
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      theme: "dark",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteFun(id);
+      }
+    });
+  };
   const columns = [
     {
       name: "Id",
@@ -174,9 +204,12 @@ const Admins = () => {
       <div className="my-4">
         <TableData
           columns={columns}
-          data={admins}
+          enableSearch={false}
+          response={admins}
+          actualData={admins?.data.data}
+          setPage={setPage}
           paginationBool={true}
-          noDataMessage={"no admins to show!"}
+          noDataMessage={"no users to show!"}
         />
       </div>
     </Page>

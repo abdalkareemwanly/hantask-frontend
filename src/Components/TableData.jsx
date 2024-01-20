@@ -41,11 +41,11 @@ const PaginationComponent = ({ data, setPage }) => {
   return (
     <div className="bg-blocks-color border-t p-4 flex items-center justify-center">
       <Button
-        Icon={<FaAnglesLeft />}
+        Icon={<FaAnglesLeft className="text-primary-text" />}
         onClickFun={() => rerunDataFunc(firstPage)}
       />
       <Button
-        Icon={<FaAngleLeft />}
+        Icon={<FaAngleLeft className="text-primary-text" />}
         onClickFun={() => rerunDataFunc(prevNum)}
       />
 
@@ -89,11 +89,11 @@ const PaginationComponent = ({ data, setPage }) => {
       </div>
 
       <Button
-        Icon={<FaAngleRight />}
+        Icon={<FaAngleRight className="text-primary-text" />}
         onClickFun={() => rerunDataFunc(nextNum)}
       />
       <Button
-        Icon={<FaAnglesRight />}
+        Icon={<FaAnglesRight className="text-primary-text" />}
         onClickFun={() => rerunDataFunc(lastPage)}
       />
     </div>

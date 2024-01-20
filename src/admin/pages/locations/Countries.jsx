@@ -10,12 +10,26 @@ import { AddCountry } from "./components/AddCountry";
 import { EditCountry } from "./components/EditCountry";
 import { ExcelIcon } from "../../../Components/Icons";
 import ImportExcel from "./components/ImportExcel";
+import { useQueryHook } from "../../../hooks/useQueryHook";
+import { useMutationHook } from "../../../hooks/useMutationHook";
+import Swal from "sweetalert2";
 
+const getData = async (page = 1, searchTerm) => {
+  const res = await axiosClient.get(
+    `admin/countries?page=${page}${
+      searchTerm.length > 0 ? `&search=${searchTerm}` : ""
+    }`
+  );
+  return res;
+};
+const deleteFunc = async (id) => {
+  const res = await axiosClient.get(`/admin/country/delete/${id}`);
+  return res;
+};
 const Countries = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
-  const [countries, setCountries] = useState([]);
   const [clickedRow, setClickedRow] = useState();
   const [allCountries, setAllCountries] = useState([]);
   const getLanguages = () => {
@@ -32,39 +46,62 @@ const Countries = () => {
     getLanguages();
   }, []);
 
-  const getCountries = async () => {
-    const res = await axiosClient.get("/admin/countries");
-    setCountries(res.data?.data);
-  };
+  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    countries.length === 0 && getCountries();
-  }, []);
+  const { data: countries, queryClient } = useQueryHook(
+    ["countries", page, searchTerm],
+    () => getData(page, searchTerm),
+    "paginate",
+    page
+  );
+
+  const deleteMutation = useMutationHook(deleteFunc, [
+    "countries",
+    page,
+    searchTerm,
+  ]);
+
+  console.log(countries);
 
   const editBtnFun = (row) => {
     setIsModalOpen(true);
     setClickedRow(row);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      theme: "dark",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteFun(id);
+      }
+    });
+  };
+  const deleteFun = async (id) => {
     const toastId = toast.loading("processing");
-    const res = await axiosClient.get(`/admin/country/delete/${id}`);
-    console.log(res);
-    if (res.data.success == false) {
+    try {
+      const country = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
-        type: "error",
-        render: res.data.message,
+        type: "success",
+        render: country.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
         closeButton: true,
         pauseOnHover: false,
       });
-    } else {
-      getCountries();
+    } catch (error) {
       toast.update(toastId, {
-        type: "success",
-        render: res.data.mes,
+        type: "error",
+        render: error.response.data.message,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -114,7 +151,8 @@ const Countries = () => {
 
   const handleDownloadExcelFile = async () => {
     const res = await axiosClient.get("/admin/country/excel");
-    const excelUrl = "http://127.0.0.1:8000" + res.data.url;
+    console.log(res);
+    const excelUrl = "https://api.hantask.at/api" + res.data.url;
     const downloadLink = document.createElement("a");
     downloadLink.href = excelUrl;
     downloadLink.download = "Countries.xlsx";
@@ -157,7 +195,7 @@ const Countries = () => {
           component={
             <EditCountry
               data={clickedRow}
-              getCountries={getCountries}
+              // getCountries={getCountries}
               setIsModalOpen={setIsModalOpen}
               allCountries={allCountries}
             />
@@ -171,7 +209,7 @@ const Countries = () => {
           setIsModalOpen={setIsAddModalOpen}
           component={
             <AddCountry
-              getCountries={getCountries}
+              // getCountries={getCountries}
               allCountries={allCountries}
               setIsAddModalOpen={setIsAddModalOpen}
             />
@@ -185,7 +223,7 @@ const Countries = () => {
           setIsModalOpen={setIsImportModalOpen}
           component={
             <ImportExcel
-              getMethod={getCountries}
+              // getMethod={getCountries}
               setIsModalOpen={setIsImportModalOpen}
               apiLink={"/admin/country/import"}
             />
@@ -196,9 +234,13 @@ const Countries = () => {
       <div className="my-4">
         <TableData
           columns={columns}
-          data={countries}
+          enableSearch={true}
+          response={countries}
+          actualData={countries?.data.data}
+          setPage={setPage}
           paginationBool={true}
           noDataMessage={"no countries to show!"}
+          setSearchTerm={setSearchTerm}
         />
       </div>
     </Page>
