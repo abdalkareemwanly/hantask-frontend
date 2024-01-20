@@ -18,13 +18,13 @@ function JobSection({ data }) {
               <img src={data.coverImage} alt="" />
             </div>
             <Link to={"/buyer-profile"}>
-              <div className="personal-info-container flex">
+              <div className="personal-info-container flex  mt-[20px]">
                 <div className="personal-image">
                   <img src={data.personalImage} alt="" />
                 </div>
                 <div className="personal-info flex flex-col justify-center">
                   <h5>{data.buyerName}</h5>
-                  <div className="personal-info-details flex gap-4">
+                  <div className="personal-info-details flex gap-4 sm:flex-row flex-col">
                     <div className="flex">
                       <MdOutlineWorkOutline className="personal-info-details-icon" /> <span> Total Posted Jobs: {data.totalJobs}</span>
                     </div>

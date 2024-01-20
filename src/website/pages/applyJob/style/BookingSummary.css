@@ -1,0 +1,34 @@
+.booking-summary {
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.booking-summary h4 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.booking-summary .booking-section {
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+    padding-top: 20px;
+    color: var(--light-text);
+}
+
+.booking-summary .booking-total {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.apply-coupon-button {
+    position: absolute;
+    top: 16px;
+    right: 1px;
+    background-color: var(--main-color) !important;
+    color: var(--color-white) !important;
+    padding: 17px 6px;
+    cursor: pointer;
+}

@@ -15,6 +15,8 @@
   --color-white: white;
   --dark-gray: #333;
   --third-color: #dc3545;
+  --success-color: #65c18c;
+  --success-color-rgb: 101, 193, 140;
 }
 
 :root[data-theme="dark"] {

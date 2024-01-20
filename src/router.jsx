@@ -33,6 +33,7 @@ import ForgotPassword from "./website/pages/forgotPassword/ForgotPassword";
 import VerifyEmail from "./website/pages/verifyEmail/VerifyEmail";
 import JobDetail from "./website/pages/jobDetail/JobDetail";
 import BuyerProfile from "./website/pages/buyerProfile/BuyerProfile";
+import ApplyJob from "./website/pages/applyJob/ApplyJob";
 const router = createBrowserRouter([
   {
     path: "/admin/",
@@ -113,6 +114,10 @@ const router = createBrowserRouter([
       {
         path: "buyer-profile",
         element: <BuyerProfile />,
+      },
+      {
+        path: "apply-job",
+        element: <ApplyJob />,
       },
       {
         path: "contact",

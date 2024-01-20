@@ -1,0 +1,19 @@
+.apply-job-container .react-date-picker__calendar.react-date-picker__calendar--open {
+    width: 80% !important;
+}
+
+.apply-job-container .react-date-picker.react-date-picker--open.react-date-picker--enabled {
+    justify-content: center !important;
+}
+
+.apply-job-container .react-calendar {
+    width: 100% !important;
+}
+
+.apply-job-container .react-calendar__navigation {
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.apply-job-container .react-calendar {
+    border-radius: 10px !important;
+}

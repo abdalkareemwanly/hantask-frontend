@@ -1,0 +1,40 @@
+.service-details {
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.service-details-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.service-details-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.service-details h4.service-name {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 28px;
+    color: var(--dark-gray);
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.service-details a.seller-name {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 28px;
+    color: var(--dark-gray);
+    transition: all 0.3s;
+}
+
+.service-details a.seller-name:hover {
+    color: var(--main-color);
+    transition: all 0.3s;
+}
