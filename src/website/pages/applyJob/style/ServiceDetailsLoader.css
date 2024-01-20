@@ -1,0 +1,26 @@
+.loader.service-details {
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.loader .service-details-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    background-color: var(--border);
+}
+
+
+.loader.service-details h4.service-name {
+    height: 20px;
+    width: 30vw;
+    background-color: var(--gray-text);
+    margin-bottom: 10px;
+}
+
+.loader.service-details a.seller-name {
+    height: 20px;
+    width: 20vw;
+    background-color: var(--gray-text);
+}

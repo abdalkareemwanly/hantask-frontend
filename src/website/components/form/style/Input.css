@@ -80,8 +80,5 @@
 }
 
 .checkbox-input label {
-    position: absolute;
-    top: 0;
-    left: 25px;
     color: var(--gray-text);
 }

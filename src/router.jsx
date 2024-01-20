@@ -53,6 +53,7 @@ const PrivateRoute = ({ element, role }) => {
   );
 };
 
+import ApplyJob from "./website/pages/applyJob/ApplyJob";
 const router = createBrowserRouter([
   {
     path: "/admin/",
@@ -133,6 +134,10 @@ const router = createBrowserRouter([
       {
         path: "buyer-profile",
         element: <BuyerProfile />,
+      },
+      {
+        path: "apply-job",
+        element: <ApplyJob />,
       },
       {
         path: "contact",

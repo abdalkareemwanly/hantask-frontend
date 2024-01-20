@@ -1,0 +1,73 @@
+.step-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    border: 1px solid var(--dark-gray);
+    background-color: transparent;
+    color: var(--color-white);
+    border-radius: 50%;
+    font-size: 16px;
+    transition: all 0.3s;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.step-icon::before {
+    content: "";
+    position: absolute;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    background: var(--dark-gray);
+    border-radius: 50%;
+    z-index: -1;
+    transition: all 0.3s;
+}
+
+.step-icon.current {
+    border: 1px solid var(--second-color);
+    transition: all 0.3s;
+}
+
+.step-icon.current::before {
+    background: var(--second-color);
+    transition: all 0.3s;
+}
+
+.step-icon.previous {
+    border-color: var(--success-color);
+    background-color: rgba(var(--success-color-rgb), .2);
+    color: var(--success-color);
+}
+
+.step-icon.previous::before {
+    background-color: transparent;
+    border-color: transparent;
+    transition: all 0.3s;
+}
+
+.step-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-gray);
+    transition: all 0.3s;
+}
+
+.edit-button {
+    display: inline-block;
+    font-size: 16px;
+    border: 1px solid var(--border);
+    color: var(--light-text);
+    padding: 5px 20px;
+    transition: all 0.3s;
+    margin-left: auto;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    border: 1px solid var(--main-color);
+    background-color: var(--main-color);
+    color: var(--color-white);
+}

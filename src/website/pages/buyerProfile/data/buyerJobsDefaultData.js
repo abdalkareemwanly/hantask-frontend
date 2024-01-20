@@ -8,7 +8,7 @@ const BUYER_JOBS_DEFAULT_DATA = [
     jobTitle: "Doors Repairing",
     paragraph: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, saepe. Quo, nihil.",
     price: "300.00",
-    hired: true,
+    state: "hired",
   },
   {
     cover: "https://picsum.photos/200/300",
@@ -19,6 +19,7 @@ const BUYER_JOBS_DEFAULT_DATA = [
     jobTitle: "Doors Repairing",
     paragraph: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, saepe. Quo, nihil.",
     price: "300.00",
+    state: "applied",
   },
   {
     cover: "https://picsum.photos/200/300",

@@ -1,0 +1,31 @@
+.apply-job-container {
+    position: relative;
+}
+
+.apply-job-container img::after {
+    display: none !important;
+}
+
+h1.apply-job-title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 48px;
+    font-family: var(--dard-gray);
+}
+
+.apply-job-form {
+    background: var(--color-white);
+    border: 0 none;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    padding-top: 50px;
+}
+
+.apply-job-container .booking-summary-container {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}

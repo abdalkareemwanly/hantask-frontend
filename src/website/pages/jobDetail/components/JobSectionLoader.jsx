@@ -14,7 +14,7 @@ function JobSectionLoader({ data }) {
               <div className="personal-image"></div>
               <div className="personal-info flex flex-col justify-center">
                 <h5></h5>
-                <div className="personal-info-details flex gap-4">
+                <div className="personal-info-details flex gap-4 sm:flex-row flex-col">
                   <div className="flex">
                     <span> </span>
                   </div>

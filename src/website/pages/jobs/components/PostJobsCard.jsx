@@ -34,19 +34,22 @@ function PostJobsCard({ item }) {
               <span className="price">${item.price}</span>
             </div>
             <Button
-              isLink={false}
+              isLink={item.state == "hired" || item.state == "applied" ? false : true}
+              goto={item.state == "hired" || item.state == "applied" ? "" : "/apply-job"}
               action={
-                item.hired
+                item.state == "hired"
                   ? () => {
                       console.log("already hired");
                     }
-                  : () => {
-                      console.log("apply");
+                  : item.state == "aplied"
+                  ? () => {
+                      console.log("already applied");
                     }
+                  : null
               }
               width={"100%"}
-              className={"primary" + (item.hired ? " hired-button" : "")}
-              title={item.hired ? "Already Hired" : "Apply Now"}
+              className={"primary" + (item.state == "hired" || item.state == "applied" ? " hired-button" : "")}
+              title={item.state == "hired" ? "Already Hired" : item.state == "applied" ? "Already Applied" : "Apply Now"}
             />
           </div>
         </div>
