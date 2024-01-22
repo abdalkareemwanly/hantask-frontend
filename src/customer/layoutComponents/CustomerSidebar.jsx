@@ -43,19 +43,7 @@ export default function CustomerSidebar({ setSidebarOpen }) {
   return (
     <>
       <div className="w-full sticky top-0 bg-inherit px-3 py-[20px] bg-blocks-color flex items-center justify-between">
-        {theme === "light" ? (
-          <img
-            src="/src/images/logo-light.png"
-            className="w-[80%] md:w-full"
-            alt="Logo"
-          />
-        ) : (
-          <img
-            src="/src/images/logo-dark.png"
-            className="w-[80%] md:w-full"
-            alt="Logo"
-          />
-        )}
+        {theme === "light" ? <img src="/src/images/logo-light.png" className="w-[80%] md:w-full" alt="Logo" /> : <img src="/src/images/logo-dark.png" className="w-[80%] md:w-full" alt="Logo" />}
         <span className="md:hidden cursor-pointer" onClick={handleCloseSideBar}>
           <AiOutlineClose size={27} />
         </span>
@@ -64,10 +52,7 @@ export default function CustomerSidebar({ setSidebarOpen }) {
       {Object.entries(sideList).map(([title, sublist]) => {
         return (
           <div key={title} id="sidebar">
-            <NavLink
-              className="flex flex-row w-full items-center hover:bg-hard-gray-color hover:bg-background-color transition-all duration-400 ease-in-out"
-              to={`${sublist.path}`}
-            >
+            <NavLink className="flex flex-row w-full items-center hover:bg-hard-gray-color hover:bg-background-color transition-all duration-400 ease-in-out" to={`${sublist.path}`}>
               {Object.entries(iconMap).map(([index, value]) =>
                 index === title ? (
                   <strong className="m-3" key={index}>
@@ -75,9 +60,7 @@ export default function CustomerSidebar({ setSidebarOpen }) {
                   </strong>
                 ) : null
               )}
-              <strong className="m-1 text-primary-text">
-                {title in translation ? translation[title] : title}
-              </strong>
+              <strong className="m-1 text-primary-text">{title in translation ? translation[title] : title}</strong>
             </NavLink>
           </div>
         );

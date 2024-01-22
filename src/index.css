@@ -8,6 +8,7 @@
   --card-background: rgba(255, 107, 44, 0.1);
   --second-color: #4d77ff;
   --light-text: #666;
+  --light-text-rgb: 102, 102, 102;
   --gray-text: #999;
   --border: #ddd;
   --dark-gray-text: rgb(102, 102, 102);
@@ -17,6 +18,7 @@
   --third-color: #dc3545;
   --success-color: #65c18c;
   --success-color-rgb: 101, 193, 140;
+  --input-shadow: 0 0 10px rgba(29, 191, 115, 0.1);
 }
 
 :root[data-theme="dark"] {
@@ -49,11 +51,20 @@
   --main-color: rgb(255, 107, 44);
   --card-background: rgba(255, 107, 44, 0.1);
   --second-color: #4d77ff;
+  --second-color-rgb: 77 119 255;
   --light-text: #666;
+  --light-text-rgb: 102 102 102;
   --gray-text: #999;
+  --border: #ddd;
   --dark-gray-text: rgb(102, 102, 102);
   --shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-  --color-white: white;
+  --color-white: #32323c;
+  --dark-gray: #ddd;
+  --third-color: #dc3545;
+  --success-color: #65c18c;
+  --success-color-rgb: 101, 193, 140;
+  --input-shadow: 0 0 10px rgba(29, 191, 115, 0.1);
+
 }
 
 :root[data-theme="light"] {
@@ -75,11 +86,20 @@
   --main-color: rgb(255, 107, 44);
   --card-background: rgba(255, 107, 44, 0.1);
   --second-color: #4d77ff;
+  --second-color-rgb: 77 119 255;
   --light-text: #666;
+  --light-text-rgb: 102 102 102;
   --gray-text: #999;
+  --border: #ddd;
   --dark-gray-text: rgb(102, 102, 102);
   --shadow: 0 0 15px rgba(0, 0, 0, 0.05);
   --color-white: white;
+  --dark-gray: #333;
+  --third-color: #dc3545;
+  --success-color: #65c18c;
+  --success-color-rgb: 101, 193, 140;
+  --input-shadow: 0 0 10px rgba(29, 191, 115, 0.1);
+
 }
 
 

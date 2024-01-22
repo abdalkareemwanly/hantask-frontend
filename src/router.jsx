@@ -44,16 +44,14 @@ import Profile from "./serviceProvider/pages/profile/Profile";
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
   const userRole = JSON.parse(localStorage.getItem("USER")).user_type;
-  return thereisToken && userRole === role ? (
-    element
-  ) : userRole === "admin" ? (
-    <Navigate to="/admin/login" />
-  ) : (
-    <Navigate to="/" />
-  );
+  return thereisToken && userRole === role ? element : userRole === "admin" ? <Navigate to="/admin/login" /> : <Navigate to="/" />;
 };
 
 import ApplyJob from "./website/pages/applyJob/ApplyJob";
+import Notifications from "./customer/pages/notifications/Notifications";
+import Reports from "./customer/pages/reports/Reports";
+import CustomerChat from "./customer/pages/chat/Chat";
+
 const router = createBrowserRouter([
   {
     path: "/admin/",
@@ -177,11 +175,7 @@ const router = createBrowserRouter([
           <Condition
             conditionContent={
               <>
-                <div>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Placeat blanditiis accusantium hic atque magni beatae aliquam
-                  facilis cupiditate dolorum ab!
-                </div>
+                <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat blanditiis accusantium hic atque magni beatae aliquam facilis cupiditate dolorum ab!</div>
               </>
             }
           />
@@ -191,9 +185,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/serviceProvider/",
-    element: (
-      <PrivateRoute element={<ServiceProviderLayout />} role={"seller"} />
-    ),
+    element: <PrivateRoute element={<ServiceProviderLayout />} role={"seller"} />,
     children: [
       {
         path: "home",
@@ -216,6 +208,18 @@ const router = createBrowserRouter([
       {
         path: "home",
         element: <CustomerHomePage />,
+      },
+      {
+        path: "notifications",
+        element: <Notifications />,
+      },
+      {
+        path: "reports",
+        element: <Reports />,
+      },
+      {
+        path: "chat",
+        element: <CustomerChat />,
       },
     ],
   },

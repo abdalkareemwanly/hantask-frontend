@@ -2,7 +2,7 @@
     font-size: 16px;
     font-weight: 600;
     line-height: 26px;
-    color: rgb(51, 51, 51);
+    color: var(--dark-gray);
     display: block;
     margin-bottom: 15px;
     text-align: left;
@@ -13,13 +13,13 @@
     height: 60px;
     border: 1px solid rgba(221, 221, 221, 0.5);
     outline: none;
+    background: var(--color-white);
     box-shadow: 0 0 10px var(--color-white);
     font-size: 14px;
     line-height: 22px;
-    color: rgb(102, 102, 102);
+    color: var(--light-text);
     padding: 0 20px;
     width: 100%;
-    -webkit-transition: all 0.3s;
     transition: all 0.3s;
 }
 

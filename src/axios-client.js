@@ -19,7 +19,7 @@ axiosClient.interceptors.response.use(
   (error) => {
     const { response } = error;
     if (response.status === 401) {
-      window.location.reload();
+      // window.location.reload();
     } else if (response.status === 404) {
       // Show not found
     }
