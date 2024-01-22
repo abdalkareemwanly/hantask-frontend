@@ -7,18 +7,21 @@ import "./index.css";
 import { TWThemeProvider } from "./admin/Components/ThemeProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { GlobalDataProvider } from "./contexts/GlobalDataContext";
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ContextProvider>
-      <TWThemeProvider>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </TWThemeProvider>
+      <GlobalDataProvider>
+        <TWThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </TWThemeProvider>
+      </GlobalDataProvider>
     </ContextProvider>
   </React.StrictMode>
 );

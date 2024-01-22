@@ -11,7 +11,7 @@ const ModalContainer = ({ setIsModalOpen, component }) => {
         exit={{ y: "-500px" }}
         transition={{ duration: 0.5, type: "spring" }}
         style={{
-          position: "absolute",
+          position: "fixed",
           translateX: "-50%",
           top: "25px",
           left: "50%",

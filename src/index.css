@@ -272,7 +272,7 @@
   /* width: 52px; */
   height: 34px;
   display: flex;
-  gap: 1rem;
+  gap: .5rem;
   outline: none;
   align-items: center;
 }

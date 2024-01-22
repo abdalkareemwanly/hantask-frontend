@@ -2,18 +2,18 @@
 import { useEffect, useState } from "react";
 import { BiSolidMessageRoundedDetail, BiSolidHome } from "react-icons/bi";
 import { BsPersonFill } from "react-icons/bs";
+import { MdWork } from "react-icons/md";
 
 import { Link, NavLink } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import { useStateContext } from "../../contexts/ContextsProvider";
 import { useTWThemeContext } from "../../admin/Components/ThemeProvider";
-import { MdMiscellaneousServices } from "react-icons/md";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
   "Live Chat": <BiSolidMessageRoundedDetail />,
   profile: <BsPersonFill />,
-  services: <MdMiscellaneousServices />,
+  jobs: <MdWork />,
 };
 
 export default function CustomerSidebar({ setSidebarOpen }) {
@@ -25,7 +25,7 @@ export default function CustomerSidebar({ setSidebarOpen }) {
   }, []);
 
   const getSideBar = () => {
-    fetch("/src/serviceProvider/layoutComponents/sidebarList.json")
+    fetch("/src/customer/layoutComponents/sidebarList.json")
       .then((response) => response.json())
       .then((data) => {
         setSideList(data);

@@ -152,22 +152,6 @@ export default function CustomerLayout() {
         <div className="text-primary-text min-h-[91.7vh] px-2 md:px-14">
           <Outlet />
         </div>
-        {/* <div
-          className={`flex flex-row justify-between px-3 bg-blocks-color text-primary-text`}
-        >
-          <span>
-            &copy; Copyright 2023{" "}
-            <span
-              className={`font-bold ${
-                mode === "light" ? "text-primary-color" : "text-secondary-color"
-              }`}
-            >
-              HanTask
-            </span>
-            . All Rights Reserved.
-          </span>
-          <span>Design : Muhammed Nasser Edden</span>
-        </div> */}
       </div>
     </div>
   );

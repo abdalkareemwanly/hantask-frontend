@@ -15,15 +15,15 @@ function Register(props) {
   const [cities, setCities] = useState([]);
   const [areas, setAreas] = useState([]);
   const getAreas = async () => {
-    const res = await axiosClient.get("/admin/areas");
+    const res = await axiosClient.get("/site/areas");
     setAreas(res.data?.data);
   };
   const getCities = async () => {
-    const res = await axiosClient.get("/admin/citys");
+    const res = await axiosClient.get("/site/citis");
     setCities(res.data?.data);
   };
   const getCountries = async () => {
-    const res = await axiosClient.get("/admin/countries");
+    const res = await axiosClient.get("/site/countrys");
     setCountries(res.data?.data);
   };
 

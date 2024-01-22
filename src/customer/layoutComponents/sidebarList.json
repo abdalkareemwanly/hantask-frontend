@@ -11,8 +11,8 @@
     "name": null,
     "path": "chatInbox"
   },
-  "services": {
+  "jobs": {
     "name": null,
-    "path": "services"
+    "path": "jobs"
   }
 }

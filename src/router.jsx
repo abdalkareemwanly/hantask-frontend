@@ -38,7 +38,6 @@ import ServiceProviderLayout from "./serviceProvider/layoutComponents/ServicePro
 import CustomerLayout from "./customer/layoutComponents/CustomerLayout";
 import CustomerHomePage from "./customer/pages/mainPage/CustomerHomePage";
 import ServiceProviderChat from "./serviceProvider/pages/chat/ServiceProviderChat";
-
 import Profile from "./serviceProvider/pages/profile/Profile";
 
 const PrivateRoute = ({ element, role }) => {
@@ -54,6 +53,10 @@ const PrivateRoute = ({ element, role }) => {
 };
 
 import ApplyJob from "./website/pages/applyJob/ApplyJob";
+import { CustomerJobs, CustomerProfile } from "./customer/pages";
+import AddJob from "./customer/pages/jobs/AddJob/AddJob";
+import EditJob from "./customer/pages/jobs/editJob/EditJob";
+
 const router = createBrowserRouter([
   {
     path: "/admin/",
@@ -216,6 +219,22 @@ const router = createBrowserRouter([
       {
         path: "home",
         element: <CustomerHomePage />,
+      },
+      {
+        path: "profile",
+        element: <CustomerProfile />,
+      },
+      {
+        path: "jobs",
+        element: <CustomerJobs />,
+      },
+      {
+        path: "newJob",
+        element: <AddJob />,
+      },
+      {
+        path: "editJob/:id",
+        element: <EditJob />,
       },
     ],
   },

@@ -131,6 +131,48 @@ const ReusableForm = ({
               )}
             </div>
           );
+        case "number":
+          return (
+            <div key={i} className={`input-field w-full ${styles}`}>
+              <label htmlFor={name} className="input-label">
+                {title}
+              </label>
+              <input
+                className="input-box"
+                type="number"
+                name={name}
+                id={name}
+                placeholder={placeHolder}
+                readOnly={readOnly}
+                disabled={disabled}
+                {...register(name, validationProps)}
+              />
+              {errors && errors[name] && (
+                <span className="red-text">{errors[name]["message"]}</span>
+              )}
+            </div>
+          );
+        case "date":
+          return (
+            <div key={i} className={`input-field w-full ${styles}`}>
+              <label htmlFor={name} className="input-label">
+                {title}
+              </label>
+              <input
+                className="input-box"
+                type="date"
+                name={name}
+                id={name}
+                placeholder={placeHolder}
+                readOnly={readOnly}
+                disabled={disabled}
+                {...register(name, validationProps)}
+              />
+              {errors && errors[name] && (
+                <span className="red-text">{errors[name]["message"]}</span>
+              )}
+            </div>
+          );
         case "password":
           return (
             <div key={i} className={`input-field w-full ${styles}`}>
@@ -166,6 +208,26 @@ const ReusableForm = ({
                 readOnly={readOnly}
                 disabled={disabled}
                 id={name}
+                {...register(name, validationProps)}
+              />
+              {errors && errors[name] && (
+                <span className="red-text">{errors[name]["message"]}</span>
+              )}
+            </div>
+          );
+        case "textArea":
+          return (
+            <div key={i} className={`input-field w-full ${styles}`}>
+              <label htmlFor={name} className="input-label">
+                {title}
+              </label>
+              <textarea
+                className="input-box"
+                name={name}
+                id={name}
+                placeholder={placeHolder}
+                readOnly={readOnly}
+                disabled={disabled}
                 {...register(name, validationProps)}
               />
               {errors && errors[name] && (
@@ -309,7 +371,6 @@ const ReusableForm = ({
       }
     });
   };
-
   return (
     <form
       className={`${addedStyles}  flex flex-col  gap-4 text-primary-text w-auto`}
@@ -322,7 +383,7 @@ const ReusableForm = ({
       <button
         type="submit"
         disabled={!isValid}
-        className={`bg-greenColor text-white  p-2 outline-none border-none ${btnWidth} text-base  px-6 rounded-[4px] disabled:bg-gray-600`}
+        className={`bg-greenColor   text-white  p-2 outline-none border-none ${btnWidth} text-base  px-6 rounded-[4px] disabled:bg-gray-600`}
       >
         {btnText}
       </button>

@@ -40,7 +40,7 @@ const Header = () => {
             to={
               user.user_type === "buyer"
                 ? "/customer/home"
-                : "serviceProvider/home"
+                : user.user_type === "customer" ? "serviceProvider/home" : "admin/dashbaord"
             }
             className="flex  items-center px-[25px] py-[24px] w-[220px] justify-end"
           >

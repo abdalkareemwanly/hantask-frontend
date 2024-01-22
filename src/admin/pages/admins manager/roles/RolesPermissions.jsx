@@ -28,6 +28,7 @@ export const RolesPermissions = () => {
       styles: "lg:w-[24%] md:w-[32%] w-[49%]",
     };
   });
+
   let template = {
     fields: fields,
   };

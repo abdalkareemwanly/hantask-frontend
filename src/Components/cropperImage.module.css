@@ -1,0 +1,12 @@
+.custom_cropper .cropper-view-box {
+    outline: 1px solid white !important;
+    outline-color: white;
+  }
+  
+  .custom_cropper .cropper-point {
+    background-color: white;
+  }
+  
+  .custom_cropper .cropper-bg {
+    background-image: none !important;
+  }

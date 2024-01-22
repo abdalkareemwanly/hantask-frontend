@@ -19,8 +19,15 @@ export const useQueryHook = (queryKey, getDataFun, queryType) => {
     staleTime: 6000 * 5,
   };
 
-  const { data, error, isError, isFetching, status, isPlaceholderData } =
-    useQuery(queryType === "normal" ? normalQuery : paginateQuery);
+  const {
+    data,
+    error,
+    isError,
+    isFetching,
+    isLoading,
+    status,
+    isPlaceholderData,
+  } = useQuery(queryType === "normal" ? normalQuery : paginateQuery);
 
   return {
     data,
@@ -28,6 +35,7 @@ export const useQueryHook = (queryKey, getDataFun, queryType) => {
     isError,
     isFetching,
     status,
+    isLoading,
     queryClient,
     isPlaceholderData,
   };
