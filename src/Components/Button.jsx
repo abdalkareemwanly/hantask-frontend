@@ -8,10 +8,12 @@ const Button = ({
   color,
   onClickFun,
   hoverStyles,
+  linkState,
 }) => {
   return isLink ? (
     <Link
       to={goto}
+      state={linkState}
       className={`flex justify-between gap-1 ${
         width && `w-[${width}]`
       } items-center cursor-pointer px-3 py-2 ${color}  ${hoverStyles} transition-all text-center rounded-[4px] text-white`}

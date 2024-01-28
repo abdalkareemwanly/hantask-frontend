@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { BiSolidMessageRoundedDetail, BiSolidHome } from "react-icons/bi";
 import { BsPersonFill } from "react-icons/bs";
 import { MdWork } from "react-icons/md";
+import { BsListTask } from "react-icons/bs";
+import { FaTasks } from "react-icons/fa";
+import { GoReport } from "react-icons/go";
 
 import { Link, NavLink } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
@@ -10,10 +13,13 @@ import { useStateContext } from "../../contexts/ContextsProvider";
 import { useTWThemeContext } from "../../admin/Components/ThemeProvider";
 
 const iconMap = {
-  Dashboard: <BiSolidHome />,
-  "Live Chat": <BiSolidMessageRoundedDetail />,
-  profile: <BsPersonFill />,
-  jobs: <MdWork />,
+  Dashboard: <BiSolidHome size={20} />,
+  "Live Chat": <BiSolidMessageRoundedDetail size={20} />,
+  profile: <BsPersonFill size={20} />,
+  jobs: <MdWork size={20} />,
+  orders: <BsListTask size={20} />,
+  acceptedOrders: <FaTasks size={20} />,
+  reports: <GoReport size={20} />,
 };
 
 export default function CustomerSidebar({ setSidebarOpen }) {

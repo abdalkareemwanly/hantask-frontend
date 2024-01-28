@@ -19,17 +19,19 @@ export const GlobalDataProvider = ({ children }) => {
     setCities(res.data.data);
   };
   const getCategories = async (signal) => {
-    const res = await axiosClient.get("/site/categories", { signal: signal });
+    const res = await axiosClient.get("/site/global/category", {
+      signal: signal,
+    });
     setCategories(res.data.data);
   };
   const getSubCategories = async (signal) => {
-    const res = await axiosClient.get("/site/subCategories", {
+    const res = await axiosClient.get("/site/global/subCategories", {
       signal: signal,
     });
     setSubCategories(res.data.data);
   };
   const getChildCategories = async (signal) => {
-    const res = await axiosClient.get("/site/childCategories", {
+    const res = await axiosClient.get("/site/global/childCategories", {
       signal: signal,
     });
     setChildCategories(res.data.data);

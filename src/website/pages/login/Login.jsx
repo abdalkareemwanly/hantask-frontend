@@ -46,30 +46,9 @@ function Login(props) {
         <h3>Sign In</h3>
         <form onSubmit={handleSubmit(submitData)}>
           <div className="grid grid-cols-1 gap-8 my-12 relative">
-            <Input
-              type={"email"}
-              placeholder={"email"}
-              register={register}
-              name={"email"}
-              label={"email *"}
-              errors={errors}
-            />
-            <Input
-              type={"password"}
-              placeholder={"Password"}
-              register={register}
-              name={"password"}
-              label={"Your Password *"}
-              errors={errors}
-            />
-            <Input
-              type={"checkbox"}
-              placeholder={"Password"}
-              register={register}
-              name={"rememberme"}
-              label={"Remember Me"}
-              errors={errors}
-            />
+            <Input type={"email"} placeholder={"email"} register={register} name={"email"} label={"email *"} errors={errors} />
+            <Input type={"password"} placeholder={"Password"} register={register} name={"password"} label={"Your Password *"} errors={errors} />
+            <Input type={"checkbox"} placeholder={"Password"} register={register} name={"rememberme"} label={"Remember Me"} errors={errors} />
             <Link to={"/forgot-password"}>Forgot Password</Link>
           </div>
           <SubmitButton text={"Sign In"} width={"100%"} />

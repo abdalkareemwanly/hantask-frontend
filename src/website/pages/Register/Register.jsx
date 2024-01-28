@@ -7,8 +7,10 @@ import StepOneForm from "./components/StepOneForm";
 import StepTwoForm from "./components/StepTwoForm";
 import StepThreeForm from "./components/StepThreeForm";
 import axiosClient from "../../../axios-client";
+import { useNavigate } from "react-router-dom";
 
 function Register(props) {
+  const nav = useNavigate();
   const [userType, setUserType] = useState("Buyer");
   const [step, setStep] = useState(1);
   const [countries, setCountries] = useState([]);
@@ -85,18 +87,20 @@ function Register(props) {
 
   const sendData = async () => {
     const formData = new FormData();
-
     formData.append("name", defaultDataOne.fullname);
     formData.append("email", defaultDataOne.email);
     formData.append("username", defaultDataOne.username);
     formData.append("password", defaultDataOne.password);
-    formData.append("user_type", userType === "buyer" ? 0 : 1);
+    formData.append("user_type", userType.toLowerCase() === "buyer" ? 1 : 0);
     formData.append("country_id", defaultDataTwo.country);
     formData.append("service_city", defaultDataTwo.city);
     formData.append("service_area", defaultDataTwo.area);
 
     const res = await axiosClient.post("/site/register", formData);
     console.log(res);
+    if (res.data.success) {
+      nav("/login");
+    }
   };
 
   return (

@@ -39,6 +39,18 @@ import CustomerLayout from "./customer/layoutComponents/CustomerLayout";
 import CustomerHomePage from "./customer/pages/mainPage/CustomerHomePage";
 import ServiceProviderChat from "./serviceProvider/pages/chat/ServiceProviderChat";
 import Profile from "./serviceProvider/pages/profile/Profile";
+import ApplyJob from "./website/pages/applyJob/ApplyJob";
+import {
+  AcceptedOrders,
+  CustomerJobs,
+  CustomerProfile,
+  Orders,
+} from "./customer/pages";
+import AddJob from "./customer/pages/jobs/AddJob/AddJob";
+import EditJob from "./customer/pages/jobs/editJob/EditJob";
+import Notifications from "./customer/pages/notifications/Notifications";
+import Reports from "./customer/pages/reports/Reports";
+import CustomerChat from "./customer/pages/chat/Chat";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -51,11 +63,6 @@ const PrivateRoute = ({ element, role }) => {
     <Navigate to="/" />
   );
 };
-
-import ApplyJob from "./website/pages/applyJob/ApplyJob";
-import { CustomerJobs, CustomerProfile } from "./customer/pages";
-import AddJob from "./customer/pages/jobs/AddJob/AddJob";
-import EditJob from "./customer/pages/jobs/editJob/EditJob";
 
 const router = createBrowserRouter([
   {
@@ -235,6 +242,26 @@ const router = createBrowserRouter([
       {
         path: "editJob/:id",
         element: <EditJob />,
+      },
+      {
+        path: "notifications",
+        element: <Notifications />,
+      },
+      {
+        path: "reports",
+        element: <Reports />,
+      },
+      {
+        path: "chat",
+        element: <CustomerChat />,
+      },
+      {
+        path: "orders",
+        element: <Orders />,
+      },
+      {
+        path: "acceptedOrders",
+        element: <AcceptedOrders />,
       },
     ],
   },

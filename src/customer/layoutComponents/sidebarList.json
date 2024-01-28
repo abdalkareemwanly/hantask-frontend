@@ -14,5 +14,17 @@
   "jobs": {
     "name": null,
     "path": "jobs"
+  },
+  "reports": {
+    "name": null,
+    "path": "reports"
+  },
+  "orders": {
+    "name": null,
+    "path": "orders"
+  },
+  "acceptedOrders": {
+    "name": null,
+    "path": "acceptedOrders"
   }
 }

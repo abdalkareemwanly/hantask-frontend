@@ -27,6 +27,7 @@ export const useQueryHook = (queryKey, getDataFun, queryType) => {
     isLoading,
     status,
     isPlaceholderData,
+    refetch,
   } = useQuery(queryType === "normal" ? normalQuery : paginateQuery);
 
   return {
@@ -38,5 +39,6 @@ export const useQueryHook = (queryKey, getDataFun, queryType) => {
     isLoading,
     queryClient,
     isPlaceholderData,
+    refetch,
   };
 };

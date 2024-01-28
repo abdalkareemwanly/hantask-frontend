@@ -131,7 +131,7 @@ const CropeerImage = ({
             type === 1
               ? noBackground && thumbnail?.show
                 ? `url(${thumbnail?.show})`
-                : `url(https://dashboard.maktab.sa/${thumbnail})`
+                : `url(${import.meta.env.VITE_WEBSITE_URL}${thumbnail})`
               : "none",
         }}
         onClick={handleChooseImage}

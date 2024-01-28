@@ -5,10 +5,6 @@ import { IoMailOpenOutline } from "react-icons/io5";
 
 const APPLY_JOB_STEPS = [
   {
-    icon: <MdOutlineWorkOutline />,
-    name: "Service",
-  },
-  {
     icon: <IoMailOpenOutline />,
     name: "Booking Information",
   },

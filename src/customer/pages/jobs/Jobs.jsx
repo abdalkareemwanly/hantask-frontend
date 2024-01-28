@@ -33,6 +33,7 @@ const Jobs = () => {
     data: jobs,
     errors,
     isLoading,
+    refetch,
   } = useQueryHook(["jobs", page], getData);
   const changeStatusMutation = useMutationHook(changeStatusFunc, [
     "jobs",
@@ -142,7 +143,12 @@ const Jobs = () => {
                       onChange={() => handleChangeStatus(ele.id)}
                     />
                     <div className="slider"></div>
-                    <label htmlFor={`check${ele.id}`}>show</label>
+                    <label htmlFor={`check${ele.id}`}>
+                      Job is{" "}
+                      <span className="text-xl font-medium">
+                        {ele.status === 0 ? "close" : "open"}
+                      </span>
+                    </label>
                   </div>
                 </label>
               </div>
@@ -166,7 +172,7 @@ const Jobs = () => {
             </div>
             <div className="flex flex-col gap-4">
               <img
-                src={`${import.meta.env.VITE_WEBSITE_URL}${ele.image}`}
+                src={`${import.meta.env.VITE_WEBSITE_URL}/public/${ele.image}`}
                 className="w-full h-[250px] object-cover"
                 alt="asd"
               />

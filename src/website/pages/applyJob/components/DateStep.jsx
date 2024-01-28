@@ -7,46 +7,56 @@ import DatePickerInput from "../../../components/form/DatePicker";
 import "../style/DateStep.css";
 
 function DateStep({ setStep, defaultData, setDefaultData }) {
-  try {
-    const schema = z.object(DATE_STEP_SCHEMA);
-    const {
-      register,
-      handleSubmit,
-      getValues,
-      setValue,
-      formState: { errors },
-    } = useForm({
-      resolver: zodResolver(schema),
-      defaultValues: {
-        ...defaultData,
-      },
-    });
-    const submitData = (data) => {
-      setDefaultData({ ...data });
-      setStep(4);
-    };
-    return (
-      <>
-        <form onSubmit={handleSubmit(submitData)}>
-          <DatePickerInput register={register} name={"deadlineDate"} label={"Deadline Date"} errors={errors} defaultData={defaultData} setValue={setValue} />
-          <div style={{ display: "flex", justifyContent: "end", gap: "10px", marginTop: "20px" }}>
-            <SubmitButton
-              text={"Previous"}
-              classes={"second-button"}
-              notSubmit={true}
-              onClick={() => {
-                setDefaultData({ ...getValues() });
-                setStep(2);
-              }}
-            />
-            <SubmitButton text={"Next"} />
-          </div>
-        </form>
-      </>
-    );
-  } catch (err) {
-    console.log(err);
-  }
+  const schema = z.object(DATE_STEP_SCHEMA);
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      ...defaultData,
+    },
+  });
+  const submitData = (data) => {
+    setDefaultData({ ...data });
+    setStep(3);
+  };
+  return (
+    <>
+      <form onSubmit={handleSubmit(submitData)}>
+        <DatePickerInput
+          register={register}
+          name={"deadlineDate"}
+          label={"Deadline Date"}
+          errors={errors}
+          defaultData={defaultData}
+          setValue={setValue}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "end",
+            gap: "10px",
+            marginTop: "20px",
+          }}
+        >
+          <SubmitButton
+            text={"Previous"}
+            classes={"second-button"}
+            notSubmit={true}
+            onClick={() => {
+              setDefaultData({ ...getValues() });
+              setStep(1);
+            }}
+          />
+          <SubmitButton text={"Next"} />
+        </div>
+      </form>
+    </>
+  );
 }
 
 export default DateStep;
