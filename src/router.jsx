@@ -51,6 +51,9 @@ import EditJob from "./customer/pages/jobs/editJob/EditJob";
 import Notifications from "./customer/pages/notifications/Notifications";
 import Reports from "./customer/pages/reports/Reports";
 import CustomerChat from "./customer/pages/chat/Chat";
+import Reviews from "./customer/pages/reviews/Reviews";
+import Subscriptions from "./admin/pages/subscriptions/AdminSubscriptions";
+import Coupons from "./admin/pages/coupons/Coupons";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -85,6 +88,8 @@ const router = createBrowserRouter([
       { path: "dashboard/locations/tax", element: <Tax /> },
       { path: "dashboard/admins", element: <Admins /> },
       { path: "dashboard/posts", element: <Posts /> },
+      { path: "dashboard/subscriptions", element: <Subscriptions /> },
+      { path: "dashboard/coupons", element: <Coupons /> },
       {
         path: "dashboard/rolesControl",
         children: [
@@ -253,7 +258,12 @@ const router = createBrowserRouter([
       },
       {
         path: "chat",
-        element: <CustomerChat />,
+        children: [
+          {
+            path: ":id",
+            element: <CustomerChat />,
+          },
+        ],
       },
       {
         path: "orders",
@@ -262,6 +272,10 @@ const router = createBrowserRouter([
       {
         path: "acceptedOrders",
         element: <AcceptedOrders />,
+      },
+      {
+        path: "reviews",
+        element: <Reviews />,
       },
     ],
   },

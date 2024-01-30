@@ -1,20 +1,22 @@
-import { toast } from "react-toastify";
-import ReusableForm from "../../../../Components/ReusableForm";
-import axiosClient from "../../../../axios-client";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import axiosClient from "../../../../axios-client";
+import ReusableForm from "../../../../Components/ReusableForm";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
-const postData = async (data) => {
-  const res = await axiosClient.post(
-    `/admin/category/update/${data.catId}`,
-    data.formData
-  );
+const postData = async (formData) => {
+  const res = await axiosClient.post("/admin/category/store", formData);
   return res;
 };
-export const EditCategory = ({ data, getCategories, setIsModalOpen }) => {
-  const [image, setImage] = useState(data?.image);
+
+export const AddSubscription = ({
+  getCategories,
+  setIsAddModalOpen,
+  PLANSTYPES,
+}) => {
+  const [image, setImage] = useState();
 
   let template = {
-    title: "add new category",
+    title: "add new subscription plan",
     fields: [
       {
         name: "image",
@@ -22,56 +24,81 @@ export const EditCategory = ({ data, getCategories, setIsModalOpen }) => {
         styles: "w-[100%] items-center",
         fileFor: "image",
         imgStyle: "w-[125px] h-[125px]",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
       },
       {
-        title: "category name",
+        title: "name",
         name: "name",
         type: "text",
-        value: data.name,
-
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
       {
-        title: "description",
-        name: "description",
-        type: "text",
-        value: data.description,
-
+        title: "expire time",
+        name: "expire time",
+        type: "select",
+        options: PLANSTYPES,
+        optionText: "title",
+        optionValue: "title",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
       {
-        title: "slug",
-        name: "slug",
-        value: data.slug,
-        type: "text",
-
+        title: "price",
+        name: "amount",
+        type: "number",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
       {
-        title: "code",
-        name: "code",
+        title: "currency",
+        name: "currency",
         type: "text",
-        value: data.slug,
-
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
-      // {
-      //   title: "icon",
-      //   name: "icon",
-      //   type: "file",
-      //   fileFor: "icon",
-      //   styles: "md:w-[45%] mt-2",
-      // },
-      // {
-      //   title: "mobile icon",
-      //   name: "mobile_icon",
-      //   type: "file",
-      //   fileFor: "icon",
-      //   styles: "md:w-[45%] mt-2",
-      // },
+      {
+        title: "interval count",
+        name: "interval count",
+        type: "text",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "md:w-[45%]",
+      },
     ],
   };
+
   const mutation = useMutationHook(postData, ["categories"]);
+
   const onSubmit = async (values) => {
     const id = toast.loading("please wait...");
     const category = {
@@ -83,18 +110,15 @@ export const EditCategory = ({ data, getCategories, setIsModalOpen }) => {
     formData.append("description", category.description);
     formData.append("slug", category.slug);
     // formData.append("code", category.code);
-    if (/^image/.test(image?.type)) {
-      formData.append("image", category.image);
-    }
-    const catId = data.id;
+    formData.append("image", category.image);
     // formData.append("icon", category.icon);
     // formData.append("mobile_icon", category.mobile_icon);
     try {
-      const user = await mutation.mutateAsync({ formData, catId });
-      setIsModalOpen((prev) => !prev);
+      const category = await mutation.mutateAsync(formData);
+      setIsAddModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",
-        render: user.mes,
+        render: category.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -125,9 +149,9 @@ export const EditCategory = ({ data, getCategories, setIsModalOpen }) => {
         watchFields={["username", "fullname"]}
         onSubmit={onSubmit}
         validate={validate}
-        btnWidth={"w-full text-white"}
-        btnText={"submit"}
-        addedStyles={"md:w-[800px]"}
+        btnWidth={"w-full"}
+        btnText={"add"}
+        addedStyles={"md:w-[600px] lg:w-[600px]"}
         image={image}
         setImage={setImage}
       />

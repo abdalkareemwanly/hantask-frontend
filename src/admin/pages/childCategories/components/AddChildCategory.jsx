@@ -2,7 +2,11 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import axiosClient from "../../../../axios-client";
 import ReusableForm from "../../../../Components/ReusableForm";
-
+import { useMutationHook } from "../../../../hooks/useMutationHook";
+const postData = async (formData) => {
+  const res = await axiosClient.post("/admin/child/store", formData);
+  return res;
+};
 export const AddChildCategory = ({
   getChildCategories,
   setIsAddModalOpen,
@@ -10,14 +14,19 @@ export const AddChildCategory = ({
   categories,
 }) => {
   const [image, setImage] = useState();
+  const mutation = useMutationHook(postData, ["childCategories"]);
 
   const [filteredSubCategories, setFilteredSubCategories] = useState([]);
   // const [mainCategory, setMainCategory] = useState(null);
-  console.log(filteredSubCategories)
+  console.log(filteredSubCategories);
   const handleMainCategoryChange = (e) => {
-    const selectedMainCategory = categories.find((obj) => obj.id == e.target.value);
+    const selectedMainCategory = categories.find(
+      (obj) => obj.id == e.target.value
+    );
     // setMainCategory(selectedMainCategory);
-    const updatedFilteredSubCategories = subCategories.filter((obj) => obj.categoryName === selectedMainCategory?.name);
+    const updatedFilteredSubCategories = subCategories.filter(
+      (obj) => obj.categoryName === selectedMainCategory?.name
+    );
     setFilteredSubCategories(updatedFilteredSubCategories);
   };
 
@@ -85,7 +94,7 @@ export const AddChildCategory = ({
             value: true,
             message: "this field is required",
           },
-          onChange: handleMainCategoryChange
+          onChange: handleMainCategoryChange,
         },
         styles: "md:w-[45%]",
       },
@@ -118,50 +127,32 @@ export const AddChildCategory = ({
     formData.append("name", subCategory.name);
     formData.append("description", subCategory.description);
     formData.append("slug", subCategory.slug);
-    // formData.append("code", category.code);
     formData.append("image", subCategory.image);
     formData.append("category_id", subCategory.category);
     formData.append("sub_category_id", subCategory.subCategory);
-    // formData.append("icon", category.icon);
-    // formData.append("mobile_icon", category.mobile_icon);
-    axiosClient
-      .post("/admin/child/store", formData)
-      .then((data) => {
-        if (data.data.success == false) {
-          toast.update(id, {
-            type: "error",
-            render: data.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        } else {
-          getChildCategories();
-          setIsAddModalOpen((prev) => !prev);
-          toast.update(id, {
-            type: "success",
-            render: data.data.mes,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.update(id, {
-          type: "success",
-          render: err.response.data.mes,
-          closeOnClick: true,
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
+    try {
+      const category = await mutation.mutateAsync(formData);
+      setIsAddModalOpen((prev) => !prev);
+      toast.update(id, {
+        type: "success",
+        render: category.data.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
       });
+    } catch (error) {
+      toast.update(id, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
   };
 
   const validate = () => {

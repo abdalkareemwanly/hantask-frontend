@@ -4,6 +4,7 @@ const useCheckPermission = () => {
   const [userPermissions, setUserPermissions] = useState(
     JSON.parse(localStorage.getItem("USER")).permission
   );
+  console.log(userPermissions);
   const [permissions, setPermissions] = useState(
     JSON.parse(localStorage.getItem("permissions"))
   );

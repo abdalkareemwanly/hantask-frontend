@@ -89,27 +89,56 @@ const CustomerHomePage = () => {
       <div>
         <div className="top-section grid grid-cols-2 gap-[20px] items-start">
           <div className="xl:col-span-1 col-span-2 grid grid-cols-2 grid-rows-2 gap-[20px]">
-            <StatisticsCard iconColor={"blueColor"} title={"Order In Progress"} value={"40"} icon={<GiSandsOfTime />} />
-            <StatisticsCard iconColor={"orangeColor"} title={"Order Pending"} value={"31"} icon={<FaListUl />} />
-            <StatisticsCard iconColor={"greenColor"} title={"Order Completed"} value={"567"} icon={<FaRegCheckSquare />} />
-            <StatisticsCard iconColor={"redColor"} title={"Total Order"} value={"782"} icon={<HiClipboardList />} />
+            <StatisticsCard
+              iconColor={"blueColor"}
+              title={"Order In Progress"}
+              value={"40"}
+              icon={<GiSandsOfTime />}
+            />
+            <StatisticsCard
+              iconColor={"orangeColor"}
+              title={"Order Pending"}
+              value={"31"}
+              icon={<FaListUl />}
+            />
+            <StatisticsCard
+              iconColor={"greenColor"}
+              title={"Order Completed"}
+              value={"567"}
+              icon={<FaRegCheckSquare />}
+            />
+            <StatisticsCard
+              iconColor={"redColor"}
+              title={"Total Order"}
+              value={"782"}
+              icon={<HiClipboardList />}
+            />
           </div>
           <div className="xl:col-span-1 col-span-2 bg-blocks-color p-[20px] rounded-[10px]">
             <div className=" flex justify-between border-b border-light-text  pb-[20px]">
-              <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">Notifications</h4>
-              <Link to={"/customer/notifications"} className="text-blueColor hover:text-orangeColor duration-[500ms]">
+              <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
+                Notifications
+              </h4>
+              <Link
+                to={"/customer/notifications"}
+                className="text-blueColor hover:text-orangeColor duration-[500ms]"
+              >
                 View all
               </Link>
             </div>
             <div className="pt-[20px] ">
-              <span className="flex justify-center items-center">no notificatoin</span>
+              <span className="flex justify-center items-center">
+                no notificatoin
+              </span>
             </div>
           </div>
         </div>
         <div className="top-section grid grid-cols-5 gap-[20px] items-start">
           <div className="recent-orders xl:col-span-2 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">
             <div className=" flex justify-between border-b border-light-text  pb-[20px]">
-              <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">Recent Orders</h4>
+              <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
+                Recent Orders
+              </h4>
             </div>
             <div className="pt-[20px] flex flex-col">
               {recentOrders.map((item, index) => {
@@ -119,9 +148,18 @@ const CustomerHomePage = () => {
           </div>
           <div className="recent-ticket xl:col-span-3 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">
             <div className=" flex justify-between border-b border-light-text  pb-[20px]">
-              <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">Recent Ticket</h4>
+              <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
+                latest accepted orders updates
+              </h4>
             </div>
-            <TableData columns={COLUMNS} enableSearch={false} response={recentTickets} actualData={recentTickets} paginationBool={false} noDataMessage={"no recent tickets to show!"} />
+            <TableData
+              columns={COLUMNS}
+              enableSearch={false}
+              response={recentTickets}
+              actualData={recentTickets}
+              paginationBool={false}
+              noDataMessage={"no recent tickets to show!"}
+            />
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ import "./style/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axiosClient from "../../../axios-client";
 import { useStateContext } from "../../../contexts/ContextsProvider";
+import { toast } from "react-toastify";
 
 function Login(props) {
   const schema = z.object(Login_SCHEMA);
@@ -21,14 +22,23 @@ function Login(props) {
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
   const submitData = async (data) => {
+    const toastId = toast.loading("logging in...");
     const formData = new FormData();
-
     formData.append("email", data.email);
     formData.append("password", data.password);
 
     const res = await axiosClient.post("/site/login", formData);
 
     if (res.data.success) {
+      toast.update(toastId, {
+        type: "success",
+        render: res.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
       setToken(res.data.token);
       setUser(res.data.data);
       sessionStorage.setItem("mode", "light");
@@ -38,6 +48,16 @@ function Login(props) {
       } else {
         navigate("/serviceProvider/home");
       }
+    } else {
+      toast.update(toastId, {
+        type: "error",
+        render: res.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
     }
   };
   return (
@@ -46,9 +66,30 @@ function Login(props) {
         <h3>Sign In</h3>
         <form onSubmit={handleSubmit(submitData)}>
           <div className="grid grid-cols-1 gap-8 my-12 relative">
-            <Input type={"email"} placeholder={"email"} register={register} name={"email"} label={"email *"} errors={errors} />
-            <Input type={"password"} placeholder={"Password"} register={register} name={"password"} label={"Your Password *"} errors={errors} />
-            <Input type={"checkbox"} placeholder={"Password"} register={register} name={"rememberme"} label={"Remember Me"} errors={errors} />
+            <Input
+              type={"email"}
+              placeholder={"email"}
+              register={register}
+              name={"email"}
+              label={"email *"}
+              errors={errors}
+            />
+            <Input
+              type={"password"}
+              placeholder={"Password"}
+              register={register}
+              name={"password"}
+              label={"Your Password *"}
+              errors={errors}
+            />
+            <Input
+              type={"checkbox"}
+              placeholder={"Password"}
+              register={register}
+              name={"rememberme"}
+              label={"Remember Me"}
+              errors={errors}
+            />
             <Link to={"/forgot-password"}>Forgot Password</Link>
           </div>
           <SubmitButton text={"Sign In"} width={"100%"} />

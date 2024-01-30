@@ -6,6 +6,8 @@ import TableData from "../../../Components/TableData";
 import Button from "../../../Components/Button";
 import { ErrorIcon, SuccessIcon } from "../../../Components/Icons";
 import { useState } from "react";
+import { useMutationHook } from "../../../hooks/useMutationHook";
+import { toast } from "react-toastify";
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
     `/admin/posts?page=${page}${
@@ -14,6 +16,12 @@ const getData = async (page = 1, searchTerm) => {
   );
   return res;
 };
+
+const changeStatusFunc = async (id) => {
+  const res = await axiosClient.get(`/admin/post/changeStatusMethod/${id}`);
+  return res;
+};
+
 const Posts = () => {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,24 +33,64 @@ const Posts = () => {
     status,
   } = useQuery({
     queryKey: ["posts", page, searchTerm],
-    queryFn: getData(page, searchTerm),
+    queryFn: () => getData(page, searchTerm),
   });
+
+  const changeStatusMutation = useMutationHook(changeStatusFunc, [
+    "posts",
+    page,
+    searchTerm,
+  ]);
+
+  const handleChangeStatus = async (id) => {
+    const toastId = toast.loading("processing...");
+    try {
+      const category = await changeStatusMutation.mutateAsync(id);
+      toast.update(toastId, {
+        type: "success",
+        render: category.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    } catch (error) {
+      toast.update(toastId, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
+  };
 
   const columns = [
     {
-      name: "Id",
-      selector: (row) => row.id,
-      maxWidth: "9%",
-    },
-    {
-      name: "name",
-      selector: (row) => row.name,
+      name: "title",
+      selector: (row) => {
+        return (
+          <div className="flex items-center gap-3">
+            <img
+              src={`${
+                import.meta.env.VITE_WEBSITE_URL + "/public" + row.image
+              }`}
+              className="w-[50px] h-[50px] rounded-full"
+              alt=""
+            />
+            <span>{row.title}</span>
+          </div>
+        );
+      },
       maxWidth: "15%",
     },
     {
-      name: "slug",
-      selector: (row) => row.slug,
-      maxWidth: "15%",
+      name: "buyer",
+      selector: (row) => row.buyer_name,
+      maxWidth: "10%",
     },
     {
       name: "description",
@@ -54,7 +102,7 @@ const Posts = () => {
     },
     {
       name: "main category",
-      selector: (row) => row?.categoryName,
+      selector: (row) => row?.category_name,
       maxWidth: "30%",
     },
     {
@@ -78,7 +126,20 @@ const Posts = () => {
       cell: (row) => {
         return (
           <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
-            hi
+            {row.status == 0 && (
+              <Button
+                title={"activite"}
+                color={"bg-greenColor"}
+                onClickFun={() => handleChangeStatus(row.id)}
+              />
+            )}
+            {row.status == 1 && (
+              <Button
+                title={"deactivite"}
+                color={"bg-redColor"}
+                onClickFun={() => handleChangeStatus(row.id)}
+              />
+            )}
           </div>
         );
       },

@@ -80,16 +80,14 @@
     }
   },
   "Subscription": {
-    "Subscription Users": {
-      "path": "/admin/dashboard/subscription",
-      "name": null,
-      "perId": "showSubscriptions"
-    },
-    "Subscription Login Text": {
-      "path": "/admin/dashboard/locations/areas",
-      "name": null,
-      "perId": ""
-    }
+    "path": "/admin/dashboard/subscriptions",
+    "name": null,
+    "perId": "showSubscriptions"
+  },
+  "coupons": {
+    "path": "/admin/dashboard/coupons",
+    "name": null,
+    "perId": "showSubscriptionCoupons"
   },
   "Jobs": {
     "All Jobs": "",

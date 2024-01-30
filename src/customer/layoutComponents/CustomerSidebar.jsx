@@ -11,6 +11,7 @@ import { Link, NavLink } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import { useStateContext } from "../../contexts/ContextsProvider";
 import { useTWThemeContext } from "../../admin/Components/ThemeProvider";
+import { MdReviews } from "react-icons/md";
 
 const iconMap = {
   Dashboard: <BiSolidHome size={20} />,
@@ -20,6 +21,7 @@ const iconMap = {
   orders: <BsListTask size={20} />,
   acceptedOrders: <FaTasks size={20} />,
   reports: <GoReport size={20} />,
+  reviews: <MdReviews size={20} />,
 };
 
 export default function CustomerSidebar({ setSidebarOpen }) {

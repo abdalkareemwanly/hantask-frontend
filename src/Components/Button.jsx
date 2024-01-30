@@ -18,7 +18,8 @@ const Button = ({
         width && `w-[${width}]`
       } items-center cursor-pointer px-3 py-2 ${color}  ${hoverStyles} transition-all text-center rounded-[4px] text-white`}
     >
-      <span>{title}</span> {Icon && <span>{Icon}</span>}
+      <span className="text-primary-text">{title}</span>{" "}
+      {Icon && <span>{Icon}</span>}
     </Link>
   ) : (
     <div
@@ -27,7 +28,8 @@ const Button = ({
         width && `w-[${width}]`
       } items-center cursor-pointer px-3 py-2 ${color} ${hoverStyles} transition-all text-center rounded-[4px] text-white`}
     >
-      <span>{title}</span> {Icon && <span>{Icon}</span>}
+      <span className="text-primary-text">{title}</span>{" "}
+      {Icon && <span>{Icon}</span>}
     </div>
   );
 };

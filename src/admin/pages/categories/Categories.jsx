@@ -49,6 +49,7 @@ const Categories = () => {
   const [clickedRow, setClickedRow] = useState();
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+
   const { data: categories, queryClient } = useQueryHook(
     ["categories", page, searchTerm],
     () => getData(page, searchTerm),
@@ -214,65 +215,65 @@ const Categories = () => {
     },
   ];
 
-  return hasShowPermission ? (
-    <Page>
-      <PageTitle
-        text={"manage all categories"}
-        right={
-          <div>
-            {hasAddPermission && (
-              <Button
-                isLink={false}
-                color={"bg-greenColor"}
-                title={"add new"}
-                onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+  return (
+    hasShowPermission && (
+      <Page>
+        <PageTitle
+          text={"manage all categories"}
+          right={
+            <div>
+              {hasAddPermission && (
+                <Button
+                  isLink={false}
+                  color={"bg-greenColor"}
+                  title={"add new"}
+                  onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+                />
+              )}
+            </div>
+          }
+        />
+        {isModalOpen && (
+          <ModalContainer
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            component={
+              <EditCategory
+                data={clickedRow}
+                // getCategories={getCategories}
+                setIsModalOpen={setIsModalOpen}
               />
-            )}
-          </div>
-        }
-      />
-      {isModalOpen && (
-        <ModalContainer
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          component={
-            <EditCategory
-              data={clickedRow}
-              // getCategories={getCategories}
-              setIsModalOpen={setIsModalOpen}
-            />
-          }
-        />
-      )}
+            }
+          />
+        )}
 
-      {isAddModalOpen && (
-        <ModalContainer
-          isModalOpen={isAddModalOpen}
-          setIsModalOpen={setIsAddModalOpen}
-          component={
-            <AddCategory
-              // getCategories={getCategories}
-              setIsAddModalOpen={setIsAddModalOpen}
-            />
-          }
-        />
-      )}
+        {isAddModalOpen && (
+          <ModalContainer
+            isModalOpen={isAddModalOpen}
+            setIsModalOpen={setIsAddModalOpen}
+            component={
+              <AddCategory
+                // getCategories={getCategories}
+                setIsAddModalOpen={setIsAddModalOpen}
+              />
+            }
+          />
+        )}
 
-      <div className="my-4">
-        <TableData
-          columns={columns}
-          enableSearch={true}
-          response={categories}
-          actualData={categories?.data.data}
-          setPage={setPage}
-          paginationBool={true}
-          noDataMessage={"no users to show!"}
-          setSearchTerm={setSearchTerm}
-        />
-      </div>
-    </Page>
-  ) : (
-    nav("/admin/dashboard")
+        <div className="my-4">
+          <TableData
+            columns={columns}
+            enableSearch={true}
+            response={categories}
+            actualData={categories?.data.data}
+            setPage={setPage}
+            paginationBool={true}
+            noDataMessage={"no categories to show!"}
+            setSearchTerm={setSearchTerm}
+          />
+        </div>
+      </Page>
+    )
   );
 };
 

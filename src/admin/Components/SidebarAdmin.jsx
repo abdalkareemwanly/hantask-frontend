@@ -29,6 +29,7 @@ import { useTWThemeContext } from "./ThemeProvider";
 import { AiOutlineClose } from "react-icons/ai";
 import { useStateContext } from "../../contexts/ContextsProvider";
 import useCheckPermission from "../../hooks/checkPermissions";
+import { RiCoupon3Fill } from "react-icons/ri";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
@@ -52,6 +53,7 @@ const iconMap = {
   Orders: <BiSolidTruck />,
   Tickets: <BiSolidGift />,
   Notifications: <BiSolidBellRing />,
+  coupons: <RiCoupon3Fill />,
   "Email Template Settings": <BiSolidEnvelope />,
   "Form Builder": <BiSolidLayout />,
   "Appearance Settings": <BiSolidLayout />,

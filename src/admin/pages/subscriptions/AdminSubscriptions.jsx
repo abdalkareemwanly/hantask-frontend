@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../../../Components/Button";
 import PageTitle from "../../../Components/PageTitle";
 import { Page } from "../../../Components/StyledComponents";
@@ -6,72 +6,89 @@ import TableData from "../../../Components/TableData";
 import { toast } from "react-toastify";
 import ModalContainer from "../../../Components/ModalContainer";
 import axiosClient from "../../../axios-client";
-import { AddSubCategory } from "./components/AddSubCategory";
-import { EditSubCategory } from "./components/EditSubCategory";
 import { SuccessIcon, ErrorIcon } from "../../../Components/Icons";
+import useCheckPermission from "../../../hooks/checkPermissions";
+import { useNavigate } from "react-router-dom";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
-import useCheckPermission from "../../../hooks/checkPermissions";
+import { AddSubscription } from "./components/AddSubscription";
+import { EditSubscription } from "./components/EditSubscription";
+
+const PLANSTYPES = [
+  {
+    id: 1,
+    title: "one month",
+  },
+  {
+    id: 2,
+    title: "three months",
+  },
+  {
+    id: 3,
+    title: "six months",
+  },
+  {
+    id: 4,
+    title: "one year",
+  },
+  {
+    id: 5,
+    title: "full life",
+  },
+];
+
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
-    `admin/subCategories?page=${page}${
+    `admin/plans?page=${page}${
       searchTerm.length > 0 ? `&search=${searchTerm}` : ""
     }`
   );
   return res;
 };
 const changeStatusFunc = async (id) => {
-  const res = await axiosClient.get(
-    `/admin/subCategory/changeStatusMethod/${id}`
-  );
+  const res = await axiosClient.get(`/admin/category/changeStatusMethod/${id}`);
   return res;
 };
 
 const deleteFunc = async (id) => {
-  const res = await axiosClient.get(`/admin/subCategory/deleteMethod/${id}`);
+  const res = await axiosClient.get(`/admin/category/deleteMethod/${id}`);
   return res;
 };
 
-const SubCategories = () => {
+const Subscriptions = () => {
+  // Check for specific permissions
   const { hasPermissionFun } = useCheckPermission();
+  const nav = useNavigate();
+  const hasShowPermission = hasPermissionFun("showCategories");
+  const hasAddPermission = hasPermissionFun("addCategory");
+  const hasEditPermission = hasPermissionFun("editCategory");
+  const hasDeletePermission = hasPermissionFun("deleteCategory");
+  const hasChangeMethod = hasPermissionFun("changeStatusCategory");
+  // Check for specific permissions
 
-  const hasShowPermission = hasPermissionFun("showSubCategories");
-  const hasAddPermission = hasPermissionFun("addSubCategory");
-  const hasEditPermission = hasPermissionFun("editSubCategory");
-  const hasDeletePermission = hasPermissionFun("deleteSubCategory");
-  const hasChangeMethod = hasPermissionFun("changeStatusSubCategory");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [clickedRow, setClickedRow] = useState();
-  const getCategories = async () => {
-    const res = await axiosClient.get("/admin/categories");
-    setCategories(res.data?.data);
-  };
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: subCategories, queryClient } = useQueryHook(
-    ["subCategories", page, searchTerm],
+  const { data: subscriptions, queryClient } = useQueryHook(
+    ["subscriptions", page, searchTerm],
     () => getData(page, searchTerm),
     "paginate",
     page
   );
   const changeStatusMutation = useMutationHook(changeStatusFunc, [
-    "subCategories",
+    "subscriptions",
     page,
     searchTerm,
   ]);
   const deleteMutation = useMutationHook(deleteFunc, [
-    "subCategories",
+    "subscriptions",
     page,
     searchTerm,
   ]);
-
-  useEffect(() => {
-    getCategories();
-  }, []);
 
   const editBtnFun = (row) => {
     setIsModalOpen(true);
@@ -80,10 +97,10 @@ const SubCategories = () => {
   const handleChangeStatus = async (id) => {
     const toastId = toast.loading("processing...");
     try {
-      const subCategory = await changeStatusMutation.mutateAsync(id);
+      const category = await changeStatusMutation.mutateAsync(id);
       toast.update(toastId, {
         type: "success",
-        render: subCategory.mes,
+        render: category.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -106,10 +123,10 @@ const SubCategories = () => {
   const deleteFun = async (id) => {
     const toastId = toast.loading("deleting..");
     try {
-      const subCategory = await deleteMutation.mutateAsync(id);
+      const category = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
         type: "success",
-        render: subCategory.mes,
+        render: category.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -153,7 +170,7 @@ const SubCategories = () => {
       maxWidth: "9%",
     },
     {
-      name: "name",
+      name: "category name",
       selector: (row) => row.name,
       maxWidth: "15%",
     },
@@ -168,11 +185,6 @@ const SubCategories = () => {
         row?.description?.length >= 50
           ? row?.description.substring(0, 50) + "..."
           : row?.description,
-      maxWidth: "30%",
-    },
-    {
-      name: "main category",
-      selector: (row) => row?.categoryName,
       maxWidth: "30%",
     },
     {
@@ -230,7 +242,7 @@ const SubCategories = () => {
     hasShowPermission && (
       <Page>
         <PageTitle
-          text={"manage all sub categories"}
+          text={"manage all subscriptions"}
           right={
             <div>
               {hasAddPermission && (
@@ -249,10 +261,10 @@ const SubCategories = () => {
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             component={
-              <EditSubCategory
-                categories={categories}
+              <EditSubscription
+                PLANSTYPES={PLANSTYPES}
                 data={clickedRow}
-                // getSubCategories={getSubCategories}
+                // getCategories={getCategories}
                 setIsModalOpen={setIsModalOpen}
               />
             }
@@ -264,9 +276,9 @@ const SubCategories = () => {
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
-              <AddSubCategory
-                categories={categories}
-                // getSubCategories={getSubCategories}
+              <AddSubscription
+                PLANSTYPES={PLANSTYPES}
+                // getCategories={getCategories}
                 setIsAddModalOpen={setIsAddModalOpen}
               />
             }
@@ -277,11 +289,11 @@ const SubCategories = () => {
           <TableData
             columns={columns}
             enableSearch={true}
-            response={subCategories}
-            actualData={subCategories?.data.data}
+            response={subscriptions}
+            actualData={subscriptions?.data.data}
             setPage={setPage}
             paginationBool={true}
-            noDataMessage={"no users to show!"}
+            noDataMessage={"no subscriptions to show!"}
             setSearchTerm={setSearchTerm}
           />
         </div>
@@ -290,4 +302,4 @@ const SubCategories = () => {
   );
 };
 
-export default SubCategories;
+export default Subscriptions;

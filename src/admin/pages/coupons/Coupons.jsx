@@ -6,72 +6,66 @@ import TableData from "../../../Components/TableData";
 import { toast } from "react-toastify";
 import ModalContainer from "../../../Components/ModalContainer";
 import axiosClient from "../../../axios-client";
-import { AddSubCategory } from "./components/AddSubCategory";
-import { EditSubCategory } from "./components/EditSubCategory";
 import { SuccessIcon, ErrorIcon } from "../../../Components/Icons";
+import useCheckPermission from "../../../hooks/checkPermissions";
+import { useNavigate } from "react-router-dom";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
-import useCheckPermission from "../../../hooks/checkPermissions";
+import { AddCoupon } from "./components/AddCoupon";
+import { EditCoupon } from "./components/EditCoupon";
+
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
-    `admin/subCategories?page=${page}${
+    `admin/subscription/coupons?page=${page}${
       searchTerm.length > 0 ? `&search=${searchTerm}` : ""
     }`
   );
   return res;
 };
 const changeStatusFunc = async (id) => {
-  const res = await axiosClient.get(
-    `/admin/subCategory/changeStatusMethod/${id}`
-  );
+  const res = await axiosClient.get(`/admin/category/changeStatusMethod/${id}`);
   return res;
 };
 
 const deleteFunc = async (id) => {
-  const res = await axiosClient.get(`/admin/subCategory/deleteMethod/${id}`);
+  const res = await axiosClient.get(`/admin/category/deleteMethod/${id}`);
   return res;
 };
 
-const SubCategories = () => {
+const Coupons = () => {
+  // Check for specific permissions
   const { hasPermissionFun } = useCheckPermission();
+  const nav = useNavigate();
+  const hasShowPermission = hasPermissionFun("showCategories");
+  const hasAddPermission = hasPermissionFun("addCategory");
+  const hasEditPermission = hasPermissionFun("editCategory");
+  const hasDeletePermission = hasPermissionFun("deleteCategory");
+  const hasChangeMethod = hasPermissionFun("changeStatusCategory");
+  // Check for specific permissions
 
-  const hasShowPermission = hasPermissionFun("showSubCategories");
-  const hasAddPermission = hasPermissionFun("addSubCategory");
-  const hasEditPermission = hasPermissionFun("editSubCategory");
-  const hasDeletePermission = hasPermissionFun("deleteSubCategory");
-  const hasChangeMethod = hasPermissionFun("changeStatusSubCategory");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [clickedRow, setClickedRow] = useState();
-  const getCategories = async () => {
-    const res = await axiosClient.get("/admin/categories");
-    setCategories(res.data?.data);
-  };
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: subCategories, queryClient } = useQueryHook(
-    ["subCategories", page, searchTerm],
+  const { data: categories, queryClient } = useQueryHook(
+    ["coupons", page, searchTerm],
     () => getData(page, searchTerm),
     "paginate",
     page
   );
   const changeStatusMutation = useMutationHook(changeStatusFunc, [
-    "subCategories",
+    "coupons",
     page,
     searchTerm,
   ]);
   const deleteMutation = useMutationHook(deleteFunc, [
-    "subCategories",
+    "coupons",
     page,
     searchTerm,
   ]);
-
-  useEffect(() => {
-    getCategories();
-  }, []);
 
   const editBtnFun = (row) => {
     setIsModalOpen(true);
@@ -80,10 +74,10 @@ const SubCategories = () => {
   const handleChangeStatus = async (id) => {
     const toastId = toast.loading("processing...");
     try {
-      const subCategory = await changeStatusMutation.mutateAsync(id);
+      const category = await changeStatusMutation.mutateAsync(id);
       toast.update(toastId, {
         type: "success",
-        render: subCategory.mes,
+        render: category.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -106,10 +100,10 @@ const SubCategories = () => {
   const deleteFun = async (id) => {
     const toastId = toast.loading("deleting..");
     try {
-      const subCategory = await deleteMutation.mutateAsync(id);
+      const category = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
         type: "success",
-        render: subCategory.mes,
+        render: category.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -153,7 +147,7 @@ const SubCategories = () => {
       maxWidth: "9%",
     },
     {
-      name: "name",
+      name: "category name",
       selector: (row) => row.name,
       maxWidth: "15%",
     },
@@ -168,11 +162,6 @@ const SubCategories = () => {
         row?.description?.length >= 50
           ? row?.description.substring(0, 50) + "..."
           : row?.description,
-      maxWidth: "30%",
-    },
-    {
-      name: "main category",
-      selector: (row) => row?.categoryName,
       maxWidth: "30%",
     },
     {
@@ -230,7 +219,7 @@ const SubCategories = () => {
     hasShowPermission && (
       <Page>
         <PageTitle
-          text={"manage all sub categories"}
+          text={"manage all coupons"}
           right={
             <div>
               {hasAddPermission && (
@@ -249,10 +238,9 @@ const SubCategories = () => {
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             component={
-              <EditSubCategory
-                categories={categories}
+              <EditCoupon
                 data={clickedRow}
-                // getSubCategories={getSubCategories}
+                // getCategories={getCategories}
                 setIsModalOpen={setIsModalOpen}
               />
             }
@@ -264,9 +252,8 @@ const SubCategories = () => {
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
-              <AddSubCategory
-                categories={categories}
-                // getSubCategories={getSubCategories}
+              <AddCoupon
+                // getCategories={getCategories}
                 setIsAddModalOpen={setIsAddModalOpen}
               />
             }
@@ -277,11 +264,11 @@ const SubCategories = () => {
           <TableData
             columns={columns}
             enableSearch={true}
-            response={subCategories}
-            actualData={subCategories?.data.data}
+            response={categories}
+            actualData={categories?.data.data}
             setPage={setPage}
             paginationBool={true}
-            noDataMessage={"no users to show!"}
+            noDataMessage={"no coupons to show!"}
             setSearchTerm={setSearchTerm}
           />
         </div>
@@ -290,4 +277,4 @@ const SubCategories = () => {
   );
 };
 
-export default SubCategories;
+export default Coupons;

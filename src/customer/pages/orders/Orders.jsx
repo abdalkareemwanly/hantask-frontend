@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import ModalContainer from "../../../Components/ModalContainer";
 import { formatMoney } from "../../../functions/price";
+import Loader from "../../../Components/Loader";
 
 const getData = async () => {
   const res = await axiosClient.get("/buyer/comments");
@@ -203,7 +204,7 @@ const Orders = () => {
       },
     },
   ];
-  console.log(orders);
+  if (isLoading) return <Loader />;
   return (
     <Page>
       {isModalOpen && (
@@ -229,7 +230,7 @@ const Orders = () => {
           actualData={orders?.data.data}
           setPage={setPage}
           paginationBool={true}
-          noDataMessage={"no users to show!"}
+          noDataMessage={"no incoming orders to show!"}
         />
       </div>
     </Page>

@@ -26,5 +26,9 @@
   "acceptedOrders": {
     "name": null,
     "path": "acceptedOrders"
+  }, 
+  "reviews": {
+    "name": null,
+    "path": "reviews"
   }
 }

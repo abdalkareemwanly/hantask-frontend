@@ -2,38 +2,43 @@ import { toast } from "react-toastify";
 import ReusableForm from "../../../../Components/ReusableForm";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
 import axiosClient from "../../../../axios-client";
-import { workStatusArray } from "../data/workStatus";
-const postData = async (data) => {
-  const res = await axiosClient.get(
-    `/buyer/acceptedComment/changeWorkStatusMethod/${data.id}?workStatus=${data.workStatus}`
-  );
+import ReactStars from "react-rating-stars-component";
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+
+const postData = async ({ id, data }) => {
+  const res = await axiosClient.post(`/buyer/review/update/${id}`, data);
   return res;
 };
-const ChangeStatus = ({ data, setIsModalOpen }) => {
-  console.log(data);
+const EditReview = ({ order, setIsModalOpen }) => {
+  const queryClient = useQueryClient();
+  const [reviewCount, setReviewCount] = useState(order.data_review[0].review);
   let template = {
     fields: [
       {
-        title: "change work status",
-        name: "status",
-        value: Number(data.work_status),
-        options: [...workStatusArray],
-        optionText: "title",
-        optionValue: "id",
-        type: "select",
+        title: "review description",
+        name: "review",
+        value: order?.data_review[0].description,
+        type: "textArea",
+        validationProps: {
+          required: { value: true, message: "this field is required" },
+        },
       },
     ],
   };
   const changeStatusMutation = useMutationHook(postData, ["acceptedOrders"]);
+
   const onSubmit = async (values) => {
     const toastId = toast.loading("loading...");
-    const workStatus = values.status;
+    const data = {
+      review: reviewCount,
+      description: values.review,
+    };
+    const id = order.data_review[0].id;
     try {
-      const user = await changeStatusMutation.mutateAsync({
-        workStatus,
-        id: data.id,
-      });
+      const user = await changeStatusMutation.mutateAsync({ id, data });
       setIsModalOpen((prev) => !prev);
+      queryClient.invalidateQueries("reviews");
       toast.update(toastId, {
         type: "success",
         render: user.mes,
@@ -59,13 +64,19 @@ const ChangeStatus = ({ data, setIsModalOpen }) => {
   const validate = () => {
     console.log("no");
   };
-
+  const ratingChanged = (newRating) => {
+    setReviewCount(newRating);
+  };
   return (
     <>
-      <h2 className="font-bold">
-        if you change to completed you want be able <br /> to change it again
-        <span className="text-redColor"> so be sure</span>
-      </h2>
+      <h1>add your review</h1>
+      <ReactStars
+        count={5}
+        value={reviewCount}
+        onChange={ratingChanged}
+        size={24}
+        activeColor="#ffd700"
+      />
       <ReusableForm
         template={template}
         onSubmit={onSubmit}
@@ -78,4 +89,4 @@ const ChangeStatus = ({ data, setIsModalOpen }) => {
   );
 };
 
-export default ChangeStatus;
+export default EditReview;

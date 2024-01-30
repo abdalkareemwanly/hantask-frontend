@@ -5,6 +5,8 @@ import axiosClient from "../../../axios-client";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import ModalContainer from "../../../Components/ModalContainer";
 import EditProfile from "./components/EditProfile";
+import Loader from "../../../Components/Loader";
+import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
 const getData = async () => {
   const res = await axiosClient.get("buyer/profile");
   return res.data.data;
@@ -12,17 +14,8 @@ const getData = async () => {
 
 const Profile = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [countries, setCountries] = useState();
-  const [cities, setCities] = useState();
   const [areas, setAreas] = useState();
-  const getCities = async (signal) => {
-    const res = await axiosClient.get("/admin/citys", { signal: signal });
-    setCities(res.data?.data);
-  };
-  const getCountries = async (signal) => {
-    const res = await axiosClient.get("/admin/countries", { signal: signal });
-    setCountries(res.data?.data);
-  };
+  const { countries, cities } = useGlobalDataContext();
   const getAreas = async (signal) => {
     const res = await axiosClient.get(`admin/areas`, { signal: signal });
     setAreas(res.data.data);
@@ -39,8 +32,6 @@ const Profile = () => {
     const controller3 = new AbortController();
 
     setTimeout(() => {
-      getCountries(controller1.signal);
-      getCities(controller2.signal);
       getAreas(controller3.signal);
     }, 500);
 
@@ -54,7 +45,7 @@ const Profile = () => {
   const editBtn = () => {
     setEditModalOpen((prev) => !prev);
   };
-  if (isLoading) return "loading";
+  if (isLoading) return <Loader />;
   return (
     <Page>
       {editModalOpen && (
@@ -74,14 +65,16 @@ const Profile = () => {
       )}
       <div className="bg-blocks-color  max-w-[600px] mx-auto p-4 rounded-md component-shadow flex flex-col  gap-3">
         <div className="flex gap-2 items-center justify-between">
-          {/* <img
-              src={`${import.meta.VITE_WEBSITE_URL}${profile[0]?.image}`}
-              className="w-[100px] h-[100px]"
+          <div className="flex gap-2 items-center">
+            <img
+              src={`${import.meta.env.VITE_WEBSITE_URL}${profile[0]?.image}`}
+              className="w-[70px] h-[70px] rounded-full"
               alt=""
-            /> */}
-          <div className="flex flex-col">
-            <h3 className="text-xl font-semibold">{profile[0]?.username}</h3>
-            <span className="text-xs">{profile[0]?.email}</span>
+            />
+            <div className="flex flex-col">
+              <h3 className="text-xl font-semibold">{profile[0]?.username}</h3>
+              <span className="text-xs">{profile[0]?.email}</span>
+            </div>
           </div>
           <div>
             <Button
@@ -98,19 +91,23 @@ const Profile = () => {
             <span>{profile[0]?.name}</span>
           </div>
           <div className="text-secondary-text flex items-center gap-9">
-            <span>full name: </span>
-            <span>{profile[0]?.name}</span>
+            <span>username: </span>
+            <span>{profile[0]?.username}</span>
+          </div>
+          <div className="text-secondary-text flex items-center gap-9">
+            <span>email: </span>
+            <span>{profile[0]?.email}</span>
+          </div>
+          <div className="text-secondary-text flex items-center gap-9">
+            <span>phone number: </span>
+            <span>{profile[0]?.phone}</span>
           </div>
           <div className="text-secondary-text flex items-center gap-9">
             <span>full name: </span>
             <span>{profile[0]?.name}</span>
           </div>
           <div className="text-secondary-text flex items-center gap-9">
-            <span>full name: </span>
-            <span>{profile[0]?.name}</span>
-          </div>
-          <div className="text-secondary-text flex items-center gap-9">
-            <span>full name: </span>
+            <span>address: </span>
             <span>{profile[0]?.name}</span>
           </div>
         </div>

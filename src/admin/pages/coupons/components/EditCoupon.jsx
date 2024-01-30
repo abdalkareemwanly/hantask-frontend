@@ -10,7 +10,7 @@ const postData = async (data) => {
   );
   return res;
 };
-export const EditCategory = ({ data, getCategories, setIsModalOpen }) => {
+export const EditCoupon = ({ data, getCategories, setIsModalOpen }) => {
   const [image, setImage] = useState(data?.image);
 
   let template = {

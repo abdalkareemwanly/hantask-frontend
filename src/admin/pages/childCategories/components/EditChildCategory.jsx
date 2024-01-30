@@ -2,24 +2,39 @@ import { toast } from "react-toastify";
 import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
 import { useState } from "react";
-
+import { useMutationHook } from "../../../../hooks/useMutationHook";
+const postData = async (data) => {
+  const res = await axiosClient.post(
+    `/admin/child/update/${data.catId}`,
+    data.formData
+  );
+  return res;
+};
 export const EditChildCategory = ({
   data,
   getChildCategories,
   setIsModalOpen,
   subCategories,
-  categories
+  categories,
 }) => {
   const [image, setImage] = useState(data?.image);
   let mainCategory = categories.find((obj) => obj.name === data?.categoryName);
-  let subCategory = subCategories.find((obj) => obj.name === data?.subcategoryName);
-  const [filteredSubCategories, setFilteredSubCategories] = useState([subCategory]);
+  let subCategory = subCategories.find(
+    (obj) => obj.name === data?.subcategoryName
+  );
+  const [filteredSubCategories, setFilteredSubCategories] = useState([
+    subCategory,
+  ]);
   // const [mainCategory, setMainCategory] = useState(null);
-  console.log(filteredSubCategories)
+  console.log(filteredSubCategories);
   const handleMainCategoryChange = (e) => {
-    const selectedMainCategory = categories.find((obj) => obj.id == e.target.value);
+    const selectedMainCategory = categories.find(
+      (obj) => obj.id == e.target.value
+    );
     // setMainCategory(selectedMainCategory);
-    const updatedFilteredSubCategories = subCategories.filter((obj) => obj.categoryName === selectedMainCategory?.name);
+    const updatedFilteredSubCategories = subCategories.filter(
+      (obj) => obj.categoryName === selectedMainCategory?.name
+    );
     setFilteredSubCategories(updatedFilteredSubCategories);
   };
   let template = {
@@ -61,7 +76,7 @@ export const EditChildCategory = ({
         value: mainCategory?.id,
         optionText: "name",
         validationProps: {
-          onChange: handleMainCategoryChange
+          onChange: handleMainCategoryChange,
         },
         optionValue: "id",
         styles: "md:w-[45%]",
@@ -70,17 +85,18 @@ export const EditChildCategory = ({
         title: "choose the main category",
         name: "subCategory",
         type: "select",
-        options: [...filteredSubCategories], 
+        options: [...filteredSubCategories],
         value: subCategory?.id,
         optionText: "name",
         validationProps: {
-          required: {value: true, message: "oops, you missed me!"}
+          required: { value: true, message: "oops, you missed me!" },
         },
         optionValue: "id",
         styles: "md:w-[45%]",
       },
     ],
   };
+  const mutation = useMutationHook(postData, ["childCategories"]);
 
   const onSubmit = async (values) => {
     const id = toast.loading("please wait...");
@@ -89,7 +105,6 @@ export const EditChildCategory = ({
       image,
     };
     const formData = new FormData();
-
     formData.append("name", subCategory.name);
     formData.append("description", subCategory.description);
     formData.append("slug", subCategory.slug);
@@ -98,44 +113,30 @@ export const EditChildCategory = ({
     if (/^image/.test(image?.type)) {
       formData.append("image", subCategory.image);
     }
-
-    axiosClient
-      .post(`/admin/child/update/${data?.id}`, formData)
-      .then((res) => {
-        if (res.data.success == false) {
-          toast.update(id, {
-            type: "error",
-            render: res.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        } else {
-          getChildCategories();
-          setIsModalOpen((prev) => !prev);
-          toast.update(id, {
-            type: "success",
-            render: res.data.mes,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.update(id, {
-          type: "error",
-          render: err,
-          closeOnClick: true,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
+    const catId = data.id;
+    try {
+      const user = await mutation.mutateAsync({ formData, catId });
+      setIsModalOpen((prev) => !prev);
+      toast.update(id, {
+        type: "success",
+        render: user.data.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
       });
+    } catch (error) {
+      toast.update(id, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
   };
 
   const validate = () => {

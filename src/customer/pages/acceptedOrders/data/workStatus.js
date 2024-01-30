@@ -1,9 +1,5 @@
 export const workStatusArray = [
     {
-        id: 1,
-        title: "in proccess"
-    },
-    {
         id: 2,
         title: "in progress"
     },

@@ -4,15 +4,17 @@ import { useMutationHook } from "../../../hooks/useMutationHook";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import PageTitle from "../../../Components/PageTitle";
 import TableData from "../../../Components/TableData";
-import { HiDotsVertical } from "react-icons/hi";
 import { Page } from "../../../Components/StyledComponents";
 import Button from "../../../Components/Button";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 import ModalContainer from "../../../Components/ModalContainer";
 import { formatMoney } from "../../../functions/price";
 import ChangeStatus from "./components/ChangeStatus";
-
+import ReportModal from "./components/ReportModal";
+import { FaEye } from "react-icons/fa6";
+import ReviewModal from "./components/ReviewModal";
+import Loader from "../../../Components/Loader";
+import Edit from "../reviews/components/Edit";
+import EditReview from "./components/EditReview";
 const getData = async () => {
   const res = await axiosClient.get("/buyer/acceptedComments");
   return res;
@@ -31,62 +33,37 @@ const AcceptedOrders = () => {
   const [selectedDesc, setSelectedDesc] = useState("");
   const [clickedRow, setClickedRow] = useState();
   const [isChangeModalOpen, setIsChangeModalOpen] = useState(false);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [reviewModal, setReviewModal] = useState(false);
+  const [editReviewModal, setEditReviewModal] = useState(false);
   const {
     data: orders,
     errors,
     isLoading,
     refetch,
   } = useQueryHook(["acceptedOrders", page], getData);
+
   const changeStatusMutation = useMutationHook(acceptOrderFun, [
     "acceptedOrders",
     page,
   ]);
 
-  const acceptFunc = async (id, status) => {
-    const toastId = toast.loading("deleting..");
-    try {
-      const user = await changeStatusMutation.mutateAsync({ id, status });
-      toast.update(toastId, {
-        type: "success",
-        render: user.mes,
-        closeOnClick: true,
-        isLoading: false,
-        autoClose: true,
-        closeButton: true,
-        pauseOnHover: false,
-      });
-    } catch (error) {
-      toast.update(toastId, {
-        type: "error",
-        render: error.response.data.message,
-        closeOnClick: true,
-        isLoading: false,
-        autoClose: true,
-        closeButton: true,
-        pauseOnHover: false,
-      });
-    }
-  };
-
-  const handleChangeStatus = (id, status) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      theme: "dark",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        acceptFunc(id, status);
-      }
-    });
-  };
   const handleSelectedRow = (row) => {
     setClickedRow(row);
     setIsChangeModalOpen(true);
+  };
+
+  const handleSelectedRowReport = (row) => {
+    setClickedRow(row);
+    setReportModalOpen(true);
+  };
+  const handleselectedRowReview = (row) => {
+    setClickedRow(row);
+    setReviewModal(true);
+  };
+  const handleSelectedRowEditReview = (row) => {
+    setClickedRow(row);
+    setEditReviewModal(true);
   };
 
   const columns = [
@@ -161,7 +138,7 @@ const AcceptedOrders = () => {
           <div>
             <Button
               isLink={false}
-              title={"show"}
+              Icon={<FaEye />}
               color={"bg-blueColor"}
               onClickFun={() => {
                 setIsModalOpen(true);
@@ -173,16 +150,28 @@ const AcceptedOrders = () => {
       },
     },
     {
-      width: "10%",
+      width: "11%",
       name: "status",
       selector: (row) => {
         return (
-          <div>
-            {row.status == 0
-              ? "pending"
-              : row.status == 1
-              ? "accepted"
-              : "denied"}
+          <div
+            className={`p-1 rounded-md ${
+              row.work_status == 1
+                ? "border border-blueColor text-blueColor bg-blueColor bg-opacity-20"
+                : row.work_status == 2
+                ? "border border-orangeColor text-orangeColor bg-orangeColor bg-opacity-20"
+                : row.work_status == 3
+                ? "border border-greenColor text-greenColor bg-greenColor bg-opacity-20"
+                : "border border-redColor text-redColor bg-redColor bg-opacity-20 "
+            }`}
+          >
+            {row.work_status == 1
+              ? "in proccess"
+              : row.work_status == 2
+              ? "in progress"
+              : row.work_status == 3
+              ? "completed"
+              : "canceled"}
           </div>
         );
       },
@@ -193,33 +182,42 @@ const AcceptedOrders = () => {
       selector: (row) => {
         return (
           <div className="flex gap-1">
-            {row.work_status == 0 || row.work_status == 1 ? (
+            {row.work_status == 0 ||
+            row.work_status == 1 ||
+            row.work_status == 2 ? (
               <Button
                 isLink={false}
                 color={"bg-blueColor"}
                 title={"change status"}
                 onClickFun={() => handleSelectedRow(row)}
               />
+            ) : row.data_review === false ? (
+              <Button
+                isLink={false}
+                color={"bg-blueColor"}
+                title={"add review"}
+                onClickFun={() => handleselectedRowReview(row)}
+              />
             ) : (
               <Button
                 isLink={false}
                 color={"bg-blueColor"}
-                title={"add a review"}
-                onClickFun={() => handleSelectedRow(row)}
+                title={"edit review"}
+                onClickFun={() => handleSelectedRowEditReview(row)}
               />
             )}
             <Button
               isLink={false}
               color={"bg-redColor"}
               title={"report"}
-              onClickFun={() => handleChangeStatus(row.id, 1)}
+              onClickFun={() => handleSelectedRowReport(row)}
             />
           </div>
         );
       },
     },
   ];
-  console.log(orders);
+  if (isLoading) return <Loader />;
   return (
     <Page>
       {isModalOpen && (
@@ -240,7 +238,45 @@ const AcceptedOrders = () => {
         <ModalContainer
           isModalOpen={isChangeModalOpen}
           setIsModalOpen={setIsChangeModalOpen}
-          component={<ChangeStatus data={clickedRow} />}
+          component={
+            <ChangeStatus
+              data={clickedRow}
+              setIsModalOpen={setIsChangeModalOpen}
+            />
+          }
+        />
+      )}
+      {reportModalOpen && (
+        <ModalContainer
+          isModalOpen={reportModalOpen}
+          setIsModalOpen={setReportModalOpen}
+          component={
+            <ReportModal
+              order={clickedRow}
+              setIsModalOpen={setReportModalOpen}
+            />
+          }
+        />
+      )}
+      {reviewModal && (
+        <ModalContainer
+          isModalOpen={reviewModal}
+          setIsModalOpen={setReviewModal}
+          component={
+            <ReviewModal order={clickedRow} setIsModalOpen={setReviewModal} />
+          }
+        />
+      )}
+      {editReviewModal && (
+        <ModalContainer
+          isModalOpen={editReviewModal}
+          setIsModalOpen={setEditReviewModal}
+          component={
+            <EditReview
+              order={clickedRow}
+              setIsModalOpen={setEditReviewModal}
+            />
+          }
         />
       )}
       <PageTitle text={"all accepted orders"} />
@@ -252,7 +288,7 @@ const AcceptedOrders = () => {
           actualData={orders?.data.data}
           setPage={setPage}
           paginationBool={true}
-          noDataMessage={"no users to show!"}
+          noDataMessage={"no accepted orders to show!"}
         />
       </div>
     </Page>
