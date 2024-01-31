@@ -90,7 +90,6 @@ export default function exampleForForm() {
 }
 
 function onSubmit(values) {
-  console.log(values);
 }
 
 function validate(watchValues, methods) {

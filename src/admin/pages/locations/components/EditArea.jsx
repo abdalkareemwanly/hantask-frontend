@@ -81,7 +81,6 @@ export const EditArea = ({
   };
   const mutation = useMutationHook(postData, ["areas"]);
   const onSubmit = async (values) => {
-    console.log(values);
     const id = toast.loading("please wait...");
     const city = {
       ...values,

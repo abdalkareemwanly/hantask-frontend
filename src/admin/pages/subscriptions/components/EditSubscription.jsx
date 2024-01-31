@@ -5,16 +5,21 @@ import { useState } from "react";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
 const postData = async (data) => {
   const res = await axiosClient.post(
-    `/admin/category/update/${data.catId}`,
+    `/admin/plan/update/${data.planId}`,
     data.formData
   );
   return res;
 };
-export const EditSubscription = ({ data, getCategories, setIsModalOpen }) => {
+export const EditSubscription = ({
+  data,
+  PLANSTYPES,
+  setIsModalOpen,
+  PAYMENTS_CURRENCY,
+}) => {
   const [image, setImage] = useState(data?.image);
 
   let template = {
-    title: "add new category",
+    title: "add new subscription plan",
     fields: [
       {
         name: "image",
@@ -24,73 +29,98 @@ export const EditSubscription = ({ data, getCategories, setIsModalOpen }) => {
         imgStyle: "w-[125px] h-[125px]",
       },
       {
-        title: "category name",
+        title: "name",
         name: "name",
         type: "text",
-        value: data.name,
-
+        value: data?.name,
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
       {
-        title: "description",
-        name: "description",
-        type: "text",
-        value: data.description,
-
+        title: "expire time",
+        name: "interval",
+        type: "select",
+        value: data?.interval,
+        options: PLANSTYPES,
+        optionText: "title",
+        optionValue: "title",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
       {
-        title: "slug",
-        name: "slug",
-        value: data.slug,
-        type: "text",
-
+        title: "price",
+        value: data?.price,
+        name: "amount",
+        type: "number",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
       {
-        title: "code",
-        name: "code",
-        type: "text",
-        value: data.slug,
-
+        title: "currency",
+        name: "currency",
+        value: data?.currency,
+        type: "select",
+        options: PAYMENTS_CURRENCY,
+        optionText: "title",
+        optionValue: "title",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
-      // {
-      //   title: "icon",
-      //   name: "icon",
-      //   type: "file",
-      //   fileFor: "icon",
-      //   styles: "md:w-[45%] mt-2",
-      // },
-      // {
-      //   title: "mobile icon",
-      //   name: "mobile_icon",
-      //   type: "file",
-      //   fileFor: "icon",
-      //   styles: "md:w-[45%] mt-2",
-      // },
+      {
+        title: "interval count",
+        name: "interval_count",
+        value: data?.interval_count,
+        type: "text",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "md:w-[45%]",
+      },
     ],
   };
-  const mutation = useMutationHook(postData, ["categories"]);
+
+  const mutation = useMutationHook(postData, ["subscriptiona"]);
   const onSubmit = async (values) => {
     const id = toast.loading("please wait...");
-    const category = {
+    const plan = {
       ...values,
       image,
     };
     const formData = new FormData();
-    formData.append("name", category.name);
-    formData.append("description", category.description);
-    formData.append("slug", category.slug);
-    // formData.append("code", category.code);
+    formData.append("name", plan.name);
+    formData.append("amount", plan.amount);
+    formData.append("currency", plan.currency);
+    formData.append("interval", plan.interval);
+    formData.append("interval_count", plan.interval_count);
     if (/^image/.test(image?.type)) {
-      formData.append("image", category.image);
+      formData.append("image", plan.image);
     }
-    const catId = data.id;
-    // formData.append("icon", category.icon);
-    // formData.append("mobile_icon", category.mobile_icon);
+    const planId = data.id;
     try {
-      const user = await mutation.mutateAsync({ formData, catId });
+      const user = await mutation.mutateAsync({ formData, planId });
       setIsModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",

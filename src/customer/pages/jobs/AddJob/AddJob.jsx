@@ -18,11 +18,9 @@ const AddJob = () => {
     const selectedMainCategory = categories?.find(
       (obj) => obj.id == e.target.value
     );
-    console.log(selectedMainCategory);
     const updatedFilteredSubCategories = subCategories?.filter(
       (obj) => obj.categoryName === selectedMainCategory?.name
     );
-    console.log(updatedFilteredSubCategories);
     setFilteredSubCategories(updatedFilteredSubCategories);
   };
 
@@ -31,22 +29,18 @@ const AddJob = () => {
     const selectedMainCategory = subCategories?.find(
       (obj) => obj.id == e.target.value
     );
-    console.log(selectedMainCategory);
     const updatedFilteredSubCategories = childCategories?.filter(
       (obj) => obj.subcategoryName === selectedMainCategory?.name
     );
-    console.log(updatedFilteredSubCategories);
     setFilteredChilds(updatedFilteredSubCategories);
   };
 
   const [filteredCities, setFilteredCities] = useState([]);
   const handleCountriesChange = (e) => {
     const selectedCountry = countries?.find((obj) => obj.id == e.target.value);
-    console.log(selectedCountry);
     const updatedCiteis = cities?.filter(
       (obj) => obj.country === selectedCountry?.country
     );
-    console.log(updatedCiteis);
     setFilteredCities(updatedCiteis);
   };
   let template = {
@@ -201,7 +195,6 @@ const AddJob = () => {
   const [step, setStep] = useState(1);
 
   const onSubmit = async (values) => {
-    console.log(values);
     setStepData({ ...values });
     setStep(2);
     // const id = toast.loading("please wait...");
@@ -239,8 +232,6 @@ const AddJob = () => {
   };
 
   const handleFinish = async () => {
-    console.log(stepData);
-    console.log(thumbnail, _images);
 
     const formData = new FormData();
     formData.append("title", stepData.title);
@@ -267,7 +258,6 @@ const AddJob = () => {
         images
       );
 
-      console.log(res2);
     }
   };
 

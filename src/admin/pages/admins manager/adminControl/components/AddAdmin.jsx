@@ -138,7 +138,6 @@ export const AddAdmin = ({ getRoles, setIsAddModalOpen, roles }) => {
   };
 
   const validate = () => {
-    console.log("no");
   };
 
   return (

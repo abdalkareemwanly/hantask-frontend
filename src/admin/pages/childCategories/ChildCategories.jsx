@@ -238,7 +238,6 @@ const ChildCategories = () => {
       },
     },
   ];
-  console.log(categories);
 
   return (
     hasShowPermission && (

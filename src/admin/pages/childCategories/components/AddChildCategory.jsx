@@ -18,7 +18,6 @@ export const AddChildCategory = ({
 
   const [filteredSubCategories, setFilteredSubCategories] = useState([]);
   // const [mainCategory, setMainCategory] = useState(null);
-  console.log(filteredSubCategories);
   const handleMainCategoryChange = (e) => {
     const selectedMainCategory = categories.find(
       (obj) => obj.id == e.target.value

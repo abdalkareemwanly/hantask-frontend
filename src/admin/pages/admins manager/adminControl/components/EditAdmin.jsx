@@ -5,7 +5,6 @@ import { useState } from "react";
 
 export const EditAdmin = ({ data, getRoles, setIsAddModalOpen, roles }) => {
   const [image, setImage] = useState(data?.image);
-  console.log(data);
   let template = {
     title: "edit new admin",
     fields: [
@@ -126,7 +125,6 @@ export const EditAdmin = ({ data, getRoles, setIsAddModalOpen, roles }) => {
   };
 
   const validate = () => {
-    console.log("no");
   };
 
   return (

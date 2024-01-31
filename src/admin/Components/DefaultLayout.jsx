@@ -22,7 +22,11 @@ export default function DefaultLayout() {
   const { setTheme } = useTWThemeContext();
   const { token, setTranslation } = useStateContext({});
   const user = JSON.parse(localStorage.getItem("USER"));
-
+  const getTranslation = () => {
+    axiosClient.get("/admin/translation").then((response) => {
+      setTranslation(response.data);
+    });
+  };
   useEffect(() => {
     getTranslation();
     const htmlElement = document.querySelector("html");
@@ -47,12 +51,6 @@ export default function DefaultLayout() {
   if (!token) {
     return <Navigate to={"/admin/login"} />;
   }
-
-  const getTranslation = () => {
-    axiosClient.get("/admin/translation").then((response) => {
-      setTranslation(response.data);
-    });
-  };
 
   return (
     <div className={`flex-row md:flex bg-background-color `}>
@@ -123,7 +121,7 @@ export default function DefaultLayout() {
               </Link>
               <Link
                 className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out"
-                to={"/admin/logout"}
+                to={"/admin/dashboard/logout"}
               >
                 Logout
               </Link>

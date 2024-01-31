@@ -57,7 +57,6 @@ export const AddRole = ({ getRoles, setIsAddModalOpen }) => {
   };
 
   const validate = () => {
-    console.log("no");
   };
 
   return (

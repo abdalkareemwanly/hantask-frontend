@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../../Components/Logo";
-import axiosClient from "../../../../axios-client";
 import { useStateContext } from "../../../../contexts/ContextsProvider";
 import ReusableForm from "../../../../Components/ReusableForm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axiosClient from "../../../../axios-client";
 
 export default function AdminLogin() {
   const { token, setUser, setToken } = useStateContext();
@@ -26,7 +26,7 @@ export default function AdminLogin() {
       password: values.password,
     };
     axiosClient
-      .post("/admin/login", payload)
+      .post("https://api.hantask.at/api/admin/login", payload)
       .then((response) => {
         toast.update(id, {
           render: response?.data?.message,

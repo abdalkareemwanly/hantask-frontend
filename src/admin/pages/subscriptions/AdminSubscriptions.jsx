@@ -6,7 +6,6 @@ import TableData from "../../../Components/TableData";
 import { toast } from "react-toastify";
 import ModalContainer from "../../../Components/ModalContainer";
 import axiosClient from "../../../axios-client";
-import { SuccessIcon, ErrorIcon } from "../../../Components/Icons";
 import useCheckPermission from "../../../hooks/checkPermissions";
 import { useNavigate } from "react-router-dom";
 import { useQueryHook } from "../../../hooks/useQueryHook";
@@ -14,27 +13,24 @@ import { useMutationHook } from "../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
 import { AddSubscription } from "./components/AddSubscription";
 import { EditSubscription } from "./components/EditSubscription";
-
 const PLANSTYPES = [
   {
     id: 1,
-    title: "one month",
+    title: "month",
   },
   {
     id: 2,
-    title: "three months",
+    title: "year",
+  },
+];
+const PAYMENTS_CURRENCY = [
+  {
+    id: 1,
+    title: "usd",
   },
   {
-    id: 3,
-    title: "six months",
-  },
-  {
-    id: 4,
-    title: "one year",
-  },
-  {
-    id: 5,
-    title: "full life",
+    id: 2,
+    title: "euro",
   },
 ];
 
@@ -46,6 +42,7 @@ const getData = async (page = 1, searchTerm) => {
   );
   return res;
 };
+
 const changeStatusFunc = async (id) => {
   const res = await axiosClient.get(`/admin/category/changeStatusMethod/${id}`);
   return res;
@@ -170,37 +167,28 @@ const Subscriptions = () => {
       maxWidth: "9%",
     },
     {
-      name: "category name",
+      name: "name",
       selector: (row) => row.name,
       maxWidth: "15%",
     },
     {
-      name: "slug",
-      selector: (row) => row.slug,
+      name: "interval",
+      selector: (row) => row.interval,
       maxWidth: "15%",
     },
     {
-      name: "description",
-      selector: (row) =>
-        row?.description?.length >= 50
-          ? row?.description.substring(0, 50) + "..."
-          : row?.description,
-      maxWidth: "30%",
+      name: "price",
+      selector: (row) => row?.price,
+      maxWidth: "15%",
     },
     {
-      name: "status",
-      selector: (row) =>
-        row.status == 1 ? (
-          <SuccessIcon
-            className="p-2 block rounded-md text-greenColor"
-            size={45}
-          />
-        ) : (
-          <ErrorIcon
-            className=" p-2 block rounded-md text-redColor"
-            size={45}
-          />
-        ),
+      name: "currency",
+      selector: (row) => row?.currency,
+      maxWidth: "15%",
+    },
+    {
+      name: "interval_count",
+      selector: (row) => row.interval_count,
       maxWidth: "10%",
     },
     {
@@ -214,14 +202,6 @@ const Subscriptions = () => {
                 color={"bg-orangeColor"}
                 title={"edit"}
                 onClickFun={() => editBtnFun(row)}
-              />
-            )}
-            {hasChangeMethod && (
-              <Button
-                isLink={false}
-                color={"bg-blueColor"}
-                title={"change status"}
-                onClickFun={() => handleChangeStatus(row.id)}
               />
             )}
             {hasDeletePermission && (
@@ -263,8 +243,8 @@ const Subscriptions = () => {
             component={
               <EditSubscription
                 PLANSTYPES={PLANSTYPES}
+                PAYMENTS_CURRENCY={PAYMENTS_CURRENCY}
                 data={clickedRow}
-                // getCategories={getCategories}
                 setIsModalOpen={setIsModalOpen}
               />
             }
@@ -278,7 +258,7 @@ const Subscriptions = () => {
             component={
               <AddSubscription
                 PLANSTYPES={PLANSTYPES}
-                // getCategories={getCategories}
+                PAYMENTS_CURRENCY={PAYMENTS_CURRENCY}
                 setIsAddModalOpen={setIsAddModalOpen}
               />
             }

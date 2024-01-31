@@ -41,7 +41,6 @@ const Admins = () => {
   // useEffect(() => {
   //   const hasPermission = hasPermissionFun("showUsers");
   //   if (hasPermission) {
-  //     console.log(hasPermission);
   //   } else {
   //     nav("/admin/dashboard");
   //   }

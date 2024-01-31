@@ -8,15 +8,19 @@
     "all chats": {
       "path": "dashboard/chat/all",
       "perId": "showUsers"
+    },
+    "reportsChats": {
+      "path": "reports",
+      "perId": "showRoles"
     }
   },
   "Users Manage": {
     "All Users": {
       "path": "/admin/dashboard/users",
-    "perId": "showUsers"
+      "perId": "showUsers"
     },
     "Deactive Users": {
-      "path":  "/admin/dashboard/archivedUsers",
+      "path": "/admin/dashboard/archivedUsers",
       "perId": "showArchivedUser"
     }
   },
@@ -39,7 +43,7 @@
     "countries": {
       "path": "/admin/dashboard/locations/countries",
       "name": null,
-    "perId": "showCountries"
+      "perId": "showCountries"
     },
     "cities": {
       "path": "/admin/dashboard/locations/cities",
@@ -191,11 +195,11 @@
   },
   "Languages": {
     "name": null,
-    "path": "/admin/languages",
+    "path": "/admin/dashboard/languages",
     "perId": "showLanguages"
   },
   "Back To Site": {
     "name": null,
-    "path": "/admin/languages"
+    "path": "/admin/dashboard/languages"
   }
 }

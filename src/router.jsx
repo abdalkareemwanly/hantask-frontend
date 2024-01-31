@@ -54,10 +54,13 @@ import CustomerChat from "./customer/pages/chat/Chat";
 import Reviews from "./customer/pages/reviews/Reviews";
 import Subscriptions from "./admin/pages/subscriptions/AdminSubscriptions";
 import Coupons from "./admin/pages/coupons/Coupons";
+import AdminReports from "./admin/pages/reports/AdminReports";
+import AdminCustomerChat from "./admin/pages/reportsChat/AdminReportsChat";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
   const userRole = JSON.parse(localStorage.getItem("USER")).user_type;
+  console.log("private");
   return thereisToken && userRole === role ? (
     element
   ) : userRole === "admin" ? (
@@ -69,29 +72,42 @@ const PrivateRoute = ({ element, role }) => {
 
 const router = createBrowserRouter([
   {
-    path: "/admin/",
+    path: "/admin/dashboard/",
     element: <DefaultLayout />,
     children: [
       {
-        path: "dashboard",
+        index: true,
         element: <Index />,
       },
-      { path: "dashboard/chat/all", element: <Chat /> },
-      { path: "dashboard/users", element: <Users /> },
-      { path: "dashboard/archivedUsers", element: <ArchivedUsers /> },
-      { path: "dashboard/categories", element: <Categories /> },
-      { path: "dashboard/subCategories", element: <SubCategories /> },
-      { path: "dashboard/childs", element: <ChildCategories /> },
-      { path: "dashboard/locations/countries", element: <Countries /> },
-      { path: "dashboard/locations/cities", element: <Cities /> },
-      { path: "dashboard/locations/areas", element: <Areas /> },
-      { path: "dashboard/locations/tax", element: <Tax /> },
-      { path: "dashboard/admins", element: <Admins /> },
-      { path: "dashboard/posts", element: <Posts /> },
-      { path: "dashboard/subscriptions", element: <Subscriptions /> },
-      { path: "dashboard/coupons", element: <Coupons /> },
+      { path: "users", element: <Users /> },
+      { path: "chat", element: <Chat /> },
+      { path: "archivedUsers", element: <ArchivedUsers /> },
+      { path: "categories", element: <Categories /> },
+      { path: "subCategories", element: <SubCategories /> },
+      { path: "childs", element: <ChildCategories /> },
+      { path: "locations/countries", element: <Countries /> },
+      { path: "locations/cities", element: <Cities /> },
+      { path: "locations/areas", element: <Areas /> },
+      { path: "locations/tax", element: <Tax /> },
+      { path: "admins", element: <Admins /> },
+      { path: "posts", element: <Posts /> },
+      { path: "subscriptions", element: <Subscriptions /> },
+      { path: "coupons", element: <Coupons /> },
       {
-        path: "dashboard/rolesControl",
+        path: "reports",
+        element: <AdminReports />,
+      },
+      {
+        path: "chat",
+        children: [
+          {
+            path: ":id",
+            element: <AdminCustomerChat />,
+          },
+        ],
+      },
+      {
+        path: "rolesControl",
         children: [
           {
             path: "",
@@ -103,7 +119,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-
       {
         path: "logout",
         element: <AdminLogout />,
@@ -119,7 +134,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/admin/*",
+    path: "/admin/login",
     element: <AdminLogin />,
   },
   {

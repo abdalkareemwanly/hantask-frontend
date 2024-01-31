@@ -1,0 +1,31 @@
+.first-message {
+    position: relative;
+}
+
+.first-message.sent-message {
+    position: relative;
+    border-top-left-radius: 0;
+}
+
+.first-message.received-message {
+    position: relative;
+    border-top-right-radius: 0;
+}
+
+.first-message::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 0;
+}
+
+.first-message.sent-message::after {
+    background: radial-gradient(at 0% 100%, transparent 70%, #4fc961 70%);
+    left: -10px;
+}
+
+.first-message.received-message::after {
+    background: radial-gradient(at 100% 100%, transparent 70%, rgb(var(--background-color)) 70%);
+    right: -10px;
+}

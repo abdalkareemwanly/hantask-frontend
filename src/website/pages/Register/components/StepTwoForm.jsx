@@ -29,7 +29,6 @@ function StepTwoForm({
       ...defaultData,
     },
   });
-  console.log(getValues());
 
   const submitData = (data) => {
     setDefaultData({ ...data });

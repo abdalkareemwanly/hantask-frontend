@@ -22,7 +22,6 @@ const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
   const [filteredAreas, setFilteredAreas] = useState(null);
   const handleCityChange = (e) => {
     const selectedCountry = cities?.find((obj) => obj.id == e);
-    console.log(selectedCountry);
     const updatedAreas = areas?.filter(
       (obj) => obj.city === selectedCountry?.service_city
     );
@@ -121,7 +120,6 @@ const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
   const mutation = useMutationHook(postData, ["profile"]);
   let userId = data?.id;
   const onSubmit = async (values) => {
-    console.log(values);
     const user = {
       ...values,
       image,

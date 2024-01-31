@@ -4,14 +4,14 @@ import axiosClient from "../../../../axios-client";
 import ReusableForm from "../../../../Components/ReusableForm";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
 const postData = async (formData) => {
-  const res = await axiosClient.post("/admin/category/store", formData);
+  const res = await axiosClient.post("/admin/plan/store", formData);
   return res;
 };
 
 export const AddSubscription = ({
-  getCategories,
   setIsAddModalOpen,
   PLANSTYPES,
+  PAYMENTS_CURRENCY,
 }) => {
   const [image, setImage] = useState();
 
@@ -45,7 +45,7 @@ export const AddSubscription = ({
       },
       {
         title: "expire time",
-        name: "expire time",
+        name: "interval",
         type: "select",
         options: PLANSTYPES,
         optionText: "title",
@@ -73,7 +73,10 @@ export const AddSubscription = ({
       {
         title: "currency",
         name: "currency",
-        type: "text",
+        type: "select",
+        options: PAYMENTS_CURRENCY,
+        optionText: "title",
+        optionValue: "title",
         validationProps: {
           required: {
             value: true,
@@ -84,7 +87,7 @@ export const AddSubscription = ({
       },
       {
         title: "interval count",
-        name: "interval count",
+        name: "interval_count",
         type: "text",
         validationProps: {
           required: {
@@ -97,7 +100,7 @@ export const AddSubscription = ({
     ],
   };
 
-  const mutation = useMutationHook(postData, ["categories"]);
+  const mutation = useMutationHook(postData, ["subscriptions"]);
 
   const onSubmit = async (values) => {
     const id = toast.loading("please wait...");
@@ -107,8 +110,10 @@ export const AddSubscription = ({
     };
     const formData = new FormData();
     formData.append("name", category.name);
-    formData.append("description", category.description);
-    formData.append("slug", category.slug);
+    formData.append("amount", category.amount);
+    formData.append("currency", category.currency);
+    formData.append("interval", category.interval);
+    formData.append("interval_count", category.interval_count);
     // formData.append("code", category.code);
     formData.append("image", category.image);
     // formData.append("icon", category.icon);
