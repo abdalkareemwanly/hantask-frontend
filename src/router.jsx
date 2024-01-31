@@ -40,28 +40,23 @@ import CustomerHomePage from "./customer/pages/mainPage/CustomerHomePage";
 import ServiceProviderChat from "./serviceProvider/pages/chat/ServiceProviderChat";
 import Profile from "./serviceProvider/pages/profile/Profile";
 import ApplyJob from "./website/pages/applyJob/ApplyJob";
-import {
-  AcceptedOrders,
-  CustomerJobs,
-  CustomerProfile,
-  Orders,
-} from "./customer/pages";
+import { AcceptedOrders, CustomerJobs, CustomerProfile, Orders } from "./customer/pages";
 import AddJob from "./customer/pages/jobs/AddJob/AddJob";
 import EditJob from "./customer/pages/jobs/editJob/EditJob";
 import Notifications from "./customer/pages/notifications/Notifications";
 import Reports from "./customer/pages/reports/Reports";
 import CustomerChat from "./customer/pages/chat/Chat";
+import WebSiteCategories from "./website/pages/categories/Categories";
+import WebSiteSubcategories from "./website/pages/subcategories/Subcategories";
+import WebSiteChildcategories from "./website/pages/childcategories/Childcategories";
+import WebSiteChildcategoryJobs from "./website/pages/childcategoryJobs/ChildcategoryJobs";
+import SellerProfile from "./website/pages/sellerProfile/SellerProfile";
+import About from "./website/pages/about/About";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
   const userRole = JSON.parse(localStorage.getItem("USER")).user_type;
-  return thereisToken && userRole === role ? (
-    element
-  ) : userRole === "admin" ? (
-    <Navigate to="/admin/login" />
-  ) : (
-    <Navigate to="/" />
-  );
+  return thereisToken && userRole === role ? element : userRole === "admin" ? <Navigate to="/admin/login" /> : <Navigate to="/" />;
 };
 
 const router = createBrowserRouter([
@@ -134,6 +129,22 @@ const router = createBrowserRouter([
         element: <Subscription />,
       },
       {
+        path: "categories",
+        element: <WebSiteCategories />,
+      },
+      {
+        path: "subcategories",
+        element: <WebSiteSubcategories />,
+      },
+      {
+        path: "childcategories",
+        element: <WebSiteChildcategories />,
+      },
+      {
+        path: "child-category-jobs",
+        element: <WebSiteChildcategoryJobs />,
+      },
+      {
         path: "jobs",
         element: <PostJobs />,
       },
@@ -142,8 +153,12 @@ const router = createBrowserRouter([
         element: <JobDetail />,
       },
       {
-        path: "buyer-profile",
+        path: "buyer-profile/:id",
         element: <BuyerProfile />,
+      },
+      {
+        path: "seller-profile/:id",
+        element: <SellerProfile />,
       },
       {
         path: "apply-job",
@@ -152,6 +167,10 @@ const router = createBrowserRouter([
       {
         path: "contact",
         element: <Contact />,
+      },
+      {
+        path: "about",
+        element: <About />,
       },
       {
         path: "login",
@@ -187,11 +206,7 @@ const router = createBrowserRouter([
           <Condition
             conditionContent={
               <>
-                <div>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Placeat blanditiis accusantium hic atque magni beatae aliquam
-                  facilis cupiditate dolorum ab!
-                </div>
+                <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat blanditiis accusantium hic atque magni beatae aliquam facilis cupiditate dolorum ab!</div>
               </>
             }
           />
@@ -201,9 +216,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/serviceProvider/",
-    element: (
-      <PrivateRoute element={<ServiceProviderLayout />} role={"seller"} />
-    ),
+    element: <PrivateRoute element={<ServiceProviderLayout />} role={"seller"} />,
     children: [
       {
         path: "home",

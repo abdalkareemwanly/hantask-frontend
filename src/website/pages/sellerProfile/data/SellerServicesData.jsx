@@ -1,0 +1,48 @@
+const SELLER_SERVICES_DEFAULT_DATA = [
+  {
+    id: 1,
+    image: "hello.jpg",
+    serviceLink: "service",
+    title: "anything",
+    description: "hello hlkdsjf lksdj lskj alsjdf lsjdf lskjs dlkjf acjeoc lakjiet la",
+    state: "not applied",
+    category: "cat",
+    subcategory: "sub",
+    childcategory: "child",
+  },
+  {
+    id: 2,
+    image: "hello.jpg",
+    serviceLink: "service",
+    title: "anything",
+    description: "hello hlkdsjf lksdj lskj alsjdf lsjdf lskjs dlkjf acjeoc lakjiet la hello hlkdsjf lksdj lskj alsjdf lsjdf lskjs dlkjf acjeoc lakjiet la hello hlkdsjf lksdj lskj alsjdf lsjdf lskjs dlkjf acjeoc lakjiet la hello hlkdsjf lksdj lskj alsjdf lsjdf lskjs dlkjf acjeoc lakjiet la",
+    state: "not applied",
+    category: "cat",
+    subcategory: "sub",
+    childcategory: "child",
+  },
+  {
+    id: 3,
+    image: "hello.jpg",
+    serviceLink: "service",
+    title: "anything",
+    description: "hello hlkdsjf lksdj lskj alsjdf lsjdf lskjs dlkjf acjeoc lakjiet la",
+    state: "not applied",
+    category: "cat",
+    subcategory: "sub",
+    childcategory: "child",
+  },
+  {
+    id: 4,
+    image: "hello.jpg",
+    serviceLink: "service",
+    title: "anything",
+    description: "hello hlkdsjf lksdj lskj alsjdf lsjdf lskjs dlkjf acjeoc lakjiet la hello hlkdsjf lksdj lskj alsjdf lsjdf lskjs dlkjf acjeoc lakjiet la hello hlkdsjf lksdj lskj alsjdf lsjdf lskjs dlkjf acjeoc lakjiet la hello hlkdsjf lksdj lskj alsjdf lsjdf lskjs dlkjf acjeoc lakjiet la",
+    state: "not applied",
+    category: "cat",
+    subcategory: "sub",
+    childcategory: "child",
+  },
+];
+
+export default SELLER_SERVICES_DEFAULT_DATA;

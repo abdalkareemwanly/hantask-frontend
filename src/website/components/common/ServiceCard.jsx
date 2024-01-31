@@ -1,8 +1,8 @@
 import { IoLocationOutline } from "react-icons/io5";
-import Button from "../../../components/form/Button";
+import Button from "../form/Button";
 import { Link } from "react-router-dom";
-function PostJobsCard({ item }) {
-  console.log(item);
+
+function ServiceCard({ item }) {
   return (
     <>
       <div className="post-jobs-card">
@@ -10,29 +10,18 @@ function PostJobsCard({ item }) {
           <div className="jobs-card-top-image">
             <img src={import.meta.env.VITE_WEBSITE_URL + item.image} alt="" />
             <span className="jobs-card-location">
-              <IoLocationOutline className="location-icon" />
-              {item.city}
+              {item.category}
+              {item.subcategory ? " - " + item.subcategory : null}
+              {item.childcategory ? " - " + item.childcategory : null}
             </span>
           </div>
         </Link>
-        <div className="post-jobs-card-content">
-          <Link to={item.jobLink}>
-            <div className="top-section">
-              <div className="top-section-image">
-                <img src={item.userImage} alt="" />
-                <span className="online-circle"></span>
-              </div>
-              <span>{item["buyer name"]}</span>
-            </div>
-          </Link>
+        <div className="post-jobs-card-content pt-[30px]">
           <h5 className="jobs-card-title">
-            <Link to={item.jobLink}>{item.title}</Link>
+            <Link to={item.serviceLink}>{item.title}</Link>
           </h5>
-          <p className="jobs-card-p ellipsis">{item.description}</p>
-          <div className="jobs-card-price">
-            <span className="price-title">starting at: </span>
-            <span className="price">${item.budget}</span>
-          </div>
+          <p className="jobs-card-p mb-[20px] ellipsis">{item.description}</p>
+
           <Button
             isLink={item.state == "hired" || item.state == "applied" ? false : true}
             goto={item.state == "hired" || item.state == "applied" ? "" : "/apply-job"}
@@ -57,4 +46,4 @@ function PostJobsCard({ item }) {
   );
 }
 
-export default PostJobsCard;
+export default ServiceCard;

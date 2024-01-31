@@ -6,9 +6,9 @@ const GlobalDataContext = createContext();
 export const GlobalDataProvider = ({ children }) => {
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
-  const [childCategories, setChildCategories] = useState([]);
+  const [categories, setCategories] = useState(false);
+  const [subCategories, setSubCategories] = useState(false);
+  const [childCategories, setChildCategories] = useState(false);
 
   const getCountries = async (signal) => {
     const res = await axiosClient.get("/site/countrys", { signal: signal });

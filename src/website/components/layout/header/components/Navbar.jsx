@@ -4,6 +4,7 @@ const Navbar = () => {
   return (
     <nav className="flex items-center gap-12">
       <Link to={""}>home</Link>
+      <Link to={"/about"}>about</Link>
       <Link to={"/subscription"}>subscription</Link>
       <Link to={"/policy"}>policy</Link>
       <Link to={"/condition"}>condition</Link>

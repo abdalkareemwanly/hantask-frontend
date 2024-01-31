@@ -20,6 +20,7 @@
   --success-color-rgb: 101, 193, 140;
   text-transform: capitalize;
   --input-shadow: 0 0 10px rgba(29, 191, 115, 0.1);
+  --second-bg: #f2f7ff;
 }
 
 :root[data-theme="dark"] {
@@ -65,6 +66,7 @@
   --success-color: #65c18c;
   --success-color-rgb: 101, 193, 140;
   --input-shadow: 0 0 10px rgba(29, 191, 115, 0.1);
+  --second-bg: #f2f7ff;
 
 }
 
@@ -100,6 +102,7 @@
   --success-color: #65c18c;
   --success-color-rgb: 101, 193, 140;
   --input-shadow: 0 0 10px rgba(29, 191, 115, 0.1);
+  --second-bg: #f2f7ff;
 
 }
 
@@ -345,3 +348,57 @@ input:checked+.slider:before {
 #sidebar a.active {
   background-color: #4fc961 !important;
 }
+
+
+/* abdullah area  */
+
+
+.ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.ellipsis-1 {
+  -webkit-line-clamp: 1;
+}
+
+
+.slider-dots {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.slider-dots li button {
+  background-color: var(--border);
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  color: transparent;
+  transition: all .3s;
+}
+
+.slider-dots li.slick-active button {
+  background-color: var(--main-color);
+}
+
+.loader .slider-dots li.slick-active button {
+  background-color: var(--dark-gray) !important;
+}
+
+.slider-dots.bigger-slider-active-dot li.slick-active button {
+  width: 30px;
+  border-radius: 100vw;
+}
+
+.slick-slide>div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* end of abdullah area  */
