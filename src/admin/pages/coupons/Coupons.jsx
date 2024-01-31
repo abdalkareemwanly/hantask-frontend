@@ -24,12 +24,14 @@ const getData = async (page = 1, searchTerm) => {
   return res;
 };
 const changeStatusFunc = async (id) => {
-  const res = await axiosClient.get(`/admin/category/changeStatusMethod/${id}`);
+  const res = await axiosClient.get(
+    `/admin/plan/coupon/changeStatusMethod/${id}`
+  );
   return res;
 };
 
 const deleteFunc = async (id) => {
-  const res = await axiosClient.get(`/admin/category/deleteMethod/${id}`);
+  const res = await axiosClient.get(`/admin/plan/coupon/deleteMethod/${id}`);
   return res;
 };
 
@@ -49,6 +51,7 @@ const Coupons = () => {
   const [clickedRow, setClickedRow] = useState();
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [plans, setPlans] = useState();
 
   const { data: categories, queryClient } = useQueryHook(
     ["coupons", page, searchTerm],
@@ -56,6 +59,23 @@ const Coupons = () => {
     "paginate",
     page
   );
+
+  const getPlans = async (signal) => {
+    const res = await axiosClient.get(`admin/plans`, { signal: signal });
+    setPlans(res.data.data);
+  };
+
+  useEffect(() => {
+    const abort1 = new AbortController();
+    const signal = abort1.signal;
+
+    getPlans(signal);
+
+    return () => {
+      abort1.abort();
+    };
+  }, []);
+
   const changeStatusMutation = useMutationHook(changeStatusFunc, [
     "coupons",
     page,
@@ -147,21 +167,23 @@ const Coupons = () => {
       maxWidth: "9%",
     },
     {
-      name: "category name",
+      name: "name",
       selector: (row) => row.name,
       maxWidth: "15%",
     },
     {
-      name: "slug",
-      selector: (row) => row.slug,
+      name: "amount off",
+      selector: (row) => row.amount_off,
       maxWidth: "15%",
     },
     {
-      name: "description",
-      selector: (row) =>
-        row?.description?.length >= 50
-          ? row?.description.substring(0, 50) + "..."
-          : row?.description,
+      name: "plan name",
+      selector: (row) => row?.plan_name,
+      maxWidth: "30%",
+    },
+    {
+      name: "expiration date",
+      selector: (row) => row?.expire_date,
       maxWidth: "30%",
     },
     {
@@ -240,7 +262,7 @@ const Coupons = () => {
             component={
               <EditCoupon
                 data={clickedRow}
-                // getCategories={getCategories}
+                plans={plans}
                 setIsModalOpen={setIsModalOpen}
               />
             }
@@ -252,10 +274,7 @@ const Coupons = () => {
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
-              <AddCoupon
-                // getCategories={getCategories}
-                setIsAddModalOpen={setIsAddModalOpen}
-              />
+              <AddCoupon plans={plans} setIsAddModalOpen={setIsAddModalOpen} />
             }
           />
         )}

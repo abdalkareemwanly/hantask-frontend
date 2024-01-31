@@ -9,15 +9,15 @@ function CustomerChatBody({ messages }) {
           return (
             <CustomerChatMessage
               key={index}
-              file={item.file}
-              message={item.message}
-              date={item.date}
-              type={item.sender_id == user.id ? "sent" : "received"}
+              file={item?.file}
+              message={item?.message}
+              date={item?.date}
+              type={item?.sender_id == user.id ? "sent" : "received"}
               isFirst={
                 index == 0 ||
                 messages[index].sender_id != messages[index - 1].sender_id
               }
-              name={item}
+              name={item?.sender_name}
             />
           );
         })}
