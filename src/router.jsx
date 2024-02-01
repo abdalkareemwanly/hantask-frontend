@@ -33,7 +33,6 @@ import ForgotPassword from "./website/pages/forgotPassword/ForgotPassword";
 import VerifyEmail from "./website/pages/verifyEmail/VerifyEmail";
 import JobDetail from "./website/pages/jobDetail/JobDetail";
 import BuyerProfile from "./website/pages/buyerProfile/BuyerProfile";
-import Home from "./serviceProvider/pages/mainPage/Home";
 import ServiceProviderLayout from "./serviceProvider/layoutComponents/ServiceProviderLayout";
 import CustomerLayout from "./customer/layoutComponents/CustomerLayout";
 import CustomerHomePage from "./customer/pages/mainPage/CustomerHomePage";
@@ -61,6 +60,7 @@ import ServiceProviderOrders from "./serviceProvider/pages/orders/ServiceProvide
 import ServiceProviderReports from "./serviceProvider/pages/reports/ServiceProviderReports";
 import SerProAcceptedOrders from "./serviceProvider/pages/acceptedOrders/SerProAcceptedOrders";
 import SerProReviews from "./serviceProvider/pages/reviews/SerProReviews";
+import SerProHomePage from "./serviceProvider/pages/mainPage/SerProHomePage";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -232,7 +232,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "home",
-        element: <Home />,
+        element: <SerProHomePage />,
       },
       {
         path: "Profile",
