@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../style/review.css";
+import "../style/Review.css";
 import StarRatings from "react-star-ratings";
 
 function Review({ data }) {

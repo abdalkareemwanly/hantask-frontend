@@ -8,12 +8,22 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useStateContext } from "../../contexts/ContextsProvider";
 import { useTWThemeContext } from "../../admin/Components/ThemeProvider";
 import { MdMiscellaneousServices } from "react-icons/md";
+import { MdWork } from "react-icons/md";
+import { BsListTask } from "react-icons/bs";
+import { FaTasks } from "react-icons/fa";
+import { GoReport } from "react-icons/go";
+import { MdReviews } from "react-icons/md";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
   "Live Chat": <BiSolidMessageRoundedDetail />,
   profile: <BsPersonFill />,
   services: <MdMiscellaneousServices />,
+  jobs: <MdWork size={20} />,
+  orders: <BsListTask size={20} />,
+  acceptedOrders: <FaTasks size={20} />,
+  reports: <GoReport size={20} />,
+  reviews: <MdReviews size={20} />,
 };
 
 export default function ServiceProviderSidebar({ setSidebarOpen }) {

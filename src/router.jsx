@@ -11,7 +11,7 @@ import ArchivedUsers from "./admin/pages/users/ArchivedUsers";
 import Categories from "./admin/pages/categories/Categories";
 import SubCategories from "./admin/pages/subCategories/SubCategories";
 import ChildCategories from "./admin/pages/childCategories/ChildCategories";
-import Countries from "./admin/pages/locations/countries";
+import Countries from "./admin/pages/locations/Countries";
 import Cities from "./admin/pages/locations/Cities";
 import Areas from "./admin/pages/locations/Areas";
 import Tax from "./admin/pages/tax/Tax";
@@ -38,7 +38,7 @@ import ServiceProviderLayout from "./serviceProvider/layoutComponents/ServicePro
 import CustomerLayout from "./customer/layoutComponents/CustomerLayout";
 import CustomerHomePage from "./customer/pages/mainPage/CustomerHomePage";
 import ServiceProviderChat from "./serviceProvider/pages/chat/ServiceProviderChat";
-import Profile from "./serviceProvider/pages/profile/Profile";
+import ServiceProviderProfile from "./serviceProvider/pages/profile/ServiceProviderProfile";
 import ApplyJob from "./website/pages/applyJob/ApplyJob";
 import {
   AcceptedOrders,
@@ -56,6 +56,11 @@ import Subscriptions from "./admin/pages/subscriptions/AdminSubscriptions";
 import Coupons from "./admin/pages/coupons/Coupons";
 import AdminReports from "./admin/pages/reports/AdminReports";
 import AdminCustomerChat from "./admin/pages/reportsChat/AdminReportsChat";
+import Service from "./website/components/common/Service";
+import ServiceProviderOrders from "./serviceProvider/pages/orders/ServiceProviderOrders";
+import ServiceProviderReports from "./serviceProvider/pages/reports/ServiceProviderReports";
+import SerProAcceptedOrders from "./serviceProvider/pages/acceptedOrders/SerProAcceptedOrders";
+import SerProReviews from "./serviceProvider/pages/reviews/SerProReviews";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -230,12 +235,28 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "Profile",
+        element: <ServiceProviderProfile />,
+      },
+      {
+        path: "reports",
+        element: <ServiceProviderReports />,
+      },
+      {
+        path: "orders",
+        element: <ServiceProviderOrders />,
+      },
+      {
         path: "chatInbox",
         element: <ServiceProviderChat />,
       },
       {
-        path: "profile",
-        element: <Profile />,
+        path: "acceptedOrders",
+        element: <SerProAcceptedOrders />,
+      },
+      {
+        path: "reviews",
+        element: <SerProReviews />,
       },
     ],
   },
