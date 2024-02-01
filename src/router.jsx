@@ -56,11 +56,16 @@ import Subscriptions from "./admin/pages/subscriptions/AdminSubscriptions";
 import Coupons from "./admin/pages/coupons/Coupons";
 import AdminReports from "./admin/pages/reports/AdminReports";
 import AdminCustomerChat from "./admin/pages/reportsChat/AdminReportsChat";
+import WebSiteCategories from "./website/pages/categories/Categories";
+import WebSiteSubcategories from "./website/pages/subcategories/Subcategories";
+import WebSiteChildcategories from "./website/pages/childcategories/Childcategories";
+import WebSiteChildcategoryJobs from "./website/pages/childcategoryJobs/ChildcategoryJobs";
+import SellerProfile from "./website/pages/sellerProfile/SellerProfile";
+import About from "./website/pages/about/About";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
   const userRole = JSON.parse(localStorage.getItem("USER")).user_type;
-  console.log("private");
   return thereisToken && userRole === role ? (
     element
   ) : userRole === "admin" ? (
@@ -154,6 +159,22 @@ const router = createBrowserRouter([
         element: <Subscription />,
       },
       {
+        path: "categories",
+        element: <WebSiteCategories />,
+      },
+      {
+        path: "subcategories",
+        element: <WebSiteSubcategories />,
+      },
+      {
+        path: "childcategories",
+        element: <WebSiteChildcategories />,
+      },
+      {
+        path: "child-category-jobs",
+        element: <WebSiteChildcategoryJobs />,
+      },
+      {
         path: "jobs",
         element: <PostJobs />,
       },
@@ -162,8 +183,12 @@ const router = createBrowserRouter([
         element: <JobDetail />,
       },
       {
-        path: "buyer-profile",
+        path: "buyer-profile/:id",
         element: <BuyerProfile />,
+      },
+      {
+        path: "seller-profile/:id",
+        element: <SellerProfile />,
       },
       {
         path: "apply-job",
@@ -172,6 +197,10 @@ const router = createBrowserRouter([
       {
         path: "contact",
         element: <Contact />,
+      },
+      {
+        path: "about",
+        element: <About />,
       },
       {
         path: "login",

@@ -1,21 +1,15 @@
-import "./style/BuyerProfile.css";
 import TitleLine from "../../components/common/TitleLine";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useState } from "react";
-import ProfileSection from "./components/ProfileSection";
-import BUYER_JOBS_DEFAULT_DATA from "./data/buyerJobsDefaultData";
-import PostJobsCard from "../jobs/components/PostJobsCard";
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
 import { useEffect } from "react";
-import Review from "./components/Review";
-import REVIEWS_DEFAULT_DATA from "./data/reviewsDefaultData";
-import PROFILE_SECTION_DEFAULT_DATA from "./data/profileSectionDefaultData";
-import BuyerProfileLoader from "./BuyerProfileLoader";
-import { useParams } from "react-router";
+import ReviewLoader from "../buyerProfile/components/ReviewLoader";
+import ProfileSectionLoader from "../buyerProfile/components/ProfileSectionLoader";
+import ServiceCardLoader from "../../components/common/ServiceCardLoader";
 
-function BuyerProfile(props) {
+function SellerProfileLoader(props) {
   try {
     const { height, width } = useWindowDimensions();
 
@@ -28,33 +22,27 @@ function BuyerProfile(props) {
       dotsClass: "slider-dots",
     });
 
-    const params = useParams();
-
-    return false ? (
+    return (
       <>
-        <BuyerProfileLoader />
-      </>
-    ) : (
-      <>
-        <div className="buyer-profile-container w-full px-[10%] md:px-[5%] px-0">
-          <ProfileSection data={PROFILE_SECTION_DEFAULT_DATA} />
+        <div className="buyer-profile-container w-full px-[10%] md:px-[5%] px-0 loader">
+          <ProfileSectionLoader />
           <div className="buyer-jobs-section">
-            <h3>Job Of This Buyer</h3>
+            <h3></h3>
             <TitleLine />
             <div className="py-[30px]">
               <Slider pauseOnHover {...sliderSettings} slidesToShow={width >= 1536 ? 4 : width >= 1200 ? 3 : width >= 768 ? 2 : 1}>
-                {BUYER_JOBS_DEFAULT_DATA.map((item, index) => {
-                  return <PostJobsCard key={index} item={item} />;
+                {Array.from(Array(5).keys()).map((item, index) => {
+                  return <ServiceCardLoader key={index} />;
                 })}
               </Slider>
             </div>
           </div>
           <div className="buyer-jobs-section">
-            <h3>Reviews as Buyer</h3>
+            <h3></h3>
             <TitleLine />
             <div className="py-[30px] flex flex-col">
-              {REVIEWS_DEFAULT_DATA.map((item, index) => {
-                return <Review key={index} data={item} />;
+              {Array.from(Array(3).keys()).map((item, index) => {
+                return <ReviewLoader key={index} />;
               })}
             </div>
           </div>
@@ -66,4 +54,4 @@ function BuyerProfile(props) {
   }
 }
 
-export default BuyerProfile;
+export default SellerProfileLoader;

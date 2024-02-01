@@ -6,6 +6,7 @@
     box-shadow: var(--shadow);
     margin: 15px;
     overflow: hidden;
+    width: 100%;
 }
 
 .jobs-card-top-image {
@@ -97,6 +98,7 @@
     margin-top: 20px;
     padding: 5px;
     text-align: left;
+    height: 106px;
     color: var(--gray-text);
 }
 

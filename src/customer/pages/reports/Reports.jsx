@@ -24,7 +24,7 @@ function Reports(props) {
     {
       name: "Order ID",
       width: "13.3%",
-      selector: (row) => row.orderId,
+      selector: (row) => row.comment_id,
     },
     {
       name: "Report ID",
