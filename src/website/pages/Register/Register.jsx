@@ -91,6 +91,7 @@ function Register(props) {
     formData.append("email", defaultDataOne.email);
     formData.append("username", defaultDataOne.username);
     formData.append("password", defaultDataOne.password);
+    formData.append("phone", defaultDataOne.phone);
     formData.append("user_type", userType.toLowerCase() === "buyer" ? 1 : 0);
     formData.append("country_id", defaultDataTwo.country);
     formData.append("service_city", defaultDataTwo.city);

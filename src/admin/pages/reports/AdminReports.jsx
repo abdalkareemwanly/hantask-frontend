@@ -12,7 +12,7 @@ import Filter from "../../../Components/Filter";
 import Loader from "../../../Components/Loader";
 
 const getData = async (page = 1) => {
-  const res = await axiosClient.get(`buyer/reports?page=${page}`);
+  const res = await axiosClient.get(`admin/reports?page=${page}`);
   return res;
 };
 function AdminReports(props) {

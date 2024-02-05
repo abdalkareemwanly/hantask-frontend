@@ -11,7 +11,7 @@ import ArchivedUsers from "./admin/pages/users/ArchivedUsers";
 import Categories from "./admin/pages/categories/Categories";
 import SubCategories from "./admin/pages/subCategories/SubCategories";
 import ChildCategories from "./admin/pages/childCategories/ChildCategories";
-import Countries from "./admin/pages/locations/countries";
+import Countries from "./admin/pages/locations/Countries";
 import Cities from "./admin/pages/locations/Cities";
 import Areas from "./admin/pages/locations/Areas";
 import Tax from "./admin/pages/tax/Tax";
@@ -33,12 +33,11 @@ import ForgotPassword from "./website/pages/forgotPassword/ForgotPassword";
 import VerifyEmail from "./website/pages/verifyEmail/VerifyEmail";
 import JobDetail from "./website/pages/jobDetail/JobDetail";
 import BuyerProfile from "./website/pages/buyerProfile/BuyerProfile";
-import Home from "./serviceProvider/pages/mainPage/Home";
 import ServiceProviderLayout from "./serviceProvider/layoutComponents/ServiceProviderLayout";
 import CustomerLayout from "./customer/layoutComponents/CustomerLayout";
 import CustomerHomePage from "./customer/pages/mainPage/CustomerHomePage";
 import ServiceProviderChat from "./serviceProvider/pages/chat/ServiceProviderChat";
-import Profile from "./serviceProvider/pages/profile/Profile";
+import ServiceProviderProfile from "./serviceProvider/pages/profile/ServiceProviderProfile";
 import ApplyJob from "./website/pages/applyJob/ApplyJob";
 import {
   AcceptedOrders,
@@ -62,6 +61,15 @@ import WebSiteChildcategories from "./website/pages/childcategories/Childcategor
 import WebSiteChildcategoryJobs from "./website/pages/childcategoryJobs/ChildcategoryJobs";
 import SellerProfile from "./website/pages/sellerProfile/SellerProfile";
 import About from "./website/pages/about/About";
+import ServiceProviderOrders from "./serviceProvider/pages/orders/ServiceProviderOrders";
+import ServiceProviderReports from "./serviceProvider/pages/reports/ServiceProviderReports";
+import SerProAcceptedOrders from "./serviceProvider/pages/acceptedOrders/SerProAcceptedOrders";
+import SerProReviews from "./serviceProvider/pages/reviews/SerProReviews";
+import SerProHomePage from "./serviceProvider/pages/mainPage/SerProHomePage";
+import Services from "./serviceProvider/pages/services/Services";
+import ReportChat from "./serviceProvider/pages/Reportchat/ReportChat";
+import VerifyAccountServiceProvider from "./serviceProvider/pages/verify/VerifyAccountServiceProvider";
+import StripePayments from "./website/pages/subscription/StripePayments";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -159,6 +167,10 @@ const router = createBrowserRouter([
         element: <Subscription />,
       },
       {
+        path: "paymentNow",
+        element: <StripePayments />,
+      },
+      {
         path: "categories",
         element: <WebSiteCategories />,
       },
@@ -180,7 +192,12 @@ const router = createBrowserRouter([
       },
       {
         path: "job-detail",
-        element: <JobDetail />,
+        children: [
+          {
+            path: ":id",
+            element: <JobDetail />,
+          },
+        ],
       },
       {
         path: "buyer-profile/:id",
@@ -256,15 +273,48 @@ const router = createBrowserRouter([
     children: [
       {
         path: "home",
-        element: <Home />,
+        element: <SerProHomePage />,
+      },
+      {
+        path: "Profile",
+        element: <ServiceProviderProfile />,
+      },
+      {
+        path: "reports",
+        element: <ServiceProviderReports />,
+      },
+      {
+        path: "chat",
+        children: [
+          {
+            path: ":id",
+            element: <ReportChat />,
+          },
+        ],
+      },
+      {
+        path: "orders",
+        element: <ServiceProviderOrders />,
       },
       {
         path: "chatInbox",
         element: <ServiceProviderChat />,
       },
       {
-        path: "profile",
-        element: <Profile />,
+        path: "acceptedOrders",
+        element: <SerProAcceptedOrders />,
+      },
+      {
+        path: "reviews",
+        element: <SerProReviews />,
+      },
+      {
+        path: "services",
+        element: <Services />,
+      },
+      {
+        path: "verify",
+        element: <VerifyAccountServiceProvider />,
       },
     ],
   },

@@ -57,6 +57,7 @@ const ReusableForm = ({
       clearErrors,
       setValue,
       resetField,
+      register,
     });
   }, [watchValues]);
   const [previousMergedObject, setPreviousMergedObject] = useState(watchValues);
@@ -350,6 +351,7 @@ const ReusableForm = ({
                   <input
                     type="file"
                     name={name}
+                    multiple={false}
                     accept={acceptTypes}
                     className="fileInput"
                     {...register(name, validationProps)}

@@ -13,8 +13,8 @@ import ReportModal from "./components/ReportModal";
 import { FaEye } from "react-icons/fa6";
 import ReviewModal from "./components/ReviewModal";
 import Loader from "../../../Components/Loader";
-import Edit from "../reviews/components/Edit";
 import EditReview from "./components/EditReview";
+import { Link } from "react-router-dom";
 const getData = async () => {
   const res = await axiosClient.get("/buyer/acceptedComments");
   return res;
@@ -75,7 +75,7 @@ const AcceptedOrders = () => {
           <div className="flex items-center gap-2">
             <img
               className="w-[120px] h-[100px] rounded-md"
-              src={`https://api.hantask.at/public/${row.post_image}`}
+              src={`${import.meta.env.VITE_WEBSITE_URL + row.post_image}`}
               alt=""
             />
             <div className="flex flex-col gap-1">
@@ -104,10 +104,10 @@ const AcceptedOrders = () => {
       selector: (row) => {
         return (
           <div className="flex flex-col gap-1">
-            <span>
+            <Link to={`/seller-profile/${row.seller_id}`}>
               <span className="font-semibold"> service provider name: </span>
               <span className="text-secondary-text">{row.seller_name}</span>
-            </span>
+            </Link>
             <span>
               <span className="font-semibold"> service provider email: </span>
               <span className="text-secondary-text">{row.seller_email}</span>

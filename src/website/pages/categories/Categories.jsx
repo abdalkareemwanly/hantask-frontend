@@ -5,7 +5,8 @@ import TitleLine from "../../components/common/TitleLine";
 
 function WebSiteCategories(props) {
   try {
-    const { categories, subCategories, childCategories } = useGlobalDataContext();
+    const { categories, subCategories, childCategories } =
+      useGlobalDataContext();
     return (
       <>
         <div className="sm:w-[90%] sm:mx-[auto] w-[96%] mx-[2%] my-[30px]">
@@ -14,7 +15,14 @@ function WebSiteCategories(props) {
           <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px] mt-[30px]">
             {categories && subCategories && childCategories
               ? categories.map((item, index) => {
-                  return <Category key={index} name={item.name} id={item.id} />;
+                  return (
+                    <Category
+                      key={index}
+                      name={item.name}
+                      id={item.id}
+                      image={item.image}
+                    />
+                  );
                 })
               : Array.from(Array(9).keys()).map((item, index) => {
                   return <CategoryLoader key={index} />;

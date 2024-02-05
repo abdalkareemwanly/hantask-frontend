@@ -143,15 +143,40 @@ export const AddSubscription = ({
     }
   };
 
-  const validate = () => {
-    console.log("no");
+  const validate = (watchValues, mehtods) => {
+    //watchValues: the inputs name you want to watch and validate the values of them
+    //errors: it is an array contains errors recieved from form inputs
+    // setError: to set a custom error
+    // clear errors: can clean all the errors from the form or specify the error you want to clear [key]
+    //setValue: set input value depending on specific thing
+    //resetField: if you want to reset the field from the value
+
+    let { errors, setError, clearErrors, setValue, resetField, register } =
+      mehtods;
+    console.log(watchValues);
+    if (watchValues.interval === "month" && watchValues.interval_count > 12) {
+      setError("interval_count", {
+        type: "manual",
+        message: "must be less than 12 ",
+      });
+    } else if (
+      watchValues.interval === "year" &&
+      watchValues.interval_count > 5
+    ) {
+      setError("interval_count", {
+        type: "manual",
+        message: "must be less than 5 ",
+      });
+    } else {
+      clearErrors("interval_count");
+    }
   };
 
   return (
     <>
       <ReusableForm
         template={template}
-        watchFields={["username", "fullname"]}
+        watchFields={["interval", "interval_count"]}
         onSubmit={onSubmit}
         validate={validate}
         btnWidth={"w-full"}

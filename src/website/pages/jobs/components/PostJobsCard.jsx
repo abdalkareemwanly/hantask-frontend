@@ -1,55 +1,47 @@
 import { IoLocationOutline } from "react-icons/io5";
 import Button from "../../../components/form/Button";
 import { Link } from "react-router-dom";
-function PostJobsCard({ item }) {
-  console.log(item);
+import { formatMoney } from "../../../../functions/price";
+function PostJobsCard({ item, withBuyer = true }) {
   return (
     <>
       <div className="post-jobs-card">
-        <Link to={`/job-detail`} state={{ id: item.id }}>
+        <Link to={`/job-detail/${item.id}`} state={{ id: item?.id }}>
           <div className="jobs-card-top-image">
-            <img src={import.meta.env.VITE_WEBSITE_URL + item.image} alt="" />
+            <img src={import.meta.env.VITE_WEBSITE_URL + item?.image} />
             <span className="jobs-card-location">
               <IoLocationOutline className="location-icon" />
-              {item.city}
+              {item?.city}
             </span>
           </div>
         </Link>
         <div className="post-jobs-card-content">
-          <Link to={item.jobLink}>
-            <div className="top-section">
-              <div className="top-section-image">
-                <img src={item.userImage} alt="" />
-                <span className="online-circle"></span>
+          {withBuyer && (
+            <Link to={`/buyer-profile/${item.buyer_id}`}>
+              <div className="top-section">
+                <div className="top-section-image">
+                  <img
+                    src={import.meta.env.VITE_WEBSITE_URL + item?.buyer_image}
+                  />
+                </div>
+                <span>{item?.buyer_name}</span>
               </div>
-              <span>{item["buyer name"]}</span>
-            </div>
-          </Link>
-          <h5 className="jobs-card-title">
-            <Link to={item.jobLink}>{item.title}</Link>
+            </Link>
+          )}
+          <h5 className="jobs-card-title mt-4">
+            <div>{item?.title}</div>
           </h5>
-          <p className="jobs-card-p ellipsis">{item.description}</p>
+          <p className="jobs-card-p ellipsis">{item?.description}</p>
           <div className="jobs-card-price">
             <span className="price-title">starting at: </span>
-            <span className="price">${item.budget}</span>
+            <span className="price">{formatMoney(Number(item?.budget))}</span>
           </div>
           <Button
-            isLink={item.state == "hired" || item.state == "applied" ? false : true}
-            goto={item.state == "hired" || item.state == "applied" ? "" : "/apply-job"}
-            action={
-              item.state == "hired"
-                ? () => {
-                    console.log("already hired");
-                  }
-                : item.state == "aplied"
-                ? () => {
-                    console.log("already applied");
-                  }
-                : null
-            }
+            isLink={true}
+            goto={`/job-detail/${item.id}`}
             width={"100%"}
-            className={"primary" + (item.state == "hired" || item.state == "applied" ? " hired-button" : "")}
-            title={item.state == "hired" ? "Already Hired" : item.state == "applied" ? "Already Applied" : "Apply Now"}
+            className={"primary"}
+            title={"view post"}
           />
         </div>
       </div>

@@ -30,7 +30,7 @@ export const EditCoupon = ({ data, plans, setIsModalOpen }) => {
       {
         title: "amount off",
         name: "amount_off",
-        value: data.amount_off,
+        value: data.amount,
         type: "text",
         validationProps: {
           required: {

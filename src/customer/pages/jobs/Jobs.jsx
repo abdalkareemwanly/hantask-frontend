@@ -153,7 +153,8 @@ const Jobs = () => {
                 </label>
               </div>
               <Button
-                isLink={false}
+                goto={`/job-detail/${ele.id}`}
+                isLink={true}
                 hoverStyles={"rounded-full hover:bg-blueColor"}
                 Icon={<IoEye size={20} className="text-primary-text" />}
               />
@@ -172,9 +173,8 @@ const Jobs = () => {
             </div>
             <div className="flex flex-col gap-4">
               <img
-                src={`${import.meta.env.VITE_WEBSITE_URL}/public/${ele.image}`}
+                src={`${import.meta.env.VITE_WEBSITE_URL}${ele.image}`}
                 className="w-full h-[250px] object-cover"
-                alt="asd"
               />
               <div className="flex flex-col gap-2 p-4">
                 <h3 className="text-2xl font-semibold">{ele.title}</h3>

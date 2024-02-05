@@ -173,7 +173,7 @@ const Coupons = () => {
     },
     {
       name: "amount off",
-      selector: (row) => row.amount_off,
+      selector: (row) => row.amount,
       maxWidth: "15%",
     },
     {
@@ -184,6 +184,11 @@ const Coupons = () => {
     {
       name: "expiration date",
       selector: (row) => row?.expire_date,
+      maxWidth: "30%",
+    },
+    {
+      name: "currency",
+      selector: (row) => row?.currency,
       maxWidth: "30%",
     },
     {

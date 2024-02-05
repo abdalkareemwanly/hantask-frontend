@@ -8,7 +8,7 @@ function ServiceCard({ item }) {
       <div className="post-jobs-card">
         <Link to={`/job-detail`} state={{ id: item.id }}>
           <div className="jobs-card-top-image">
-            <img src={import.meta.env.VITE_WEBSITE_URL + item.image} alt="" />
+            <img src={import.meta.env.VITE_WEBSITE_URL + item.image} />
             <span className="jobs-card-location">
               {item.category}
               {item.subcategory ? " - " + item.subcategory : null}
@@ -23,8 +23,14 @@ function ServiceCard({ item }) {
           <p className="jobs-card-p mb-[20px] ellipsis">{item.description}</p>
 
           <Button
-            isLink={item.state == "hired" || item.state == "applied" ? false : true}
-            goto={item.state == "hired" || item.state == "applied" ? "" : "/apply-job"}
+            isLink={
+              item.state == "hired" || item.state == "applied" ? false : true
+            }
+            goto={
+              item.state == "hired" || item.state == "applied"
+                ? ""
+                : "/apply-job"
+            }
             action={
               item.state == "hired"
                 ? () => {
@@ -37,8 +43,19 @@ function ServiceCard({ item }) {
                 : null
             }
             width={"100%"}
-            className={"primary" + (item.state == "hired" || item.state == "applied" ? " hired-button" : "")}
-            title={item.state == "hired" ? "Already Hired" : item.state == "applied" ? "Already Applied" : "Apply Now"}
+            className={
+              "primary" +
+              (item.state == "hired" || item.state == "applied"
+                ? " hired-button"
+                : "")
+            }
+            title={
+              item.state == "hired"
+                ? "Already Hired"
+                : item.state == "applied"
+                ? "Already Applied"
+                : "Apply Now"
+            }
           />
         </div>
       </div>

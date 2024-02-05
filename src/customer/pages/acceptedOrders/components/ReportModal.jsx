@@ -10,7 +10,7 @@ const postData = async ({ data }) => {
 };
 const ReportModal = ({ order, setIsModalOpen }) => {
   const queryClient = useQueryClient();
-
+  console.log(order);
   let template = {
     title: "report to admin",
     fields: [

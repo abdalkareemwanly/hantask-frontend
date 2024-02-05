@@ -1,4 +1,4 @@
-import { Link, Navigate, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import {
   BiMenuAltLeft,
   BiSolidBellRing,
@@ -22,6 +22,7 @@ export default function ServiceProviderLayout() {
   const { setTheme } = useTWThemeContext();
   const { token, setTranslation } = useStateContext({});
   const user = JSON.parse(localStorage.getItem("USER"));
+  const navigate = useNavigate();
 
   useEffect(() => {
     getTranslation();
@@ -52,6 +53,12 @@ export default function ServiceProviderLayout() {
     axiosClient.get("/admin/translation").then((response) => {
       setTranslation(response.data);
     });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("ACCESS_TOKEN");
+    localStorage.removeItem("USER");
+    navigate("/ ");
   };
 
   return (
@@ -123,7 +130,7 @@ export default function ServiceProviderLayout() {
               </Link>
               <Link
                 className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out"
-                to={"/admin/logout"}
+                onClick={handleLogout}
               >
                 Logout
               </Link>

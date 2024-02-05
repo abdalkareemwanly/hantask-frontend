@@ -73,28 +73,9 @@ const PasswordChange = ({ data, setIsModalOpen }) => {
     //setValue: set input value depending on specific thing
     //resetField: if you want to reset the field from the value
 
-    let { errors, setError, clearErrors, setValue, resetField } = methods;
+    let { errors, setError, clearErrors, setValue, resetField, register } =
+      methods;
     console.log(watchValues);
-    // if (watchValues.password === "") {
-    //   if (!errors?.password) {
-    //     setError("password", {
-    //       type: "manual",
-    //       message: "password can't be empty",
-    //     });
-    //   }
-    // } else {
-    //   clearErrors("password");
-    // }
-
-    // if (watchValues.confirm === "") {
-    //   setError("confirm", {
-    //     type: "manual",
-    //     message: "cannot be empty",
-    //   });
-    // } else {
-    //   clearErrors("confirm");
-    // }
-
     if (watchValues.password !== watchValues.confirm) {
       setError("confirm", {
         type: "manual",
@@ -113,7 +94,7 @@ const PasswordChange = ({ data, setIsModalOpen }) => {
         onSubmit={onSubmit}
         validate={validate}
         btnWidth={"w-[150px] self-end"}
-        btnText={"next"}
+        btnText={"change"}
         addedStyles={"md:w-[400px] lg:w-[100%]"}
       />
     </div>

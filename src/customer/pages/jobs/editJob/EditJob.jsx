@@ -36,6 +36,7 @@ const EditJob = () => {
   const { data: post, isLoading } = useQueryHook(["post", id], () =>
     getData(id)
   );
+  console.log(post);
   const [filteredSubCategories, setFilteredSubCategories] = useState();
   const [filteredChilds, setFilteredChilds] = useState();
   const [filteredCities, setFilteredCities] = useState();
@@ -45,7 +46,14 @@ const EditJob = () => {
   const [stepData, setStepData] = useState();
 
   useEffect(() => {
-    if (post) {
+    if (
+      post &&
+      countries &&
+      cities &&
+      categories &&
+      subCategories &&
+      childCategories
+    ) {
       handleMainCategoryChange(post.category_id);
       handleChangeSubCategories(post.subcategory_id);
       handleCountriesChange(post.country_id);
@@ -60,10 +68,10 @@ const EditJob = () => {
         deadlineDate: post.dead_line,
         description: post.description,
       });
-      setThumbnail(post.image);
+      setThumbnail(post?.image);
       setReadyImages(post.post_images);
     }
-  }, [post]);
+  }, [post, countries, cities, categories, subCategories, childCategories]);
 
   const handleMainCategoryChange = (value) => {
     const selectedMainCategory = categories?.find((obj) => obj.id == value);
@@ -149,12 +157,12 @@ const EditJob = () => {
     _images.map((ele) => {
       images.append("image[]", ele.file);
     });
+
+    const res = await updateDataMutate.mutateAsync({ data: formData, id });
     const res2 = await axiosClient.post(
       `/buyer/post/image/store/${id}`,
       images
     );
-    const res = await updateDataMutate.mutateAsync({ data: formData, id });
-
     if (res.data?.success === true) {
       toast.update(toastId, {
         type: "success",
@@ -178,7 +186,7 @@ const EditJob = () => {
   if (isLoading) return <Loader />;
   return (
     <Page>
-      <PageTitle text={"create job post"} />
+      <PageTitle text={"edit job post"} />
       {step === 1 ? (
         stepData && (
           <Step1

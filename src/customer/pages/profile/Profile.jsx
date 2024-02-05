@@ -69,7 +69,6 @@ const Profile = () => {
             <img
               src={`${import.meta.env.VITE_WEBSITE_URL}${profile[0]?.image}`}
               className="w-[70px] h-[70px] rounded-full"
-              alt=""
             />
             <div className="flex flex-col">
               <h3 className="text-xl font-semibold">{profile[0]?.username}</h3>

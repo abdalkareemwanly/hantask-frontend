@@ -16,7 +16,11 @@ import { useQueryHook } from "../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 
 const getData = async (page = 1, searchTerm) => {
-  const res = await axiosClient.get(`admin/users?page=${page}${searchTerm.length > 0 ? `&search=${searchTerm}` : ""}`);
+  const res = await axiosClient.get(
+    `admin/users?page=${page}${
+      searchTerm.length > 0 ? `&search=${searchTerm}` : ""
+    }`
+  );
   return res;
 };
 
@@ -45,10 +49,23 @@ const Users = () => {
 
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const { data: users, queryClient } = useQueryHook(["users", page, searchTerm], () => getData(page, searchTerm), "paginate", page);
+  const { data: users, queryClient } = useQueryHook(
+    ["users", page, searchTerm],
+    () => getData(page, searchTerm),
+    "paginate",
+    page
+  );
 
-  const changeStatusMutation = useMutationHook(changeStatusFunc, ["users", page, searchTerm]);
-  const deleteMutation = useMutationHook(deleteFunc, ["users", page, searchTerm]);
+  const changeStatusMutation = useMutationHook(changeStatusFunc, [
+    "users",
+    page,
+    searchTerm,
+  ]);
+  const deleteMutation = useMutationHook(deleteFunc, [
+    "users",
+    page,
+    searchTerm,
+  ]);
 
   const editBtnFun = (row) => {
     setIsModalOpen(true);
@@ -147,7 +164,10 @@ const Users = () => {
       selector: (row) => {
         return (
           <div className="flex items-center gap-2">
-            <img className="w-[50px] h-[50px]  rounded-full" src={`https://api.hantask.at/${row.image}`} alt="" />
+            <img
+              className="w-[50px] h-[50px]  rounded-full"
+              src={`https://api.hantask.at/${row.image}`}
+            />
             <span>{row.username}</span>
           </div>
         );
@@ -167,7 +187,18 @@ const Users = () => {
     },
     {
       name: "status",
-      selector: (row) => (row.user_status == 1 ? <SuccessIcon className="p-2 block rounded-md text-greenColor" size={45} /> : <ErrorIcon className=" p-2 block rounded-md text-redColor" size={45} />),
+      selector: (row) =>
+        row.user_status == 1 ? (
+          <SuccessIcon
+            className="p-2 block rounded-md text-greenColor"
+            size={45}
+          />
+        ) : (
+          <ErrorIcon
+            className=" p-2 block rounded-md text-redColor"
+            size={45}
+          />
+        ),
       maxWidth: "10%",
     },
     {
@@ -175,9 +206,30 @@ const Users = () => {
       cell: (row) => {
         return (
           <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
-            {hasEditPermission && <Button isLink={false} color={"bg-orangeColor"} title={"edit"} onClickFun={() => editBtnFun(row)} />}
-            {hasChangeMethod && <Button isLink={false} color={"bg-blueColor"} title={"change status"} onClickFun={() => handleChangeStatus(row.id)} />}
-            {hasArchivePermission && <Button isLink={false} color={"bg-redColor"} title={"archive"} onClickFun={() => handleDelete(row.id)} />}
+            {hasEditPermission && (
+              <Button
+                isLink={false}
+                color={"bg-orangeColor"}
+                title={"edit"}
+                onClickFun={() => editBtnFun(row)}
+              />
+            )}
+            {hasChangeMethod && (
+              <Button
+                isLink={false}
+                color={"bg-blueColor"}
+                title={"change status"}
+                onClickFun={() => handleChangeStatus(row.id)}
+              />
+            )}
+            {hasArchivePermission && (
+              <Button
+                isLink={false}
+                color={"bg-redColor"}
+                title={"archive"}
+                onClickFun={() => handleDelete(row.id)}
+              />
+            )}
           </div>
         );
       },
@@ -192,17 +244,45 @@ const Users = () => {
         right={
           hasAddPermission && (
             <div>
-              <Button isLink={false} color={"bg-greenColor"} title={"add new"} onClickFun={() => setIsAddModalOpen((prev) => !prev)} />
+              <Button
+                isLink={false}
+                color={"bg-greenColor"}
+                title={"add new"}
+                onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+              />
             </div>
           )
         }
       />
-      {isModalOpen && <ModalContainer isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} component={<EditUser data={clickedRow} setIsModalOpen={setIsModalOpen} />} />}
+      {isModalOpen && (
+        <ModalContainer
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          component={
+            <EditUser data={clickedRow} setIsModalOpen={setIsModalOpen} />
+          }
+        />
+      )}
 
-      {isAddModalOpen && <ModalContainer isModalOpen={isAddModalOpen} setIsModalOpen={setIsAddModalOpen} component={<AddUser setIsAddModalOpen={setIsAddModalOpen} />} />}
+      {isAddModalOpen && (
+        <ModalContainer
+          isModalOpen={isAddModalOpen}
+          setIsModalOpen={setIsAddModalOpen}
+          component={<AddUser setIsAddModalOpen={setIsAddModalOpen} />}
+        />
+      )}
 
       <div className="my-4">
-        <TableData columns={columns} enableSearch={true} response={users} actualData={users?.data.data} setPage={setPage} paginationBool={true} noDataMessage={"no users to show!"} setSearchTerm={setSearchTerm} />
+        <TableData
+          columns={columns}
+          enableSearch={true}
+          response={users}
+          actualData={users?.data.data}
+          setPage={setPage}
+          paginationBool={true}
+          noDataMessage={"no users to show!"}
+          setSearchTerm={setSearchTerm}
+        />
       </div>
     </Page>
   );

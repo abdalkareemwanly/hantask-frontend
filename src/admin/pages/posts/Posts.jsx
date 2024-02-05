@@ -92,6 +92,7 @@ const Posts = () => {
       selector: (row) => row.buyer_name,
       maxWidth: "10%",
     },
+
     {
       name: "description",
       selector: (row) =>

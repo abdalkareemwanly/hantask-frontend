@@ -74,10 +74,10 @@ const Header = () => {
               <motion.div
                 animate={controls}
                 initial={{ opacity: 0, y: 20 }}
-                className="flex flex-col gap-3  p-3 rounded-md component-shadow min-w-[150px] absolute right-0 bg-white"
+                className="p-3 rounded-md component-shadow min-w-[150px] absolute right-0 bg-white"
                 transition={{ duration: 0.2 }}
               >
-                <motion.ul>
+                <motion.ul className="flex flex-col gap-2 ">
                   <li>
                     <Link to={"/login"}>Login</Link>
                   </li>
@@ -99,22 +99,21 @@ const Header = () => {
             className="relative"
           >
             <p className="flex items-center gap-2">
-              <IoPersonOutline size={25} />
+              <IoPersonOutline size={23} />
             </p>
             <motion.div
               animate={controls}
-              initial={{ opacity: 0, y: 10 }}
-              className="flex flex-col gap-3  p-3 rounded-md component-shadow min-w-[150px] absolute right-0"
+              initial={{ opacity: 0, y: 20 }}
+              className="p-3 rounded-md component-shadow min-w-[150px] absolute right-0 bg-white"
               transition={{ duration: 0.2 }}
             >
-              <motion.ul>
+              <motion.ul className="flex flex-col gap-2 ">
                 <li>
-                  <span>hi</span>
+                  <Link to={"/login"}>Login</Link>
                 </li>
                 <li>
-                  <a href="#">Link 2</a>
+                  <Link to={"/register"}>Register</Link>
                 </li>
-                {/* Add more links as needed */}
               </motion.ul>
             </motion.div>
           </motion.div>
@@ -131,16 +130,16 @@ const Header = () => {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
             style={{ overflow: "hidden" }}
-            className="absolute left-0 top-20 bg-black w-full text-white flex flex-col gap-2 z-10 "
+            className="absolute left-0 top-20 bg-white w-full text-black component-shadow flex flex-col gap-2 z-[1000] p-4 "
           >
-            <Link>home</Link>
-            <Link>home</Link>
-            <Link>home</Link>
-            <Link>home</Link>
-            <Link>home</Link>
-            <Link>home</Link>
-            <Link>home</Link>
-            <Link>home</Link>
+            <nav className="flex items-center flex-col gap-8">
+              <Link to={""}>home</Link>
+              <Link to={"/about"}>about</Link>
+              <Link to={"/subscription"}>subscription</Link>
+              <Link to={"/policy"}>policy</Link>
+              <Link to={"/condition"}>condition</Link>
+              <Link to={"/contact"}>contact</Link>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>

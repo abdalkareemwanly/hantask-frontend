@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import ModalContainer from "../../../Components/ModalContainer";
 import { formatMoney } from "../../../functions/price";
 import Loader from "../../../Components/Loader";
+import { Link } from "react-router-dom";
 
 const getData = async () => {
   const res = await axiosClient.get("/buyer/comments");
@@ -92,7 +93,7 @@ const Orders = () => {
           <div className="flex items-center gap-2">
             <img
               className="w-[120px] h-[100px] rounded-md"
-              src={`https://api.hantask.at/public/${row.post_image}`}
+              src={`${import.meta.env.VITE_WEBSITE_URL + row.post_image}`}
               alt=""
             />
             <div className="flex flex-col gap-1">
@@ -121,10 +122,10 @@ const Orders = () => {
       selector: (row) => {
         return (
           <div className="flex flex-col gap-1">
-            <span>
+            <Link to={`/seller-profile/${row.seller_id}`}>
               <span className="font-semibold"> service provider name: </span>
               <span className="text-secondary-text">{row.seller_name}</span>
-            </span>
+            </Link>
             <span>
               <span className="font-semibold"> service provider email: </span>
               <span className="text-secondary-text">{row.seller_email}</span>
@@ -171,7 +172,16 @@ const Orders = () => {
       name: "order status",
       selector: (row) => {
         return (
-          <div>
+          <div
+            className={` p-2 rounded-md  ${
+              row.status == 0
+                ? "bg-blue-500 bg-opacity-30 text-blue-300"
+                : row.status == 1
+                ? "bg-green-500 bg-opacity-30 text-green-300"
+                : "bg-red-500 bg-opacity-30 text-red-300"
+            }
+          `}
+          >
             {row.status == 0
               ? "pending"
               : row.status == 1

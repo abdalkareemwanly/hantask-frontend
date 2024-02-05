@@ -14,5 +14,25 @@
   "services": {
     "name": null,
     "path": "services"
+  },
+  "reports": {
+    "name": null,
+    "path": "reports"
+  },
+  "orders": {
+    "name": null,
+    "path": "orders"
+  },
+  "acceptedOrders": {
+    "name": null,
+    "path": "acceptedOrders"
+  },
+  "reviews": {
+    "name": null,
+    "path": "reviews"
+  },
+  "verify account": {
+    "name": null,
+    "path": "verify"
   }
 }
