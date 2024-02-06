@@ -5,7 +5,6 @@ import { useState } from "react";
 import { MdOutlineWorkOutline } from "react-icons/md";
 
 function ProfileSection({ data }) {
-  console.log(data);
   const [rating, setRating] = useState({
     rating: Number(data[0].totalReview),
     starRatedColor: "var(--main-color)",

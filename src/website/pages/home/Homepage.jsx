@@ -5,12 +5,58 @@ import { FaCheck } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
 import CategoryLoader from "../../components/common/CategoryLoader";
-
+import axiosClient from "../../../axios-client";
+import { useEffect, useState } from "react";
+import PostJobsCard from "../jobs/components/PostJobsCard";
+import PostJobsCardLoader from "../jobs/components/PostJobsCardLoader";
+const getNewJobs = async () => {
+  const res = await axiosClient.get("/site/posts");
+  return res.data.data;
+};
+const getPopulerJobs = async () => {
+  const res = await axiosClient.get("/site/posts");
+  return res.data.data;
+};
+const getTotalUsers = async () => {
+  const res = await axiosClient.get("/site/users/total");
+  return res.data;
+};
 const Homepage = () => {
   const { categories, subCategories, childCategories } = useGlobalDataContext();
+
+  const [newJobs, setNewJobs] = useState([]);
+  const [users, setUsers] = useState({});
+  const [populerJobs, setPopulerJobs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const getData1 = async () => {
+      const data1 = await getNewJobs();
+      setNewJobs(data1);
+    };
+    const getData2 = async () => {
+      const data2 = await getPopulerJobs();
+      setPopulerJobs(data2);
+      setIsLoading(false);
+    };
+
+    getData1();
+    getData2();
+  }, []);
+
+  useEffect(() => {
+    const gettotal = async () => {
+      const data = await getTotalUsers();
+      setUsers(data);
+    };
+    gettotal();
+  }, []);
+
+  console.log(users);
+
   return (
     <div className="">
-      <Banner />
+      <Banner total_users={users} />
       <CardsContainer
         title={"categories"}
         bgColor={"#fff9f3"}
@@ -27,15 +73,16 @@ const Homepage = () => {
                 />
               );
             })
-          : Array.from(Array(9).keys()).map((item, index) => {
+          : Array.from(Array(4).keys()).map((item, index) => {
               return <CategoryLoader key={index} />;
             })}
       </CardsContainer>
       <CardsContainer title={"new jobs"}>
-        {/* <Service />
-        <Service />
-        <Service />
-        <Service /> */}
+        {newJobs.length !== 0
+          ? newJobs?.map((ele, i) => <PostJobsCard key={i} item={ele} />)
+          : Array.from(Array(4).keys()).map((item, index) => {
+              return <PostJobsCardLoader key={index} />;
+            })}
       </CardsContainer>
       <div className="lg:px-20 md:px-12  px-6 py-8">
         <div className="flex items-center flex-col justify-center gap-8">
@@ -91,10 +138,11 @@ const Homepage = () => {
         </div>
       </div>
       <CardsContainer title={"popruler jobs"}>
-        {/* <Service />
-        <Service />
-        <Service />
-        <Service /> */}
+        {populerJobs
+          ? populerJobs?.map((ele, i) => <PostJobsCard key={i} item={ele} />)
+          : Array.from(Array(4).keys()).map((item, index) => {
+              return <PostJobsCardLoader key={index} />;
+            })}
       </CardsContainer>
       <div className="flex items-center justify-center gap-8 bg-[#f5f7ff] lg:px-40 md:px-12 px-6 py-8 ">
         <div className="w-full md:w-2/3 flex items-center justify-center gap-12 flex-col-reverse md:flex-row">
@@ -135,7 +183,7 @@ const Homepage = () => {
     </div>
   );
 };
-const Banner = () => {
+const Banner = ({ total_users }) => {
   return (
     <div className="flex items-center justify-center bg-[#f5f7ff] lg:px-20 md:px-12  px-6 ">
       <div className="flex flex-col lg:flex-row gap-2 py-12 w-full 2xl:w-[75%] xl:w-[100%]   lg:items-center">
@@ -156,44 +204,15 @@ const Banner = () => {
           </div>
           <div className="flex items-center gap-4">
             <div className="flex">
-              <div
-                className="bg-[#4d77ff] w-[50px] h-[50px] rounded-3xl mx-[-7px] border-white hover:mx-[0px] transition-all hover:scale-110"
-                style={{
-                  backgroundImage: "url(/src/images/banner2.png)",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                }}
-              ></div>
-              <div
-                className="bg-black w-[50px] h-[50px] rounded-3xl mx-[-7px] border-white hover:mx-[0px] transition-all hover:scale-110"
-                style={{
-                  backgroundImage: "url(/src/images/banner2.png)",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                }}
-              ></div>
-              <div
-                className="bg-black w-[50px] h-[50px] rounded-3xl mx-[-7px] border-white hover:mx-[0px] transition-all hover:scale-110"
-                style={{
-                  backgroundImage: "url(/src/images/banner2.png)",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                }}
-              ></div>
-              <div
-                className="bg-black w-[50px] h-[50px] rounded-3xl mx-[-7px] border-white hover:mx-[0px] transition-all hover:scale-110"
-                style={{
-                  backgroundImage: "url(/src/images/banner2.png)",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                }}
-              ></div>
+              {total_users?.random_users?.map((ele, i) => (
+                <img
+                  key={i}
+                  src={import.meta.env.VITE_WEBSITE_URL + ele?.image}
+                  className="w-[40px] h-[40px] rounded-full mx-[-7px] object-cover border-white hover:mx-[0px] transition-all hover:scale-110"
+                />
+              ))}
             </div>
-            <span>2k+ Satisficed Customer</span>
+            <span>+{total_users.total_users} Satisficed Customer</span>
           </div>
           <div className="flex items-center gap-4">
             <Link to={"/jobs"}>
@@ -235,7 +254,7 @@ const CardsContainer = ({ bgColor, children, title, link }) => {
           <span>show more</span> <MdOutlineKeyboardArrowRight size={25} />
         </Link>
       </div>
-      <div className="flex flex-wrap flex-col md:flex-row justify-between  items-center gap-[24px]">
+      <div className="flex flex-wrap flex-col md:flex-row justify-center items-center gap-[24px]">
         {children}
       </div>
     </div>

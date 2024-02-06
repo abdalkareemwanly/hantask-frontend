@@ -12,7 +12,6 @@ const getData = async () => {
 
 const Subscription = () => {
   const { data: plans, isLoading } = useQueryHook(["plans"], getData);
-  console.log(plans);
 
   if (isLoading) return <Loader />;
 

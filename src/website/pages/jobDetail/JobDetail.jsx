@@ -21,8 +21,6 @@ function JobDetail(props) {
     getData(id)
   );
 
-  console.log(post);
-
   return isLoading ? (
     <>
       <JobDetailLoader />
@@ -40,15 +38,6 @@ function JobDetail(props) {
             })}
           </div> */}
           soon
-        </div>
-        <div className="similar-jobs my-10">
-          <h4>Similar Jobs</h4>
-          <div className="jobs-cards grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
-            {/* {SIMILAR_JOBS_DEFAULT_DATA.map((item, index) => {
-              return <PostJobsCard key={index} item={item} />;
-            })} */}
-            soon
-          </div>
         </div>
       </div>
     </>

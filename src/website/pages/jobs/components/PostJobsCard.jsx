@@ -21,7 +21,11 @@ function PostJobsCard({ item, withBuyer = true }) {
               <div className="top-section">
                 <div className="top-section-image">
                   <img
-                    src={import.meta.env.VITE_WEBSITE_URL + item?.buyer_image}
+                    src={
+                      import.meta.env.VITE_WEBSITE_URL +
+                      "/public" +
+                      item?.buyer_image
+                    }
                   />
                 </div>
                 <span>{item?.buyer_name}</span>

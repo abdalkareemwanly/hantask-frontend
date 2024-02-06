@@ -98,7 +98,6 @@ function Register(props) {
     formData.append("service_area", defaultDataTwo.area);
 
     const res = await axiosClient.post("/site/register", formData);
-    console.log(res);
     if (res.data.success) {
       nav("/login");
     }

@@ -17,7 +17,7 @@ function JobSection({ data }) {
     <>
       <div className="job-details grid lg:grid-cols-3 lg:gap-20 gap-0">
         <div className="job-info lg:col-span-2 col-span-3">
-          <div className="image-container w-full">
+          <div className="image-container w-full component-shadow">
             <img src={import.meta.env.VITE_WEBSITE_URL + data?.image} />
           </div>
           <Link to={`/buyer-profile/${data.buyer_id}`}>

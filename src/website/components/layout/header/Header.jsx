@@ -13,7 +13,6 @@ const Header = () => {
   const controls = useAnimation();
   const user = JSON.parse(localStorage.getItem("USER"));
   const mode = localStorage.getItem("theme");
-  console.log(user);
   const controls1 = useAnimation();
   const handleHover = () => {
     controls.start({ opacity: 1, y: 10 });
@@ -42,7 +41,7 @@ const Header = () => {
                 ? "/customer/home"
                 : user.user_type === "seller"
                 ? "serviceProvider/home"
-                : "admin/dashbaord"
+                : "admin/dashboard"
             }
             className="flex  items-center px-[25px] py-[24px] w-[220px] justify-end"
           >

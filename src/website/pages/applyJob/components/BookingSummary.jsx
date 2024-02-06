@@ -16,9 +16,7 @@ function BookingSummary({ expectedSalary, fee }) {
     } = useForm({
       resolver: zodResolver(schema),
     });
-    const submitData = (data) => {
-      console.log(data);
-    };
+    const submitData = (data) => {};
 
     return (
       <>
@@ -28,16 +26,29 @@ function BookingSummary({ expectedSalary, fee }) {
             <span>fee: </span> <span>{fee}</span>
           </div>
           <div className="flex justify-between  booking-section">
-            <span>expected sallary: </span> <span>{expectedSalary ? expectedSalary : "-"}</span>
+            <span>expected sallary: </span>{" "}
+            <span>{expectedSalary ? expectedSalary : "-"}</span>
           </div>
           <div className="flex justify-between  booking-section">
-            <span className="booking-total">Total: </span> <span>{fee + +expectedSalary}</span>
+            <span className="booking-total">Total: </span>{" "}
+            <span>{fee + +expectedSalary}</span>
           </div>
           <div className="flex justify-between  booking-section">
             <form onSubmit={handleSubmit(submitData)} className="w-full">
               <div className="grid" style={{ position: "relative" }}>
-                <Input type={"text"} placeholder={"Enter Coupon Code"} register={register} name={"code"} label={""} errors={errors} />
-                <input type={"submit"} value={"Apply"} className={"apply-coupon-button"} />
+                <Input
+                  type={"text"}
+                  placeholder={"Enter Coupon Code"}
+                  register={register}
+                  name={"code"}
+                  label={""}
+                  errors={errors}
+                />
+                <input
+                  type={"submit"}
+                  value={"Apply"}
+                  className={"apply-coupon-button"}
+                />
               </div>
             </form>
           </div>

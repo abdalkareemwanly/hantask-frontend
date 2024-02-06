@@ -64,14 +64,6 @@ const FILTER_DATA = {
       { name: "anything", value: "anything" },
     ],
   },
-  match: {
-    type: "select",
-    placeholder: "choose match",
-    list: [
-      { name: "choose match", value: "" },
-      { name: "anything", value: "anything" },
-    ],
-  },
   search: {
     type: "input",
     placeholder: "input what are you looking for",

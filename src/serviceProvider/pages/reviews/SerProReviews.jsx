@@ -41,7 +41,6 @@ const SerProReviews = () => {
   } = useQueryHook(["reviews", page], getData);
 
   const handleUpdateReview = (data) => {
-    console.log(data);
     setSelectedRow(data);
     setIsUpdateModalOpen(true);
   };

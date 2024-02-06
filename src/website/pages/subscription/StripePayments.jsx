@@ -14,14 +14,12 @@ const StripePayments = () => {
     focus: "",
   });
   const { plan } = useLocation().state;
-  console.log(plan);
   const nav = useNavigate();
   const [isDisabled, setIsDisabled] = useState(false);
   const handleInputChange = (evt) => {
     const { name, value } = evt.target;
     if (name === "number") {
       const formattedValue = value.replace(/(\d{4})/g, "$1 ").trim();
-      console.log(formattedValue);
       setState((prev) => ({ ...prev, number: formattedValue }));
     }
     setState((prev) => ({ ...prev, [name]: value }));
@@ -43,7 +41,6 @@ const StripePayments = () => {
     }
 
     // Update state or perform other actions with formattedValue
-    console.log(formattedValue);
     setState((prev) => ({
       ...prev,
       expiry: formattedValue,

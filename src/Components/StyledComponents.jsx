@@ -2,7 +2,10 @@ import DataTable from "react-data-table-component";
 import styled from "styled-components";
 export const DataTableStyled = styled(DataTable)`
   .laPPHD {
-    background-color: transparent;
+    background-color: transparent !important;
+  }
+  .hDHZZh {
+    background-color: transparent !important;
   }
   margin: 0 0;
   & .rdt_Table {

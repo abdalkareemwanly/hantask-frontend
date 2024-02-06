@@ -9,6 +9,7 @@ const Button = ({
   onClickFun,
   hoverStyles,
   linkState,
+  iconColor,
 }) => {
   return isLink ? (
     <Link
@@ -29,7 +30,7 @@ const Button = ({
       } items-center cursor-pointer px-3 py-2 ${color} ${hoverStyles} transition-all text-center rounded-[4px] text-white`}
     >
       <span className="text-primary-text">{title}</span>{" "}
-      {Icon && <span>{Icon}</span>}
+      {Icon && <span className={`text-${iconColor}`}>{Icon}</span>}
     </div>
   );
 };

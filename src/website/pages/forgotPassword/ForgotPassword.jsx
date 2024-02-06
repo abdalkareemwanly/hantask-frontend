@@ -16,9 +16,7 @@ function ForgotPassword(props) {
       formState: { errors },
     } = useForm({ resolver: zodResolver(schema) });
 
-    const submitData = (data) => {
-      console.log(data);
-    };
+    const submitData = (data) => {};
 
     return (
       <>
@@ -27,7 +25,14 @@ function ForgotPassword(props) {
           <h5>Enter your email for new password</h5>
           <form onSubmit={handleSubmit(submitData)}>
             <div className="grid grid-cols-1 gap-8 my-12 relative">
-              <Input type={"email"} placeholder={"Enter Email"} register={register} name={"email"} label={"Enter Email *"} errors={errors} />
+              <Input
+                type={"email"}
+                placeholder={"Enter Email"}
+                register={register}
+                name={"email"}
+                label={"Enter Email *"}
+                errors={errors}
+              />
             </div>
             <SubmitButton text={"Generate New Password"} width={"100%"} />
           </form>

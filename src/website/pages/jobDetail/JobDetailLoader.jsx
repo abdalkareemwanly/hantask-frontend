@@ -18,14 +18,6 @@ function JobDetailLoader(props) {
               })}
             </div>
           </div>
-          <div className="similar-jobs my-10">
-            <h4></h4>
-            <div className="jobs-cards grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5">
-              {Array.from(Array(3).keys()).map((item, index) => {
-                return <PostJobsCardLoader />;
-              })}
-            </div>
-          </div>
         </div>
       </div>
     );

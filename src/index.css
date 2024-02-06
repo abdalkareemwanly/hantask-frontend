@@ -400,5 +400,7 @@ input:checked+.slider:before {
   align-items: center;
 }
 
-
+.website-page {
+  min-height: 800px;
+}
 /* end of abdullah area  */

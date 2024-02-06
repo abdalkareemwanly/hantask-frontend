@@ -25,6 +25,7 @@ export const useQueryHook = (queryKey, getDataFun, queryType) => {
     isError,
     isFetching,
     isLoading,
+    isRefetching,
     status,
     isPlaceholderData,
     refetch,
@@ -38,6 +39,7 @@ export const useQueryHook = (queryKey, getDataFun, queryType) => {
     status,
     isLoading,
     queryClient,
+    isRefetching,
     isPlaceholderData,
     refetch,
   };

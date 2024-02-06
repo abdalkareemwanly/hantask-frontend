@@ -7,55 +7,20 @@ import CustomerChatFooter from "./components/ChatFooter";
 import CustomerChatHeader from "./components/ChatHeader";
 import { useParams } from "react-router-dom";
 import Loader from "../../../Components/Loader";
+
 const getData = async (id) => {
-  const res = await axiosClient.get(`/buyer/report/message/${id}`);
+  const res = await axiosClient.get(`/admin/report/message/${id}`);
   return res.data.data;
 };
+
 function AdminCustomerChat(props) {
   const { id } = useParams();
-  const {
-    data: messages,
-    queryClient,
-    isLoading,
-  } = useQueryHook(["messages", id], () => getData(id), "normal");
+  const { data: messages, isLoading } = useQueryHook(
+    ["messages", id],
+    () => getData(id),
+    "normal"
+  );
 
-  const data = [
-    {
-      sender_id: 1,
-      reciever_id: 2,
-      message: <div>hello world</div>,
-      date: new Date().toLocaleString(),
-      file: "sdfk",
-    },
-    {
-      sender_id: 1,
-      reciever_id: 2,
-      message: (
-        <strong>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat sed
-          eos ipsa neque nihil nemo!
-        </strong>
-      ),
-      date: new Date().toLocaleString(),
-      file: "sdfk",
-    },
-    {
-      sender_id: 2,
-      reciever_id: 1,
-      message: <div>hello world</div>,
-      date: new Date().toLocaleString(),
-      file: "sdfk.pdf",
-    },
-    {
-      sender_id: 2,
-      reciever_id: 1,
-      message: (
-        <div>Lorem ipsum dolor sit amet, consectetusdf sdfsd fsdf sdfr adi</div>
-      ),
-      date: new Date().toLocaleString(),
-      file: "sdfk",
-    },
-  ];
   if (isLoading) return <Loader />;
   return (
     <>
