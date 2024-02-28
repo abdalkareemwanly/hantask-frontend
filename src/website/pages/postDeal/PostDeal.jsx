@@ -1,0 +1,219 @@
+import { useEffect, useReducer } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { StepOnePostDeal } from "./components/StepOnePostDeal";
+import { StepTwoPostDeal } from "./components/StepTwoPostDeal";
+import { StepThreePostDeal } from "./components/StepThreePostDeal";
+import StepFourPostDeal from "./components/StepFourPostDeal";
+import StepFivePostDeal from "./components/StepFivePostDeal";
+import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
+
+const initialState = {
+  categoryId: null,
+  subCategoryId: "",
+  childCategoryId: "",
+  countyId: "",
+  cityId: "",
+  budget: "",
+  deadline: "",
+  title: "",
+  description: "",
+  imageFile: "",
+  step: 1,
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "EDIT_FIELD": {
+      const newState = {
+        ...state,
+        [action.payload.key]: action.payload.value,
+      };
+      localStorage.setItem("postDealData", JSON.stringify(newState));
+      return newState;
+    }
+    case "SET_FORM_DATA":
+      return {
+        ...state,
+        ...action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const StepComponent = ({ step, handleDataChange, state }) => {
+  const { categories, subCategories, childCategories, countries, cities } =
+    useGlobalDataContext();
+  return (
+    <AnimatePresence>
+      {step === 1 && (
+        <motion.div
+          key="step1"
+          className="absolute"
+          initial={{ opacity: 0, x: "110%" }}
+          animate={{ opacity: 1, x: "0" }}
+          exit={{ opacity: 0, x: "-110%" }}
+          transition={{ duration: 0.9, ease: "backInOut" }}
+        >
+          <StepOnePostDeal
+            categories={categories}
+            handleDataChange={handleDataChange}
+            state={state}
+          />
+        </motion.div>
+      )}
+      {step === 2 && (
+        <motion.div
+          className="absolute"
+          key="step2"
+          initial={{ opacity: 0, x: "110%" }}
+          animate={{ opacity: 1, x: "0" }}
+          exit={{ opacity: 0, x: "-110%" }}
+          transition={{ duration: 0.9, ease: "backInOut" }}
+        >
+          <StepTwoPostDeal
+            subCategories={subCategories}
+            childCategories={childCategories}
+            handleDataChange={handleDataChange}
+            state={state}
+          />
+        </motion.div>
+      )}
+      {step === 3 && (
+        <motion.div
+          className="absolute"
+          key="step3"
+          initial={{ opacity: 0, x: "110%" }}
+          animate={{ opacity: 1, x: "0" }}
+          exit={{ opacity: 0, x: "-110%" }}
+          transition={{ duration: 0.9, ease: "backInOut" }}
+        >
+          <StepThreePostDeal
+            countries={countries}
+            cities={cities}
+            handleDataChange={handleDataChange}
+            state={state}
+          />
+        </motion.div>
+      )}
+      {step === 4 && (
+        <motion.div
+          className="absolute"
+          key="step4"
+          initial={{ opacity: 0, x: "110%" }}
+          animate={{ opacity: 1, x: "0" }}
+          exit={{ opacity: 0, x: "-110%" }}
+          transition={{ duration: 0.9, ease: "backInOut" }}
+        >
+          <StepFourPostDeal handleDataChange={handleDataChange} state={state} />
+        </motion.div>
+      )}
+      {step === 5 && (
+        <motion.div
+          className="absolute w-[80%]"
+          key="step5"
+          initial={{ opacity: 0, x: "110%" }}
+          animate={{ opacity: 1, x: "0" }}
+          exit={{ opacity: 0, x: "-110%" }}
+          transition={{ duration: 0.9, ease: "backInOut" }}
+        >
+          <StepFivePostDeal handleDataChange={handleDataChange} state={state} />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+const PostDeal = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const islogin = localStorage.getItem("ACCESS_TOKEN");
+
+  useEffect(() => {
+    const formDataFromStorage = localStorage.getItem("postDealData");
+    if (formDataFromStorage) {
+      dispatch({
+        type: "SET_FORM_DATA",
+        payload: JSON.parse(formDataFromStorage),
+      });
+    }
+  }, []);
+
+  const goToNextStep = () => {
+    dispatch({
+      type: "EDIT_FIELD",
+      payload: {
+        key: "step",
+        value: Number(state.step) + 1,
+      },
+    });
+  };
+
+  const goToPrevStep = () => {
+    dispatch({
+      type: "EDIT_FIELD",
+      payload: {
+        key: "step",
+        value: Number(state.step) - 1,
+      },
+    });
+  };
+
+  const handleDataChange = (key, value) => {
+    dispatch({
+      type: "EDIT_FIELD",
+      payload: {
+        key: key,
+        value: value,
+      },
+    });
+  };
+
+  const handleSubmitData = async () => {
+    if (islogin) {
+      console.log("yes logged in");
+    } else {
+      console.log("no login");
+    }
+  };
+
+  return (
+    <div className="min-h-[400px] flex flex-col justify-between lg:px-20 md:px-12 px-6">
+      <div className="py-12 h-auto w-full min-h-[550px]">
+        <StepComponent
+          handleDataChange={handleDataChange}
+          step={Number(state.step)}
+          state={state}
+        />
+      </div>
+      <div className="my-14 flex items-center justify-center gap-8">
+        {state.step !== 1 && (
+          <button
+            className="bg-orangeColor text-white  p-2 rounded-lg"
+            onClick={goToPrevStep}
+          >
+            Previous
+          </button>
+        )}
+        {state.step !== 5 && (
+          <button
+            className="bg-greenColor text-white  p-2 rounded-lg"
+            onClick={goToNextStep}
+          >
+            Next
+          </button>
+        )}
+        {state.step === 5 && (
+          <button
+            className="bg-greenColor text-white  p-2 rounded-lg"
+            onClick={handleSubmitData}
+          >
+            finish
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default PostDeal;

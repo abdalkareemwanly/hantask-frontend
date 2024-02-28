@@ -7,6 +7,10 @@
     "name": null,
     "path": "profile"
   },
+  "notifications": {
+    "name": null,
+    "path": "notifications"
+  },
   "Live Chat": {
     "name": null,
     "path": "chatInbox"

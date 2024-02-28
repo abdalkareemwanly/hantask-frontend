@@ -8,24 +8,25 @@ import {
 } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import ServiceProviderSidebar from "./ServiceProviderSidebar";
-// import { document } from "postcss";
-import axiosClient from "../../axios-client";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTWThemeContext } from "../../admin/Components/ThemeProvider";
 import { useStateContext } from "../../contexts/ContextsProvider";
+import ModalContainer from "../../Components/ModalContainer";
+import PasswordChange from "./PasswordChange";
+import Button from "../../Components/Button";
 
 export default function ServiceProviderLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [adminmenuOpen, setAdminMenuOpen] = useState(false);
   const [mode, setMode] = useState(localStorage.getItem("theme") || "light");
   const { setTheme } = useTWThemeContext();
-  const { token, setTranslation } = useStateContext({});
+  const { token } = useStateContext({});
   const user = JSON.parse(localStorage.getItem("USER"));
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    getTranslation();
     const htmlElement = document.querySelector("html");
     localStorage.setItem("theme", mode);
     setTheme(mode);
@@ -49,34 +50,25 @@ export default function ServiceProviderLayout() {
     return <Navigate to={"/"} />;
   }
 
-  const getTranslation = () => {
-    axiosClient.get("/admin/translation").then((response) => {
-      setTranslation(response.data);
-    });
-  };
-
   const handleLogout = () => {
     localStorage.removeItem("ACCESS_TOKEN");
     localStorage.removeItem("USER");
     navigate("/ ");
   };
+  const handleChangePass = () => {
+    setIsModalOpen(true);
+  };
 
   return (
     <div className={`flex-row md:flex bg-background-color `}>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme={mode}
-      />
+      {isModalOpen && (
+        <ModalContainer
+          setIsModalOpen={setIsModalOpen}
+          component={<PasswordChange setIsModalOpen={setIsModalOpen} />}
+        />
+      )}
       <div
-        className={`flex flex-col h-screen transition-all ease-in text-primary-text overflow-y-auto scroll bg-blocks-color  z-10 shadow-lg gap-4 fixed md:sticky top-0  ${
+        className={`flex flex-col flex-shrink-0 flex-grow-0 h-screen transition-all ease-in text-primary-text overflow-y-auto scroll bg-blocks-color  z-10 shadow-lg gap-4 fixed md:sticky top-0  ${
           sidebarOpen ? "md:w-[280px] w-[230px]" : "w-0"
         }`}
       >
@@ -122,18 +114,17 @@ export default function ServiceProviderLayout() {
                 adminmenuOpen ? "h-[auto]" : "h-0"
               }`}
             >
-              <Link className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out">
-                Edit Profile
-              </Link>
-              <Link className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out">
-                Password Change
-              </Link>
-              <Link
-                className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out"
-                onClick={handleLogout}
-              >
-                Logout
-              </Link>
+              <Button title={"profile"} isLink={true} goto={"profile"} />
+              <Button
+                title={"change password"}
+                isLink={false}
+                onClickFun={handleChangePass}
+              />
+              <Button
+                isLink={false}
+                title={"logout"}
+                onClickFun={handleLogout}
+              />
             </div>
             <button onClick={handleMode} className="me-5">
               {mode === "light" ? (
@@ -159,22 +150,6 @@ export default function ServiceProviderLayout() {
         <div className="text-primary-text min-h-[91.7vh] px-2 md:px-14">
           <Outlet />
         </div>
-        {/* <div
-          className={`flex flex-row justify-between px-3 bg-blocks-color text-primary-text`}
-        >
-          <span>
-            &copy; Copyright 2023{" "}
-            <span
-              className={`font-bold ${
-                mode === "light" ? "text-primary-color" : "text-secondary-color"
-              }`}
-            >
-              HanTask
-            </span>
-            . All Rights Reserved.
-          </span>
-          <span>Design : Muhammed Nasser Edden</span>
-        </div> */}
       </div>
     </div>
   );

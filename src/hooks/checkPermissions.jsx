@@ -17,7 +17,7 @@ const useCheckPermission = () => {
     setApprovedRoles(
       permissions?.filter((per) => userPermissionSet.has(per.name))
     );
-  }, []);
+  }, [permissions, userPermissions]);
 
   return {
     hasPermissionFun: (permissionName) =>

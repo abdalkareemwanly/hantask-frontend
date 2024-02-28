@@ -162,7 +162,7 @@ export default function Languages() {
             <Button
               isLink={true}
               title={"edit words"}
-              goto={`/admin/EditWord?slug=${row.slug}`}
+              goto={`/admin/dashboard/EditWord?slug=${row.slug}`}
               color={"bg-blueColor"}
             />
             <Button

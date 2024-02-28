@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PostJobsCard from "./components/PostJobsCard";
 import "./style/PostJobs.css";
 import FilterContainer from "../../components/filter/FilterContainer";
-import DEFAULT_DATA from "./data/defaultData";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import axiosClient from "../../../axios-client";
 import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
 import PostJobsCardLoader from "./components/PostJobsCardLoader";
-import { ThreeDots } from "react-loader-spinner";
 import WebsiteLoader from "../../components/loader/WebsiteLoader";
 import Pagination from "../../components/pagination/Pagination";
 
@@ -52,7 +50,6 @@ function PostJobs(props) {
   const [page, setPage] = useState(1);
   const {
     data: posts,
-    queryClient,
     isLoading,
     isRefetching,
   } = useQueryHook(
@@ -63,40 +60,38 @@ function PostJobs(props) {
   );
 
   return (
-    <>
-      <div className="website-page sm:px-12 px-2 py-24 flex flex-col gap-12 text-center  justify-center items-center">
-        {loading ? (
-          <WebsiteLoader />
-        ) : (
-          <>
-            <div className="flex flex-col gap-6 w-full">
-              <h2 className="text-[5.5vw] md:text-[3vw] lg:text-[2.5vw] font-semibold">
-                Jobs
-              </h2>
-              <div className="jobs-container">
-                <div className="jobs-filter grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4">
-                  <FilterContainer
-                    filter={filter}
-                    setFilter={setFilter}
-                    data={FILTER_DATA}
-                  />
-                </div>
-                <div className="jobs-cards grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 my-8">
-                  {isLoading || isRefetching
-                    ? Array.from(Array(4).keys()).map((ele) => (
-                        <PostJobsCardLoader key={ele} />
-                      ))
-                    : posts?.data?.data.map((item, index) => {
-                        return <PostJobsCard key={index} item={item} />;
-                      })}
-                </div>
+    <div className="website-page sm:px-12 px-2 py-24 flex flex-col gap-12 text-center  justify-center items-center">
+      {loading ? (
+        <WebsiteLoader />
+      ) : (
+        <>
+          <div className="flex flex-col gap-6 w-full">
+            <h2 className="text-[5.5vw] md:text-[3vw] lg:text-[2.5vw] font-semibold">
+              Jobs
+            </h2>
+            <div className="jobs-container">
+              <div className="jobs-filter grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4">
+                <FilterContainer
+                  filter={filter}
+                  setFilter={setFilter}
+                  data={FILTER_DATA}
+                />
+              </div>
+              <div className="jobs-cards grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 my-8">
+                {isLoading || isRefetching
+                  ? Array.from(Array(4).keys()).map((ele) => (
+                      <PostJobsCardLoader key={ele} />
+                    ))
+                  : posts?.data?.data.map((item, index) => {
+                      return <PostJobsCard key={index} item={item} />;
+                    })}
               </div>
             </div>
-            <Pagination data={posts} setPage={setPage} />
-          </>
-        )}
-      </div>
-    </>
+          </div>
+          <Pagination data={posts} setPage={setPage} />
+        </>
+      )}
+    </div>
   );
 }
 

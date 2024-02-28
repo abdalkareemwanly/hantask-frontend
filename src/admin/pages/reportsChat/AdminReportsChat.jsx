@@ -5,7 +5,7 @@ import { useQueryHook } from "../../../hooks/useQueryHook";
 import CustomerChatBody from "./components/ChatBody";
 import CustomerChatFooter from "./components/ChatFooter";
 import CustomerChatHeader from "./components/ChatHeader";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Loader from "../../../Components/Loader";
 
 const getData = async (id) => {
@@ -15,13 +15,16 @@ const getData = async (id) => {
 
 function AdminCustomerChat(props) {
   const { id } = useParams();
+  const { fromId } = useLocation().state;
+  console.log(fromId);
   const { data: messages, isLoading } = useQueryHook(
     ["messages", id],
     () => getData(id),
     "normal"
   );
-
+  console.log(messages);
   if (isLoading) return <Loader />;
+
   return (
     <>
       <Page>
@@ -38,7 +41,7 @@ function AdminCustomerChat(props) {
           <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text mb-[20px] mt-[20px]">
             Reply To Message
           </h4>
-          <CustomerChatFooter reportId={id} />
+          <CustomerChatFooter reportId={id} fromId={fromId} />
         </div>
       </Page>
     </>

@@ -6,7 +6,16 @@ import ReusableForm from "../../../../Components/ReusableForm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosClient from "../../../../axios-client";
-
+const getSideBar = () => {
+  fetch("/src/admin/Json/permissions.json")
+    .then((response) => response.json())
+    .then((data) => {
+      localStorage.setItem("permissions", JSON.stringify(data));
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+};
 export default function AdminLogin() {
   const { token, setUser, setToken } = useStateContext();
   const navigate = useNavigate();
@@ -36,8 +45,11 @@ export default function AdminLogin() {
           closeButton: true,
           pauseOnHover: false,
         });
+        getSideBar();
+
         setToken(response.data.token);
         setUser(response.data.data);
+
         sessionStorage.setItem("mode", "light");
         localStorage.setItem("USER", JSON.stringify(response.data.admin));
         if (!response.data.token) {

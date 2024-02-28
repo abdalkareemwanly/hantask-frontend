@@ -9,10 +9,8 @@ import {
 import { useEffect, useState } from "react";
 import SidebarAdmin from "./SidebarAdmin";
 import { useTWThemeContext } from "./ThemeProvider";
-// import { document } from "postcss";
 import { useStateContext } from "../../contexts/ContextsProvider";
 import axiosClient from "../../axios-client";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function DefaultLayout() {
@@ -21,12 +19,14 @@ export default function DefaultLayout() {
   const [mode, setMode] = useState(localStorage.getItem("theme") || "light");
   const { setTheme } = useTWThemeContext();
   const { token, setTranslation } = useStateContext({});
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem("USER"));
   const getTranslation = () => {
     axiosClient.get("/admin/translation").then((response) => {
       setTranslation(response.data);
     });
   };
+
   useEffect(() => {
     getTranslation();
     const htmlElement = document.querySelector("html");
@@ -54,26 +54,18 @@ export default function DefaultLayout() {
 
   return (
     <div className={`flex-row md:flex bg-background-color `}>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme={mode}
-      />
       <div
-        className={`flex flex-col h-screen transition-all ease-in text-primary-text overflow-y-auto scroll bg-blocks-color  z-10 shadow-lg gap-4 fixed md:sticky top-0  ${
-          sidebarOpen ? "md:w-[280px] w-[230px]" : "w-0"
+        className={`flex flex-col flex-shrink-0 flex-grow-0 h-screen transition-all ease-in text-primary-text overflow-y-auto scroll bg-blocks-color  z-10 shadow-lg gap-4 fixed md:sticky top-0 ${
+          sidebarOpen ? "w-1/5" : "w-0"
         }`}
       >
         <SidebarAdmin setSidebarOpen={setSidebarOpen} />
       </div>
-      <div className="flex flex-col flex-1">
+      <div
+        className={`flex flex-col w-full  ${
+          sidebarOpen ? "sm:w-[80%]" : "w-full"
+        }`}
+      >
         <div
           className={`flex flex-row items-center component-shadow w-sm-[100%] px-2 md:px-14 z-8 bg-blocks-color `}
         >
@@ -139,15 +131,36 @@ export default function DefaultLayout() {
                 />
               )}
             </button>
-            <button className="me-5">
+            <button className="me-5 relative block">
               <BiSolidBellRing
                 style={{ fontSize: "24px" }}
+                onClick={() => setIsNotificationOpen(!isNotificationOpen)}
                 className="text-primary-text"
               />
+              <div
+                className={`absolute flex flex-col top-14 right-0 w-[380px] p-4 text-primary-text overflow-y-auto me-[-20px] component-shadow bg-blocks-color z-10 rounded-md ${
+                  isNotificationOpen ? "h-[auto]" : "h-0 p-0"
+                }`}
+              >
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold">
+                    recent notifications
+                  </h3>
+                  <Link
+                    className="text-blueColor"
+                    to={"/admin/dashboard/notification"}
+                  >
+                    show all
+                  </Link>
+                </div>
+                <div className="my-4 flex flex-col gap-2">
+                  <div>first notification</div>
+                </div>
+              </div>
             </button>
           </div>
         </div>
-        <div className="text-primary-text min-h-[91.7vh] px-2 md:px-14">
+        <div className="text-primary-text w-full min-h-[91.7vh] px-2 md:px-14">
           <Outlet />
         </div>
         {/* <div

@@ -16,6 +16,8 @@ const CropeerImage = ({
   selectedImage,
   setSelectedImage,
   noBackground,
+  handleDataChange,
+  state,
 }) => {
   const [isImageSelected, setIsImageSelected] = useState();
   // Added hasBackground prop with default value
@@ -49,6 +51,7 @@ const CropeerImage = ({
   const handleImageSelect = (e) => {
     handleOpen();
     const file = e.target.files[0];
+    //thumbnail
     if (type === 1) {
       if (file) {
         const reader = new FileReader();
@@ -59,11 +62,24 @@ const CropeerImage = ({
         reader.readAsDataURL(file);
       }
     }
+
+    //images array
     if (type === 2) {
       if (file) {
         const reader = new FileReader();
         reader.onload = () => {
           setIsImageSelected(reader.result);
+          handleOpen();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    //post deal image
+    if (type === 3) {
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setSelectedImage(reader.result);
           handleOpen();
         };
         reader.readAsDataURL(file);
@@ -103,6 +119,9 @@ const CropeerImage = ({
           setImages((prev) => [...prev, { show: croppedImageUrl, file: file }]);
           // setSelectedImages((prevImages) => [...prevImages, file]);
         }
+        if (type === 3) {
+          handleDataChange("image", { show: croppedImageUrl, file: file });
+        }
       }
     }
     handleClose();
@@ -132,7 +151,13 @@ const CropeerImage = ({
               ? noBackground && thumbnail?.show
                 ? `url(${thumbnail?.show})`
                 : `url(${import.meta.env.VITE_WEBSITE_URL}${thumbnail})`
-              : "none",
+              : type === 2
+              ? "none"
+              : type === 3
+              ? noBackground && state.image?.show
+                ? `url(${state.image.show})`
+                : `url(${import.meta.env.VITE_WEBSITE_URL}${thumbnail})`
+              : "",
         }}
         onClick={handleChooseImage}
       >

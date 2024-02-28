@@ -9,6 +9,10 @@ import axiosClient from "../../../axios-client";
 import { useEffect, useState } from "react";
 import PostJobsCard from "../jobs/components/PostJobsCard";
 import PostJobsCardLoader from "../jobs/components/PostJobsCardLoader";
+import "./css/mainSection.css";
+import { FaArrowRight } from "react-icons/fa";
+import Button from "../../../Components/Button";
+
 const getNewJobs = async () => {
   const res = await axiosClient.get("/site/posts");
   return res.data.data;
@@ -21,6 +25,7 @@ const getTotalUsers = async () => {
   const res = await axiosClient.get("/site/users/total");
   return res.data;
 };
+
 const Homepage = () => {
   const { categories, subCategories, childCategories } = useGlobalDataContext();
 
@@ -52,14 +57,52 @@ const Homepage = () => {
     gettotal();
   }, []);
 
-  console.log(users);
-
   return (
     <div className="">
       <Banner total_users={users} />
+      <div className=" lg:px-40 md:px-12  px-6 py-12 flex flex-row items-center flex-wrap">
+        <h3 className="text-2xl font-semibold  md:flex-[30%]  flex-grow-0">
+          Discovering the perfect handyman for your project
+        </h3>
+        <div className="flex gap-4 flex-[70%] justify-between flex-wrap">
+          <div className="md:flex-[30%] flex-col border component-shadow rounded-lg p-6 flex gap-12">
+            <div className="flex gap-2 flex-col">
+              <span className="text-[#016980] text-xl font-semibold">01</span>
+              <h4 className="text-xl font-semibold">Post your projec</h4>
+              <p className="text-sm text-gray-500">
+                Easily outline your project and handpick the handyman you want
+                to connect wi
+              </p>
+            </div>
+            <FaArrowRight />
+          </div>
+          <div className="md:flex-[30%] flex-col border component-shadow rounded-lg p-6 flex gap-12">
+            <div className="flex gap-2 flex-col">
+              <span className="text-[#016980] text-xl font-semibold">01</span>
+              <h4 className="text-xl font-semibold">Post your projec</h4>
+              <p className="text-sm text-gray-500">
+                Easily outline your project and handpick the handyman you want
+                to connect wi
+              </p>
+            </div>
+            <FaArrowRight />
+          </div>
+          <div className="md:flex-[30%] flex-col border component-shadow rounded-lg p-6 flex gap-12">
+            <div className="flex gap-2 flex-col">
+              <span className="text-[#016980] text-xl font-semibold">01</span>
+              <h4 className="text-xl font-semibold">Post your projec</h4>
+              <p className="text-sm text-gray-500">
+                Easily outline your project and handpick the handyman you want
+                to connect wi
+              </p>
+            </div>
+            <FaArrowRight />
+          </div>
+        </div>
+      </div>
       <CardsContainer
-        title={"categories"}
-        bgColor={"#fff9f3"}
+        title={"Browse by category"}
+        bgColor={"bg-[#e9f4ff]"}
         link={"categories"}
       >
         {categories && subCategories && childCategories
@@ -77,181 +120,88 @@ const Homepage = () => {
               return <CategoryLoader key={index} />;
             })}
       </CardsContainer>
-      <CardsContainer title={"new jobs"}>
-        {newJobs.length !== 0
+      <CardsContainer
+        title={"Browse the latest deals from homeowners"}
+        link={"deals"}
+      >
+        {!isLoading
           ? newJobs?.map((ele, i) => <PostJobsCard key={i} item={ele} />)
           : Array.from(Array(4).keys()).map((item, index) => {
               return <PostJobsCardLoader key={index} />;
             })}
       </CardsContainer>
-      <div className="lg:px-20 md:px-12  px-6 py-8">
-        <div className="flex items-center flex-col justify-center gap-8">
-          <h2 className="text-[6vw] md:text-[4vw] lg:text-[3vw]">
-            Why Choose Qixer?
-          </h2>
-          <p className=" lg:w-1/2 text-center">
-            Qixer is a best service-based marketplace out there to help you get
-            any task done conveniently. Thanks to our well built mobile app and
-            website for making it even convenient for the users.
+      <div
+        className="relative w-full p-3 md:p-6 lg:p-12 min-h-[250px]"
+        style={{
+          backgroundImage: "url('/src/assets/banner2.jpg')",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}
+      >
+        <div className="absolute z-[1] bg-[#3486afb5] inset-0 w-full h-full"></div>
+        <div className="flex items-center justify-center flex-col gap-6 absolute z-[2] inset-0">
+          <h2 className="text-3xl font-bold text-white">Become a Handyman</h2>
+          <p className="font-semibold max-w-full md:max-w-[700px] text-white">
+            Join as a Handyman to increase your project opportunities and win
+            more work
           </p>
-          <Link
-            to={"register"}
-            className="text-center w-[200px] bg-[#ff6b2c] text-white py-3 rounded-md font-semibold"
-          >
-            join as a Customer
+          <Link to={"/login"} className="border py-1 px-6 rounded-lg bg-white">
+            apply now
           </Link>
-          <div className="flex items-center flex-col md:flex-row flex-wrap gap-6">
-            <div className="flex gap-3 items-center border p-3 rounded-lg hover:border-transparent hover:component-shadow transition-all">
-              <div>
-                <img src="/src/images/choose1.png" alt="" />
-              </div>
-              <div>
-                <h4 className="text-lg font-medium">test</h4>
-                <p className="text-gray-500">
-                  People loved services provided by our taskers
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-3 items-center border p-3 rounded-lg hover:border-transparent hover:component-shadow transition-all">
-              <div>
-                <img src="/src/images/choose2.png" alt="" />
-              </div>
-              <div>
-                <h4 className="text-lg font-medium">test</h4>
-                <p className="text-gray-500">
-                  People loved services provided by our taskers
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-3 items-center border p-3 rounded-lg hover:border-transparent hover:component-shadow transition-all">
-              <div>
-                <img src="/src/images/choose3.png" alt="" />
-              </div>
-              <div>
-                <h4 className="text-lg font-medium">test</h4>
-                <p className="text-gray-500">
-                  People loved services provided by our taskers
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <CardsContainer title={"popruler jobs"}>
-        {populerJobs
-          ? populerJobs?.map((ele, i) => <PostJobsCard key={i} item={ele} />)
-          : Array.from(Array(4).keys()).map((item, index) => {
-              return <PostJobsCardLoader key={index} />;
-            })}
-      </CardsContainer>
-      <div className="flex items-center justify-center gap-8 bg-[#f5f7ff] lg:px-40 md:px-12 px-6 py-8 ">
-        <div className="w-full md:w-2/3 flex items-center justify-center gap-12 flex-col-reverse md:flex-row">
-          <div className="md:w-1/2 w-full flex flex-col gap-6">
-            <h2 className="text-[4vw] md:text-[6vw] lg:text-[2.5vw] font-semibold">
-              Join with us as a service provider and earn a good remuneration
-            </h2>
-            <div className="flex flex-col gap-3">
-              <span className="flex items-center gap-2">
-                <FaCheck />
-                <span>Get regular works</span>
-              </span>
-              <span className="flex items-center gap-2">
-                <FaCheck />
-                <span>24/7 Support</span>
-              </span>
-              <span className="flex items-center gap-2">
-                <FaCheck />
-                <span>Generous service buyers</span>
-              </span>
-            </div>
-            <Link
-              to={"register"}
-              className="text-center w-[200px] bg-[#ff6b2c] text-white py-3 rounded-md font-semibold"
-            >
-              join as a Customer
-            </Link>
-          </div>
-          <div className="md:w-1/2 w-full text-center">
-            <img
-              className="w-[100%] object-contain"
-              src="/src/images/poeple.png"
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-const Banner = ({ total_users }) => {
-  return (
-    <div className="flex items-center justify-center bg-[#f5f7ff] lg:px-20 md:px-12  px-6 ">
-      <div className="flex flex-col lg:flex-row gap-2 py-12 w-full 2xl:w-[75%] xl:w-[100%]   lg:items-center">
-        <div className="flex-1 flex flex-col justify-center items-center lg:items-start gap-10">
-          <h2 className="text-[7vw] md:text-[6vw] lg:text-[3vw] font-semibold">
-            Get any tasks done <br /> by professionals
-          </h2>
-          <p>Order service you need, We have professionals ready to help</p>
-          <div className="flex flex-row gap-10 overflow-visible lg:w-[125%] w-full z-10">
-            <input
-              type="text"
-              placeholder="search by location"
-              className="bg-white outline-none border-none py-4 px-8 self-end rounded-md w-full component-shadow"
-            />
-            <button className="bg-[#ff6b2c] py-2 px-8 text-white rounded-lg">
-              search
-            </button>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex">
-              {total_users?.random_users?.map((ele, i) => (
-                <img
-                  key={i}
-                  src={import.meta.env.VITE_WEBSITE_URL + ele?.image}
-                  className="w-[40px] h-[40px] rounded-full mx-[-7px] object-cover border-white hover:mx-[0px] transition-all hover:scale-110"
-                />
-              ))}
-            </div>
-            <span>+{total_users.total_users} Satisficed Customer</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link to={"/jobs"}>
-              <button>post jobs</button>
-            </Link>
-          </div>
-        </div>
-        <div className="flex-1 flex flex-col md:flex-row items-center justify-center md:items-start gap-4 ">
-          <div
-            className="bg-[#4d77ff] w-[310px] h-[400px] rounded-3xl"
-            style={{
-              backgroundImage: "url(/src/images/banner2.png)",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-          ></div>
-          <div
-            className="bg-[#ff6b2c] w-[310px] h-[400px] rounded-3xl"
-            style={{
-              backgroundImage: "url(/src/images/banner1.png)",
-              backgroundPosition: "right",
-              backgroundRepeat: "no-repeat",
-            }}
-          ></div>
         </div>
       </div>
     </div>
   );
 };
 
+const Banner = ({ total_users }) => {
+  return (
+    <section>
+      <div className="bannerContainer">
+        <div className="banner">
+          <div className="banner-image"></div>
+          <div className="banner-overflow px-8 md:px-16 lg:px-32 flex items-center">
+            <div className="flex flex-col gap-4 w-[70%]">
+              <div className="banner-line-1 flex items-center gap-2">
+                <span></span>
+                <span>Finding handyman made easy</span>
+              </div>
+              <h1 className="text-4xl font-bold">
+                The quick way to find suitable handyman
+              </h1>
+              <p>
+                Get the service you need promptly with our team of skilled
+                professionals on standby
+              </p>
+              <div className="relative w-full flex items-center my-8">
+                <input
+                  className="absolute w-full p-4 rounded-md border-none outline-none text-black"
+                  placeholder="What service do you need?"
+                />
+                <button className="absolute right-2 bg-greenColor p-2 rounded-md">
+                  find handyman
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const CardsContainer = ({ bgColor, children, title, link }) => {
   return (
-    <div className={`bg-[${bgColor}] lg:px-40 md:px-12  px-6 py-12 `}>
+    <div className={`${bgColor}   lg:px-40 md:px-12  px-6 py-12 `}>
       <div className="flex justify-between items-center">
         <h1 className="text-[5vw] lg:text-[2vw]  font-semibold mb-4">
           {title}
         </h1>
-        <Link to={link} className="text-[#ff6b2c] flex  gap-1">
-          <span>show more</span> <MdOutlineKeyboardArrowRight size={25} />
+        <Link
+          to={link}
+          className="flex bg-greenColor p-2 rounded-md text-sm items-center text-white"
+        >
+          <span>view more</span> <MdOutlineKeyboardArrowRight size={25} />
         </Link>
       </div>
       <div className="flex flex-wrap flex-col md:flex-row justify-center items-center gap-[24px]">

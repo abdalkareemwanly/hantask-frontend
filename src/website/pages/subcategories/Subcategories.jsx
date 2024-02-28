@@ -7,6 +7,7 @@ import PostJobsCard from "../jobs/components/PostJobsCard";
 import DEFAULT_DATA from "../jobs/data/defaultData";
 import { useEffect, useState } from "react";
 import axiosClient from "../../../axios-client";
+import TitleLine from "../../components/common/TitleLine";
 const getData = async (page = 1, categoryId) => {
   const res = await axiosClient.get(
     `/site/posts${`?category_id=${categoryId}`}`
@@ -33,6 +34,7 @@ function WebSiteSubcategories(props) {
         <h3 className="font-[600] text-[32px]">
           Available Jobs Sub Categories in {state.currentCategory?.name}
         </h3>
+        <TitleLine />
         <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px] mt-[30px]">
           {categories &&
           subCategories &&
@@ -50,11 +52,15 @@ function WebSiteSubcategories(props) {
                   );
               })
             : Array.from(Array(9).keys()).map((item, index) => {
-                return <CategoryLoader key={index} />;
+                return (
+                  <div key={index} className="flex gap-4">
+                    <CategoryLoader key={index} />
+                  </div>
+                );
               })}
         </div>
         <h3 className="font-[600] text-[32px] mt-[60px]">
-          Available Jobs in {state.currentCategory?.name}
+          Available deals in {state.currentCategory?.name}
         </h3>
         {posts.length ? (
           <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 mt-[30px]">

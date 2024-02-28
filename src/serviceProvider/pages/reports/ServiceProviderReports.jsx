@@ -22,18 +22,13 @@ function ServiceProviderReports(props) {
 
   const COLUMNS = [
     {
-      name: "Order ID",
-      width: "13.3%",
-      selector: (row) => row.orderId,
-    },
-    {
       name: "Report ID",
-      width: "13.3%",
+      width: "10%",
       selector: (row) => row.id,
     },
     {
       name: "Report Details",
-      width: "27%",
+      width: "25%",
       cell: (row) => {
         return (
           <div className="flex flex-col text-primary-text gap-[5px]">
@@ -66,8 +61,30 @@ function ServiceProviderReports(props) {
       },
     },
     {
-      name: "Seller Details",
-      width: "27%",
+      name: "reporter Details",
+      width: "25%",
+      selector: (row) => {
+        return (
+          <div className="flex flex-col text-primary-text gap-[5px]">
+            <div>
+              <strong>Name: </strong>
+              {row.report_from.name}
+            </div>
+            <div>
+              <strong>Email: </strong>
+              {row.report_from.email}
+            </div>
+            <div>
+              <strong>Phone: </strong>
+              {row.report_from.phone}
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      name: "reported to Details",
+      width: "25%",
       selector: (row) => {
         return (
           <div className="flex flex-col text-primary-text gap-[5px]">
@@ -88,8 +105,8 @@ function ServiceProviderReports(props) {
       },
     },
     {
-      name: "Report ID",
-      width: "19.3%",
+      name: "actions",
+      width: "15%",
       cell: (row) => {
         return (
           <Link

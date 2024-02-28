@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+html {
+  overflow-x: hidden;
+}
 :root {
   /* abullah colors */
   --main-color: rgb(255, 107, 44);
@@ -67,7 +69,6 @@
   --success-color-rgb: 101, 193, 140;
   --input-shadow: 0 0 10px rgba(29, 191, 115, 0.1);
   --second-bg: #f2f7ff;
-
 }
 
 :root[data-theme="light"] {
@@ -103,10 +104,7 @@
   --success-color-rgb: 101, 193, 140;
   --input-shadow: 0 0 10px rgba(29, 191, 115, 0.1);
   --second-bg: #f2f7ff;
-
 }
-
-
 
 @layer base {
   .component-shadow {
@@ -296,7 +294,7 @@
   /* width: 52px; */
   height: 34px;
   display: flex;
-  gap: .5rem;
+  gap: 0.5rem;
   outline: none;
   align-items: center;
 }
@@ -331,15 +329,15 @@
   border-radius: 50%;
 }
 
-input:checked+.slider {
+input:checked + .slider {
   background-color: #4fc961;
 }
 
-input:focus+.slider {
+input:focus + .slider {
   box-shadow: 0 0 1px #4fc961;
 }
 
-input:checked+.slider:before {
+input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
@@ -349,9 +347,7 @@ input:checked+.slider:before {
   background-color: #4fc961 !important;
 }
 
-
 /* abdullah area  */
-
 
 .ellipsis {
   overflow: hidden;
@@ -363,7 +359,6 @@ input:checked+.slider:before {
 .ellipsis-1 {
   -webkit-line-clamp: 1;
 }
-
 
 .slider-dots {
   display: flex !important;
@@ -378,7 +373,7 @@ input:checked+.slider:before {
   height: 15px;
   border-radius: 50%;
   color: transparent;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 .slider-dots li.slick-active button {
@@ -394,7 +389,7 @@ input:checked+.slider:before {
   border-radius: 100vw;
 }
 
-.slick-slide>div {
+.slick-slide > div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -404,3 +399,6 @@ input:checked+.slider:before {
   min-height: 800px;
 }
 /* end of abdullah area  */
+.linear {
+  background-image: linear-gradient();
+}

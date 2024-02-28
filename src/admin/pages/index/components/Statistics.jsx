@@ -65,7 +65,7 @@ export default function Statistics() {
         <div className="rounded-full p-2 ">
           <BiUserCircle fontSize={60} />
         </div>
-        <div className="flex flex-col justify-center ms-5 mt-2">
+        <div className="flex flex-col justify-center ms-5 mt-2 linear">
           <span className="text-[28px] font-bold">$417.44</span>
           <span className="text-[16px] font-semibold">Total Earning</span>
         </div>

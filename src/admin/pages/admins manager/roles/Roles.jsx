@@ -11,6 +11,8 @@ import { EditRole } from "./components/EditRole";
 import { useQueryHook } from "../../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
+import useCheckPermission from "../../../../hooks/checkPermissions";
+import { useNavigate } from "react-router-dom";
 const getRoles = async () => {
   const res = await axiosClient.get("/admin/roles");
   return res;
@@ -21,6 +23,14 @@ const deleteFunc = async (id) => {
   return res;
 };
 const Roles = () => {
+  const { hasPermissionFun } = useCheckPermission();
+  const nav = useNavigate();
+  const hasShowPermission = hasPermissionFun("showRoles");
+  const hasAddPermission = hasPermissionFun("addRole");
+  const hasEditPermission = hasPermissionFun("updateRole");
+  const hasDeletePermission = hasPermissionFun("deleteRole");
+  const hasPermissionsCheck = hasPermissionFun("Permission");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState();
@@ -95,25 +105,31 @@ const Roles = () => {
       cell: (row) => {
         return (
           <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
-            <Button
-              isLink={false}
-              color={"bg-orangeColor"}
-              title={"edit"}
-              onClickFun={() => editBtnFun(row)}
-            />
-            <Button
-              isLink={false}
-              color={"bg-redColor"}
-              title={"delete"}
-              onClickFun={() => handleDelete(row.id)}
-            />
-            <Button
-              isLink={true}
-              color={"bg-blueColor"}
-              goto={`${row.id}`}
-              title={"permissions control"}
-              onClickFun={() => handleDelete(row.id)}
-            />
+            {hasEditPermission && (
+              <Button
+                isLink={false}
+                color={"bg-orangeColor"}
+                title={"edit"}
+                onClickFun={() => editBtnFun(row)}
+              />
+            )}
+            {hasDeletePermission && (
+              <Button
+                isLink={false}
+                color={"bg-redColor"}
+                title={"delete"}
+                onClickFun={() => handleDelete(row.id)}
+              />
+            )}
+            {hasPermissionsCheck && (
+              <Button
+                isLink={true}
+                color={"bg-blueColor"}
+                goto={`${row.id}`}
+                title={"permissions control"}
+                onClickFun={() => handleDelete(row.id)}
+              />
+            )}
           </div>
         );
       },
@@ -121,59 +137,63 @@ const Roles = () => {
   ];
 
   return (
-    <Page>
-      <PageTitle
-        text={"manage all roles"}
-        right={
-          <div>
-            <Button
-              isLink={false}
-              color={"bg-greenColor"}
-              title={"add new"}
-              onClickFun={() => setIsAddModalOpen((prev) => !prev)}
-            />
-          </div>
-        }
-      />
-      {isModalOpen && (
-        <ModalContainer
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          component={
-            <EditRole
-              data={clickedRow}
-              getRoles={getRoles}
-              setIsModalOpen={setIsModalOpen}
-            />
+    hasShowPermission && (
+      <Page>
+        <PageTitle
+          text={"manage all roles"}
+          right={
+            hasAddPermission && (
+              <div>
+                <Button
+                  isLink={false}
+                  color={"bg-greenColor"}
+                  title={"add new"}
+                  onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+                />
+              </div>
+            )
           }
         />
-      )}
+        {isModalOpen && (
+          <ModalContainer
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            component={
+              <EditRole
+                data={clickedRow}
+                getRoles={getRoles}
+                setIsModalOpen={setIsModalOpen}
+              />
+            }
+          />
+        )}
 
-      {isAddModalOpen && (
-        <ModalContainer
-          isModalOpen={isAddModalOpen}
-          setIsModalOpen={setIsAddModalOpen}
-          component={
-            <AddRole
-              getRoles={getRoles}
-              setIsAddModalOpen={setIsAddModalOpen}
-            />
-          }
-        />
-      )}
+        {isAddModalOpen && (
+          <ModalContainer
+            isModalOpen={isAddModalOpen}
+            setIsModalOpen={setIsAddModalOpen}
+            component={
+              <AddRole
+                getRoles={getRoles}
+                setIsAddModalOpen={setIsAddModalOpen}
+              />
+            }
+          />
+        )}
 
-      <div className="my-4">
-        <TableData
-          columns={columns}
-          enableSearch={false}
-          response={roles}
-          actualData={roles?.data.data}
-          setPage={setPage}
-          paginationBool={true}
-          noDataMessage={"no users to show!"}
-        />
-      </div>
-    </Page>
+        <div className="my-4">
+          <TableData
+            columns={columns}
+            enableSearch={false}
+            response={roles}
+            actualData={roles?.data.data}
+            setPage={setPage}
+            paginationBool={true}
+            noDataMessage={"no users to show!"}
+          />
+        </div>
+      </Page>
+    )
   );
 };
 

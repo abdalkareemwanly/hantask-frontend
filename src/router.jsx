@@ -70,6 +70,8 @@ import Services from "./serviceProvider/pages/services/Services";
 import ReportChat from "./serviceProvider/pages/Reportchat/ReportChat";
 import VerifyAccountServiceProvider from "./serviceProvider/pages/verify/VerifyAccountServiceProvider";
 import StripePayments from "./website/pages/subscription/StripePayments";
+import PostDeal from "./website/pages/postDeal/PostDeal";
+import ServiceProviderNotifications from "./serviceProvider/pages/notifications/ServiceProviderNotifications";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -80,6 +82,14 @@ const PrivateRoute = ({ element, role }) => {
     <Navigate to="/admin/login" />
   ) : (
     <Navigate to="/" />
+  );
+};
+
+export const NavigationLink = ({ link }) => {
+  return (
+    <>
+      <Navigate to={link} />
+    </>
   );
 };
 
@@ -94,6 +104,7 @@ const router = createBrowserRouter([
       },
       { path: "users", element: <Users /> },
       { path: "chat", element: <Chat /> },
+      { path: "reports", element: <AdminReports /> },
       { path: "archivedUsers", element: <ArchivedUsers /> },
       { path: "categories", element: <Categories /> },
       { path: "subCategories", element: <SubCategories /> },
@@ -106,10 +117,6 @@ const router = createBrowserRouter([
       { path: "posts", element: <Posts /> },
       { path: "subscriptions", element: <Subscriptions /> },
       { path: "coupons", element: <Coupons /> },
-      {
-        path: "reports",
-        element: <AdminReports />,
-      },
       {
         path: "chat",
         children: [
@@ -187,11 +194,15 @@ const router = createBrowserRouter([
         element: <WebSiteChildcategoryJobs />,
       },
       {
-        path: "jobs",
+        path: "deals",
         element: <PostJobs />,
       },
       {
-        path: "job-detail",
+        path: "postDeal",
+        element: <PostDeal />,
+      },
+      {
+        path: "deal",
         children: [
           {
             path: ":id",
@@ -311,6 +322,10 @@ const router = createBrowserRouter([
       {
         path: "services",
         element: <Services />,
+      },
+      {
+        path: "notifications",
+        element: <ServiceProviderNotifications />,
       },
       {
         path: "verify",

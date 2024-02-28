@@ -12,7 +12,7 @@ export default function Index() {
       <Table />
 
       {/* Chart For Information */}
-      <Chart />
+      {/* <Chart /> */}
     </Page>
   );
 }

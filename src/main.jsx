@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { GlobalDataProvider } from "./contexts/GlobalDataContext";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const queryClient = new QueryClient();
 
@@ -19,9 +20,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <TWThemeProvider>
           <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
+            <ReactQueryDevtools initialIsOpen={false} />
             <ToastContainer
               position="bottom-right"
-              autoClose={2000}
+              autoClose={2500}
               hideProgressBar={false}
               newestOnTop={true}
               closeOnClick
@@ -30,7 +32,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               draggable
               pauseOnHover={false}
             />
-            <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </TWThemeProvider>
       </GlobalDataProvider>

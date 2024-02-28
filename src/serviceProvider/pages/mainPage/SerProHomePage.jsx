@@ -8,6 +8,7 @@ import { HiClipboardList } from "react-icons/hi";
 import RecentOrdersItem from "./components/RecentOrdersItem";
 import TableData from "../../../Components/TableData";
 import COLUMNS from "./data/columns";
+import { useEffect } from "react";
 
 const SerProHomePage = () => {
   const recentTickets = [
@@ -84,6 +85,7 @@ const SerProHomePage = () => {
     },
   ];
 
+  useEffect(() => {}, []);
   return (
     <Page>
       <div>
@@ -120,7 +122,7 @@ const SerProHomePage = () => {
                 Notifications
               </h4>
               <Link
-                to={"/customer/notifications"}
+                to={"/serviceProvider/notifications"}
                 className="text-blueColor hover:text-orangeColor duration-[500ms]"
               >
                 View all

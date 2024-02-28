@@ -13,6 +13,8 @@ import ImportExcel from "./components/ImportExcel";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import Swal from "sweetalert2";
+import useCheckPermission from "../../../hooks/checkPermissions";
+import { useNavigate } from "react-router-dom";
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
     `admin/areas?page=${page}${
@@ -26,6 +28,13 @@ const deleteFunc = async (id) => {
   return res;
 };
 const Areas = () => {
+  const { hasPermissionFun } = useCheckPermission();
+  const nav = useNavigate();
+  const hasShowPermission = hasPermissionFun("showAreas");
+  const hasAddPermission = hasPermissionFun("addArea");
+  const hasEditPermission = hasPermissionFun("editArea");
+  const hasDeletePermission = hasPermissionFun("deleteArea");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);

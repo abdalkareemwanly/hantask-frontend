@@ -6,6 +6,7 @@ import NoItems from "../../components/common/NoItems";
 import PostJobsCard from "../jobs/components/PostJobsCard";
 import { useEffect, useState } from "react";
 import axiosClient from "../../../axios-client";
+import TitleLine from "../../components/common/TitleLine";
 const getData = async (page = 1, categoryId) => {
   const res = await axiosClient.get(
     `/site/posts${`?subcategory_id=${categoryId}`}`
@@ -29,8 +30,9 @@ function WebSiteChildcategories(props) {
     <>
       <div className="sm:w-[90%] sm:mx-[auto] w-[96%] mx-[2%] my-[30px]">
         <h3 className="font-[600] text-[32px]">
-          Available Jobs Child Categories in {state.currentSubcategory?.name}
+          Available Child Categories in {state.currentSubcategory?.name}
         </h3>
+        <TitleLine />
         <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px] mt-[30px]">
           {categories &&
           subCategories &&
@@ -48,12 +50,16 @@ function WebSiteChildcategories(props) {
                   );
               })
             : Array.from(Array(9).keys()).map((item, index) => {
-                return <CategoryLoader key={index} />;
+                return (
+                  <div key={index} className="flex gap-4">
+                    <CategoryLoader key={index} />
+                  </div>
+                );
               })}
         </div>
 
         <h3 className="font-[600] text-[32px] mt-[60px]">
-          Available Jobs in {state.currentSubcategory?.name}
+          Available deals in {state.currentSubcategory?.name}
         </h3>
 
         {posts.length ? (

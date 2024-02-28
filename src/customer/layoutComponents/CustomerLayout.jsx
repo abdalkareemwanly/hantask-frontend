@@ -70,18 +70,6 @@ export default function CustomerLayout() {
 
   return (
     <div className={`flex-row md:flex bg-background-color `}>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-        theme={mode}
-      />
       {isModalOpen && (
         <ModalContainer
           setIsModalOpen={setIsModalOpen}

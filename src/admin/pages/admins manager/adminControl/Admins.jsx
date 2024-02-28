@@ -29,23 +29,19 @@ const Admins = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState();
   // Check for specific permissions
-  const userPermissions = JSON.parse(localStorage.getItem("USER")).permission;
-  const { hasPermissionFun } = useCheckPermission(userPermissions);
+  const { hasPermissionFun } = useCheckPermission();
   const nav = useNavigate();
+  const hasShowPermission = hasPermissionFun("allAdmin");
+  const hasAddPermission = hasPermissionFun("storeAdmin");
+  const hasEditPermission = hasPermissionFun("updateProfileAdmin");
+  const hasDeletePermission = hasPermissionFun("deleteCategory");
 
   const [roles, setRoles] = useState([]);
   const getRoles = async () => {
     const res = await axiosClient.get("/admin/roles");
     setRoles(res.data?.data);
   };
-  // useEffect(() => {
-  //   const hasPermission = hasPermissionFun("showUsers");
-  //   if (hasPermission) {
-  //   } else {
-  //     nav("/admin/dashboard");
-  //   }
-  // }, []);
-  // Check for specific permissions
+
   const [page, setPage] = useState(1);
   const { data: admins, queryClient } = useQueryHook(
     ["admins", page],
@@ -107,12 +103,8 @@ const Admins = () => {
       }
     });
   };
+
   const columns = [
-    {
-      name: "Id",
-      selector: (row) => row.id,
-      maxWidth: "9%",
-    },
     {
       name: "name",
       selector: (row) => row.name,
@@ -138,12 +130,14 @@ const Admins = () => {
       cell: (row) => {
         return (
           <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
-            <Button
-              isLink={false}
-              color={"bg-orangeColor"}
-              title={"edit"}
-              onClickFun={() => editBtnFun(row)}
-            />
+            {hasEditPermission && (
+              <Button
+                isLink={false}
+                color={"bg-orangeColor"}
+                title={"edit"}
+                onClickFun={() => editBtnFun(row)}
+              />
+            )}
             <Button
               isLink={false}
               color={"bg-redColor"}
@@ -157,61 +151,65 @@ const Admins = () => {
   ];
 
   return (
-    <Page>
-      <PageTitle
-        text={"manage all admins"}
-        right={
-          <div>
-            <Button
-              isLink={false}
-              color={"bg-greenColor"}
-              title={"add"}
-              onClickFun={() => setIsAddModalOpen((prev) => !prev)}
-            />
-          </div>
-        }
-      />
-      {isModalOpen && (
-        <ModalContainer
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          component={
-            <EditAdmin
-              data={clickedRow}
-              roles={roles}
-              getAdmins={getAdmins}
-              setIsModalOpen={setIsModalOpen}
-            />
+    hasShowPermission && (
+      <Page>
+        <PageTitle
+          text={"manage all admins"}
+          right={
+            hasAddPermission && (
+              <div>
+                <Button
+                  isLink={false}
+                  color={"bg-greenColor"}
+                  title={"add"}
+                  onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+                />
+              </div>
+            )
           }
         />
-      )}
+        {isModalOpen && (
+          <ModalContainer
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            component={
+              <EditAdmin
+                data={clickedRow}
+                roles={roles}
+                getAdmins={getAdmins}
+                setIsModalOpen={setIsModalOpen}
+              />
+            }
+          />
+        )}
 
-      {isAddModalOpen && (
-        <ModalContainer
-          isModalOpen={isAddModalOpen}
-          setIsModalOpen={setIsAddModalOpen}
-          component={
-            <AddAdmin
-              getAdmins={getAdmins}
-              roles={roles}
-              setIsAddModalOpen={setIsAddModalOpen}
-            />
-          }
-        />
-      )}
+        {isAddModalOpen && (
+          <ModalContainer
+            isModalOpen={isAddModalOpen}
+            setIsModalOpen={setIsAddModalOpen}
+            component={
+              <AddAdmin
+                getAdmins={getAdmins}
+                roles={roles}
+                setIsAddModalOpen={setIsAddModalOpen}
+              />
+            }
+          />
+        )}
 
-      <div className="my-4">
-        <TableData
-          columns={columns}
-          enableSearch={false}
-          response={admins}
-          actualData={admins?.data.data}
-          setPage={setPage}
-          paginationBool={true}
-          noDataMessage={"no users to show!"}
-        />
-      </div>
-    </Page>
+        <div className="my-4">
+          <TableData
+            columns={columns}
+            enableSearch={false}
+            response={admins}
+            actualData={admins?.data.data}
+            setPage={setPage}
+            paginationBool={true}
+            noDataMessage={"no users to show!"}
+          />
+        </div>
+      </Page>
+    )
   );
 };
 

@@ -3,7 +3,7 @@ import axiosClient from "../../../../../axios-client";
 import ReusableForm from "../../../../../Components/ReusableForm";
 import { useState } from "react";
 
-export const AddAdmin = ({ getRoles, setIsAddModalOpen, roles }) => {
+export const AddAdmin = ({ getAdmins, setIsAddModalOpen, roles }) => {
   const [image, setImage] = useState();
 
   let template = {
@@ -100,7 +100,8 @@ export const AddAdmin = ({ getRoles, setIsAddModalOpen, roles }) => {
     axiosClient
       .post("/admin/store", formData)
       .then((data) => {
-        if (data.data.success == false) {
+        console.log(data);
+        if (data.success === false) {
           toast.update(id, {
             type: "error",
             render: data.data.message,
@@ -111,11 +112,11 @@ export const AddAdmin = ({ getRoles, setIsAddModalOpen, roles }) => {
             pauseOnHover: false,
           });
         } else {
-          getRoles();
+          getAdmins();
           setIsAddModalOpen((prev) => !prev);
           toast.update(id, {
             type: "success",
-            render: data.data.mes,
+            render: data.data.message,
             closeOnClick: true,
             isLoading: false,
             autoClose: true,
@@ -125,9 +126,10 @@ export const AddAdmin = ({ getRoles, setIsAddModalOpen, roles }) => {
         }
       })
       .catch((err) => {
+        console.log(err);
         toast.update(id, {
-          type: "success",
-          render: err.response.data.mes,
+          type: "error",
+          render: err.response.data.message,
           closeOnClick: true,
           isLoading: false,
           autoClose: true,
@@ -137,21 +139,18 @@ export const AddAdmin = ({ getRoles, setIsAddModalOpen, roles }) => {
       });
   };
 
-  const validate = () => {
-  };
+  const validate = () => {};
 
   return (
-    <>
-      <ReusableForm
-        template={template}
-        onSubmit={onSubmit}
-        validate={validate}
-        btnWidth={"w-full"}
-        btnText={"add"}
-        addedStyles={"md:w-[400px] lg:w-[800px]"}
-        image={image}
-        setImage={setImage}
-      />
-    </>
+    <ReusableForm
+      template={template}
+      onSubmit={onSubmit}
+      validate={validate}
+      btnWidth={"w-full"}
+      btnText={"add"}
+      addedStyles={"md:w-[400px] lg:w-[800px]"}
+      image={image}
+      setImage={setImage}
+    />
   );
 };

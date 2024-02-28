@@ -19,7 +19,7 @@ function ApplyJob() {
   const [bookingDefaultData, setBookingDefaultData] = useState({
     name: sellerData.username,
     email: sellerData.email,
-    phone: sellerData.phone_number,
+    phone: sellerData.phone,
     address: "",
     note: "",
   });

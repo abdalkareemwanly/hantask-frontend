@@ -194,7 +194,7 @@ const SerProReviews = () => {
             actualData={reviews?.data?.data}
             setPage={setPage}
             paginationBool={true}
-            noDataMessage={"no reports to show!"}
+            noDataMessage={"no reviews to show!"}
           />
         </div>
       </div>

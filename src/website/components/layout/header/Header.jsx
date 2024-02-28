@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { RiMenuFill } from "react-icons/ri";
 import { useStateContext } from "../../../../contexts/ContextsProvider";
 import { BiSolidChevronDown } from "react-icons/bi";
+import Button from "../../../../Components/Button";
+import { MdOutlineAccountCircle } from "react-icons/md";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,101 +28,47 @@ const Header = () => {
   };
 
   return (
-    <header className="flex justify-between items-center relative lg:py-12 lg:px-20 md:py-6 md:px-12 py-8 px-6 bg-[#f5f7ff]">
+    <header className="py-6 lg:px-32 md:px-16 px-8 flex justify-between items-center">
       <Link>
-        <img src="/src/images/logo-light.png" className="w-48" alt="Logo" />
+        <img
+          src="/src/images/logo-light.png"
+          className="w-[6rem] md:w-[9rem] "
+          alt="Logo"
+        />
       </Link>
-      <div className="hidden md:block">
-        <Navbar />
-      </div>
-      <div className="hidden md:block">
-        {user ? (
-          <Link
-            to={
-              user.user_type === "buyer"
-                ? "/customer/home"
-                : user.user_type === "seller"
-                ? "serviceProvider/home"
-                : "admin/dashboard"
-            }
-            className="flex  items-center px-[25px] py-[24px] w-[220px] justify-end"
-          >
-            {mode === "light" ? (
-              <img
-                className="w-[30px]"
-                src="/src/images/user-light.png"
-                alt=""
-              />
-            ) : (
-              <img
-                className="w-[30px]"
-                src="/src/images/user-dark.png"
-                alt=""
-              />
-            )}
-            <div className=" px-3">{user.username}</div>
-          </Link>
-        ) : (
-          <AnimatePresence>
-            <motion.div
-              onHoverStart={handleHover}
-              onHoverEnd={handleHoverExit}
-              className="relative"
-            >
-              <p className="flex items-center gap-2">
-                Account <IoPersonOutline />
-              </p>
-              <motion.div
-                animate={controls}
-                initial={{ opacity: 0, y: 20 }}
-                className="p-3 rounded-md component-shadow min-w-[150px] absolute right-0 bg-white"
-                transition={{ duration: 0.2 }}
-              >
-                <motion.ul className="flex flex-col gap-2 ">
-                  <li>
-                    <Link to={"/login"}>Login</Link>
-                  </li>
-                  <li>
-                    <Link to={"/register"}>Register</Link>
-                  </li>
-                </motion.ul>
-              </motion.div>
-            </motion.div>
-          </AnimatePresence>
-        )}
-      </div>
-      {/* small screens  */}
-      <div className="md:hidden flex gap-2 items-center">
-        <AnimatePresence>
-          <motion.div
-            onHoverStart={handleHover}
-            onHoverEnd={handleHoverExit}
-            className="relative"
-          >
-            <p className="flex items-center gap-2">
-              <IoPersonOutline size={23} />
-            </p>
-            <motion.div
-              animate={controls}
-              initial={{ opacity: 0, y: 20 }}
-              className="p-3 rounded-md component-shadow min-w-[150px] absolute right-0 bg-white"
-              transition={{ duration: 0.2 }}
-            >
-              <motion.ul className="flex flex-col gap-2 ">
-                <li>
-                  <Link to={"/login"}>Login</Link>
-                </li>
-                <li>
-                  <Link to={"/register"}>Register</Link>
-                </li>
-              </motion.ul>
-            </motion.div>
-          </motion.div>
-        </AnimatePresence>
-        <span>
+      <div className="flex items-center gap-6 text-sm">
+        <div className="hidden items-center gap-6 text-sm md:flex">
+          <Button
+            title={"find handyman"}
+            isLink={true}
+            goto={"/postDeal"}
+            color={"bg-greenColor"}
+            textColor={'white'}
+          />
+          <div>
+            <Button isLink={false} textColor={'black'} title={'homeowners'} />
+          </div>
+          <div>
+            <Button isLink={false} textColor={'black'} title={'handymans'} />
+
+          </div>
+          <div className="h-[20px] w-[1px] bg-black"></div>
+        </div>
+        <div>
+          <Button
+            isLink={true}
+            goto={user ? user.user_type === 'seller' ? '/serviceProvider/home' : '/customer/home' : '/login' }
+            Icon={<MdOutlineAccountCircle fontSize={25} color="black" />}
+            title={user ? user.name :"account"}
+            textColor={'black'}
+            color={"flex-row-reverse"}
+          />
+        </div>
+        <span className="block md:hidden">
           <RiMenuFill size={25} onClick={handleClick} />
         </span>
       </div>
+      {/* for small screen  */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div

@@ -10,6 +10,7 @@ const Button = ({
   hoverStyles,
   linkState,
   iconColor,
+  textColor,
 }) => {
   return isLink ? (
     <Link
@@ -17,9 +18,9 @@ const Button = ({
       state={linkState}
       className={`flex justify-between gap-1 ${
         width && `w-[${width}]`
-      } items-center cursor-pointer px-3 py-2 ${color}  ${hoverStyles} transition-all text-center rounded-[4px] text-white`}
+      } items-center cursor-pointer px-3 py-2 ${color}  ${hoverStyles} transition-all text-center rounded-[4px]`}
     >
-      <span className="text-primary-text">{title}</span>{" "}
+      <span className={`text-primary-text text-${textColor}`}>{title}</span>{" "}
       {Icon && <span>{Icon}</span>}
     </Link>
   ) : (
@@ -27,9 +28,9 @@ const Button = ({
       onClick={onClickFun}
       className={`flex justify-between gap-1 ${
         width && `w-[${width}]`
-      } items-center cursor-pointer px-3 py-2 ${color} ${hoverStyles} transition-all text-center rounded-[4px] text-white`}
+      } items-center cursor-pointer px-3 py-2 ${color} ${hoverStyles} transition-all text-center rounded-[4px]`}
     >
-      <span className="text-primary-text">{title}</span>{" "}
+      <span className={`text-primary-text text-${textColor}`}>{title}</span>{" "}
       {Icon && <span className={`text-${iconColor}`}>{Icon}</span>}
     </div>
   );

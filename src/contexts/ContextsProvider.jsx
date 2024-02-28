@@ -1,4 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import Pusher from "pusher-js";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { NavigationLink } from "../router";
 
 const StateContext = createContext({
   currentUser: null,
@@ -17,9 +21,32 @@ export const ContextProvider = ({ children }) => {
   const [translation, _setTranslation] = useState(
     JSON.parse(localStorage.getItem("TRANSLATION")) || {}
   );
-  const [notification, _setNotification] = useState("");
-  const [permissions, setPermissions] = useState([]);
+  const [pusherChanel, setPusherChannel] = useState();
 
+  useEffect(() => {
+    const pusher = new Pusher("a19565747705d7f226db", {
+      cluster: "eu",
+      encrypted: true,
+    });
+    console.log(pusher);
+    const channel = pusher.subscribe("hantask");
+    setPusherChannel(channel);
+    channel.bind("App\\Events\\PusherNotification", function (data) {
+      console.log(data);
+      toast.info(data?.message, {
+        autoClose: false,
+        onClick: () => {
+          console.log(data);
+        },
+      });
+    });
+
+    return () => {
+      channel.unbind();
+      pusher.unsubscribe("notifications");
+      pusher.disconnect();
+    };
+  }, []);
   const setToken = (newToken) => {
     _setToken(newToken);
     if (newToken) {
@@ -38,24 +65,8 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  const setNotification = (message) => {
-    _setNotification(message);
-  };
-
   // Ensure that the user data is updated from localStorage on page load
   useEffect(() => {
-    const fetchPermissions = async () => {
-      try {
-        const response = await fetch("/src/admin/Json/permissions.json");
-        const data = await response.json();
-        localStorage.setItem("permissions", JSON.stringify(data));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchPermissions();
-
     const storedToken = localStorage.getItem("ACCESS_TOKEN");
     if (storedToken) {
       _setToken(storedToken);
@@ -73,11 +84,9 @@ export const ContextProvider = ({ children }) => {
         setUser,
         token,
         setToken,
-        notification,
-        setNotification,
         translation,
         setTranslation,
-        permissions,
+        pusherChanel,
       }}
     >
       {children}

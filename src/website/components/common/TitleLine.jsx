@@ -1,14 +1,10 @@
 import "./style/TitleLine.css";
 function TitleLine(props) {
-  try {
-    return (
-      <>
-        <div className="title-line"></div>
-      </>
-    );
-  } catch (err) {
-    console.log(err);
-  }
+  return (
+    <>
+      <div className="title-line"></div>
+    </>
+  );
 }
 
 export default TitleLine;

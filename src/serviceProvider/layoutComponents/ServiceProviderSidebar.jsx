@@ -14,6 +14,7 @@ import { BsListTask } from "react-icons/bs";
 import { FaTasks } from "react-icons/fa";
 import { GoReport } from "react-icons/go";
 import { MdReviews } from "react-icons/md";
+import { BiSolidBellRing } from "react-icons/bi";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
@@ -26,6 +27,7 @@ const iconMap = {
   reports: <GoReport size={20} />,
   reviews: <MdReviews size={20} />,
   "verify account": <MdVerifiedUser size={20} />,
+  notifications: <BiSolidBellRing size={20} />,
 };
 
 export default function ServiceProviderSidebar({ setSidebarOpen }) {

@@ -75,7 +75,7 @@ const SerProAcceptedOrders = () => {
           <div className="flex items-center gap-2">
             <img
               className="w-[120px] h-[100px] rounded-md"
-              src={`https://api.hantask.at/public/${row.post_image}`}
+              src={`${import.meta.env.VITE_WEBSITE_URL + row.post_image}`}
               alt=""
             />
             <div className="flex flex-col gap-1">
@@ -184,21 +184,6 @@ const SerProAcceptedOrders = () => {
       selector: (row) => {
         return (
           <div className="flex gap-1">
-            {false === false ? (
-              <Button
-                isLink={false}
-                color={"bg-blueColor"}
-                title={"add review"}
-                onClickFun={() => handleselectedRowReview(row)}
-              />
-            ) : (
-              <Button
-                isLink={false}
-                color={"bg-blueColor"}
-                title={"edit review"}
-                onClickFun={() => handleSelectedRowEditReview(row)}
-              />
-            )}
             <Button
               isLink={false}
               color={"bg-redColor"}

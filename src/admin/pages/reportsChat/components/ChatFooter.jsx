@@ -12,7 +12,7 @@ const postData = async ({ reportId, data }) => {
 };
 
 function CustomerChatFooter(props) {
-  const { reportId } = props;
+  const { reportId, fromId } = props;
 
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
@@ -22,6 +22,7 @@ function CustomerChatFooter(props) {
   const onSubmit = async () => {
     const data = new FormData();
     data.append("message", message);
+    data.append("recipient_id", fromId);
     data.append("file", file);
 
     const res = mutate.mutateAsync({ reportId, data });

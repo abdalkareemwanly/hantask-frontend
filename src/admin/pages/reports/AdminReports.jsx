@@ -22,18 +22,13 @@ function AdminReports(props) {
 
   const COLUMNS = [
     {
-      name: "Order ID",
-      width: "13.3%",
-      selector: (row) => row.orderId,
-    },
-    {
       name: "Report ID",
-      width: "13.3%",
+      width: "10%",
       selector: (row) => row.id,
     },
     {
       name: "Report Details",
-      width: "27%",
+      width: "25%",
       cell: (row) => {
         return (
           <div className="flex flex-col text-primary-text gap-[5px]">
@@ -66,8 +61,30 @@ function AdminReports(props) {
       },
     },
     {
-      name: "Seller Details",
-      width: "27%",
+      name: "reporter Details",
+      width: "25%",
+      selector: (row) => {
+        return (
+          <div className="flex flex-col text-primary-text gap-[5px]">
+            <div>
+              <strong>Name: </strong>
+              {row.report_from.name}
+            </div>
+            <div>
+              <strong>Email: </strong>
+              {row.report_from.email}
+            </div>
+            <div>
+              <strong>Phone: </strong>
+              {row.report_from.phone}
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      name: "reported to Details",
+      width: "25%",
       selector: (row) => {
         return (
           <div className="flex flex-col text-primary-text gap-[5px]">
@@ -88,12 +105,15 @@ function AdminReports(props) {
       },
     },
     {
-      name: "Report ID",
-      width: "19.3%",
+      name: "actions",
+      width: "15%",
       cell: (row) => {
         return (
           <Link
-            to={`/customer/chat/${row.id}`}
+            to={`/admin/dashboard/chat/${row.id}`}
+            state={{
+              fromId: row.report_from.id,
+            }}
             className="bg-greenColor text-primary-text p-[10px] rounded-[6px] cursor-pointer flex justify-center items-end gap-[5px]"
           >
             <div className="w-[max-content]">Chat To Admin</div>
@@ -120,92 +140,51 @@ function AdminReports(props) {
     }, 500);
   }, [reports, page, queryClient]);
 
-  const fields = {
-    age: {
-      value: 42,
-      type: "text",
-      placeholder: "type anything",
-      title: "age",
-    },
-    name: {
-      value: 42,
-      type: "number",
-      placeholder: "type anything",
-      title: "name",
-    },
-    id: {
-      value: 42,
-      type: "number",
-      placeholder: "type anything",
-      title: "id",
-    },
-  };
-
-  function reducer(state, action) {
-    let res = {};
-    Object.keys(state).map((element) => {
-      if (action.type == `change_${element}`)
-        res = {
-          ...state,
-          [element]: { ...state[element], value: action.newValue },
-        };
-    });
-
-    return res;
-  }
-
-  function handleSearch() {
-    console.log(state);
-  }
-
-  const [state, dispatch] = useReducer(reducer, fields);
   if (isLoading) return <Loader />;
 
   return (
-    <>
-      <Page>
-        {console.log("reports is", reports)}
-        <div className="flex flex-col gap-[30px]">
-          {/* <Filter
+    <Page>
+      {console.log("reports is", reports)}
+      <div className="flex flex-col gap-[30px]">
+        {/* <Filter
             state={state}
             dispatch={dispatch}
             handleSearch={handleSearch}
           /> */}
-          <div className="recent-ticket xl:col-span-3 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">
-            <div className=" flex justify-between border-b border-light-text  pb-[20px]">
-              <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
-                All Reports
-              </h4>
-            </div>
-            <TableData
-              columns={COLUMNS}
-              enableSearch={false}
-              response={reports}
-              actualData={reports?.data?.data}
-              setPage={setPage}
-              paginationBool={true}
-              noDataMessage={"no reports to show!"}
-            />
+        <div className="recent-ticket xl:col-span-3 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">
+          <div className=" flex justify-between border-b border-light-text  pb-[20px]">
+            <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
+              All Reports
+            </h4>
           </div>
-        </div>
-        {openDescriptionModal && (
-          <ModalContainer
-            isModalOpen={openDescriptionModal}
-            setIsModalOpen={setOpenDescriptionModal}
-            component={
-              <div className="min-w-[30vw]">
-                <div className=" flex justify-between border-b border-light-text  pb-[20px]">
-                  <h5 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
-                    Report Details
-                  </h5>
-                </div>
-                <div className="mt-[20px]">{description}</div>
-              </div>
-            }
+          <TableData
+            columns={COLUMNS}
+            enableSearch={false}
+            response={reports}
+            actualData={reports?.data?.data}
+            setPage={setPage}
+            paginationBool={true}
+            noDataMessage={"no reports to show!"}
           />
-        )}
-      </Page>
-    </>
+        </div>
+      </div>
+      {openDescriptionModal && (
+        <ModalContainer
+          isModalOpen={openDescriptionModal}
+          setIsModalOpen={setOpenDescriptionModal}
+          component={
+            <div className="min-w-[30vw]">
+              <div className=" flex justify-between border-b border-light-text  pb-[20px]">
+                <h5 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
+                  Report Details
+                </h5>
+              </div>
+              <div className="mt-[20px]">{description}</div>
+            </div>
+          }
+        />
+      )}
+    </Page>
   );
 }
 

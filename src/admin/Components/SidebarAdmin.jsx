@@ -107,7 +107,7 @@ export default function SidebarAdmin({ setSidebarOpen }) {
   };
   return (
     <>
-      <div className="w-full sticky top-0 bg-inherit px-3 py-[20px] bg-blocks-color flex items-center justify-between">
+      <div className="bg-inherit px-3 py-[20px] bg-blocks-color flex items-center justify-between">
         {theme === "light" ? (
           <img
             src="/src/images/logo-light.png"

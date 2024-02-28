@@ -29,7 +29,7 @@ function Login(props) {
 
     const res = await axiosClient.post("/site/login", formData);
 
-    if (res.data.success) {
+    if (res.status === 200) {
       toast.update(toastId, {
         type: "success",
         render: res.data.message,
@@ -51,7 +51,7 @@ function Login(props) {
     } else {
       toast.update(toastId, {
         type: "error",
-        render: res.data.message,
+        render: "hello",
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -61,45 +61,43 @@ function Login(props) {
     }
   };
   return (
-    <>
-      <div className="login-container my-12 sm:mx-auto mx-5 sm:py-12 py-6 sm:px-12 px-6 lg:w-2/5 md:w-2/3 sm:w-3/4">
-        <h3>Sign In</h3>
-        <form onSubmit={handleSubmit(submitData)}>
-          <div className="grid grid-cols-1 gap-8 my-12 relative">
-            <Input
-              type={"email"}
-              placeholder={"email"}
-              register={register}
-              name={"email"}
-              label={"email *"}
-              errors={errors}
-            />
-            <Input
-              type={"password"}
-              placeholder={"Password"}
-              register={register}
-              name={"password"}
-              label={"Your Password *"}
-              errors={errors}
-            />
-            <Input
-              type={"checkbox"}
-              placeholder={"Password"}
-              register={register}
-              name={"rememberme"}
-              label={"Remember Me"}
-              errors={errors}
-            />
-            <Link to={"/forgot-password"}>Forgot Password</Link>
-          </div>
-          <SubmitButton text={"Sign In"} width={"100%"} />
-        </form>
-        <div className="signup-sentence">
-          <span>Do Not Have Account?</span>
-          <Link to={"/register"}> {" Register"}</Link>
+    <div className="login-container my-12 sm:mx-auto mx-5 sm:py-12 py-6 sm:px-12 px-6 lg:w-2/5 md:w-2/3 sm:w-3/4">
+      <h3>Sign In</h3>
+      <form onSubmit={handleSubmit(submitData)}>
+        <div className="grid grid-cols-1 gap-8 my-12 relative">
+          <Input
+            type={"email"}
+            placeholder={"email"}
+            register={register}
+            name={"email"}
+            label={"email *"}
+            errors={errors}
+          />
+          <Input
+            type={"password"}
+            placeholder={"Password"}
+            register={register}
+            name={"password"}
+            label={"Your Password *"}
+            errors={errors}
+          />
+          <Input
+            type={"checkbox"}
+            placeholder={"Password"}
+            register={register}
+            name={"rememberme"}
+            label={"Remember Me"}
+            errors={errors}
+          />
+          <Link to={"/forgot-password"}>Forgot Password</Link>
         </div>
+        <SubmitButton text={"Sign In"} width={"100%"} />
+      </form>
+      <div className="signup-sentence">
+        <span>Do Not Have Account?</span>
+        <Link to={"/register"}> {" Register"}</Link>
       </div>
-    </>
+    </div>
   );
 }
 
