@@ -6,7 +6,7 @@ function CustomerChatBody({ messages }) {
     <>
       <div className="flex flex-col">
         {messages.map((item, index) => {
-          console.log(item);
+          // console.log(item);
           return (
             <CustomerChatMessage
               key={index}

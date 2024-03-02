@@ -5,7 +5,7 @@ import axiosClient from "../../../../axios-client";
 
 const postData = async ({ reportId, data }) => {
   const res = await axiosClient.post(
-    `/buyer/report/message/store/${reportId}`,
+    `/admin/report/message/store/${reportId}`,
     data
   );
   return res;
@@ -23,10 +23,12 @@ function CustomerChatFooter(props) {
     const data = new FormData();
     data.append("message", message);
     data.append("recipient_id", fromId);
-    data.append("file", file);
+    if (file) {
+      data.append("file", file);
+    }
 
     const res = mutate.mutateAsync({ reportId, data });
-    console.log(res);
+    // console.log(res);
   };
 
   return (

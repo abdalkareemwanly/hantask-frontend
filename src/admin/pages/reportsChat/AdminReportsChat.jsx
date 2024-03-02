@@ -16,13 +16,13 @@ const getData = async (id) => {
 function AdminCustomerChat(props) {
   const { id } = useParams();
   const { fromId } = useLocation().state;
-  console.log(fromId);
+  // console.log(fromId);
   const { data: messages, isLoading } = useQueryHook(
     ["messages", id],
     () => getData(id),
     "normal"
   );
-  console.log(messages);
+  // console.log(messages);
   if (isLoading) return <Loader />;
 
   return (

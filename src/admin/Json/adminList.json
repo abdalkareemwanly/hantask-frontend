@@ -39,6 +39,11 @@
     "path": "/admin/dashboard/childs",
     "perId": "showChildCategories"
   },
+  "Form Builder": {
+    "name": null,
+    "path": "/admin/dashboard/formbuilder",
+    "perId": "formbuilder"
+  },
   "locations": {
     "countries": {
       "path": "/admin/dashboard/locations/countries",
@@ -138,6 +143,13 @@
     "name": null,
     "path": "/admin/dashboard"
   },
+  "General Settings": {
+    "Payment Gateway Settings": {
+      "path": "/admin/dashboard/paymentgetway",
+      "name": null,
+      "perId": "paymentgetway"
+    }
+  },
   "Orders": {
     "All Orders": "",
     "Cancelled Orders": "",
@@ -155,9 +167,6 @@
   "Email Template Settings": {
     "Email Templates": ""
   },
-  "Form Builder": {
-    "All Custom Form": ""
-  },
   "Appearance Settings": {
     "Seller/Buyer Panel Settings": "",
     "Media Images Manage": "",
@@ -168,7 +177,7 @@
     "404 Page Manage": "",
     "Maintain Page Manage": ""
   },
-  "General Settings": {
+  "General Settings1": {
     "Mobile Settings": "",
     "Reading": "",
     "Navbar Global Variant": "",

@@ -156,7 +156,9 @@
     "Email Templates": ""
   },
   "Form Builder": {
-    "All Custom Form": ""
+    "name": null,
+    "path": "/admin/dashboard/formbuilder",
+    "perId": "formbuilder"
   },
   "Appearance Settings": {
     "Seller/Buyer Panel Settings": "",

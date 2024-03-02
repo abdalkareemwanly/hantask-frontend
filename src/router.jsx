@@ -72,6 +72,8 @@ import VerifyAccountServiceProvider from "./serviceProvider/pages/verify/VerifyA
 import StripePayments from "./website/pages/subscription/StripePayments";
 import PostDeal from "./website/pages/postDeal/PostDeal";
 import ServiceProviderNotifications from "./serviceProvider/pages/notifications/ServiceProviderNotifications";
+import FormBuilder from "./admin/pages/formbuilder/FormBuilder";
+import PaymentMethod from "./admin/pages/paymentGateway/PaymentMethod";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -108,6 +110,8 @@ const router = createBrowserRouter([
       { path: "archivedUsers", element: <ArchivedUsers /> },
       { path: "categories", element: <Categories /> },
       { path: "subCategories", element: <SubCategories /> },
+      { path: "formbuilder", element: <FormBuilder /> },
+      { path: "paymentgetway", element: <PaymentMethod /> },
       { path: "childs", element: <ChildCategories /> },
       { path: "locations/countries", element: <Countries /> },
       { path: "locations/cities", element: <Cities /> },
