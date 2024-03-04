@@ -35,7 +35,7 @@ export default function AdminLogin() {
       password: values.password,
     };
     axiosClient
-      .post("https://api.hantask.at/api/admin/login", payload)
+      .post("http://localhost:8000/api/admin/login", payload)
       .then((response) => {
         toast.update(id, {
           render: response?.data?.message,

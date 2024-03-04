@@ -143,11 +143,16 @@
     "name": null,
     "path": "/admin/dashboard"
   },
-  "General Settings": {
-    "Payment Gateway Settings": {
+  "Payment Settings": {
+    "Add Payment Gateway": {
       "path": "/admin/dashboard/paymentgetway",
       "name": null,
       "perId": "paymentgetway"
+    },
+    "Paypal Setting": {
+      "path": "/admin/dashboard/paypal",
+      "name": null,
+      "perId": "paypal"
     }
   },
   "Orders": {
@@ -177,7 +182,7 @@
     "404 Page Manage": "",
     "Maintain Page Manage": ""
   },
-  "General Settings1": {
+  "General Settings": {
     "Mobile Settings": "",
     "Reading": "",
     "Navbar Global Variant": "",

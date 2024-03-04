@@ -22,6 +22,7 @@ import {
   BiSolidTruck,
   BiSolidLayout,
   BiSolidCog,
+  BiSolidCreditCardFront,
   BiSolidObjectsHorizontalCenter,
 } from "react-icons/bi";
 import { Link } from "react-router-dom";
@@ -61,6 +62,7 @@ const iconMap = {
   "General Settings": <BiSolidCog />,
   Languages: <BiSolidDirections />,
   "Back To Site": <BiSolidArrowFromRight />,
+  "Payment Settings": <BiSolidCreditCardFront />
 };
 
 export default function SidebarAdmin({ setSidebarOpen }) {
