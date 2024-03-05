@@ -35,7 +35,7 @@ export default function AdminLogin() {
       password: values.password,
     };
     axiosClient
-      .post("http://localhost:8000/api/admin/login", payload)
+      .post(import.meta.env.VITE_API_URL + "/admin/login", payload)
       .then((response) => {
         toast.update(id, {
           render: response?.data?.message,
