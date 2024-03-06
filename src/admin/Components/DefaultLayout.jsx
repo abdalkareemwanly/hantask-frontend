@@ -94,7 +94,7 @@ export default function DefaultLayout() {
                   alt=""
                 />
               )}
-              <div className="text-primary-text px-3">{user.username}</div>
+              <div className="text-primary-text px-3">{user?.username}</div>
               <BiSolidChevronDown
                 style={{ fontSize: "18px" }}
                 className="text-primary-text"
@@ -138,8 +138,8 @@ export default function DefaultLayout() {
                 className="text-primary-text"
               />
               <div
-                className={`absolute flex flex-col top-14 right-0 w-[380px] p-4 text-primary-text overflow-y-auto me-[-20px] component-shadow bg-blocks-color z-10 rounded-md ${
-                  isNotificationOpen ? "h-[auto]" : "h-0 p-0"
+                className={`absolute flex flex-col top-14 right-0 w-[380px]  text-primary-text overflow-y-auto me-[-20px] component-shadow bg-blocks-color z-10 rounded-md ${
+                  isNotificationOpen ? "h-[auto] p-4" : "h-0 p-0"
                 }`}
               >
                 <div className="flex justify-between items-center">

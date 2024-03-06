@@ -19,6 +19,7 @@ function ServiceProviderReports(props) {
   const [page, setPage] = useState(1);
   const [openDescriptionModal, setOpenDescriptionModal] = useState(false);
   const [description, setDescription] = useState("");
+  const user = JSON.parse(localStorage.getItem("USER"));
 
   const COLUMNS = [
     {
@@ -108,7 +109,7 @@ function ServiceProviderReports(props) {
       name: "actions",
       width: "15%",
       cell: (row) => {
-        return (
+        return user.id === row?.report_from.id ? (
           <Link
             to={`/serviceProvider/chat/${row.id}`}
             className="bg-greenColor text-primary-text p-[10px] rounded-[6px] cursor-pointer flex justify-center items-end gap-[5px]"
@@ -116,6 +117,8 @@ function ServiceProviderReports(props) {
             <div className="w-[max-content]">Chat To Admin</div>
             <IoChatbubbleEllipsesOutline />
           </Link>
+        ) : (
+          <span className="text-redColor">cant response</span>
         );
       },
     },

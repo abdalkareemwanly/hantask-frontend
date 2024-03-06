@@ -110,7 +110,7 @@ function Reports(props) {
       name: "actions",
       width: "15%",
       cell: (row) => {
-        return (
+        return user.id === row?.report_from.id ? (
           <Link
             to={`/customer/chat/${row.id}`}
             className="bg-greenColor text-primary-text p-[10px] rounded-[6px] cursor-pointer flex justify-center items-end gap-[5px]"
@@ -118,6 +118,8 @@ function Reports(props) {
             <div className="w-[max-content]">Chat To Admin</div>
             <IoChatbubbleEllipsesOutline />
           </Link>
+        ) : (
+          <span className="text-redColor">cant response</span>
         );
       },
     },
