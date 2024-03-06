@@ -35,7 +35,7 @@ export const EditPaymentMethod = ({ data, getPaymentMethod, setIsAddModalOpen })
   };
 
   const formTemplate = {
-    title: "Edit Payment Method",
+    title: "",
     fields: [
       {
         title: "Client ID",

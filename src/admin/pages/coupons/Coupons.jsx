@@ -25,7 +25,7 @@ const getData = async (page = 1, searchTerm) => {
 };
 const changeStatusFunc = async (id) => {
   const res = await axiosClient.get(
-    `/admin/plan/coupon/changeStatusMethod/${id}`
+    `/admin/subscription/coupon/changeStatusMethod/${id}`
   );
   return res;
 };
@@ -169,27 +169,27 @@ const Coupons = () => {
     {
       name: "name",
       selector: (row) => row.name,
-      maxWidth: "15%",
+      maxWidth: "9%",
+    },
+    {
+      name: "coupon_paypal",
+      selector: (row) => row?.coupon_paypal,
+      maxWidth: "12%",
+    },
+    {
+      name: "coupon_stripe",
+      selector: (row) => row?.coupon_stripe,
+      maxWidth: "12%",
     },
     {
       name: "amount off",
-      selector: (row) => row.amount,
+      selector: (row) => row.amount + " - " + row?.currency,
       maxWidth: "15%",
     },
     {
-      name: "plan name",
-      selector: (row) => row?.plan_name,
-      maxWidth: "30%",
-    },
-    {
-      name: "expiration date",
+      name: "expiration",
       selector: (row) => row?.expire_date,
-      maxWidth: "30%",
-    },
-    {
-      name: "currency",
-      selector: (row) => row?.currency,
-      maxWidth: "30%",
+      maxWidth: "9%",
     },
     {
       name: "status",
@@ -205,7 +205,7 @@ const Coupons = () => {
             size={45}
           />
         ),
-      maxWidth: "10%",
+        maxWidth: "9%",
     },
     {
       name: "Actions",

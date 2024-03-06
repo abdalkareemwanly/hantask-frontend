@@ -188,9 +188,9 @@ const StripePayments = () => {
               max={16}
               maxLength={16}
               name="number"
-              required
+              // required
               placeholder="enter coupon code"
-              value={state.number}
+              // value={state.number}
               onChange={handleInputChange}
               onFocus={handleInputFocus}
             />
@@ -201,7 +201,7 @@ const StripePayments = () => {
         </div>
         <button
           type="submit"
-          disabled={isDisabled}
+          // disabled={isDisabled}
           className="my-8 mx-auto w-[100px] text-lg bg-greenColor component-shadow p-2 text-white rounded-md"
         >
           confirm

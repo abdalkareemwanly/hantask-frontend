@@ -61,11 +61,6 @@
       "perId": "showAreas"
     }
   },
-  "Tax": {
-    "name": null,
-    "path": "/admin/dashboard/locations/tax",
-    "perId": "showTaxes"
-  },
   "posts": {
     "All posts": {
       "path": "/admin/dashboard/posts",
@@ -91,12 +86,7 @@
   "Subscription": {
     "path": "/admin/dashboard/subscriptions",
     "name": null,
-    "perId": "showSubscriptions"
-  },
-  "coupons": {
-    "path": "/admin/dashboard/coupons",
-    "name": null,
-    "perId": "showSubscriptionCoupons"
+    "perId": ""
   },
   "Jobs": {
     "All Jobs": "",
@@ -149,10 +139,20 @@
       "name": null,
       "perId": "paymentgetway"
     },
-    "Paypal Setting": {
+    "Plan Settings": {
       "path": "/admin/dashboard/paypal",
       "name": null,
       "perId": "paypal"
+    },
+    "coupons": {
+      "path": "/admin/dashboard/coupons",
+      "name": null,
+      "perId": "showSubscriptionCoupons"
+    },
+    "Tax": {
+      "name": null,
+      "path": "/admin/dashboard/locations/tax",
+      "perId": "showTaxes"
     }
   },
   "Orders": {

@@ -12,9 +12,8 @@ export const AddPlan = ({ getUsers, setIsAddModalOpen }) => {
   }, []);
 
   const getProduct = async () => {
-    await axiosClient.get("/admin/paypal/products/all").then((res) => {
-      setProduct(res.data.products);
-      console.log(res.data.products);
+    await axiosClient.get("admin/paypal/products/all").then((res) => {
+      setProduct(res.data.data);
     });
   };
 
@@ -159,6 +158,7 @@ export const AddPlan = ({ getUsers, setIsAddModalOpen }) => {
 
     console.log(productData);
     axiosClient.post("/admin/paypal/Plans/create", productData).then((data) => {
+      console.log(data.data);
       if (data.data.success == false) {
         toast.update(id, {
           type: "error",

@@ -532,5 +532,11 @@
     "name": "paypal",
     "created_at": "2024-03-04 12:54:49",
     "updated_at": "2024-03-04 12:54:49"
+  },
+  {
+    "id": "90",
+    "name": "addPaymentmethod",
+    "created_at": "2024-03-06 11:39:43",
+    "updated_at": "2024-03-06 11:39:43"
   }
 ]

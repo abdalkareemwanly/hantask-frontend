@@ -35,7 +35,7 @@ export const AddProduct = ({  category, setIsAddModalOpen }) => {
       {
         title: "description",
         name: "description",
-        type: "textarea",
+        type: "textArea",
         styles: "md:w-[45%]",
       },
       {
@@ -76,7 +76,7 @@ export const AddProduct = ({  category, setIsAddModalOpen }) => {
     Object.entries(product).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    axiosClient.post("/products/create", formData).then((response) => {
+    axiosClient.post("/admin/paypal/products/create", formData).then((response) => {
       console.log(response.data);
       setLoading(false);
       if (response.data.success === false) {

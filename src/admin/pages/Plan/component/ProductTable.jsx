@@ -13,7 +13,7 @@ import { useQueryHook } from "../../../../hooks/useQueryHook";
 
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
-    `/admin/paypal/Plans/all?page=${page}${
+    `/admin/paypal/products/all?page=${page}${
       searchTerm.length > 0 ? `&search=${searchTerm}` : ""
     }`
   );
@@ -26,7 +26,7 @@ const changeStatusFunc = async (id) => {
 };
 
 const deleteFunc = async (id) => {
-  const res = await axiosClient.get(`/admin/paypal/plans/${id}/delete`);
+  const res = await axiosClient.get(`/admin/paypal/products/${id}/delete`);
   return res;
 };
 
@@ -45,20 +45,20 @@ export default function ProductTable() {
 
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const { data: plans, queryClient } = useQueryHook(
-    ["plans", page, searchTerm],
+  const { data: products, queryClient } = useQueryHook(
+    ["products", page, searchTerm],
     () => getData(page, searchTerm),
     "paginate",
     page
   );
 
   const changeStatusMutation = useMutationHook(changeStatusFunc, [
-    "plans",
+    "products",
     page,
     searchTerm,
   ]);
   const deleteMutation = useMutationHook(deleteFunc, [
-    "plans",
+    "products",
     page,
     searchTerm,
   ]);
@@ -140,52 +140,40 @@ export default function ProductTable() {
   useEffect(() => {
     setTimeout(() => {
       queryClient.prefetchQuery({
-        queryKey: ["plans", page + 1, searchTerm],
+        queryKey: ["products", page + 1, searchTerm],
         queryFn: () => getData(page + 1),
         staleTime: 60 * 60 * 1000,
       });
     }, 500);
-    console.log(plans);
-  }, [plans, page, queryClient, searchTerm]);
+    console.log(products);
+  }, [products, page, queryClient, searchTerm]);
 
   const columns = [
     {
       name: "Id",
       selector: (row) => row.id,
-      maxWidth: "8%",
     },
     {
       name: "name",
       selector: (row) => row.name,
-      maxWidth: "8%",
+      maxWidth: "10%",
     },
     {
-      name: "stripe_plan_id",
-      selector: (row) => row.stripe_plan_id,
+      name: "description",
+      selector: (row) => row.description,
     },
     {
-      name: "paypal_plan_id",
-      selector: (row) => row.paypal_plan_id,
+      name: "stripe_id",
+      selector: (row) => row.stripe_id,
     },
     {
-      name: "price",
-      selector: (row) => row.price,
-      maxWidth: "8%",
+      name: "paypal_id",
+      selector: (row) => row.paypal_id,
     },
     {
-      name: "interval",
-      selector: (row) => row.interval,
-      maxWidth: "8%",
-    },
-    {
-      name: "int_count",
-      selector: (row) => row.interval_count,
-      maxWidth: "8%",
-    },
-    {
-      name: "currency",
-      selector: (row) => row.currency,
-      maxWidth: "8%",
+      name: "type",
+      selector: (row) => row.type,
+      maxWidth: "10%",
     },
     {
       name: "Actions",
@@ -212,8 +200,8 @@ export default function ProductTable() {
       <TableData
         columns={columns}
         enableSearch={true}
-        response={plans}
-        actualData={plans?.data.data}
+        response={products}
+        actualData={products?.data.data}
         setPage={setPage}
         paginationBool={true}
         noDataMessage={"no users to show!"}
