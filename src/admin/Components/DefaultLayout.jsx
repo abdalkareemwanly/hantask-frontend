@@ -94,7 +94,7 @@ export default function DefaultLayout() {
                   alt=""
                 />
               )}
-              <div className="text-primary-text px-3">{user.username}</div>
+              <div className="text-primary-text px-3">{user?.username}</div>
               <BiSolidChevronDown
                 style={{ fontSize: "18px" }}
                 className="text-primary-text"
