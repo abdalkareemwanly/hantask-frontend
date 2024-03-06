@@ -25,12 +25,12 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
             message: "this field is required",
           },
         },
-        styles: "md:w-[45%]",
+        styles: "md:w-full",
       },
       {
         title: "amount off",
         name: "amount_off",
-        type: "text",
+        type: "number",
         validationProps: {
           required: {
             value: true,
@@ -40,12 +40,12 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
         styles: "md:w-[45%]",
       },
       {
-        title: "choose plan",
-        name: "plan_id",
+        title: "currency",
+        name: "currency",
         type: "select",
-        options: plans,
+        options: [ { name: 'usd'}, {name: 'eur'}],
         optionText: "name",
-        optionValue: "id",
+        optionValue: "name",
         validationProps: {
           required: {
             value: true,
@@ -55,15 +55,24 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
         styles: "md:w-[45%]",
       },
       {
-        title: "expire date",
-        name: "expire_date",
-        type: "date",
+        title: "duration",
+        name: "duration",
+        type: "select",
+        options: [ { name: 'once'}, {name: 'repeating'}, { name: "forever"}],
+        optionText: "name",
+        optionValue: "name",
         validationProps: {
           required: {
             value: true,
             message: "this field is required",
           },
         },
+        styles: "md:w-[45%]",
+      },
+      {
+        title: "duration_in_months",
+        name: "duration_in_months",
+        type: "number",
         styles: "md:w-[45%]",
       },
     ],
@@ -77,8 +86,9 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("amount_off", values.amount_off);
-    formData.append("expire_date", values.expire_date);
-    formData.append("plan_id", values.plan_id);
+    formData.append("currency", values.currency);
+    formData.append("duration", values.duration);
+    formData.append("duration_in_months", values.duration_in_months);
     try {
       const category = await mutation.mutateAsync(formData);
       setIsAddModalOpen((prev) => !prev);

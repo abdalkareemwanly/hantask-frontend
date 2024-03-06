@@ -4,11 +4,18 @@ import { FaSearch, FaFilter } from "react-icons/fa";
 import axiosClient from "../../../axios-client";
 import Button from "../../../Components/Button";
 import { AddPlan } from "./component/AddPlan";
+import ProductTable from "./component/ProductTable";
+import { Page } from "../../../Components/StyledComponents";
+import PageTitle from "../../../Components/PageTitle";
+import useCheckPermission from "../../../hooks/checkPermissions";
+import ModalContainer from "../../../Components/ModalContainer";
 import { AddProduct } from "./component/AddProduct";
 import PlanTable from "./component/PlanTable";
-import ModalContainer from "../../../Components/ModalContainer";
 
 const CreatePlan = () => {
+  const { hasPermissionFun } = useCheckPermission();
+  let hasAddPermission = hasPermissionFun("addUser");
+
   const [languagedirection, setlanguagedirection] = useState("LTR");
   const { translation } = useStateContext();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -22,7 +29,7 @@ const CreatePlan = () => {
   }, []);
 
   const getProductCategory = () => {
-    fetch("/Json/ProductCategory.json")
+    fetch("/src/admin/Json/ProductCategory.json")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -50,54 +57,79 @@ const CreatePlan = () => {
 
   return (
     <div className="w-full">
-      {isAddModalOpen && (
-        <ModalContainer
-          isModalOpen={isAddModalOpen}
-          setIsModalOpen={setIsAddModalOpen}
-          component={
-            <AddProduct
-              category={category}
-              setIsAddModalOpen={setIsAddModalOpen}
-            />
+      <Page>
+        <PageTitle
+          text={"manage all Subscriptions"}
+          right={
+            hasAddPermission && (
+              <div className="flex gap-4">
+                <Button
+                  isLink={false}
+                  color={"bg-greenColor"}
+                  title={"Add New Plan"}
+                  onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+                />
+                <Button
+                  isLink={false}
+                  color={"bg-orangeColor"}
+                  title={"Add New Product"}
+                  onClickFun={() => setIsModalOpen((prev) => !prev)}
+                />
+              </div>
+            )
           }
         />
-      )}
-      {isModalOpen && (
-        <ModalContainer
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          component={
-            <AddPlan category={category} setIsModalOpen={setIsModalOpen} />
-          }
-        />
-      )}
-      <div
-        className={`flex ${
-          languagedirection == "RTL" ? "flex-row-reverse" : "flex-row"
-        } justify-between gap-3 bg-blocks-color my-3 p-4`}
-      >
-        <div className="flex items-center gap-4">
-          <h2 className="text-lg">
-            {(translation && translation["Plan"]) || "Plan"} /{" "}
-            {(translation && translation["Add Plan"]) || "Add Plan"}
-          </h2>
-        </div>
-        <div className="flex items-center gap-4">
-          <Button
-            isLink={false}
-            color={"bg-greenColor"}
-            title={"Add New Product"}
-            onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+        {isModalOpen && (
+          <ModalContainer
+            isModalOpen={isAddModalOpen}
+            setIsModalOpen={setIsAddModalOpen}
+            component={
+              <AddProduct
+                category={category}
+                setIsAddModalOpen={setIsAddModalOpen}
+              />
+            }
           />
-          <Button
-            isLink={false}
-            color={"bg-orangeColor"}
-            title={"Add New Plan"}
-            onClickFun={() => setIsModalOpen((prev) => !prev)}
+        )}
+        {isAddModalOpen && (
+          <ModalContainer
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            component={
+              <AddPlan category={category} setIsModalOpen={setIsModalOpen} />
+            }
           />
+        )}
+        <div className="flex flex-row bg-blocks-color w-1/4 m-auto rounded-3xl border border-blocks-color">
+          <button
+            onClick={() => setModalOpen(false)}
+            className={`rounded-l-3xl p-4 w-1/2 text-center ${
+              planModalOpen === false ? "bg-background-color" : ""
+            }`}
+            href=""
+          >
+            Plan
+          </button>
+          <button
+            onClick={() => setModalOpen(true)}
+            className={`rounded-r-3xl p-4 w-1/2 text-center ${
+              planModalOpen === true ? "bg-background-color" : ""
+            }`}
+            href=""
+          >
+            Product
+          </button>
         </div>
-      </div>
-      <PlanTable />
+        <div className="my-4">
+          {planModalOpen === false ? (
+            <PlanTable />
+          ) : (
+            <div>
+              <ProductTable />
+            </div>
+          )}
+        </div>
+      </Page>
     </div>
   );
 };
