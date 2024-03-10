@@ -6,10 +6,14 @@ const GlobalDataContext = createContext();
 export const GlobalDataProvider = ({ children }) => {
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
-  const [categories, setCategories] = useState(false);
-  const [subCategories, setSubCategories] = useState(false);
-  const [childCategories, setChildCategories] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+  const [childCategories, setChildCategories] = useState([]);
   const [loading, setloading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedSubCategory, setSelectedSubCategory] = useState();
+  const [filteredSubCategories, setFilteredSubCategories] = useState();
+  const [filteredChildCategories, setFilteredChildCategories] = useState();
 
   const getCountries = async (signal) => {
     const res = await axiosClient.get("/site/countrys", { signal: signal });
@@ -64,6 +68,24 @@ export const GlobalDataProvider = ({ children }) => {
       controller5.abort();
     };
   }, []);
+
+  // Filter sub-categories based on the selected category
+  useEffect(() => {
+    if (categories.length === 0 || subCategories.length === 0) return;
+    const filteredSubs = subCategories.filter(
+      (sub) => sub.categoryId === selectedCategory?.id
+    );
+    setFilteredSubCategories(filteredSubs);
+  }, [selectedCategory, categories, subCategories]);
+
+  // Filter child-categories based on the selected sub-category
+  useEffect(() => {
+    if (subCategories.length === 0 || childCategories.length === 0) return;
+    const filteredChilds = childCategories.filter(
+      (child) => child.subCategoryId === selectedSubCategory?.id
+    );
+    setFilteredChildCategories(filteredChilds);
+  }, [selectedSubCategory, subCategories, childCategories]);
 
   let FILTER_DATA = {
     country: {
@@ -150,7 +172,12 @@ export const GlobalDataProvider = ({ children }) => {
       placeholder: "input what are you looking for",
     },
   };
-
+  console.log(
+    subCategories,
+    childCategories,
+    filteredSubCategories,
+    filteredChildCategories
+  );
   return (
     <GlobalDataContext.Provider
       value={{
@@ -161,6 +188,12 @@ export const GlobalDataProvider = ({ children }) => {
         childCategories,
         FILTER_DATA,
         loading,
+        selectedCategory,
+        setSelectedCategory,
+        selectedSubCategory,
+        setSelectedSubCategory,
+        filteredSubCategories,
+        filteredChildCategories,
       }}
     >
       {children}

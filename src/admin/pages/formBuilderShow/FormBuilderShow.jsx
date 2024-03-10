@@ -6,8 +6,9 @@ import FormAnswer from "./components/FormAnswer";
 import FormFooter from "./components/FormFooter";
 import axiosClient from "../../../axios-client";
 import { toast } from "react-toastify";
+import FormTableQuestions from "./components/FormTableQuestions";
 
-export default function FormBuilder() {
+export default function FormBuilderShow() {
   const [selectedButton, setSelectedButton] = useState(null);
   const [formbuilder, setFormBuilder] = useState(null);
   const [form, setForm] = useState({
@@ -18,7 +19,7 @@ export default function FormBuilder() {
     type: "",
     answer: [],
   });
-  console.log(formbuilder);
+
   const createFrom = (title, value) => {
     console.log(value.answer);
     setFormBuilder(title);
@@ -97,6 +98,8 @@ export default function FormBuilder() {
     console.log(form);
   };
 
+  console.log(formbuilder);
+
   return (
     <div className="h-full">
       <div className="flex gap-4 flex-wrap sm:flex-row flex-col py-8 ">
@@ -111,9 +114,7 @@ export default function FormBuilder() {
         </div>
         <div className="flex flex-[3] flex-col gap-2 w-full component-shadow rounded-md  bg-blocks-color">
           <FormCategory formcategory={selectedButton} createFrom={createFrom} />
-          <FormBody formbuilder={formbuilder} createFrom={createFrom} />
-          <FormAnswer formbuilder={formbuilder} createFrom={createFrom} />
-          <FormFooter formbuilder={formbuilder} submitForm={submitForm} />
+          <FormTableQuestions formbuilder={formbuilder} />
         </div>
       </div>
     </div>

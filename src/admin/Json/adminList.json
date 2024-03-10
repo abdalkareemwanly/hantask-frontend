@@ -40,9 +40,16 @@
     "perId": "showChildCategories"
   },
   "Form Builder": {
-    "name": null,
-    "path": "/admin/dashboard/formbuilder",
-    "perId": "formbuilder"
+    "create": {
+      "name": null,
+      "path": "/admin/dashboard/formbuilder/create",
+      "perId": "formbuilder"
+    },
+    "view all": {
+      "name": null,
+      "path": "/admin/dashboard/formbuilder/show",
+      "perId": "formbuilder"
+    }
   },
   "locations": {
     "countries": {
