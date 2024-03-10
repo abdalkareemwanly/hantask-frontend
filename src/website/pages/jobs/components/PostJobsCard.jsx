@@ -22,7 +22,7 @@ function PostJobsCard({ item, withBuyer = true }) {
         </div>
         <div className="flex gap-4 items-center">
           <div className="w-[100px] h-[100px] rounded-full flex justify-center items-center bg-[#9feaba78]">
-            <img className="w-full h-full rounded-full" src={import.meta.env.VITE_WEBSITE_URL + item.image} alt="" />
+            <img className="w-full h-full rounded-full" src={import.meta.env.VITE_WEBSITE_URL + item.image}  />
           </div>
           <div className="flex flex-col gap-1 flex-1">
             <h3 className="font-semibold">{item?.title}</h3>

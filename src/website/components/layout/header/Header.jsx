@@ -32,7 +32,7 @@ const Header = () => {
       <Link>
         <img
           src="/src/images/logo-light.png"
-          className="w-[6rem] md:w-[9rem] "
+          className="w-[6rem] md:w-[9rem]"
           alt="Logo"
         />
       </Link>
