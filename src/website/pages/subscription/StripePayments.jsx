@@ -148,7 +148,7 @@ const StripePayments = () => {
                 className="border border-greenColor p-2 w-full rounded-md outline-none component-shadow "
                 type="text"
                 max={16}
-                maxLength={16}
+                maxLength={40}
                 name="email"
                 required
                 placeholder="Email"
