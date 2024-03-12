@@ -145,7 +145,6 @@ export default function ProductTable() {
         staleTime: 60 * 60 * 1000,
       });
     }, 500);
-    console.log(products);
   }, [products, page, queryClient, searchTerm]);
 
   const columns = [

@@ -65,7 +65,6 @@ export default function AdminLogin() {
         }
       })
       .catch((err) => {
-        console.log(err);
         toast.update(id, {
           render: "Something went wrong",
           type: "error",

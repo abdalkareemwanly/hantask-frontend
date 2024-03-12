@@ -74,7 +74,6 @@ const StripePayments = () => {
       formValues.append("card_exp_year", year);
       formValues.append("coupon", state.coupon);
 
-      console.log(formValues);
       const res = await axiosClient.post("/site/checkout", formValues);
       if (res.status === 200) {
         toast.update(toaster, {

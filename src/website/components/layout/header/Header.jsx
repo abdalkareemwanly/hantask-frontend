@@ -43,24 +43,31 @@ const Header = () => {
             isLink={true}
             goto={"/postDeal"}
             color={"bg-greenColor"}
-            textColor={'white'}
+            textColor={"white"}
           />
           <div>
-            <Button isLink={false} textColor={'black'} title={'homeowners'} />
+            <Button isLink={false} textColor={"black"} title={"homeowners"} />
           </div>
           <div>
-            <Button isLink={false} textColor={'black'} title={'handymans'} />
-
+            <Button isLink={false} textColor={"black"} title={"handymans"} />
           </div>
           <div className="h-[20px] w-[1px] bg-black"></div>
         </div>
         <div>
           <Button
             isLink={true}
-            goto={user ? user.user_type === 'seller' ? '/serviceProvider/home' : '/customer/home' : '/login' }
+            goto={
+              user
+                ? user.user_type === "seller"
+                  ? "/serviceProvider/home"
+                  : user.user_type === "buyer"
+                  ? "/customer/home"
+                  : "/admin/dashboard/"
+                : "/login"
+            }
             Icon={<MdOutlineAccountCircle fontSize={25} color="black" />}
-            title={user ? user.name :"account"}
-            textColor={'black'}
+            title={user ? user.name : "account"}
+            textColor={"white"}
             color={"flex-row-reverse"}
           />
         </div>

@@ -144,7 +144,6 @@ function AdminReports(props) {
 
   return (
     <Page>
-      {console.log("reports is", reports)}
       <div className="flex flex-col gap-[30px]">
         {/* <Filter
             state={state}

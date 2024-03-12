@@ -100,7 +100,6 @@ export const AddAdmin = ({ getAdmins, setIsAddModalOpen, roles }) => {
     axiosClient
       .post("/admin/store", formData)
       .then((data) => {
-        console.log(data);
         if (data.success === false) {
           toast.update(id, {
             type: "error",
@@ -126,7 +125,6 @@ export const AddAdmin = ({ getAdmins, setIsAddModalOpen, roles }) => {
         }
       })
       .catch((err) => {
-        console.log(err);
         toast.update(id, {
           type: "error",
           render: err.response.data.message,

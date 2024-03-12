@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import FormHeader from "./components/FormHeader";
 import FormCategory from "./components/FormCategory";
-import FormBody from "./components/FormBody";
-import FormAnswer from "./components/FormAnswer";
-import FormFooter from "./components/FormFooter";
 import axiosClient from "../../../axios-client";
 import { toast } from "react-toastify";
 import FormTableQuestions from "./components/FormTableQuestions";
+import ModalContainer from "./../../../Components/ModalContainer";
+import EditFormData from "./components/EditFormData";
 const getQuestionsById = async (id, idType) => {
   const res = await axiosClient.post(`/admin/question/show`, { [idType]: id });
   return res;
@@ -15,6 +14,8 @@ export default function FormBuilderShow() {
   const [selectedButton, setSelectedButton] = useState(null);
   const [formbuilder, setFormBuilder] = useState(null);
   const [catQuestions, setCatQuestions] = useState([]);
+  const [editModal, setEditModal] = useState(false);
+  const [editQuestionSelected, setEditQuestionSelected] = useState();
   const [form, setForm] = useState({
     category_id: null,
     subcategory_id: null,
@@ -50,7 +51,6 @@ export default function FormBuilderShow() {
   }, [form.category_id, form.subcategory_id, form.child_category_id]);
 
   const createFrom = (title, value) => {
-    console.log(value.answer);
     setFormBuilder(title);
     if (value.cat && selectedButton === "Category") {
       setForm({
@@ -72,21 +72,6 @@ export default function FormBuilderShow() {
         category_id: null,
         subcategory_id: null,
         child_category_id: value.cat,
-      });
-    } else if (value.type) {
-      setForm({
-        ...form,
-        type: value.type,
-      });
-    } else if (value.content) {
-      setForm({
-        ...form,
-        content: value.content,
-      });
-    } else if (value.answer) {
-      setForm({
-        ...form,
-        answer: value.answer,
       });
     }
   };
@@ -124,17 +109,27 @@ export default function FormBuilderShow() {
           });
         }
       });
-    console.log(form);
   };
-
-  console.log(formbuilder, form);
 
   return (
     <div className="h-full">
+      {editModal && (
+        <ModalContainer
+          setIsModalOpen={setEditModal}
+          component={
+            <EditFormData
+              setEditQuestionSelected={setEditQuestionSelected}
+              editQuestionSelected={editQuestionSelected}
+              formbuilder={formbuilder}
+              submitForm={submitForm}
+            />
+          }
+        />
+      )}
       <div className="flex gap-4 flex-wrap sm:flex-row flex-col py-8 ">
         <div className="flex flex-1 flex-col gap-4 items-center p-4 component-shadow rounded-md bg-blocks-color h-[300px]">
           <div className="flex flex-row w-full">
-            Choose the category level to which you want to link the form
+            first let's choose a category type
           </div>
           <FormHeader
             handleButtonClick={handleButtonClick}
@@ -143,7 +138,12 @@ export default function FormBuilderShow() {
         </div>
         <div className="flex flex-[3] flex-col gap-2 w-full component-shadow rounded-md  bg-blocks-color">
           <FormCategory formcategory={selectedButton} createFrom={createFrom} />
-          <FormTableQuestions data={catQuestions} formbuilder={formbuilder} />
+          <FormTableQuestions
+            setEditQuestionSelected={setEditQuestionSelected}
+            setEditModal={setEditModal}
+            data={catQuestions}
+            formbuilder={formbuilder}
+          />
         </div>
       </div>
     </div>

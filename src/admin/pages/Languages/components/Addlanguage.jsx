@@ -38,7 +38,6 @@ export default function Addlanguage(props) {
     const id = toast.loading("please wait...");
     try {
       const res = await mutation.mutateAsync(formData);
-      console.log(res);
       toast.update(id, {
         type: "success",
         render: res.data.mes,
