@@ -14,7 +14,7 @@
       "perId": "showRoles"
     }
   },
-  "Users Manage": {
+  "accounts Manage": {
     "All Users": {
       "path": "/admin/dashboard/users",
       "perId": "showUsers"
@@ -23,6 +23,11 @@
       "path": "/admin/dashboard/archivedUsers",
       "perId": "showArchivedUser"
     }
+  },
+  "handymans verify": {
+    "name": null,
+    "path": "/admin/dashboard/handymansVerify",
+    "perId": "showAreas"
   },
   "Categories": {
     "name": null,
@@ -39,18 +44,6 @@
     "path": "/admin/dashboard/childs",
     "perId": "showChildCategories"
   },
-  "Form Builder": {
-    "create": {
-      "name": null,
-      "path": "/admin/dashboard/formbuilder/create",
-      "perId": "formbuilder"
-    },
-    "view all": {
-      "name": null,
-      "path": "/admin/dashboard/formbuilder/show",
-      "perId": "formbuilder"
-    }
-  },
   "locations": {
     "countries": {
       "path": "/admin/dashboard/locations/countries",
@@ -66,6 +59,18 @@
       "path": "/admin/dashboard/locations/areas",
       "name": null,
       "perId": "showAreas"
+    }
+  },
+  "Form Builder": {
+    "create": {
+      "name": null,
+      "path": "/admin/dashboard/formbuilder/create",
+      "perId": "formbuilder"
+    },
+    "view all": {
+      "name": null,
+      "path": "/admin/dashboard/formbuilder/show",
+      "perId": "formbuilder"
     }
   },
   "posts": {

@@ -76,6 +76,7 @@ import FormBuilder from "./admin/pages/formbuilder/FormBuilder";
 import PaymentMethod from "./admin/pages/Payment/PaymentMethod";
 import CreatePlan from "./admin/pages/Plan/PaypalPlan";
 import FormBuilderShow from "./admin/pages/formBuilderShow/FormBuilderShow";
+import ServiceProvidersVerify from "./admin/pages/serviceProviderVerify/ServiceProvidersVerify";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -120,6 +121,7 @@ const router = createBrowserRouter([
         ],
       },
       { path: "paymentgetway", element: <PaymentMethod /> },
+      { path: "handymansVerify", element: <ServiceProvidersVerify /> },
       { path: "paypal", element: <CreatePlan /> },
       { path: "childs", element: <ChildCategories /> },
       { path: "locations/countries", element: <Countries /> },

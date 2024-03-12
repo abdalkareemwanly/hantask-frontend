@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosClient from "../../../../axios-client";
 import { motion, AnimatePresence } from "framer-motion";
 
