@@ -48,15 +48,11 @@ export default function DefaultLayout() {
     setAdminMenuOpen(!adminmenuOpen);
   };
 
-  if (!token) {
-    return <Navigate to={"/admin/login"} />;
-  }
-
   return (
     <div className={`flex-row md:flex bg-background-color `}>
       <div
         className={`flex flex-col flex-shrink-0 flex-grow-0 h-screen transition-all ease-in text-primary-text overflow-y-auto scroll bg-blocks-color  z-10 shadow-lg gap-4 fixed md:sticky top-0 ${
-          sidebarOpen ? "w-1/5" : "w-0"
+          sidebarOpen ? "w-1/2 sm:w-1/5" : "w-0"
         }`}
       >
         <SidebarAdmin setSidebarOpen={setSidebarOpen} />

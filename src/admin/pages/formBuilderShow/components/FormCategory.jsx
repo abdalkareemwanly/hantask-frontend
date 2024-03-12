@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosClient from "../../../../axios-client";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -39,7 +39,11 @@ const FormCategory = ({ formcategory, createFrom }) => {
               className="input-box w-1/2 bg-background-color"
               value={selectedValue}
               onChange={(ev) => {
-                createFrom("question", { cat: ev.target.value });
+                if (ev.target.value != 0) {
+                  createFrom("question", { cat: ev.target.value });
+                } else {
+                  createFrom("asd", { cat: null });
+                }
                 setSelectedValue(ev.target.value);
               }}
             >

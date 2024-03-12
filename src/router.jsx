@@ -75,6 +75,8 @@ import ServiceProviderNotifications from "./serviceProvider/pages/notifications/
 import FormBuilder from "./admin/pages/formbuilder/FormBuilder";
 import PaymentMethod from "./admin/pages/Payment/PaymentMethod";
 import CreatePlan from "./admin/pages/Plan/PaypalPlan";
+import FormBuilderShow from "./admin/pages/formBuilderShow/FormBuilderShow";
+import ServiceProvidersVerify from "./admin/pages/serviceProviderVerify/ServiceProvidersVerify";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -111,8 +113,15 @@ const router = createBrowserRouter([
       { path: "archivedUsers", element: <ArchivedUsers /> },
       { path: "categories", element: <Categories /> },
       { path: "subCategories", element: <SubCategories /> },
-      { path: "formbuilder", element: <FormBuilder /> },
+      {
+        path: "formbuilder",
+        children: [
+          { path: "create", element: <FormBuilder /> },
+          { path: "show", element: <FormBuilderShow /> },
+        ],
+      },
       { path: "paymentgetway", element: <PaymentMethod /> },
+      { path: "handymansVerify", element: <ServiceProvidersVerify /> },
       { path: "paypal", element: <CreatePlan /> },
       { path: "childs", element: <ChildCategories /> },
       { path: "locations/countries", element: <Countries /> },

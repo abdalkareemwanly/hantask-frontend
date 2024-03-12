@@ -31,6 +31,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useStateContext } from "../../contexts/ContextsProvider";
 import useCheckPermission from "../../hooks/checkPermissions";
 import { RiCoupon3Fill } from "react-icons/ri";
+import { MdVerifiedUser } from "react-icons/md";
+import { MdManageAccounts } from "react-icons/md";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
@@ -41,7 +43,7 @@ const iconMap = {
   Wallet: <BiSolidDollarCircle />,
   "Admin Role Manage": <BiSolidUser />,
   "Admin Services": <BiSolidUser />,
-  "Users Manage": <BiSolidUser />,
+  "accounts Manage": <MdManageAccounts size={20} />,
   "Seller Settings": <BiSolidUser />,
   "Seller Buyer Report": <BiSolidUser />,
   Categories: <BiSolidCategory />,
@@ -62,7 +64,8 @@ const iconMap = {
   "General Settings": <BiSolidCog />,
   Languages: <BiSolidDirections />,
   "Back To Site": <BiSolidArrowFromRight />,
-  "Payment Settings": <BiSolidCreditCardFront />
+  "Payment Settings": <BiSolidCreditCardFront />,
+  "handymans verify": <MdVerifiedUser />,
 };
 
 export default function SidebarAdmin({ setSidebarOpen }) {

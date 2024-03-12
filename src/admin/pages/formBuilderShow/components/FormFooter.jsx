@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Button from "../../../../Components/Button";
 
 export default function FormFooter({ formbuilder, submitForm }) {
-  return formbuilder === "answer" || formbuilder === "noAnswer" ? (
+  return formbuilder === "answer" ? (
     <AnimatePresence>
       <motion.div
         key="step4"

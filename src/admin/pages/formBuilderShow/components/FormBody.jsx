@@ -7,9 +7,7 @@ const FormBody = ({ createFrom, formbuilder }) => {
     content: "",
   });
 
-  return formbuilder === "question" ||
-    formbuilder === "answer" ||
-    formbuilder === "noAnswer" ? (
+  return formbuilder === "question" || formbuilder === "answer" ? (
     <AnimatePresence>
       <motion.div
         key="step4"
@@ -27,19 +25,9 @@ const FormBody = ({ createFrom, formbuilder }) => {
             <select
               id="type"
               name="type"
-              onChange={(ev) => {
-                if (ev.target.value === "write") {
-                  createFrom("noAnswer", { type: ev.target.value });
-                } else {
-                  createFrom("answer", { type: ev.target.value });
-                }
-              }}
+              onChange={(ev) => createFrom("answer", { type: ev.target.value })}
               className="input-box w-[60%] bg-background-color"
             >
-              <option value="0" selected>
-                {" "}
-                select your option
-              </option>
               <option value="singlechoisradio">Single Chois Radio</option>
               <option value="singlechoisdrop">Single Chois Drop</option>
               <option value="multiplechoise">Multiple Choise</option>

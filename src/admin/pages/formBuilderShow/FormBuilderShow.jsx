@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormHeader from "./components/FormHeader";
 import FormCategory from "./components/FormCategory";
 import FormBody from "./components/FormBody";
@@ -6,10 +6,15 @@ import FormAnswer from "./components/FormAnswer";
 import FormFooter from "./components/FormFooter";
 import axiosClient from "../../../axios-client";
 import { toast } from "react-toastify";
-
-export default function FormBuilder() {
+import FormTableQuestions from "./components/FormTableQuestions";
+const getQuestionsById = async (id, idType) => {
+  const res = await axiosClient.post(`/admin/question/show`, { [idType]: id });
+  return res;
+};
+export default function FormBuilderShow() {
   const [selectedButton, setSelectedButton] = useState(null);
   const [formbuilder, setFormBuilder] = useState(null);
+  const [catQuestions, setCatQuestions] = useState([]);
   const [form, setForm] = useState({
     category_id: null,
     subcategory_id: null,
@@ -18,7 +23,32 @@ export default function FormBuilder() {
     type: "",
     answer: [],
   });
-  console.log(formbuilder);
+
+  useEffect(() => {
+    const getData = async () => {
+      if (form.category_id !== null) {
+        const questions = await getQuestionsById(
+          form.category_id,
+          "category_id"
+        );
+        setCatQuestions(questions);
+      } else if (form.subcategory_id) {
+        const questions = getQuestionsById(
+          form.subcategory_id,
+          "subcategory_id"
+        );
+        setCatQuestions(questions);
+      } else if (form.child_category_id) {
+        const questions = getQuestionsById(
+          form.child_category_id,
+          "child_category_id"
+        );
+        setCatQuestions(questions);
+      }
+    };
+    getData();
+  }, [form.category_id, form.subcategory_id, form.child_category_id]);
+
   const createFrom = (title, value) => {
     console.log(value.answer);
     setFormBuilder(title);
@@ -97,6 +127,8 @@ export default function FormBuilder() {
     console.log(form);
   };
 
+  console.log(formbuilder, form);
+
   return (
     <div className="h-full">
       <div className="flex gap-4 flex-wrap sm:flex-row flex-col py-8 ">
@@ -111,9 +143,7 @@ export default function FormBuilder() {
         </div>
         <div className="flex flex-[3] flex-col gap-2 w-full component-shadow rounded-md  bg-blocks-color">
           <FormCategory formcategory={selectedButton} createFrom={createFrom} />
-          <FormBody formbuilder={formbuilder} createFrom={createFrom} />
-          <FormAnswer formbuilder={formbuilder} createFrom={createFrom} />
-          <FormFooter formbuilder={formbuilder} submitForm={submitForm} />
+          <FormTableQuestions data={catQuestions} formbuilder={formbuilder} />
         </div>
       </div>
     </div>
