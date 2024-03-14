@@ -23,7 +23,6 @@ const CONTACT_DATA = [
     icon: <FaRegClock />,
     title: "Support Time",
     contactList: [{ href: "", text: "08.00am to 11.00pm" }],
-    background: "var(--second-color)",
   },
 ];
 

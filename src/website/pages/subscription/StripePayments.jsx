@@ -111,20 +111,17 @@ const StripePayments = () => {
         confirm payment
       </h3>
       <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-        <div className="flex items-center justify-between md:flex-row flex-wrap">
-          <div className="flex justify-center items-center flex-[48%]">
-            plan description and details
+        <div className="flex  md:flex-row flex-wrap">
+          <div className="flex flex-[48%]">
+            <Cards
+              number={state.number}
+              expiry={state.expiry}
+              cvc={state.cvc}
+              name={state.name}
+              focused={state.focus}
+            />
           </div>
           <div className="flex gap-4 flex-col flex-[48%]">
-            <div className="flex flex-col gap-2 items-start w-[70%]">
-              <Cards
-                number={state.number}
-                expiry={state.expiry}
-                cvc={state.cvc}
-                name={state.name}
-                focused={state.focus}
-              />
-            </div>
             <div className="flex flex-col gap-2 items-start w-[70%]">
               <label>Payment Method</label>
               <select

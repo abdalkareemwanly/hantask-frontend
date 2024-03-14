@@ -2,8 +2,10 @@ import { useRef, useState } from "react";
 import { BsSendFill } from "react-icons/bs";
 import { GoPlus } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
+import axiosClient from "../../../../axios-client";
+import { toast } from "react-toastify";
 
-const ChatFooter = () => {
+const ChatFooter = ({ refetch, selectedUser }) => {
   const [data, setData] = useState({
     message: "",
     file: null,
@@ -19,15 +21,29 @@ const ChatFooter = () => {
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     // Do something with the selected file
-    console.log(selectedFile);
     setData((prev) => ({
       ...prev,
       file: selectedFile,
     }));
   };
-
+  console.log(data);
   const sendMessage = async () => {
-    console.log(data);
+    const formData = new FormData();
+    formData.append("message", data.message);
+    if (data.file !== null) {
+      formData.append("file", data.file);
+    }
+    formData.append("recipient_id", selectedUser?.user_id);
+    const sendMessage = await axiosClient.post(`seller/storeMessage`, formData);
+    if (sendMessage.data.success) {
+      refetch();
+      setData({
+        message: "",
+        file: null,
+      });
+    } else {
+      toast.error("failed to send the message");
+    }
   };
 
   return (

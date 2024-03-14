@@ -51,6 +51,7 @@ function FilterItem({ itemKey, data, filter, setFilter }) {
               <div className={"filter-list" + (isOpen ? " open" : "")}>
                 <input
                   type="text"
+                  className="w-[90%]"
                   value={listFilter}
                   onChange={(e) => setListFilter(e.target.value)}
                 />

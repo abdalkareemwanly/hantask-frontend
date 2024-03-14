@@ -8,54 +8,27 @@ export const StepTwoPostDeal = ({
   goToNextStep,
   goToPrevStep,
   setSelectedSubCategory,
+  getQuestionsById,
+  register,
+  setValue,
 }) => {
-  const [errors, setErrors] = useState({});
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (value === null || value.length === 0) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "this field is required",
-      }));
-    } else {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: null,
-      }));
-    }
     handleDataChange(name, value);
-  };
-
-  const check = () => {
-    // if (
-    //   state?.subCategoryId.length === 0 ||
-    //   state.childCategoryId.length === 0
-    // ) {
-    //   if (state?.subCategoryId.length === 0) {
-    //     setErrors((prev) => ({
-    //       ...prev,
-    //       subCategoryId: "this field is required",
-    //     }));
-    //   } else {
-    //     setErrors((prev) => ({
-    //       ...prev,
-    //       subCategoryId: null,
-    //     }));
-    //   }
-    //   if (state.childCategoryId.length === 0) {
-    //     setErrors((prev) => ({
-    //       ...prev,
-    //       childCategoryId: "this field is required",
-    //     }));
-    //   } else {
-    //     setErrors((prev) => ({
-    //       ...prev,
-    //       childCategoryId: null,
-    //     }));
-    //   }
-    // } else {
-    goToNextStep();
-    // }
+    if (name === "subcategory_id") {
+      getQuestionsById({
+        category_id: null,
+        subcategory_id: value,
+        child_category_id: null,
+      });
+    } else if (name === "child_category_id") {
+      getQuestionsById({
+        category_id: null,
+        subcategory_id: null,
+        child_category_id: value,
+      });
+    }
+    setValue(name, value);
   };
 
   return (
@@ -66,8 +39,7 @@ export const StepTwoPostDeal = ({
         professional handymans.
       </p>
       <select
-        value={state.subCategoryId}
-        name="subCategoryId"
+        name="subcategory_id"
         onChange={(e) => {
           setSelectedSubCategory({ id: e.target.value });
           handleChange(e);
@@ -82,11 +54,10 @@ export const StepTwoPostDeal = ({
             </option>
           ))}
       </select>
-      <span>{errors?.subCategoryId && "this field required"}</span>
+      {/* <span>{errors?.subCategoryId && "this field required"}</span> */}
 
       <select
-        value={state.childCategoryId}
-        name="childCategoryId"
+        name="child_category_id"
         onChange={handleChange}
         className="bg-gray-200 rounded-md px-2 py-4 border-none outline-none"
       >
@@ -98,7 +69,7 @@ export const StepTwoPostDeal = ({
             </option>
           ))}
       </select>
-      <span>{errors?.childCategoryId && "this field required"}</span>
+      {/* <span>{errors?.childCategoryId && "this field required"}</span> */}
 
       <div>
         <button
@@ -109,7 +80,7 @@ export const StepTwoPostDeal = ({
         </button>
         <button
           className="bg-greenColor text-white  p-2 rounded-lg"
-          onClick={check}
+          onClick={goToNextStep}
           // disabled={Object.values(errors).length == 0}
         >
           Next

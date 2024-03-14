@@ -1,24 +1,24 @@
 .submit-button {
-    background-color: var(--main-color) !important;
-    display: flex !important;
-    justify-content: center !important;
-    transition: all 0.5s;
-    border: 1px solid var(--main-color);
+  background-color: var(--success-color) !important;
+  display: flex !important;
+  justify-content: center !important;
+  transition: all 0.5s;
+  border: 1px solid var(--success-color);
 }
 
 .second-button {
-    background-color: var(--color-white) !important;
-    border: 1px solid var(--main-color) !important;
-    color: var(--main-color) !important;
+  background-color: var(--color-white) !important;
+  border: 1px solid var(--success-color) !important;
+  color: var(--success-color) !important;
 }
 
 .submit-button:hover {
-    opacity: .8;
+  opacity: 0.8;
 }
 
 .second-button:hover {
-    background-color: var(--main-color) !important;
-    border: 1px solid var(--main-color) !important;
-    color: var(--color-white) !important;
-    opacity: 1;
+  background-color: var(--success-color) !important;
+  border: 1px solid var(--success-color) !important;
+  color: var(--color-white) !important;
+  opacity: 1;
 }

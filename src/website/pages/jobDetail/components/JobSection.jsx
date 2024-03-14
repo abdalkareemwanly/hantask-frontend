@@ -7,6 +7,7 @@ import { FaMapLocation } from "react-icons/fa6";
 import { IoCalendar } from "react-icons/io5";
 import { LiaListUlSolid } from "react-icons/lia";
 import { IoMdEye } from "react-icons/io";
+import { formatMoney } from "../../../../functions/price";
 
 function JobSection({ data }) {
   const isUser = localStorage.getItem("ACCESS_TOKEN");
@@ -54,7 +55,7 @@ function JobSection({ data }) {
             </div>
             <div className="flex flex-col">
               <h5>Budget</h5>
-              <span>{data?.budget}</span>
+              <span>{formatMoney(Number(data?.budget))}</span>
             </div>
           </div>
           <div className="flex">

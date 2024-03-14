@@ -3,7 +3,6 @@ import { GoSearch } from "react-icons/go";
 
 const PersonalBox = ({ user }) => {
   const [toggleSearch, setToggleSearch] = useState(false);
-
   return (
     <div className="flex gap-4 items-center h-[60px]  rounded-md relative">
       <img

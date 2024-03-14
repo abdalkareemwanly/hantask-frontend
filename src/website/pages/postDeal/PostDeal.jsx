@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { StepOnePostDeal } from "./components/StepOnePostDeal";
 import { StepTwoPostDeal } from "./components/StepTwoPostDeal";
@@ -7,6 +7,8 @@ import StepFourPostDeal from "./components/StepFourPostDeal";
 import StepFivePostDeal from "./components/StepFivePostDeal";
 import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
 import QuestionComponent from "./components/QuestionComponent";
+import axiosClient from "../../../axios-client";
+import { useForm } from "react-hook-form";
 
 const initialState = {
   categoryId: "",
@@ -21,52 +23,6 @@ const initialState = {
   imageFile: "",
   step: 1,
 };
-
-const questions = [
-  {
-    id: 1,
-    question: "what is your name",
-    type: "custom",
-  },
-  {
-    id: 2,
-    question: "where are you from",
-    type: "selectOne",
-    answers: [
-      {
-        id: 1,
-        answer: "syria",
-      },
-      {
-        id: 2,
-        answer: "bla",
-      },
-      {
-        id: 3,
-        answer: "bla 2",
-      },
-    ],
-  },
-  {
-    id: 2,
-    question: "choose one or more from this services",
-    type: "selectMany",
-    answers: [
-      {
-        id: 1,
-        answer: "service1",
-      },
-      {
-        id: 2,
-        answer: "service2",
-      },
-      {
-        id: 3,
-        answer: "service3",
-      },
-    ],
-  },
-];
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -93,7 +49,12 @@ const StepComponent = ({
   state,
   goToNextStep,
   goToPrevStep,
+  getQuestionsById,
+  questions,
+  setQuestions,
   handleSubmitData,
+  register,
+  setValue,
 }) => {
   const {
     categories,
@@ -122,10 +83,13 @@ const StepComponent = ({
         >
           <StepOnePostDeal
             categories={categories}
+            getQuestionsById={getQuestionsById}
             handleDataChange={handleDataChange}
             setSelectedCategory={setSelectedCategory}
             state={state}
             goToNextStep={goToNextStep}
+            register={register}
+            setValue={setValue}
           />
           {/* <div className="my-14 flex items-center justify-center gap-8">
             {state.step !== 1 && (
@@ -171,13 +135,15 @@ const StepComponent = ({
             handleDataChange={handleDataChange}
             goToNextStep={goToNextStep}
             goToPrevStep={goToPrevStep}
+            getQuestionsById={getQuestionsById}
             state={state}
+            register={register}
+            setValue={setValue}
           />
         </motion.div>
       )}
-
       {/* Render questions dynamically for each step */}
-      {questions.map((question, index) => (
+      {questions?.map((question, index) => (
         <AnimatePresence key={`step${step}-question${index}`}>
           {step === index + 3 && (
             <motion.div
@@ -197,7 +163,7 @@ const StepComponent = ({
           )}
         </AnimatePresence>
       ))}
-      {step === questions.length + 3 && (
+      {step === questions?.length + 3 && (
         <motion.div
           className="absolute"
           key="step3"
@@ -216,7 +182,7 @@ const StepComponent = ({
           />
         </motion.div>
       )}
-      {step === questions.length + 4 && (
+      {step === questions?.length + 4 && (
         <motion.div
           className="absolute"
           key="step4"
@@ -233,7 +199,7 @@ const StepComponent = ({
           />
         </motion.div>
       )}
-      {step === questions.length + 5 && (
+      {step === questions?.length + 5 && (
         <motion.div
           className="absolute w-[80%]"
           key="step5"
@@ -257,9 +223,10 @@ const StepComponent = ({
 
 const PostDeal = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  const [questions, setQuestions] = useState([]);
+  const { register, handleSubmit, watch, setValue } = useForm();
   const islogin = localStorage.getItem("ACCESS_TOKEN");
-
+  console.log(watch());
   const goToNextStep = () => {
     dispatch({
       type: "EDIT_FIELD",
@@ -298,17 +265,41 @@ const PostDeal = () => {
     }
   };
 
+  const getQuestionsById = async (obj) => {
+    const res = await axiosClient.post("site/question/show", obj);
+    console.log(res.data);
+    if (res.data.success) {
+      setQuestions((prev) => {
+        if (prev && prev.length > 0) {
+          res.data.questions.map((ele, i) => {});
+        } else {
+          // If no questions in the state yet, simply add all the new questions
+          return [...res.data.questions];
+        }
+      });
+    }
+  };
+
+  console.log(questions);
+  const onSubmit = (data) => console.log(data);
   return (
     <div className="min-h-[300px] flex flex-col justify-between lg:px-20 md:px-12 px-6">
       <div className="py-12 h-auto w-full min-h-[550px]">
-        <StepComponent
-          handleDataChange={handleDataChange}
-          step={Number(state.step)}
-          state={state}
-          goToNextStep={goToNextStep}
-          goToPrevStep={goToPrevStep}
-          handleSubmitData={handleSubmitData}
-        />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <StepComponent
+            handleDataChange={handleDataChange}
+            register={register}
+            setValue={setValue}
+            step={Number(state.step)}
+            state={state}
+            goToNextStep={goToNextStep}
+            goToPrevStep={goToPrevStep}
+            handleSubmitData={handleSubmitData}
+            getQuestionsById={getQuestionsById}
+            questions={questions}
+            setQuestions={setQuestions}
+          />
+        </form>
       </div>
     </div>
   );

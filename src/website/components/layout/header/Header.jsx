@@ -67,7 +67,7 @@ const Header = () => {
             }
             Icon={<MdOutlineAccountCircle fontSize={25} color="black" />}
             title={user ? user.name : "account"}
-            textColor={"white"}
+            textColor={"black"}
             color={"flex-row-reverse"}
           />
         </div>

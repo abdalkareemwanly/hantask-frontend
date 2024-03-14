@@ -28,8 +28,8 @@ const EditFormData = ({
       <div className="mt-4">
         <Button
           isLink={false}
-          color={"bg-greenColor w-[40%]"}
-          title={"Saved Form"}
+          color={"bg-greenColor w-fit"}
+          title={"save edits"}
           onClickFun={() => submitForm()}
         />
       </div>
