@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const FormBody = ({ createFrom, formbuilder }) => {
+const FormBody = ({ createFrom, formbuilder, row }) => {
   const [formData, setFormData] = useState({
     type: "",
     content: "",
@@ -25,6 +25,7 @@ const FormBody = ({ createFrom, formbuilder }) => {
             <select
               id="type"
               name="type"
+              value={row.type}
               onChange={(ev) => createFrom("answer", { type: ev.target.value })}
               className="input-box w-[60%] bg-background-color"
             >
@@ -41,6 +42,7 @@ const FormBody = ({ createFrom, formbuilder }) => {
             <textarea
               id="content"
               name="content"
+              value={row.type}
               onChange={(ev) =>
                 createFrom("answer", { content: ev.target.value })
               }

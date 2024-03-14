@@ -1,8 +1,18 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
 import Button from "../../../../Components/Button";
 import TableData from "../../../../Components/TableData";
+import { useState } from "react";
+import EditFormData from "./EditFormData";
 
 const FormTableQuestions = ({ formbuilder, createFrom, data }) => {
+  const [showEditForm, setEditeForm] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
+
+  const editBtnFun = (row) => {
+    setEditeForm(true);
+    setSelectedRow(row);
+  };
+
   const columns = [
     {
       name: "Id",
@@ -57,6 +67,7 @@ const FormTableQuestions = ({ formbuilder, createFrom, data }) => {
             paginationBool={false}
             noDataMessage={"no questions to show!"}
           />
+          {showEditForm && <EditFormData formbuilder={formbuilder} row={selectedRow} />}
         </motion.div>
       )}
     </AnimatePresence>
