@@ -89,7 +89,6 @@ export default function Languages() {
     const id = toast.loading("please wait...");
     try {
       const res = await deleteMutation.mutateAsync(Id);
-      console.log(res);
       toast.update(id, {
         type: "success",
         render: res.data.mes,

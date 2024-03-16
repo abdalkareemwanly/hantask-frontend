@@ -18,9 +18,7 @@ export default function FormBuilder() {
     type: "",
     answer: [],
   });
-  console.log(formbuilder);
   const createFrom = (title, value) => {
-    console.log(value.answer);
     setFormBuilder(title);
     if (value.cat && selectedButton === "Category") {
       setForm({
@@ -94,7 +92,6 @@ export default function FormBuilder() {
           });
         }
       });
-    console.log(form);
   };
 
   return (

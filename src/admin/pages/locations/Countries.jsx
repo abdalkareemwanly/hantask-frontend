@@ -62,8 +62,6 @@ const Countries = () => {
     searchTerm,
   ]);
 
-  console.log(countries);
-
   const editBtnFun = (row) => {
     setIsModalOpen(true);
     setClickedRow(row);
@@ -151,7 +149,6 @@ const Countries = () => {
 
   const handleDownloadExcelFile = async () => {
     const res = await axiosClient.get("/admin/country/excel");
-    console.log(res);
     const excelUrl = "https://api.hantask.at/api" + res.data.url;
     const downloadLink = document.createElement("a");
     downloadLink.href = excelUrl;

@@ -48,7 +48,11 @@ export const AddPlan = ({ getUsers, setIsAddModalOpen }) => {
         title: "Status",
         name: "status",
         type: "select",
-        options: [{ name: "CREATED" }, { name: "INACTIVE" }, { name: 'ACTIVE' }],
+        options: [
+          { name: "CREATED" },
+          { name: "INACTIVE" },
+          { name: "ACTIVE" },
+        ],
         styles: "md:w-[45%]",
         optionValue: "name",
         optionText: "name",
@@ -78,7 +82,12 @@ export const AddPlan = ({ getUsers, setIsAddModalOpen }) => {
         title: "interval unit",
         name: "interval_unit",
         type: "select",
-        options: [{ name: "DAY" }, { name: "WEEK" }, { name: "MONTH" }, { name: "YEAR" }],
+        options: [
+          { name: "DAY" },
+          { name: "WEEK" },
+          { name: "MONTH" },
+          { name: "YEAR" },
+        ],
         styles: "md:w-[45%]",
         optionValue: "name",
         optionText: "name",
@@ -102,7 +111,7 @@ export const AddPlan = ({ getUsers, setIsAddModalOpen }) => {
         title: "currency code",
         name: "currency_code",
         type: "select",
-        options: [{ name: "USD" }, { name: "EUR" }, { name: "CAD"}],
+        options: [{ name: "USD" }, { name: "EUR" }, { name: "CAD" }],
         optionValue: "name",
         optionText: "name",
         styles: "md:w-[45%]",
@@ -127,38 +136,36 @@ export const AddPlan = ({ getUsers, setIsAddModalOpen }) => {
       billing_cycles: [
         {
           tenure_type: values.billing_cycles_type,
-          sequence: 1 ,
+          sequence: 1,
           total_cycles: parseInt(values.total_cycles),
           frequency: {
             interval_unit: values.interval_unit,
-            interval_count: parseInt(values.interval_count)
+            interval_count: parseInt(values.interval_count),
           },
           pricing_scheme: {
-            fixed_price:{
+            fixed_price: {
               value: values.value,
               currency_code: values.currency_code.toUpperCase(),
-            }
-          }
+            },
+          },
         },
       ],
       payment_preferences: {
         auto_bill_outstanding: true,
         setup_fee: {
           currency_code: values.currency_code.toUpperCase(),
-          value: values.value
+          value: values.value,
         },
         setup_fee_failure_action: values.setup_fee_failure_action,
-        payment_failure_threshold: 0
+        payment_failure_threshold: 0,
       },
       taxes: {
         inclusive: false,
-        percentage: parseFloat(values.taxes)
+        percentage: parseFloat(values.taxes),
       },
     };
 
-    console.log(productData);
     axiosClient.post("/admin/paypal/Plans/create", productData).then((data) => {
-      console.log(data.data);
       if (data.data.success == false) {
         toast.update(id, {
           type: "error",

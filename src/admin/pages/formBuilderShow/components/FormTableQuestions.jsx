@@ -1,16 +1,58 @@
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import Button from "../../../../Components/Button";
 import TableData from "../../../../Components/TableData";
-import { useState } from "react";
-import EditFormData from "./EditFormData";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import axiosClient from "../../../../axios-client";
 
-const FormTableQuestions = ({ formbuilder, createFrom, data }) => {
-  const [showEditForm, setEditeForm] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
+const FormTableQuestions = ({
+  formbuilder,
+  createFrom,
+  data,
+  setEditModal,
+  setEditQuestionSelected,
+}) => {
+  const deleteFun = async (id) => {
+    const toastId = toast.loading("deleting..");
+    try {
+      const category = await axiosClient.delete(`/admin/question/delete/${id}`);
+      toast.update(toastId, {
+        type: "success",
+        render: category.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    } catch (error) {
+      toast.update(toastId, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
+  };
 
-  const editBtnFun = (row) => {
-    setEditeForm(true);
-    setSelectedRow(row);
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      theme: "dark",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteFun(id);
+      }
+    });
   };
 
   const columns = [
@@ -33,13 +75,16 @@ const FormTableQuestions = ({ formbuilder, createFrom, data }) => {
               isLink={false}
               color={"bg-orangeColor"}
               title={"edit"}
-              onClickFun={() => editBtnFun(row)}
+              onClickFun={() => {
+                setEditQuestionSelected(row);
+                setEditModal((prev) => !prev);
+              }}
             />
             <Button
               isLink={false}
               color={"bg-blueColor"}
               title={"delete"}
-              onClickFun={() => handleChangeStatus(row.id)}
+              onClickFun={() => handleDelete(row.id)}
             />
           </div>
         );
@@ -67,7 +112,7 @@ const FormTableQuestions = ({ formbuilder, createFrom, data }) => {
             paginationBool={false}
             noDataMessage={"no questions to show!"}
           />
-          {showEditForm && <EditFormData formbuilder={formbuilder} row={selectedRow} />}
+          {/* {showEditForm && <EditFormData formbuilder={formbuilder} row={selectedRow} />} */}
         </motion.div>
       )}
     </AnimatePresence>

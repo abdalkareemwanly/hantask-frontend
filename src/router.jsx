@@ -389,6 +389,10 @@ const router = createBrowserRouter([
           },
         ],
       },
+      // {
+      //   path: "chatInbox",
+      //   element: <Custom />,
+      // },
       {
         path: "orders",
         element: <Orders />,

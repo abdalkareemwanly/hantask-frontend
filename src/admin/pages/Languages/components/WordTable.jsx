@@ -15,14 +15,12 @@ export default function WordTable({ language, slug, newMessage }) {
   };
 
   const handleSaveLanguage = () => {
-    console.log(translations);
     axiosClient
       .post(`/admin/translation/update/${slug}`, translations)
       .then(() => {
         toast.success("changed successfully");
       })
       .catch((err) => {
-        console.log(err);
         toast.error("changed failed");
       });
   };

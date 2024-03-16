@@ -6,25 +6,21 @@ export const StepOnePostDeal = ({
   state,
   setSelectedCategory,
   goToNextStep,
+  getQuestionsById,
+  register,
+  setValue,
 }) => {
-  const [isError, setIsError] = useState(false);
   const handleChange = (e) => {
+    getQuestionsById({
+      category_id: e.target.value,
+      subcategory_id: null,
+      child_category_id: null,
+    });
     setSelectedCategory({ id: e.target.value });
-    if (e.target.value.length === 0) {
-      setIsError(true);
-    } else {
-      setIsError(false);
-    }
     handleDataChange("categoryId", e.target.value);
+    setValue("category_id", e.target.value);
   };
-  const check = () => {
-    if (state?.categoryId.length === 0) {
-      setIsError(true);
-    } else {
-      goToNextStep();
-      setIsError(false);
-    }
-  };
+
   return (
     <div className="max-w-[620px] flex flex-col gap-4">
       <h2 className="text-2xl font-bold">What would you like to have done?</h2>
@@ -33,8 +29,8 @@ export const StepOnePostDeal = ({
         professional handymans.
       </p>
       <select
-        value={state?.categoryId}
         onChange={handleChange}
+        name="category_id" // Ensure the name attribute matches the registered field name
         className="bg-gray-200 rounded-md px-2 py-4 border-none outline-none"
       >
         <option value={""}>choose a category first</option>
@@ -45,15 +41,14 @@ export const StepOnePostDeal = ({
             </option>
           ))}
       </select>
-      <span>{isError && "this field required"}</span>
+      {/* <span>{isError && "this field required"}</span> */}
       <div>
-        <button
+        <div
           className="bg-greenColor text-white  p-2 rounded-lg"
-          onClick={check}
-          disabled={isError}
+          onClick={goToNextStep}
         >
           next
-        </button>
+        </div>
       </div>
     </div>
   );

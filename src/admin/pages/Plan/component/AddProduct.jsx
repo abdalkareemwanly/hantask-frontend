@@ -3,7 +3,7 @@ import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
 import { useState } from "react";
 
-export const AddProduct = ({  category, setIsAddModalOpen }) => {
+export const AddProduct = ({ category, setIsAddModalOpen }) => {
   const [image, setImage] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -47,8 +47,8 @@ export const AddProduct = ({  category, setIsAddModalOpen }) => {
           text,
         })),
         styles: "md:w-[45%]",
-        optionValue: 'value',
-        optionText: 'text',
+        optionValue: "value",
+        optionText: "text",
       },
       {
         title: "image_url",
@@ -76,33 +76,34 @@ export const AddProduct = ({  category, setIsAddModalOpen }) => {
     Object.entries(product).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    axiosClient.post("/admin/paypal/products/create", formData).then((response) => {
-      console.log(response.data);
-      setLoading(false);
-      if (response.data.success === false) {
-        toast.update(id, {
-          type: "error",
-          render: response.data.message,
-          closeOnClick: true,
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
-      } else {
-        // getProduct();
-        setIsAddModalOpen((prev) => !prev);
-        toast.update(id, {
-          type: "success",
-          render: response.data.mes,
-          closeOnClick: true,
-          isLoading: false,
-          autoClose: true,
-          closeButton: true,
-          pauseOnHover: false,
-        });
-      }
-    });
+    axiosClient
+      .post("/admin/paypal/products/create", formData)
+      .then((response) => {
+        setLoading(false);
+        if (response.data.success === false) {
+          toast.update(id, {
+            type: "error",
+            render: response.data.message,
+            closeOnClick: true,
+            isLoading: false,
+            autoClose: true,
+            closeButton: true,
+            pauseOnHover: false,
+          });
+        } else {
+          // getProduct();
+          setIsAddModalOpen((prev) => !prev);
+          toast.update(id, {
+            type: "success",
+            render: response.data.mes,
+            closeOnClick: true,
+            isLoading: false,
+            autoClose: true,
+            closeButton: true,
+            pauseOnHover: false,
+          });
+        }
+      });
   };
 
   const validate = (watchValues) => {
