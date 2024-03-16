@@ -10,6 +10,8 @@ import { useStateContext } from "../../../contexts/ContextsProvider";
 import { TbLayoutBottombarCollapseFilled } from "react-icons/tb";
 import { TbLayoutNavbarCollapseFilled } from "react-icons/tb";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
+import { toast } from "react-toastify";
+import Pusher from "pusher-js";
 
 const getContactsFunc = async () => {
   const res = await axiosClient.get(`seller/getContact`);
@@ -39,6 +41,7 @@ const ServiceProviderChat = ({ selectedUserFromOther }) => {
     ["userContacts"],
     () => getContactsFunc()
   );
+
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [collapseUsers, setCollapseUsers] = useState(false);
   useEffect(() => {
@@ -63,7 +66,37 @@ const ServiceProviderChat = ({ selectedUserFromOther }) => {
     };
   }, []);
 
-  console.log(collapseUsers);
+  useEffect(() => {
+    let pusher, channel;
+
+    if (selectedUser) {
+      pusher = new Pusher("a19565747705d7f226db", {
+        cluster: "eu",
+        encrypted: true,
+      });
+
+      console.log(selectedUser);
+
+      channel = pusher.subscribe("hantask." + user?.id);
+
+      channel
+        .bind("hantask.chat", function (data) {
+          console.log("Received message:", data);
+          refetch();
+        })
+        .bind("pusher:subscription_error", function (status) {
+          console.error("Subscription error:", status);
+        })
+        .bind("pusher:subscription_succeeded", function () {
+          console.log("Subscription succeeded");
+        });
+    }
+    return () => {
+      channel?.unbind();
+      pusher?.unsubscribe();
+      pusher?.disconnect();
+    };
+  }, [selectedUser]);
 
   return isLoadingContacts ? (
     <Loader />

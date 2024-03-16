@@ -42,7 +42,8 @@ export default function FormAnswer({ formbuilder, createFrom }) {
       }
       return answer;
     });
-    createFrom("answer", { answer: newAnswers });
+    setAnswers(newAnswers);
+    createFrom("answer", { answer: answers });
   };
 
   return formbuilder === "answer" ? (

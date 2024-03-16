@@ -26,7 +26,6 @@ const ChatFooter = ({ refetch, selectedUser }) => {
       file: selectedFile,
     }));
   };
-  console.log(data);
   const sendMessage = async () => {
     const formData = new FormData();
     formData.append("message", data.message);

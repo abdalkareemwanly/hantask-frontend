@@ -172,12 +172,6 @@ export const GlobalDataProvider = ({ children }) => {
       placeholder: "input what are you looking for",
     },
   };
-  console.log(
-    subCategories,
-    childCategories,
-    filteredSubCategories,
-    filteredChildCategories
-  );
   return (
     <GlobalDataContext.Provider
       value={{

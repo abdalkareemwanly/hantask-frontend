@@ -29,15 +29,12 @@ export const ContextProvider = ({ children }) => {
       encrypted: true,
     });
     console.log(pusher);
+
     const channel = pusher.subscribe("hantask");
-    setPusherChannel(channel);
     channel.bind("App\\Events\\PusherNotification", function (data) {
       console.log(data);
       toast.info(data?.message, {
         autoClose: false,
-        onClick: () => {
-          console.log(data);
-        },
       });
     });
 

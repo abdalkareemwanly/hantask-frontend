@@ -15,23 +15,23 @@ const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <ToastContainer
+      position="bottom-right"
+      autoClose={2500}
+      hideProgressBar={false}
+      newestOnTop={true}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover={false}
+    />
     <ContextProvider>
       <GlobalDataProvider>
         <TWThemeProvider>
           <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
             <ReactQueryDevtools initialIsOpen={false} />
-            <ToastContainer
-              position="bottom-right"
-              autoClose={2500}
-              hideProgressBar={false}
-              newestOnTop={true}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover={false}
-            />
           </QueryClientProvider>
         </TWThemeProvider>
       </GlobalDataProvider>

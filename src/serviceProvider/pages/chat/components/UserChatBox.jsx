@@ -1,6 +1,4 @@
 const UserChatBox = ({ setSelectedUsers, selectedUser, userContacts }) => {
-  console.log(selectedUser);
-
   return userContacts.map((ele, index) => {
     const isSelected = selectedUser?.user_id === ele?.user_id;
 
@@ -14,7 +12,7 @@ const UserChatBox = ({ setSelectedUsers, selectedUser, userContacts }) => {
       >
         <img
           className="w-[50px] h-[50px] rounded-[50%] block object-cover object-center"
-          src="/public/1.jpg"
+          src={import.meta.env.VITE_WEBSITE_URL + ele.user_image}
         />
         <div className="flex-1 h-full rounded-md flex gap-3 items-center justify-between">
           <div>
