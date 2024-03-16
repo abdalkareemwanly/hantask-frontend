@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
 import Button from "../../../../Components/Button";
 import TableData from "../../../../Components/TableData";
 import Swal from "sweetalert2";
@@ -112,6 +112,9 @@ const FormTableQuestions = ({
             paginationBool={false}
             noDataMessage={"no questions to show!"}
           />
+          {showEditForm && (
+            <EditFormData formbuilder={formbuilder} row={selectedRow} />
+          )}
         </motion.div>
       )}
     </AnimatePresence>
