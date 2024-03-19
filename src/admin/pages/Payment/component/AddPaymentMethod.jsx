@@ -99,20 +99,14 @@ export const AddPaymentMethod = ({ getPaymentMethod, setIsAddModalOpen }) => {
 
       const paymentMethodData = {
         name: values.name,
-        mode: values.mode,
-        sandbox_client_id: values.sandboxClientId,
-        sandbox_client_secret: values.sandboxClientSecret,
-        // live_client_id: values.liveClientId,
-        // live_client_secret: values.liveClientSecret,
-        // live_app_id: values.liveAppId,
+        client_id: values.ClientId,
+        client_secret: values.ClientSecret,
         payment_action: values.paymentAction,
         currency: values.currency,
-        notify_url: values.notifyUrl,
         locale: values.locale,
-        validate_ssl: values.validateSSL
       };
 
-      const { data } = await axiosClient.post("/paymentMethod", paymentMethodData);
+      const { data } = await axiosClient.post("admin/paymentMethod/create-payment", paymentMethodData);
 
       if (data.success) {
         toast.success(data.mes);

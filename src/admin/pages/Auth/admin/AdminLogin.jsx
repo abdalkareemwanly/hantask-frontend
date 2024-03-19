@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../../Components/Logo";
 import { useStateContext } from "../../../../contexts/ContextsProvider";
 import ReusableForm from "../../../../Components/ReusableForm";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosClient from "../../../../axios-client";
 const getSideBar = () => {
@@ -93,17 +93,6 @@ export default function AdminLogin() {
 
   return (
     <div className="flex flex-col bg-background-color justify-center items-center h-screen">
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        theme={mode}
-      />
       {/* {message != "" && (
         <div className="w-[100%] h-full bg-[gray] absolute bg-opacity-60 flex justify-center items-start">
           <div className="bg-background-color py-3  shadow-lg shadow-[gray] w-4/12 opacity-100 mt-10">

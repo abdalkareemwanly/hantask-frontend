@@ -112,9 +112,7 @@ const FormTableQuestions = ({
             paginationBool={false}
             noDataMessage={"no questions to show!"}
           />
-          {showEditForm && (
-            <EditFormData formbuilder={formbuilder} row={selectedRow} />
-          )}
+          {/* {showEditForm && <EditFormData formbuilder={formbuilder} row={selectedRow} />} */}
         </motion.div>
       )}
     </AnimatePresence>

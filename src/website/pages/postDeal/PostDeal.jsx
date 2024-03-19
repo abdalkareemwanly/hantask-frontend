@@ -9,6 +9,8 @@ import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
 import QuestionComponent from "./components/QuestionComponent";
 import axiosClient from "../../../axios-client";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const initialState = {
   categoryId: "",
@@ -52,6 +54,7 @@ const StepComponent = ({
   getQuestionsById,
   questions,
   setQuestions,
+  watch,
   handleSubmitData,
   register,
   setValue,
@@ -75,7 +78,7 @@ const StepComponent = ({
       {step === 1 && (
         <motion.div
           key="step1"
-          className="absolute"
+          className="absolute h-full"
           initial={{ opacity: 0, x: "110%" }}
           animate={{ opacity: 1, x: "0" }}
           exit={{ opacity: 0, x: "-110%" }}
@@ -87,41 +90,16 @@ const StepComponent = ({
             handleDataChange={handleDataChange}
             setSelectedCategory={setSelectedCategory}
             state={state}
+            watch={watch}
             goToNextStep={goToNextStep}
             register={register}
             setValue={setValue}
           />
-          {/* <div className="my-14 flex items-center justify-center gap-8">
-            {state.step !== 1 && (
-              <button
-                className="bg-orangeColor text-white  p-2 rounded-lg"
-                onClick={goToPrevStep}
-              >
-                Previous
-              </button>
-            )}
-            {state.step !== questions.length + 5 && (
-              <button
-                className="bg-greenColor text-white  p-2 rounded-lg"
-                onClick={goToNextStep}
-              >
-                Next
-              </button>
-            )}
-            {state.step === 5 && (
-              <button
-                className="bg-greenColor text-white  p-2 rounded-lg"
-                onClick={handleSubmitData}
-              >
-                finish
-              </button>
-            )}
-          </div> */}
         </motion.div>
       )}
       {step === 2 && (
         <motion.div
-          className="absolute"
+          className="absolute h-full"
           key="step2"
           initial={{ opacity: 0, x: "110%" }}
           animate={{ opacity: 1, x: "0" }}
@@ -137,6 +115,7 @@ const StepComponent = ({
             goToPrevStep={goToPrevStep}
             getQuestionsById={getQuestionsById}
             state={state}
+            watch={watch}
             register={register}
             setValue={setValue}
           />
@@ -147,7 +126,7 @@ const StepComponent = ({
         <AnimatePresence key={`step${step}-question${index}`}>
           {step === index + 3 && (
             <motion.div
-              className="absolute"
+              className="absolute h-full"
               key={`step${step}-question${index}`}
               initial={{ opacity: 0, x: "110%" }}
               animate={{ opacity: 1, x: "0" }}
@@ -156,6 +135,9 @@ const StepComponent = ({
             >
               <QuestionComponent
                 question={question}
+                register={register}
+                setValue={setValue}
+                watch={watch}
                 goToNextStep={goToNextStep}
                 goToPrevStep={goToPrevStep}
               />
@@ -165,7 +147,7 @@ const StepComponent = ({
       ))}
       {step === questions?.length + 3 && (
         <motion.div
-          className="absolute"
+          className="absolute h-full"
           key="step3"
           initial={{ opacity: 0, x: "110%" }}
           animate={{ opacity: 1, x: "0" }}
@@ -179,12 +161,15 @@ const StepComponent = ({
             state={state}
             goToNextStep={goToNextStep}
             goToPrevStep={goToPrevStep}
+            watch={watch}
+            register={register}
+            setValue={setValue}
           />
         </motion.div>
       )}
       {step === questions?.length + 4 && (
         <motion.div
-          className="absolute"
+          className="absolute h-full"
           key="step4"
           initial={{ opacity: 0, x: "110%" }}
           animate={{ opacity: 1, x: "0" }}
@@ -196,12 +181,15 @@ const StepComponent = ({
             goToPrevStep={goToPrevStep}
             handleDataChange={handleDataChange}
             state={state}
+            watch={watch}
+            register={register}
+            setValue={setValue}
           />
         </motion.div>
       )}
       {step === questions?.length + 5 && (
         <motion.div
-          className="absolute w-[80%]"
+          className="absolute h-full w-[80%]"
           key="step5"
           initial={{ opacity: 0, x: "110%" }}
           animate={{ opacity: 1, x: "0" }}
@@ -214,6 +202,9 @@ const StepComponent = ({
             handleDataChange={handleDataChange}
             handleSubmitData={handleSubmitData}
             state={state}
+            watch={watch}
+            register={register}
+            setValue={setValue}
           />
         </motion.div>
       )}
@@ -223,9 +214,27 @@ const StepComponent = ({
 
 const PostDeal = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const nav = useNavigate();
   const [questions, setQuestions] = useState([]);
+  const [catQuestions, setCatQuestions] = useState([]);
+  const [subQuestions, setSubQuestions] = useState([]);
+  const [childQuestions, setChildQuestions] = useState([]);
   const { register, handleSubmit, watch, setValue } = useForm();
   const islogin = localStorage.getItem("ACCESS_TOKEN");
+  const isBuyer =
+    JSON.parse(localStorage.getItem("USER"))?.user_type === "buyer";
+  useEffect(() => {
+    if (!islogin) {
+      toast.info("login first to access the page");
+      setTimeout(() => {
+        nav("/login");
+      }, 300);
+    } else {
+      if (!isBuyer) {
+        toast.info("this page is only designed for homeowners");
+      }
+    }
+  }, [islogin, isBuyer, nav]);
   console.log(watch());
   const goToNextStep = () => {
     dispatch({
@@ -265,33 +274,36 @@ const PostDeal = () => {
     }
   };
 
+  useEffect(() => {
+    setQuestions([...catQuestions, ...subQuestions, ...childQuestions]);
+  }, [catQuestions, subQuestions, childQuestions]);
+
   const getQuestionsById = async (obj) => {
     const res = await axiosClient.post("site/question/show", obj);
     console.log(res.data);
     if (res.data.success) {
-      setQuestions((prev) => {
-        if (prev && prev.length > 0) {
-          res.data.questions.map((ele, i) => {});
-        } else {
-          // If no questions in the state yet, simply add all the new questions
-          return [...res.data.questions];
-        }
-      });
+      if (obj.category_id !== null) {
+        setCatQuestions(res.data.questions);
+      } else if (obj.subcategory_id !== null) {
+        setSubQuestions(res.data.questions);
+      } else if (obj.cahild_category_id !== null) {
+        setChildQuestions(res.data.questions);
+      }
     }
   };
 
-  console.log(questions);
   const onSubmit = (data) => console.log(data);
-  return (
-    <div className="min-h-[300px] flex flex-col justify-between lg:px-20 md:px-12 px-6">
-      <div className="py-12 h-auto w-full min-h-[550px]">
-        <form onSubmit={handleSubmit(onSubmit)}>
+  return isBuyer ? (
+    <div className="min-h-[700px] flex flex-col justify-between lg:px-20 md:px-12 px-6">
+      <div className="py-12 h-auto w-full min-h-[700px]">
+        <form className="h-full" onSubmit={handleSubmit(onSubmit)}>
           <StepComponent
             handleDataChange={handleDataChange}
             register={register}
             setValue={setValue}
             step={Number(state.step)}
             state={state}
+            watch={watch}
             goToNextStep={goToNextStep}
             goToPrevStep={goToPrevStep}
             handleSubmitData={handleSubmitData}
@@ -302,7 +314,7 @@ const PostDeal = () => {
         </form>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default PostDeal;

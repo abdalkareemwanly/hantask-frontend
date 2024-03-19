@@ -75,13 +75,11 @@ const ServiceProviderChat = ({ selectedUserFromOther }) => {
         encrypted: true,
       });
 
-      console.log(selectedUser);
 
       channel = pusher.subscribe("hantask." + user?.id);
 
       channel
         .bind("hantask.chat", function (data) {
-          console.log("Received message:", data);
           refetch();
         })
         .bind("pusher:subscription_error", function (status) {

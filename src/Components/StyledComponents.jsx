@@ -9,7 +9,7 @@ export const DataTableStyled = styled(DataTable)`
   }
   margin: 0 0;
   & .rdt_Table {
-    width: 100%;
+    min-width: 100%;
     background-color: ${(props) =>
       props.$mode === "dark" ? "rgb(50, 50, 60)" : "#fff"};
     color: var(--primary-text);

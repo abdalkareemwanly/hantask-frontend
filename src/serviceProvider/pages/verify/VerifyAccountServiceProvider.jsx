@@ -16,21 +16,20 @@ const VerifyAccountServiceProvider = () => {
   useEffect(() => {
     const getData = async () => {
       const check = await axiosClient.get("/seller/profileVerify/check");
-      setIsVerefied(check.data.data);
+      setIsVerefied(check.data.data?.status);
 
       console.log(check);
 
-      if (check.data.data === false) {
+      if (check.data.data.status == 3) {
         const res = await axiosClient.get("seller/profileVerify");
         setProfileInfo(res.data);
         console.log(res.data);
         setIsLoading(false);
       } else {
         setIsLoading(false);
-        return;
       }
     };
-    !profileInfo && getData();
+    getData();
   }, [profileInfo, isLoading]);
 
   useEffect(() => {
@@ -39,7 +38,7 @@ const VerifyAccountServiceProvider = () => {
       setdataManyEmployeess(profileInfo?.dataManyEmployeess);
     }
   }, [profileInfo]);
-  console.log(dataProfessionalStatus);
+
   let template = {
     title: "",
     fields: [
@@ -141,7 +140,6 @@ const VerifyAccountServiceProvider = () => {
 
     const res = await axiosClient.post(`/seller/profileVerify/store`, formData);
     setIsLoading(true);
-    console.log(res);
   };
 
   const validate = () => {
@@ -149,11 +147,17 @@ const VerifyAccountServiceProvider = () => {
   };
 
   if (isLoading) return <Loader />;
+  console.log(isVerefied);
   return (
     <Page>
       <PageTitle text={"verify account page"} />
       <div className="my-4">
-        {!isVerefied ? (
+        {isVerefied == 0 ? (
+          <div className="bg-orangeColor p-4 text-white flex items-center gap-2 rounded-xl">
+            <MdVerified size={30} />
+            your profile is pending verification
+          </div>
+        ) : isVerefied == 3 ? (
           <ReusableForm
             template={template}
             onSubmit={onSubmit}
@@ -162,10 +166,15 @@ const VerifyAccountServiceProvider = () => {
             btnText={"verify"}
             addedStyles={"md:w-[400px] lg:w-[100%]"}
           />
-        ) : (
+        ) : isVerefied == 2 ? (
           <div className="bg-greenColor p-4 text-white flex items-center gap-2 rounded-xl">
             <MdVerified size={30} />
             your profile is verefied
+          </div>
+        ) : (
+          <div className="bg-redColor p-4 text-white flex items-center gap-2 rounded-xl">
+            <MdVerified size={30} />
+            your profile is not verified
           </div>
         )}
       </div>

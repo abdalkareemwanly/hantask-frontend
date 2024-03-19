@@ -9,6 +9,7 @@ export const StepOnePostDeal = ({
   getQuestionsById,
   register,
   setValue,
+  watch,
 }) => {
   const handleChange = (e) => {
     getQuestionsById({
@@ -30,8 +31,9 @@ export const StepOnePostDeal = ({
       </p>
       <select
         onChange={handleChange}
+        value={watch("category_id")}
         name="category_id" // Ensure the name attribute matches the registered field name
-        className="bg-gray-200 rounded-md px-2 py-4 border-none outline-none"
+        className="input-box w-full"
       >
         <option value={""}>choose a category first</option>
         {categories &&
@@ -42,9 +44,9 @@ export const StepOnePostDeal = ({
           ))}
       </select>
       {/* <span>{isError && "this field required"}</span> */}
-      <div>
+      <div className="flex">
         <div
-          className="bg-greenColor text-white  p-2 rounded-lg"
+          className="bg-greenColor text-white  p-2 rounded-lg cursor-pointer"
           onClick={goToNextStep}
         >
           next

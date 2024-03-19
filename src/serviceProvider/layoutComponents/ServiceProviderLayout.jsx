@@ -8,7 +8,6 @@ import {
 } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import ServiceProviderSidebar from "./ServiceProviderSidebar";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTWThemeContext } from "../../admin/Components/ThemeProvider";
 import { useStateContext } from "../../contexts/ContextsProvider";

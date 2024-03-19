@@ -4,7 +4,6 @@ export const StepTwoPostDeal = ({
   subCategories,
   childCategories,
   handleDataChange,
-  state,
   goToNextStep,
   goToPrevStep,
   setSelectedSubCategory,
@@ -44,7 +43,7 @@ export const StepTwoPostDeal = ({
           setSelectedSubCategory({ id: e.target.value });
           handleChange(e);
         }}
-        className="bg-gray-200 rounded-md px-2 py-4 border-none outline-none"
+        className="input-box w-full"
       >
         <option value="">choose a sub category </option>
         {subCategories &&
@@ -59,7 +58,7 @@ export const StepTwoPostDeal = ({
       <select
         name="child_category_id"
         onChange={handleChange}
-        className="bg-gray-200 rounded-md px-2 py-4 border-none outline-none"
+        className="input-box w-full"
       >
         <option value="">choose a child category </option>
         {childCategories &&
@@ -71,7 +70,7 @@ export const StepTwoPostDeal = ({
       </select>
       {/* <span>{errors?.childCategoryId && "this field required"}</span> */}
 
-      <div>
+      <div className="flex gap-2">
         <button
           className="bg-orangeColor text-white  p-2 rounded-lg"
           onClick={goToPrevStep}

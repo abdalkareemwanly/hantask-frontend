@@ -3,23 +3,20 @@ import ReusableForm from "../../../../Components/ReusableForm";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
 import axiosClient from "../../../../axios-client";
 const postData = async (data) => {
-  const res = await axiosClient.get(
-    `/buyer/acceptedComment/changeWorkStatusMethod/${data.id}?workStatus=${data.workStatus}`
+  const res = await axiosClient.post(
+    `/admin/verifySeller/changeStatusMethod/${data.id}`,
+    { status: data.workStatus }
   );
   return res;
 };
 const workStatusArray = [
   {
+    id: 1,
+    title: "not verified",
+  },
+  {
     id: 2,
-    title: "in progress",
-  },
-  {
-    id: 3,
-    title: "completed",
-  },
-  {
-    id: 4,
-    title: "canceled",
+    title: "verified",
   },
 ];
 
@@ -30,7 +27,7 @@ const ChangeStatus = ({ data, setIsModalOpen }) => {
       {
         title: "change work status",
         name: "status",
-        value: Number(data.work_status),
+        value: Number(data.status),
         options: [...workStatusArray],
         optionText: "title",
         optionValue: "id",
@@ -39,7 +36,10 @@ const ChangeStatus = ({ data, setIsModalOpen }) => {
     ],
   };
 
-  const changeStatusMutation = useMutationHook(postData, ["acceptedOrders"]);
+  const changeStatusMutation = useMutationHook(postData, [
+    "serviceProviderVerify",
+  ]);
+
   const onSubmit = async (values) => {
     const toastId = toast.loading("loading...");
     const workStatus = values.status;
@@ -51,7 +51,7 @@ const ChangeStatus = ({ data, setIsModalOpen }) => {
       setIsModalOpen((prev) => !prev);
       toast.update(toastId, {
         type: "success",
-        render: user.mes,
+        render: user.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

@@ -9,7 +9,6 @@ const EditFormData = ({
   editQuestionSelected,
   setEditQuestionSelected,
 }) => {
-  console.log(editQuestionSelected);
   return (
     <div className="w-[700px]">
       <h2 className="text-2xl font-semibold">form builder editor</h2>

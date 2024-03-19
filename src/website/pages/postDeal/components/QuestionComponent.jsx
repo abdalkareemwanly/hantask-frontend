@@ -1,35 +1,66 @@
-const QuestionComponent = ({ question, goToPrevStep, goToNextStep }) => {
+const QuestionComponent = ({
+  question,
+  goToPrevStep,
+  goToNextStep,
+  setValue,
+  watch,
+}) => {
   const renderQuestionType = () => {
     switch (question.type) {
-      case "custom":
+      case "write":
         return (
-          <input
-            className="input-box w-full"
-            type="text"
-            placeholder={question.question}
-          />
+          <div className="flex flex-col gap-2 mb-4 min-w-[400px]">
+            <label htmlFor={question.content}> {question.content}</label>
+            <input
+              name={question.content}
+              className="input-box w-full"
+              id={question.content}
+              type="text"
+              value={watch(question.content) ? watch(question.content) : ""}
+              onChange={(e) => setValue(question.content, e.target.value)}
+              placeholder={question.content}
+            />
+          </div>
         );
-      case "selectOne":
+      case "singlechoisdrop":
         return (
-          <div>
-            <select className="input-box w-full">
+          <div className="flex flex-col gap-2 mb-4 min-w-[400px]">
+            <label htmlFor={question.content}> {question.content}</label>
+
+            <select
+              name={question.content}
+              id={question.content}
+              onChange={(e) => setValue(question.content, e.target.value)}
+              value={watch(question.content) ? watch(question.content) : ""}
+              className="input-box w-full"
+            >
               {question.answers.map((answer) => (
                 <option key={answer.id} value={answer.id}>
-                  {answer.answer}
+                  {answer.answer_content}
                 </option>
               ))}
             </select>
           </div>
         );
-      case "selectMany":
+      case "multiplechoise":
         return (
-          <div>
-            <p>{question.question}</p>
-            {question.answers.map((answer) => (
-              <label key={answer.id}>
-                <input type="checkbox" value={answer.id} /> {answer.answer}
-              </label>
-            ))}
+          <div className="flex flex-col gap-2 mb-4 min-w-[400px]">
+            <label htmlFor={question.content}> {question.content}</label>
+
+            <select
+              name={question.content}
+              id={question.content}
+              onChange={(e) => setValue(question.content, e.target.value)}
+              value={watch(question.content) ? watch(question.content) : ""}
+              className="input-box w-full"
+              multiple
+            >
+              {question.answers.map((answer) => (
+                <option key={answer.id} value={answer.id}>
+                  {answer.answer_content}
+                </option>
+              ))}
+            </select>
           </div>
         );
       default:
@@ -39,9 +70,10 @@ const QuestionComponent = ({ question, goToPrevStep, goToNextStep }) => {
 
   return (
     <div className="question max-w-[620px] flex flex-col gap-4">
+      <h1 className="text-3xl font-bold">answer the questions given below</h1>
       <h3 className="text-2xl font-bold">{question.question}</h3>
       {renderQuestionType()}
-      <div>
+      <div className="flex gap-2 ">
         <button
           className="bg-orangeColor text-white  p-2 rounded-lg"
           onClick={goToPrevStep}

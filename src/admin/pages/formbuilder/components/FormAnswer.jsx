@@ -43,7 +43,7 @@ export default function FormAnswer({ formbuilder, createFrom }) {
       return answer;
     });
     setAnswers(newAnswers);
-    createFrom("answer", { answer: answers });
+    createFrom("answer", { answer: newAnswers });
   };
 
   return formbuilder === "answer" ? (
@@ -69,7 +69,7 @@ export default function FormAnswer({ formbuilder, createFrom }) {
                       placeholder="Option"
                       name={`content`}
                       onChange={(ev) => handleAnswerChange(index, ev)}
-                      value={answer.value}
+                      value={answer.content}
                     />
                     <button
                       type="button"

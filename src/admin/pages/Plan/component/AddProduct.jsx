@@ -107,7 +107,7 @@ export const AddProduct = ({ category, setIsAddModalOpen }) => {
   };
 
   const validate = (watchValues) => {
-    console.log(watchValues);
+    // console.log(watchValues);
   };
 
   return (
