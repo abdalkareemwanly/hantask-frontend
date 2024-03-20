@@ -77,6 +77,7 @@ import PaymentMethod from "./admin/pages/Payment/PaymentMethod";
 import CreatePlan from "./admin/pages/Plan/PaypalPlan";
 import FormBuilderShow from "./admin/pages/formBuilderShow/FormBuilderShow";
 import ServiceProvidersVerify from "./admin/pages/serviceProviderVerify/ServiceProvidersVerify";
+import ContactSetting from "./admin/pages/general_setting/ContactSetting";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -132,6 +133,7 @@ const router = createBrowserRouter([
       { path: "posts", element: <Posts /> },
       { path: "subscriptions", element: <Subscriptions /> },
       { path: "coupons", element: <Coupons /> },
+      { path: "contact", element: <ContactSetting />},
       {
         path: "chat",
         children: [
