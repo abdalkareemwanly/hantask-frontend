@@ -1,8 +1,10 @@
 export const StepThreePostDeal = ({
   countries,
   cities,
-  handleDataChange,
-  state,
+  watch,
+  setValue,
+  goToNextStep,
+  goToPrevStep,
 }) => {
   return (
     <div className="max-w-[620px] flex flex-col gap-4">
@@ -14,9 +16,10 @@ export const StepThreePostDeal = ({
         done
       </p>
       <select
-        value={state.countryId}
-        onChange={(e) => handleDataChange("countryId", e.target.value)}
-        className="bg-gray-200 rounded-md px-2 py-4 border-none outline-none"
+        name="country_id"
+        onChange={(e) => setValue("country_id", e.target.value)}
+        value={watch("country_id")}
+        className="input-box w-full"
       >
         <option>choose a country first </option>
         {countries &&
@@ -27,9 +30,10 @@ export const StepThreePostDeal = ({
           ))}
       </select>
       <select
-        value={state.cityid}
-        onChange={(e) => handleDataChange("cityid", e.target.value)}
-        className="bg-gray-200 rounded-md px-2 py-4 border-none outline-none"
+        name="city_id"
+        onChange={(e) => setValue("city_id", e.target.value)}
+        value={watch("city_id")}
+        className="input-box w-full"
       >
         <option>choose a city </option>
         {cities &&
@@ -39,6 +43,20 @@ export const StepThreePostDeal = ({
             </option>
           ))}
       </select>
+      <div className="flex gap-2">
+        <button
+          className="bg-orangeColor text-white  p-2 rounded-lg"
+          onClick={goToPrevStep}
+        >
+          Previous
+        </button>
+        <button
+          className="bg-greenColor text-white  p-2 rounded-lg"
+          onClick={goToNextStep}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import ServiceProviderSidebar from "./CustomerSidebar";
 // import { document } from "postcss";
 import axiosClient from "../../axios-client";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTWThemeContext } from "../../admin/Components/ThemeProvider";
 import { useStateContext } from "../../contexts/ContextsProvider";

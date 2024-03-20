@@ -42,7 +42,7 @@ export default function FormAnswer({ formbuilder, createFrom }) {
       }
       return answer;
     });
-    setAnswers(newAnswers); 
+    setAnswers(newAnswers);
     createFrom("answer", { answer: newAnswers });
   };
 

@@ -73,11 +73,10 @@ export const GlobalDataProvider = ({ children }) => {
   useEffect(() => {
     if (categories.length === 0 || subCategories.length === 0) return;
     const filteredSubs = subCategories.filter(
-      (sub) => sub.categoryId === selectedCategory?.id
+      (sub) => sub.categoryId == selectedCategory?.id
     );
     setFilteredSubCategories(filteredSubs);
   }, [selectedCategory, categories, subCategories]);
-
   // Filter child-categories based on the selected sub-category
   useEffect(() => {
     if (subCategories.length === 0 || childCategories.length === 0) return;
@@ -172,12 +171,6 @@ export const GlobalDataProvider = ({ children }) => {
       placeholder: "input what are you looking for",
     },
   };
-  console.log(
-    subCategories,
-    childCategories,
-    filteredSubCategories,
-    filteredChildCategories
-  );
   return (
     <GlobalDataContext.Provider
       value={{

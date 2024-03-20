@@ -1,7 +1,14 @@
 import { useState } from "react";
 import CropeerImage from "../../../../Components/CropeerImage";
 
-const StepFivePostDeal = ({ handleDataChange, state }) => {
+const StepFivePostDeal = ({
+  handleDataChange,
+  state,
+  watch,
+  setValue,
+  goToNextStep,
+  goToPrevStep,
+}) => {
   const [selectedImage, setSelectedImage] = useState();
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -11,31 +18,49 @@ const StepFivePostDeal = ({ handleDataChange, state }) => {
       </p>
       <div className="flex justify-between gap-4 w-full items-start">
         <input
-          onChange={(e) => handleDataChange("title", e.target.value)}
-          value={state.title}
+          name="title"
+          onChange={(e) => setValue("title", e.target.value)}
+          value={watch("title")}
           type="text"
-          className="bg-gray-200 rounded-md px-4 py-4 border-none outline-none flex-[40%]"
-          placeholder="type deal title"
+          className="input-box w-full"
         />
         <textarea
-          onChange={(e) => handleDataChange("description", e.target.value)}
-          value={state.description}
+          name="description"
+          onChange={(e) => setValue("description", e.target.value)}
+          value={watch("description")}
           type="text"
-          className="bg-gray-200 rounded-md px-4 py-4 border-none outline-none flex-[40%]"
-          placeholder="type your budget"
+          className="input-box w-full"
         />
       </div>
-      <CropeerImage
-        height={"250px"}
-        thumbnail={state.image}
-        type={3}
-        handleDataChange={handleDataChange}
-        noBackground={true}
-        state={state}
-        selectedImage={selectedImage}
-        setSelectedImage={setSelectedImage}
-        isFirstButton={false}
-      />
+      <div className="flex flex-col gap-2">
+        <p className="text-gray-500">deal thumbnail</p>
+        <CropeerImage
+          height={"200px"}
+          width={"400px"}
+          thumbnail={state.image}
+          type={3}
+          handleDataChange={handleDataChange}
+          noBackground={true}
+          state={state}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+          isFirstButton={false}
+        />
+      </div>
+      <div className="flex gap-2">
+        <button
+          className="bg-orangeColor text-white  p-2 rounded-lg"
+          onClick={goToPrevStep}
+        >
+          Previous
+        </button>
+        <button
+          className="bg-greenColor text-white  p-2 rounded-lg"
+          onClick={goToNextStep}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

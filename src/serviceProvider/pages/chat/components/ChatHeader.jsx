@@ -4,7 +4,7 @@ const ChatHeader = ({ selectedUser }) => {
       <div className="flex gap-4 items-center">
         <img
           className="w-[40px] h-[40px] rounded-[50%] block object-cover object-center"
-          src="/public/2.jpg"
+          src={import.meta.env.VITE_WEBSITE_URL + selectedUser.user_image}
         />
         <div className=" flex-1 h-full rounded-md flex gap-2 items-center justify-between">
           <div>

@@ -6,14 +6,22 @@ import Input from "../../../components/form/Input";
 import SubmitButton from "../../../components/form/SubmitButton";
 import TextArea from "../../../components/form/TextArea";
 
-function ContactForm(props) {
+function ContactForm({ user }) {
   try {
     const schema = z.object(CONTACT_SCHEMA);
     const {
       register,
       handleSubmit,
       formState: { errors },
-    } = useForm({ resolver: zodResolver(schema) });
+    } = useForm({
+      resolver: zodResolver(schema),
+      defaultValues: {
+        name: user?.name,
+        email: user?.email,
+        phone: user?.phone,
+        address: user?.address,
+      },
+    });
 
     const submitData = (data) => {};
 

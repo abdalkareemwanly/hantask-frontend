@@ -1,4 +1,4 @@
-const StepFourPostDeal = ({ handleDataChange, state }) => {
+const StepFourPostDeal = ({ watch, setValue, goToNextStep, goToPrevStep }) => {
   return (
     <div className="max-w-[620px] flex flex-col gap-4">
       <h2 className="text-2xl font-bold">
@@ -9,19 +9,35 @@ const StepFourPostDeal = ({ handleDataChange, state }) => {
         handymans
       </p>
       <input
-        onChange={(e) => handleDataChange("budget", e.target.value)}
-        value={state.budget}
+        name="budget"
+        onChange={(e) => setValue("budget", e.target.value)}
+        value={watch("budget")}
         type="number"
-        className="bg-gray-200 rounded-md px-4 py-4 border-none outline-none"
+        className="input-box w-full"
         placeholder="type your budget"
       />
       <input
         type="date"
-        onChange={(e) => handleDataChange("deadline", e.target.value)}
-        value={state.deadline}
-        className="bg-gray-200 rounded-md px-4 py-4 border-none outline-none"
+        name="deadline"
+        onChange={(e) => setValue("deadline", e.target.value)}
+        value={watch("deadline")}
+        className="input-box w-full"
         placeholder="type your budget"
       />
+      <div className="flex gap-2">
+        <button
+          className="bg-orangeColor text-white  p-2 rounded-lg"
+          onClick={goToPrevStep}
+        >
+          Previous
+        </button>
+        <button
+          className="bg-greenColor text-white  p-2 rounded-lg"
+          onClick={goToNextStep}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

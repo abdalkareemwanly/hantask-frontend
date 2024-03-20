@@ -16,7 +16,6 @@ export const EditSubCategory = ({
   setIsModalOpen,
   categories,
 }) => {
-  console.log(data.image);
   const [image, setImage] = useState(data.image);
   let mainCategory = categories.find((obj) => obj.name === data.categoryName);
 
