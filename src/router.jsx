@@ -79,6 +79,7 @@ import FormBuilderShow from "./admin/pages/formBuilderShow/FormBuilderShow";
 import ServiceProvidersVerify from "./admin/pages/serviceProviderVerify/ServiceProvidersVerify";
 import Privacy from "./admin/pages/controlPages/privacy/Privacy";
 import TermsConditions from "./admin/pages/controlPages/termsAndConditions/TermsConditions";
+import ContactSetting from "./admin/pages/general_setting/ContactSetting";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -136,6 +137,7 @@ const router = createBrowserRouter([
       { path: "posts", element: <Posts /> },
       { path: "subscriptions", element: <Subscriptions /> },
       { path: "coupons", element: <Coupons /> },
+      { path: "contact", element: <ContactSetting /> },
       {
         path: "chat",
         children: [

@@ -167,6 +167,41 @@
       "perId": "showTaxes"
     }
   },
+  "General Settings": {
+    "contact setting": {
+      "path": "/admin/dashboard/contact",
+      "name": null,
+      "perId": "showRoles"
+    },
+    "page setting": {
+      "path": "/admin/dashboard/page",
+      "name": null,
+      "perId": "showRoles"
+    },
+    "Mobile Settings": "",
+    "Reading": "",
+    "Navbar Global Variant": "",
+    "Footer Global Variant": "",
+    "Payment Gateway Settings": "",
+    "Live Chat Settings": "",
+    "Site Identity": "",
+    "Basic Settings": "",
+    "OTP Settings": "",
+    "Color Settings": "",
+    "Typography Settings": "",
+    "SEO Settings": "",
+    "Third Party Scripts": "",
+    "Email Template": "",
+    "Email Settings": "",
+    "SMTP Settings": "",
+    "Custom CSS": "",
+    "Custom JS": "",
+    "Gdpr Settings": "",
+    "Licence Settings": "",
+    "SCheck Update": "",
+    "Cache Settings": "",
+    "Database Upgrade": ""
+  },
   "Orders": {
     "All Orders": "",
     "Cancelled Orders": "",
@@ -194,7 +229,7 @@
     "404 Page Manage": "",
     "Maintain Page Manage": ""
   },
-  "General Settings": {
+  "General Settings1": {
     "Mobile Settings": "",
     "Reading": "",
     "Navbar Global Variant": "",
