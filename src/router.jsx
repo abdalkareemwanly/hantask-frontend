@@ -77,11 +77,15 @@ import PaymentMethod from "./admin/pages/Payment/PaymentMethod";
 import CreatePlan from "./admin/pages/Plan/PaypalPlan";
 import FormBuilderShow from "./admin/pages/formBuilderShow/FormBuilderShow";
 import ServiceProvidersVerify from "./admin/pages/serviceProviderVerify/ServiceProvidersVerify";
+import Privacy from "./admin/pages/controlPages/privacy/Privacy";
+import TermsConditions from "./admin/pages/controlPages/termsAndConditions/TermsConditions";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
-  const userRole = JSON.parse(localStorage.getItem("USER")).user_type;
-  return thereisToken && userRole === role ? (
+  const userRole =
+    JSON.parse(localStorage.getItem("USER"))?.user_type || "admin";
+  console.log(thereisToken);
+  return thereisToken && userRole == role ? (
     element
   ) : userRole === "admin" ? (
     <Navigate to="/admin/login" />
@@ -101,7 +105,7 @@ export const NavigationLink = ({ link }) => {
 const router = createBrowserRouter([
   {
     path: "/admin/dashboard/",
-    element: <DefaultLayout />,
+    element: <PrivateRoute element={<DefaultLayout />} role={"admin"} />,
     children: [
       {
         index: true,
@@ -151,6 +155,19 @@ const router = createBrowserRouter([
           {
             path: ":id",
             element: <RolesPermissions />,
+          },
+        ],
+      },
+      {
+        path: "pagesSettings",
+        children: [
+          {
+            path: "privacy",
+            element: <Privacy />,
+          },
+          {
+            path: "terms&conditions",
+            element: <TermsConditions />,
           },
         ],
       },

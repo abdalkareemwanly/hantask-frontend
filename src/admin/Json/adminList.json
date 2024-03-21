@@ -224,6 +224,18 @@
     "path": "/admin/dashboard/languages",
     "perId": "showLanguages"
   },
+  "pages settings": {
+    "privacy page": {
+      "path": "/admin/dashboard/pagesSettings/privacy",
+      "name": null,
+      "perId": "showLanguages"
+    },
+    "terms & conditions page": {
+      "path": "/admin/dashboard/pagesSettings/terms&conditions",
+      "name": null,
+      "perId": "showLanguages"
+    }
+  },
   "Back To Site": {
     "name": null,
     "path": "/admin/dashboard/languages"

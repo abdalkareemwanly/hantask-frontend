@@ -223,6 +223,7 @@ const PostDeal = () => {
   const islogin = localStorage.getItem("ACCESS_TOKEN");
   const isBuyer =
     JSON.parse(localStorage.getItem("USER"))?.user_type === "buyer";
+
   useEffect(() => {
     if (!islogin) {
       toast.info("login first to access the page");
@@ -236,6 +237,7 @@ const PostDeal = () => {
     }
   }, [islogin, isBuyer, nav]);
   console.log(watch());
+
   const goToNextStep = () => {
     dispatch({
       type: "EDIT_FIELD",
@@ -293,6 +295,7 @@ const PostDeal = () => {
   };
 
   const onSubmit = (data) => console.log(data);
+
   return isBuyer ? (
     <div className="min-h-[700px] flex flex-col justify-between lg:px-20 md:px-12 px-6">
       <div className="py-12 h-auto w-full min-h-[700px]">

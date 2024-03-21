@@ -14,25 +14,25 @@ import "react-toastify/dist/ReactToastify.css";
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ContextProvider>
-    <ToastContainer
-      position="bottom-right"
-      autoClose={2500}
-      hideProgressBar={false}
-      newestOnTop={true}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover={false}
-    />
-    <GlobalDataProvider>
-      <TWThemeProvider>
-        <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={queryClient}>
+    <ContextProvider>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2500}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+      />
+      <GlobalDataProvider>
+        <TWThemeProvider>
           <RouterProvider router={router} />
           <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </TWThemeProvider>
-    </GlobalDataProvider>
-  </ContextProvider>
+        </TWThemeProvider>
+      </GlobalDataProvider>
+    </ContextProvider>
+  </QueryClientProvider>
 );

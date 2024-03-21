@@ -33,6 +33,7 @@ import useCheckPermission from "../../hooks/checkPermissions";
 import { RiCoupon3Fill } from "react-icons/ri";
 import { MdVerifiedUser } from "react-icons/md";
 import { MdManageAccounts } from "react-icons/md";
+import { RiPagesFill } from "react-icons/ri";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
@@ -66,6 +67,7 @@ const iconMap = {
   "Back To Site": <BiSolidArrowFromRight />,
   "Payment Settings": <BiSolidCreditCardFront />,
   "handymans verify": <MdVerifiedUser />,
+  "pages settings": <RiPagesFill />,
 };
 
 export default function SidebarAdmin({ setSidebarOpen }) {

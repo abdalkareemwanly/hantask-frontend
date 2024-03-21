@@ -76,15 +76,20 @@ export const GlobalDataProvider = ({ children }) => {
       (sub) => sub.categoryId == selectedCategory?.id
     );
     setFilteredSubCategories(filteredSubs);
-  }, [selectedCategory, categories, subCategories]);
+  }, [selectedCategory]);
+
   // Filter child-categories based on the selected sub-category
   useEffect(() => {
     if (subCategories.length === 0 || childCategories.length === 0) return;
-    const filteredChilds = childCategories.filter(
-      (child) => child.subCategoryId === selectedSubCategory?.id
-    );
+    const filteredChilds =
+      selectedSubCategory === null || selectedSubCategory === ""
+        ? subCategories
+        : childCategories.filter(
+            (child) => child.subcategoryId == selectedSubCategory?.id
+          );
     setFilteredChildCategories(filteredChilds);
   }, [selectedSubCategory, subCategories, childCategories]);
+  console.log(filteredChildCategories, selectedSubCategory);
 
   let FILTER_DATA = {
     country: {

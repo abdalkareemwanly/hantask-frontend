@@ -3,6 +3,8 @@ import Pusher from "pusher-js";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { NavigationLink } from "../router";
+import { useQueryHook } from "../hooks/useQueryHook";
+import axiosClient from "../axios-client";
 
 const StateContext = createContext({
   currentUser: null,
@@ -14,13 +16,34 @@ const StateContext = createContext({
   translation: null,
   setTranslation: () => {},
 });
-
+const getData = async (data) => {
+  if (data.user_type === "buyer") {
+    const res = await axiosClient.get("/buyer/notifications");
+    return res;
+  } else if (data.user_type === "seller") {
+    const res = await axiosClient.get("/seller/notifications");
+    return res;
+  } else {
+    const res = await axiosClient.get("/admin/notifications");
+    return res;
+  }
+};
 export const ContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
+  const [notificationsPage, setNotificationsPage] = useState(1);
   const [token, _setToken] = useState(localStorage.getItem("ACCESS_TOKEN"));
+
+  const {
+    data: notifications,
+    isLoading,
+    isRefetching,
+    refetch,
+  } = useQueryHook(["notifications", notificationsPage], () => getData(user));
+
   const [translation, _setTranslation] = useState(
     JSON.parse(localStorage.getItem("TRANSLATION")) || {}
   );
+
   const [pusherChanel, setPusherChannel] = useState();
 
   useEffect(() => {
@@ -33,6 +56,7 @@ export const ContextProvider = ({ children }) => {
     const channel = pusher.subscribe("hantask");
     channel.bind("App\\Events\\PusherNotification", function (data) {
       console.log(data);
+      refetch();
       toast.info(data?.message, {
         autoClose: false,
       });
@@ -44,8 +68,10 @@ export const ContextProvider = ({ children }) => {
       pusher.disconnect();
     };
   }, []);
+
   const setToken = (newToken) => {
     _setToken(newToken);
+    console.log(newToken);
     if (newToken) {
       localStorage.setItem("ACCESS_TOKEN", newToken);
     } else {
@@ -84,6 +110,9 @@ export const ContextProvider = ({ children }) => {
         translation,
         setTranslation,
         pusherChanel,
+        setNotificationsPage,
+        notifications,
+        isLoading,
       }}
     >
       {children}

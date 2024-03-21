@@ -281,7 +281,7 @@ const SubCategories = () => {
             actualData={subCategories?.data.data}
             setPage={setPage}
             paginationBool={true}
-            noDataMessage={"no users to show!"}
+            noDataMessage={"no sub categories to show!"}
             setSearchTerm={setSearchTerm}
           />
         </div>

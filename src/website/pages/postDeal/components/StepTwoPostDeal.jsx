@@ -13,8 +13,9 @@ export const StepTwoPostDeal = ({
 }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
-    handleDataChange(name, value);
+    // handleDataChange(name, value);
     if (name === "subcategory_id") {
+      setSelectedSubCategory({ id: value });
       getQuestionsById({
         category_id: null,
         subcategory_id: value,

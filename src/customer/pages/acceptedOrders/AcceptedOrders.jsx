@@ -184,9 +184,7 @@ const AcceptedOrders = () => {
           <div className="flex gap-1">
             {row.work_status == 0 ||
             row.work_status == 1 ||
-            row.work_status == 2 ||
-            row.work_status == 3 ||
-            row.work_status == 4 ? (
+            row.work_status == 2 ? (
               <Button
                 isLink={false}
                 color={"bg-blueColor"}

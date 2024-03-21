@@ -1,9 +1,7 @@
 .submit-button {
-  background-color: var(--success-color) !important;
   display: flex !important;
   justify-content: center !important;
   transition: all 0.5s;
-  border: 1px solid var(--success-color);
 }
 
 .second-button {

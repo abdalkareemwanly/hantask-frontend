@@ -18,8 +18,11 @@ export default function DefaultLayout() {
   const [adminmenuOpen, setAdminMenuOpen] = useState(false);
   const [mode, setMode] = useState(localStorage.getItem("theme") || "light");
   const { setTheme } = useTWThemeContext();
-  const { token, setTranslation } = useStateContext({});
+
+  const { token, setTranslation, notifications } = useStateContext({});
+
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
   const user = JSON.parse(localStorage.getItem("USER"));
   const getTranslation = () => {
     axiosClient.get("/admin/translation").then((response) => {
@@ -128,11 +131,22 @@ export default function DefaultLayout() {
               )}
             </button>
             <button className="me-5 relative block">
-              <BiSolidBellRing
-                style={{ fontSize: "24px" }}
-                onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-                className="text-primary-text"
-              />
+              <div className="relative">
+                <BiSolidBellRing
+                  style={{ fontSize: "24px" }}
+                  onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                  className="text-primary-text"
+                />
+                {notifications?.data?.data?.filter((ele) => ele.status === 0)
+                  .length > 0 && (
+                  <span className="absolute top-[-20px]  right-[-20px] bg-greenColor rounded-full w-[25px] h-[25px] text-sm flex items-center justify-center ">
+                    {
+                      notifications.data.data.filter((ele) => ele.status === 0)
+                        .length
+                    }
+                  </span>
+                )}
+              </div>
               <div
                 className={`absolute flex flex-col top-14 right-0 w-[380px]  text-primary-text overflow-y-auto me-[-20px] component-shadow bg-blocks-color z-10 rounded-md ${
                   isNotificationOpen ? "h-[auto] p-4" : "h-0 p-0"
@@ -149,8 +163,12 @@ export default function DefaultLayout() {
                     show all
                   </Link>
                 </div>
-                <div className="my-4 flex flex-col gap-2">
-                  <div>first notification</div>
+                <div className="my-4 flex flex-col  gap-2">
+                  {notifications?.data?.data?.map((ele, i) => (
+                    <span key={i} className="">
+                      {ele?.title}
+                    </span>
+                  ))}
                 </div>
               </div>
             </button>
