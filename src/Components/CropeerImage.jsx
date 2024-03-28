@@ -105,11 +105,11 @@ const CropeerImage = ({
 
         const file = new File(
           [webpBlob],
-          `croppedImage${counter}.webp`,
+          `image${counter}.webp`,
           {
             type: webpBlob.type,
           },
-          0.5
+          0.3
         );
 
         if (type === 1) {
@@ -135,7 +135,7 @@ const CropeerImage = ({
   };
   return (
     <div dir="ltr">
-      <button
+      <div
         id="cropper-button"
         style={{
           border: "1px dashed gray",
@@ -145,6 +145,9 @@ const CropeerImage = ({
           width: width || "100%",
           height: height || "200px",
           backgroundColor: "transparent",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           marginBottom: "1rem",
           backgroundImage:
             type === 1
@@ -209,7 +212,7 @@ const CropeerImage = ({
             </p>
           </div>
         )}
-      </button>
+      </div>
       <input
         type="file"
         accept="image/*"
@@ -220,36 +223,36 @@ const CropeerImage = ({
       {open && (
         <ModalContainer
           setIsModalOpen={handleClose}
+          type={2}
           component={
             <div style={{}}>
               <>
                 <Cropper
                   src={selectedImage || isImageSelected}
                   style={{
-                    height: "400px",
-                    width: "400px",
+                    height: "350px",
+                    width: "350px",
+                    borderRadius: "16px",
                   }}
-                  initialAspectRatio={16 / 9}
-                  guides={false}
+                  initialAspectRatio={1}
                   ref={cropperRef}
                   viewMode={1}
                   dragMode="move"
-                  background={false}
                   className={`${styles.custom_cropper} custom_cropper`}
                 />
-                <button
+                <div
                   style={{
-                    backgroundColor: "var(--main-color)",
+                    // backgroundColor: "var(--green-color)",
                     color: "white",
                     marginTop: "1rem",
                     padding: "0.5rem 1rem",
                   }}
-                  className="flex  gap-2 justify-center items-center mx-auto"
+                  className="flex bg-greenColor rounded-md  gap-2 justify-center items-center mx-auto"
                   onClick={handleCrop}
                 >
                   <span>crop</span>
                   <IoMdCrop size={30} />
-                </button>
+                </div>
               </>
             </div>
           }

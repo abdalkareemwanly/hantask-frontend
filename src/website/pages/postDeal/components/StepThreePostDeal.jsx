@@ -44,18 +44,18 @@ export const StepThreePostDeal = ({
           ))}
       </select>
       <div className="flex gap-2">
-        <button
+        <div
           className="bg-orangeColor text-white  p-2 rounded-lg"
           onClick={goToPrevStep}
         >
           Previous
-        </button>
-        <button
+        </div>
+        <div
           className="bg-greenColor text-white  p-2 rounded-lg"
           onClick={goToNextStep}
         >
           Next
-        </button>
+        </div>
       </div>
     </div>
   );

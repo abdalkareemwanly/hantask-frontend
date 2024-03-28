@@ -25,10 +25,11 @@ const ReusableForm = ({
     resetField,
   } = useForm({
     defaultValues: fields?.reduce((acc, field) => {
-      field?.value ? (acc[field.name] = field.value) : (acc[field.name] = "");
+      field?.value && (acc[field.name] = field.value);
       return acc;
     }, {}),
   });
+  console.log(watch(), fields);
   const { errors } = formState;
 
   const [isValid, setIsValid] = useState(false);
@@ -303,6 +304,14 @@ const ReusableForm = ({
               )}
             </div>
           );
+        case "custom":
+          return field.customComponent({
+            setError,
+            setValue,
+            errors,
+            clearErrors,
+          });
+
         case "file":
           return (
             <div key={i} className={`input-field w-full  ${styles}`}>
@@ -312,7 +321,6 @@ const ReusableForm = ({
                     <img
                       src={`https://api.hantask.at/${image}`}
                       onError="this.style.display='none'"
-                      alt=""
                       onClick={() => {
                         const fileInput = document.getElementById(name);
                         fileInput.click();

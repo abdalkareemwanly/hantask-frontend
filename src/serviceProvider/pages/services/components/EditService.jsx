@@ -15,7 +15,6 @@ export const EditService = ({ data, setIsModalOpen }) => {
   const [image, setImage] = useState(data?.image);
   const { countries, cities, categories, subCategories, childCategories } =
     useGlobalDataContext();
-  console.log(categories);
   const [filteredSubCategories, setFilteredSubCategories] = useState([]);
   const handleMainCategoryChange = (e) => {
     const selectedMainCategory = categories?.find((obj) => obj.id == e);

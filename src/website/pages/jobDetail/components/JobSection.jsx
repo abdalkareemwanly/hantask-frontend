@@ -13,7 +13,7 @@ function JobSection({ data }) {
   const isUser = localStorage.getItem("ACCESS_TOKEN");
   const isUserSeller =
     JSON.parse(localStorage.getItem("USER"))?.user_type == "seller";
-
+  console.log(data);
   return (
     <div className="job-details grid lg:grid-cols-3 lg:gap-20 gap-0">
       <div className="job-info lg:col-span-2 col-span-3">

@@ -112,6 +112,9 @@ function ServiceProviderReports(props) {
         return user.id === row?.report_from.id ? (
           <Link
             to={`/serviceProvider/chat/${row.id}`}
+            state={{
+              data: row,
+            }}
             className="bg-greenColor text-primary-text p-[10px] rounded-[6px] cursor-pointer flex justify-center items-end gap-[5px]"
           >
             <div className="w-[max-content]">Chat To Admin</div>
@@ -124,108 +127,57 @@ function ServiceProviderReports(props) {
     },
   ];
 
-  const {
-    data: reports,
-    queryClient,
-    isLoading,
-  } = useQueryHook(["reports", page], () => getData(page), "paginate", page);
+  const { data: reports, isLoading } = useQueryHook(
+    ["reports", page],
+    () => getData(page),
+    "paginate",
+    page
+  );
 
-  useEffect(() => {
-    setTimeout(() => {
-      queryClient.prefetchQuery({
-        queryKey: ["reports", page + 1],
-        queryFn: () => getData(page + 1),
-        staleTime: 60 * 60 * 1000,
-      });
-    }, 500);
-  }, [reports, page, queryClient]);
-
-  const fields = {
-    age: {
-      value: 42,
-      type: "text",
-      placeholder: "type anything",
-      title: "age",
-    },
-    name: {
-      value: 42,
-      type: "number",
-      placeholder: "type anything",
-      title: "name",
-    },
-    id: {
-      value: 42,
-      type: "number",
-      placeholder: "type anything",
-      title: "id",
-    },
-  };
-
-  function reducer(state, action) {
-    let res = {};
-    Object.keys(state).map((element) => {
-      if (action.type == `change_${element}`)
-        res = {
-          ...state,
-          [element]: { ...state[element], value: action.newValue },
-        };
-    });
-
-    return res;
-  }
-
-  function handleSearch() {
-    console.log(state);
-  }
-
-  const [state, dispatch] = useReducer(reducer, fields);
   if (isLoading) return <Loader />;
 
   return (
-    <>
-      <Page>
-        {console.log("reports is", reports)}
-        <div className="flex flex-col gap-[30px]">
-          {/* <Filter
+    <Page>
+      <div className="flex flex-col gap-[30px]">
+        {/* <Filter
             state={state}
             dispatch={dispatch}
             handleSearch={handleSearch}
           /> */}
-          <div className="recent-ticket xl:col-span-3 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">
-            <div className=" flex justify-between border-b border-light-text  pb-[20px]">
-              <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
-                All Reports
-              </h4>
-            </div>
-            <TableData
-              columns={COLUMNS}
-              enableSearch={false}
-              response={reports}
-              actualData={reports?.data?.data}
-              setPage={setPage}
-              paginationBool={true}
-              noDataMessage={"no reports to show!"}
-            />
+        <div className="recent-ticket xl:col-span-3 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">
+          <div className=" flex justify-between border-b border-light-text  pb-[20px]">
+            <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
+              All Reports
+            </h4>
           </div>
-        </div>
-        {openDescriptionModal && (
-          <ModalContainer
-            isModalOpen={openDescriptionModal}
-            setIsModalOpen={setOpenDescriptionModal}
-            component={
-              <div className="min-w-[30vw]">
-                <div className=" flex justify-between border-b border-light-text  pb-[20px]">
-                  <h5 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
-                    Report Details
-                  </h5>
-                </div>
-                <div className="mt-[20px]">{description}</div>
-              </div>
-            }
+          <TableData
+            columns={COLUMNS}
+            enableSearch={false}
+            response={reports}
+            actualData={reports?.data?.data}
+            setPage={setPage}
+            paginationBool={true}
+            noDataMessage={"no reports to show!"}
           />
-        )}
-      </Page>
-    </>
+        </div>
+      </div>
+      {openDescriptionModal && (
+        <ModalContainer
+          isModalOpen={openDescriptionModal}
+          setIsModalOpen={setOpenDescriptionModal}
+          component={
+            <div className="min-w-[30vw]">
+              <div className=" flex justify-between border-b border-light-text  pb-[20px]">
+                <h5 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
+                  Report Details
+                </h5>
+              </div>
+              <div className="mt-[20px]">{description}</div>
+            </div>
+          }
+        />
+      )}
+    </Page>
   );
 }
 

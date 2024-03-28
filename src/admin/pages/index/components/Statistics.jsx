@@ -1,23 +1,9 @@
-import { useEffect, useState } from "react";
 import { BiUserCircle } from "react-icons/bi";
 import { useTWThemeContext } from "../../../Components/ThemeProvider";
-import axiosClient from "../../../../axios-client";
 
-export default function Statistics() {
+export default function Statistics({ alldata }) {
   const { theme } = useTWThemeContext();
-  const [alldata, setData] = useState({
-    admin: 0,
-  });
 
-  useEffect(() => {
-    getAdminNumber();
-  }, []);
-
-  const getAdminNumber = () => {
-    axiosClient.get("/admin/AdminNumber").then((response) => {
-      setData({ ...alldata, admin: response.data });
-    });
-  };
   return (
     <div className="flex flex-wrap w-full justify-between gap-8">
       <div
@@ -29,7 +15,7 @@ export default function Statistics() {
           <BiUserCircle fontSize={60} />
         </div>
         <div className="flex flex-col justify-center ms-5 mt-2">
-          <span className="text-[28px] font-bold">{alldata.admin}</span>
+          <span className="text-[28px] font-bold">{alldata?.totalAdmin}</span>
           <span className="text-[16px] font-semibold">Total Admin</span>
         </div>
       </div>
@@ -42,8 +28,8 @@ export default function Statistics() {
           <BiUserCircle fontSize={60} />
         </div>
         <div className="flex flex-col justify-center ms-5 mt-2">
-          <span className="text-[28px] font-bold">67</span>
-          <span className="text-[16px] font-semibold">Total Seller</span>
+          <span className="text-[28px] font-bold">{alldata?.totalSeller}</span>
+          <span className="text-[16px] font-semibold">Total handymans</span>
         </div>
       </div>
       <div
@@ -55,8 +41,8 @@ export default function Statistics() {
           <BiUserCircle fontSize={60} />
         </div>
         <div className="flex flex-col justify-center ms-5 mt-2">
-          <span className="text-[28px] font-bold">213</span>
-          <span className="text-[16px] font-semibold">Total Buyer</span>
+          <span className="text-[28px] font-bold">{alldata?.totalBuyer}</span>
+          <span className="text-[16px] font-semibold">Total homeowners</span>
         </div>
       </div>
       <div
@@ -66,8 +52,10 @@ export default function Statistics() {
           <BiUserCircle fontSize={60} />
         </div>
         <div className="flex flex-col justify-center ms-5 mt-2 linear">
-          <span className="text-[28px] font-bold">$417.44</span>
-          <span className="text-[16px] font-semibold">Total Earning</span>
+          <span className="text-[28px] font-bold">
+            {alldata?.totalSubscription}
+          </span>
+          <span className="text-[16px] font-semibold">Total subscriptions</span>
         </div>
       </div>
     </div>

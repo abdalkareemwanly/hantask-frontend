@@ -11,7 +11,6 @@ function Select({
   setSelectedCountry,
   selectedCountry,
 }) {
-  console.log(selectedCountry);
   const [isOpen, setIsOpen] = useState(false);
   const [listFilter, setListFilter] = useState("");
   const ref = useRef();

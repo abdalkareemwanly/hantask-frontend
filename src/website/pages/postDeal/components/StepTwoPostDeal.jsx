@@ -3,34 +3,12 @@ import { useState } from "react";
 export const StepTwoPostDeal = ({
   subCategories,
   childCategories,
-  handleDataChange,
   goToNextStep,
   goToPrevStep,
-  setSelectedSubCategory,
-  getQuestionsById,
   register,
-  setValue,
+  watch,
+  errors,
 }) => {
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    // handleDataChange(name, value);
-    if (name === "subcategory_id") {
-      setSelectedSubCategory({ id: value });
-      getQuestionsById({
-        category_id: null,
-        subcategory_id: value,
-        child_category_id: null,
-      });
-    } else if (name === "child_category_id") {
-      getQuestionsById({
-        category_id: null,
-        subcategory_id: null,
-        child_category_id: value,
-      });
-    }
-    setValue(name, value);
-  };
-
   return (
     <div className="max-w-[620px] flex flex-col gap-4">
       <h2 className="text-2xl font-bold">What would you like to have done?</h2>
@@ -39,11 +17,7 @@ export const StepTwoPostDeal = ({
         professional handymans.
       </p>
       <select
-        name="subcategory_id"
-        onChange={(e) => {
-          setSelectedSubCategory({ id: e.target.value });
-          handleChange(e);
-        }}
+        {...register("subcategory_id", { required: "This field is required" })}
         className="input-box w-full"
       >
         <option value="">choose a sub category </option>
@@ -54,11 +28,12 @@ export const StepTwoPostDeal = ({
             </option>
           ))}
       </select>
-      {/* <span>{errors?.subCategoryId && "this field required"}</span> */}
+      {errors["subcategory_id"] && errors["subcategory_id"].message}
 
       <select
-        name="child_category_id"
-        onChange={handleChange}
+        {...register("child_category_id", {
+          required: "This field is required",
+        })}
         className="input-box w-full"
       >
         <option value="">choose a child category </option>
@@ -69,7 +44,7 @@ export const StepTwoPostDeal = ({
             </option>
           ))}
       </select>
-      {/* <span>{errors?.childCategoryId && "this field required"}</span> */}
+      {errors["child_category_id"] && errors["child_category_id"].message}
 
       <div className="flex gap-2">
         <button
@@ -78,13 +53,26 @@ export const StepTwoPostDeal = ({
         >
           Previous
         </button>
-        <button
-          className="bg-greenColor text-white  p-2 rounded-lg"
-          onClick={goToNextStep}
-          // disabled={Object.values(errors).length == 0}
+        <div
+          className={`bg-greenColor text-white  p-2 rounded-lg ${
+            errors["subcategory_id"]?.message ||
+            watch("subcategory_id") === null ||
+            errors["child_category_id"]?.message ||
+            watch("child_category_id") === null
+              ? "cursor-not-allowed"
+              : "cursor-pointer"
+          }  `}
+          onClick={
+            errors["subcategory_id"]?.message ||
+            watch("subcategory_id") === null ||
+            errors["child_category_id"]?.message ||
+            watch("child_category_id") === null
+              ? null
+              : goToNextStep
+          }
         >
-          Next
-        </button>
+          next
+        </div>
       </div>
     </div>
   );

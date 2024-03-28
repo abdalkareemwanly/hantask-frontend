@@ -47,7 +47,7 @@ const Footer = () => {
                 <Link className="flex gap-2 items-center">
                   <span>help center</span>
                 </Link>
-                <Link className="flex gap-2 items-center">
+                <Link to={"/blogs"} className="flex gap-2 items-center">
                   <span>blog</span>
                 </Link>
                 <Link to="/contact" className="flex gap-2 items-center">

@@ -18,12 +18,9 @@ const VerifyAccountServiceProvider = () => {
       const check = await axiosClient.get("/seller/profileVerify/check");
       setIsVerefied(check.data.data?.status);
 
-      console.log(check);
-
       if (check.data.data.status == 3) {
         const res = await axiosClient.get("seller/profileVerify");
         setProfileInfo(res.data);
-        console.log(res.data);
         setIsLoading(false);
       } else {
         setIsLoading(false);
@@ -128,7 +125,6 @@ const VerifyAccountServiceProvider = () => {
     ],
   };
   const onSubmit = async (values) => {
-    console.log(values.busines_license);
     const formData = new FormData();
     formData.append("many_employee_id", values.employees_type);
     formData.append("professional_status_id", values.company_type);
@@ -147,7 +143,6 @@ const VerifyAccountServiceProvider = () => {
   };
 
   if (isLoading) return <Loader />;
-  console.log(isVerefied);
   return (
     <Page>
       <PageTitle text={"verify account page"} />

@@ -1,6 +1,6 @@
 import Button from "../../../../Components/Button";
 
-function CustomerChatHeader({ reportId, orderId, reportFrom }) {
+function CustomerChatHeader({ reportId, orderId, reportFrom, state }) {
   try {
     return (
       <>
@@ -20,16 +20,12 @@ function CustomerChatHeader({ reportId, orderId, reportFrom }) {
         <div className="mt-[20px]">
           <div className="flex flex-col">
             <span className="text-light-text">
-              <strong>Report ID: </strong>
-              {reportId}
+              <strong>Report: </strong>
+              {state?.data?.report}
             </span>
             <span className="text-light-text">
-              <strong>Order ID: </strong>
-              {orderId}
-            </span>
-            <span className="text-light-text">
-              <strong>Report From: </strong>
-              {reportFrom}
+              <strong>Report to: </strong>
+              {state?.data?.report_to?.name}
             </span>
           </div>
         </div>

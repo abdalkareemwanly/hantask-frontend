@@ -217,7 +217,7 @@ const AddJob = () => {
 
     if (res.data?.success === true) {
       const images = new FormData();
-      const id = res.data.data?.id;
+      const id = res.data.data;
       _images.map((ele) => {
         images.append("image[]", ele.file);
       });

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axiosClient from "../../../axios-client";
 import ChatBody from "./components/ChatBody";
 import ChatFooter from "./components/ChatFooter";
@@ -12,6 +12,8 @@ import { TbLayoutNavbarCollapseFilled } from "react-icons/tb";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 import { toast } from "react-toastify";
 import Pusher from "pusher-js";
+import { useQueryClient } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 
 const getContactsFunc = async () => {
   const res = await axiosClient.get(`seller/getContact`);
@@ -23,12 +25,13 @@ const getContactMessages = async (user) => {
   return res.data.data;
 };
 
-const ServiceProviderChat = ({ selectedUserFromOther }) => {
+const ServiceProviderChat = ({}) => {
   const { pusherChanel } = useStateContext();
   const user = JSON.parse(localStorage.getItem("USER"));
 
   const [selectedUser, setSelectedUser] = useState(null);
-
+  const queryClient = useQueryClient();
+  const selectedUserFromOthers = useLocation().state?.selectedUserFromOthers;
   const {
     data: messages,
     isLoading: isLoadingMessages,
@@ -41,6 +44,35 @@ const ServiceProviderChat = ({ selectedUserFromOther }) => {
     ["userContacts"],
     () => getContactsFunc()
   );
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+  useEffect(() => {
+    if (selectedUserFromOthers) {
+      // Retrieve existing data
+      const existingData = queryClient.getQueryData(["userContacts"]);
+
+      // Check if data exists and if the selected user's ID is already present
+      const isUserAlreadyExists =
+        existingData &&
+        existingData.some((user) => user.id === selectedUserFromOthers.id);
+      if (!isUserAlreadyExists) {
+        // If the user with the same ID doesn't exist, add the selected user
+        const updated = existingData
+          ? [...existingData, selectedUserFromOthers]
+          : [selectedUserFromOthers];
+        queryClient.setQueryData(["userContacts"], updated);
+      }
+      setSelectedUser(selectedUserFromOthers);
+    }
+  }, [selectedUserFromOthers]);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [collapseUsers, setCollapseUsers] = useState(false);
@@ -74,7 +106,6 @@ const ServiceProviderChat = ({ selectedUserFromOther }) => {
         cluster: "eu",
         encrypted: true,
       });
-
 
       channel = pusher.subscribe("hantask." + user?.id);
 
@@ -134,6 +165,7 @@ const ServiceProviderChat = ({ selectedUserFromOther }) => {
           </div>
           <div className="h-[75%] overflow-y-auto">
             <ChatBody messages={messages} />
+            <div ref={messagesEndRef}></div>
           </div>
           <div className="h-[15%]  rounded-b-xl border-t border-mainBorder flex items-center gap-8 justify-center">
             <ChatFooter refetch={refetch} selectedUser={selectedUser} />

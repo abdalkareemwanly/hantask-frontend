@@ -75,7 +75,6 @@ const PasswordChange = ({ data, setIsModalOpen }) => {
 
     let { errors, setError, clearErrors, setValue, resetField, register } =
       methods;
-    console.log(watchValues);
     if (watchValues.password !== watchValues.confirm) {
       setError("confirm", {
         type: "manual",

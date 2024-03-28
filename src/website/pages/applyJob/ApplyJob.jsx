@@ -13,7 +13,6 @@ import axiosClient from "../../../axios-client";
 function ApplyJob() {
   const { state } = useLocation();
   const sellerData = JSON.parse(localStorage.getItem("USER"));
-
   console.log(state);
   const [step, setStep] = useState(1);
   const [bookingDefaultData, setBookingDefaultData] = useState({

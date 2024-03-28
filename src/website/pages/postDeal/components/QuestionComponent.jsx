@@ -4,6 +4,7 @@ const QuestionComponent = ({
   goToNextStep,
   setValue,
   watch,
+  register,
 }) => {
   const renderQuestionType = () => {
     switch (question.type) {
@@ -26,12 +27,11 @@ const QuestionComponent = ({
         return (
           <div className="flex flex-col gap-2 mb-4 min-w-[400px]">
             <label htmlFor={question.content}> {question.content}</label>
-
             <select
-              name={question.content}
               id={question.content}
-              onChange={(e) => setValue(question.content, e.target.value)}
-              value={watch(question.content) ? watch(question.content) : ""}
+              {...register(question.content, {
+                required: "This field is required",
+              })}
               className="input-box w-full"
             >
               {question.answers.map((answer) => (
@@ -74,19 +74,19 @@ const QuestionComponent = ({
       <h3 className="text-2xl font-bold">{question.question}</h3>
       {renderQuestionType()}
       <div className="flex gap-2 ">
-        <button
+        <div
           className="bg-orangeColor text-white  p-2 rounded-lg"
           onClick={goToPrevStep}
         >
           Previous
-        </button>
-        <button
+        </div>
+        <div
           className="bg-greenColor text-white  p-2 rounded-lg"
           onClick={goToNextStep}
           // disabled={Object.values(errors).length == 0}
         >
           Next
-        </button>
+        </div>
       </div>
     </div>
   );

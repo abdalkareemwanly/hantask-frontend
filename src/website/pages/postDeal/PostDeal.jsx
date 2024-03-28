@@ -55,34 +55,71 @@ const StepComponent = ({
   questions,
   setQuestions,
   watch,
+  errors,
+  trigger,
   handleSubmitData,
   register,
   setValue,
+  _images,
+  setImages,
+  thumbnail,
+  setThumbnail,
+  onSubmit,
 }) => {
   const {
     categories,
-    subCategories,
-    childCategories,
     countries,
     cities,
-    selectedCategory,
     setSelectedCategory,
-    selectedSubCategory,
     setSelectedSubCategory,
     filteredSubCategories,
     filteredChildCategories,
   } = useGlobalDataContext();
+
+  const categoryValue = watch("category_id");
+  const subcategoryValue = watch("subcategory_id");
+  const childCategoryValue = watch("child_category_id");
+
+  useEffect(() => {
+    if (categoryValue !== null || categoryValue !== "") {
+      getQuestionsById({
+        category_id: categoryValue,
+        subcategory_id: null,
+        child_category_id: null,
+      });
+      setSelectedCategory({ id: categoryValue });
+    }
+  }, [categoryValue]);
+  useEffect(() => {
+    if (subcategoryValue !== null || subcategoryValue !== "") {
+      getQuestionsById({
+        category_id: null,
+        subcategory_id: subcategoryValue,
+        child_category_id: null,
+      });
+      setSelectedSubCategory({ id: subcategoryValue });
+    }
+  }, [subcategoryValue]);
+  useEffect(() => {
+    if (childCategoryValue !== null || childCategoryValue !== "") {
+      getQuestionsById({
+        category_id: null,
+        subcategory_id: null,
+        child_category_id: childCategoryValue,
+      });
+    }
+  }, [childCategoryValue]);
 
   return (
     <AnimatePresence>
       {step === 1 && (
         <motion.div
           key="step1"
-          className="absolute h-full"
+          className="absolute h-full w-full"
           initial={{ opacity: 0, x: "110%" }}
           animate={{ opacity: 1, x: "0" }}
           exit={{ opacity: 0, x: "-110%" }}
-          transition={{ duration: 0.9, ease: "backInOut" }}
+          transition={{ duration: 0.9, ease: "easeInOut" }}
         >
           <StepOnePostDeal
             categories={categories}
@@ -91,6 +128,8 @@ const StepComponent = ({
             setSelectedCategory={setSelectedCategory}
             state={state}
             watch={watch}
+            trigger={trigger}
+            errors={errors}
             goToNextStep={goToNextStep}
             register={register}
             setValue={setValue}
@@ -116,6 +155,8 @@ const StepComponent = ({
             getQuestionsById={getQuestionsById}
             state={state}
             watch={watch}
+            trigger={trigger}
+            errors={errors}
             register={register}
             setValue={setValue}
           />
@@ -138,6 +179,7 @@ const StepComponent = ({
                 register={register}
                 setValue={setValue}
                 watch={watch}
+                errors={errors}
                 goToNextStep={goToNextStep}
                 goToPrevStep={goToPrevStep}
               />
@@ -189,7 +231,7 @@ const StepComponent = ({
       )}
       {step === questions?.length + 5 && (
         <motion.div
-          className="absolute h-full w-[80%]"
+          className="absolute h-hull w-full"
           key="step5"
           initial={{ opacity: 0, x: "110%" }}
           animate={{ opacity: 1, x: "0" }}
@@ -205,6 +247,11 @@ const StepComponent = ({
             watch={watch}
             register={register}
             setValue={setValue}
+            _images={_images}
+            setImages={setImages}
+            thumbnail={thumbnail}
+            setThumbnail={setThumbnail}
+            onSubmit={onSubmit}
           />
         </motion.div>
       )}
@@ -219,8 +266,26 @@ const PostDeal = () => {
   const [catQuestions, setCatQuestions] = useState([]);
   const [subQuestions, setSubQuestions] = useState([]);
   const [childQuestions, setChildQuestions] = useState([]);
-  const { register, handleSubmit, watch, setValue } = useForm();
+  const [_images, setImages] = useState([]);
+  const [thumbnail, setThumbnail] = useState();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    trigger,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      category_id: null,
+      child_category_id: null,
+      subcategory_id: null,
+    },
+  });
   const islogin = localStorage.getItem("ACCESS_TOKEN");
+
   const isBuyer =
     JSON.parse(localStorage.getItem("USER"))?.user_type === "buyer";
 
@@ -236,7 +301,6 @@ const PostDeal = () => {
       }
     }
   }, [islogin, isBuyer, nav]);
-  console.log(watch());
 
   const goToNextStep = () => {
     dispatch({
@@ -268,21 +332,12 @@ const PostDeal = () => {
     });
   };
 
-  const handleSubmitData = async () => {
-    if (islogin) {
-      console.log("yes logged in");
-    } else {
-      console.log("no login");
-    }
-  };
-
   useEffect(() => {
     setQuestions([...catQuestions, ...subQuestions, ...childQuestions]);
   }, [catQuestions, subQuestions, childQuestions]);
 
   const getQuestionsById = async (obj) => {
     const res = await axiosClient.post("site/question/show", obj);
-    console.log(res.data);
     if (res.data.success) {
       if (obj.category_id !== null) {
         setCatQuestions(res.data.questions);
@@ -294,12 +349,121 @@ const PostDeal = () => {
     }
   };
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    const toastID = toast.loading("storing...");
+    // Function to find question ID based on content
+    function findQuestionId(content) {
+      for (let i = 0; i < questions.length; i++) {
+        if (questions[i].content === content) {
+          return questions[i].id;
+        }
+      }
+      return null; // Return null if question not found
+    }
+    function findQuestionType(content) {
+      for (let i = 0; i < questions.length; i++) {
+        if (questions[i].content === content) {
+          return questions[i].type;
+        }
+      }
+      return null; // Return null if question not found
+    }
+    console.log(data);
+    let transformedData = {
+      category_id: data.category_id,
+      childCategory_id: data.child_category_id,
+      subcategory_id: data.subcategory_id,
+      questions: Object.keys(data)
+        .filter(
+          (key) =>
+            key !== "category_id" &&
+            key !== "child_category_id" &&
+            key !== "subcategory_id" &&
+            key !== "country_id" &&
+            key !== "city_id" &&
+            key !== "budget" &&
+            key !== "deadline" &&
+            key !== "title" &&
+            key !== "description"
+        )
+        .map((key) => {
+          const type = findQuestionType(key);
+          console.log(type);
+          if (type === "singlechoisdrop") {
+            return {
+              question_id: findQuestionId(key),
+              answer_id: data[key],
+            };
+          } else {
+            return {
+              question_id: findQuestionId(key),
+              buyer_answer: data[key],
+            };
+          }
+        }),
+      country_id: data.country_id,
+      city_id: data.city_id,
+      budget: data.budget,
+      dead_line: data.deadline,
+      title: data.title,
+      description: data.description,
+      image: thumbnail?.file,
+    };
+
+    const formData = new FormData();
+
+    // Append each key-value pair to FormData
+    Object.entries(transformedData).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        // If value is an array of objects, handle it accordingly
+        value.forEach((item, index) => {
+          Object.entries(item).forEach(([subKey, subValue]) => {
+            formData.append(`${key}[${index}][${subKey}]`, subValue);
+          });
+        });
+      } else {
+        // For non-array values, simply append
+        formData.append(key, value);
+      }
+    });
+    const res = await axiosClient.post("/buyer/post/store", formData);
+    if (res.data?.success === true) {
+      const images = new FormData();
+      const id = res.data.data;
+      _images.map((ele) => {
+        images.append("image[]", ele.file);
+      });
+      toast.update(toastID, {
+        type: "success",
+        render: res.data.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+      nav("/customer/jobs");
+      const res2 = await axiosClient.post(
+        `/buyer/post/image/store/${id}`,
+        images
+      );
+    } else {
+      toast.update(toastID, {
+        type: "error",
+        render: res.data.mes,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
+  };
 
   return isBuyer ? (
-    <div className="min-h-[700px] flex flex-col justify-between lg:px-20 md:px-12 px-6">
-      <div className="py-12 h-auto w-full min-h-[700px]">
-        <form className="h-full" onSubmit={handleSubmit(onSubmit)}>
+    <div className="flex flex-col justify-between lg:px-20 md:px-12 px-6 ">
+      <div className="my-12 relative  w-full h-[600px] overflow-y-auto overflow-auto">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <StepComponent
             handleDataChange={handleDataChange}
             register={register}
@@ -307,12 +471,18 @@ const PostDeal = () => {
             step={Number(state.step)}
             state={state}
             watch={watch}
+            trigger={trigger}
+            errors={errors}
             goToNextStep={goToNextStep}
             goToPrevStep={goToPrevStep}
-            handleSubmitData={handleSubmitData}
             getQuestionsById={getQuestionsById}
             questions={questions}
             setQuestions={setQuestions}
+            _images={_images}
+            setImages={setImages}
+            thumbnail={thumbnail}
+            setThumbnail={setThumbnail}
+            onSubmit={onSubmit}
           />
         </form>
       </div>

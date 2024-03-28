@@ -12,7 +12,6 @@ export default function FormAnswer({ formbuilder, createFrom }) {
     },
   ]);
 
-  console.log(answers);
 
   const handleAddOption = () => {
     setAnswers((prevAnswers) => [

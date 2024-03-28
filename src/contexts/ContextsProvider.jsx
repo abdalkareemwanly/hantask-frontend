@@ -29,10 +29,12 @@ const getData = async (data) => {
   }
 };
 export const ContextProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("USER")));
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("USER")));
+  }, []);
   const [notificationsPage, setNotificationsPage] = useState(1);
   const [token, _setToken] = useState(localStorage.getItem("ACCESS_TOKEN"));
-
   const {
     data: notifications,
     isLoading,
@@ -51,16 +53,19 @@ export const ContextProvider = ({ children }) => {
       cluster: "eu",
       encrypted: true,
     });
-    console.log(pusher);
 
     const channel = pusher.subscribe("hantask");
-    channel.bind("App\\Events\\PusherNotification", function (data) {
-      console.log(data);
-      refetch();
-      toast.info(data?.message, {
-        autoClose: false,
-      });
-    });
+    channel.bind(
+      "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated",
+      function (data) {
+        if (data?.user_id == user?.id) {
+          refetch(); // Assuming this function is defined elsewhere to refresh data
+          toast.info(data.message, {
+            autoClose: false,
+          });
+        }
+      }
+    );
 
     return () => {
       channel.unbind();
@@ -71,7 +76,6 @@ export const ContextProvider = ({ children }) => {
 
   const setToken = (newToken) => {
     _setToken(newToken);
-    console.log(newToken);
     if (newToken) {
       localStorage.setItem("ACCESS_TOKEN", newToken);
     } else {

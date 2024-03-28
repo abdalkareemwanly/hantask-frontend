@@ -58,7 +58,6 @@ export default function FormBuilder() {
       });
     }
   };
-  console.log(form);
   const handleButtonClick = (button) => {
     setSelectedButton(button);
     setFormBuilder(null);

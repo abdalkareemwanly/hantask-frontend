@@ -89,7 +89,6 @@ export const GlobalDataProvider = ({ children }) => {
           );
     setFilteredChildCategories(filteredChilds);
   }, [selectedSubCategory, subCategories, childCategories]);
-  console.log(filteredChildCategories, selectedSubCategory);
 
   let FILTER_DATA = {
     country: {

@@ -12,54 +12,32 @@ import PostJobsCardLoader from "../jobs/components/PostJobsCardLoader";
 import "./css/mainSection.css";
 import { FaArrowRight } from "react-icons/fa";
 import Button from "../../../Components/Button";
+import { banner2 } from "../../../assets";
 
 const getNewJobs = async () => {
   const res = await axiosClient.get("/site/posts");
   return res.data.data;
-};
-const getPopulerJobs = async () => {
-  const res = await axiosClient.get("/site/posts");
-  return res.data.data;
-};
-const getTotalUsers = async () => {
-  const res = await axiosClient.get("/site/users/total");
-  return res.data;
 };
 
 const Homepage = () => {
   const { categories, subCategories, childCategories } = useGlobalDataContext();
 
   const [newJobs, setNewJobs] = useState([]);
-  const [users, setUsers] = useState({});
-  const [populerJobs, setPopulerJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getData1 = async () => {
       const data1 = await getNewJobs();
       setNewJobs(data1);
-    };
-    const getData2 = async () => {
-      const data2 = await getPopulerJobs();
-      setPopulerJobs(data2);
       setIsLoading(false);
     };
 
     getData1();
-    getData2();
-  }, []);
-
-  useEffect(() => {
-    const gettotal = async () => {
-      const data = await getTotalUsers();
-      setUsers(data);
-    };
-    gettotal();
   }, []);
 
   return (
     <div className="">
-      <Banner total_users={users} />
+      <Banner />
       <div className=" lg:px-40 md:px-12  px-6 py-12 flex flex-row items-center flex-wrap">
         <h3 className="text-2xl font-semibold  md:flex-[30%]  flex-grow-0">
           Discovering the perfect handyman for your project
@@ -133,7 +111,7 @@ const Homepage = () => {
       <div
         className="relative w-full p-3 md:p-6 lg:p-12 min-h-[250px]"
         style={{
-          backgroundImage: "url('/src/assets/banner2.jpg')",
+          backgroundImage: banner2,
           backgroundPosition: "center",
           backgroundSize: "cover",
         }}
@@ -154,7 +132,7 @@ const Homepage = () => {
   );
 };
 
-const Banner = ({ total_users }) => {
+export const Banner = ({ total_users }) => {
   return (
     <section>
       <div className="bannerContainer">

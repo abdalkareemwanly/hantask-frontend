@@ -5,7 +5,6 @@ const Navbar = () => {
   const isUserServiceProvider =
     JSON.parse(localStorage.getItem("USER"))?.user_type == "seller";
 
-  console.log(isLogin, isUserServiceProvider);
   return (
     <nav className="flex items-center gap-12">
       <Link to={""}>home</Link>

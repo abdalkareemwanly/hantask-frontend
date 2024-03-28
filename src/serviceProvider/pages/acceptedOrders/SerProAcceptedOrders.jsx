@@ -15,6 +15,7 @@ import ReviewModal from "./components/ReviewModal";
 import Loader from "../../../Components/Loader";
 import Edit from "../reviews/components/Edit";
 import EditReview from "./components/EditReview";
+import { useNavigate } from "react-router-dom";
 const getData = async () => {
   const res = await axiosClient.get("/seller/acceptedComments");
   return res;
@@ -36,6 +37,8 @@ const SerProAcceptedOrders = () => {
   const [reportModalOpen, setReportModalOpen] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
   const [editReviewModal, setEditReviewModal] = useState(false);
+  const nav = useNavigate();
+
   const {
     data: orders,
     errors,
@@ -76,7 +79,6 @@ const SerProAcceptedOrders = () => {
             <img
               className="w-[120px] h-[100px] rounded-md"
               src={`${import.meta.env.VITE_WEBSITE_URL + row.post_image}`}
-              alt=""
             />
             <div className="flex flex-col gap-1">
               <span>
@@ -189,6 +191,21 @@ const SerProAcceptedOrders = () => {
               color={"bg-redColor"}
               title={"report"}
               onClickFun={() => handleSelectedRowReport(row)}
+            />
+            <Button
+              isLink={false}
+              color={"bg-greenColor"}
+              title={"chat"}
+              onClickFun={() => {
+                nav("/serviceProvider/chatInbox", {
+                  state: {
+                    selectedUserFromOthers: {
+                      user_id: row.buyer_id,
+                      user_name: row.buyer_name,
+                    },
+                  },
+                });
+              }}
             />
           </div>
         );

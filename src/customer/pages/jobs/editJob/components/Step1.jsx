@@ -12,47 +12,16 @@ export const Step1 = ({
   handleCountriesChange,
   subCategories,
   countries,
+  stepData,
 }) => {
   const onSubmit = async (values) => {
     setStepData({ ...values });
     setStep(2);
-    // const id = toast.loading("please wait...");
-    // const area = {
-    //   ...values,
-    // };
-    // const formData = new FormData();
-    // formData.append("service_area", area.service_area);
-    // formData.append("country_id", area.country_id);
-    // formData.append("service_city_id", area.service_city_id);
-    // try {
-    //   //   const city = await mutation.mutateAsync(formData);
-    //   //   setIsAddModalOpen((prev) => !prev);
-    //   toast.update(id, {
-    //     type: "success",
-    //     render: city.mes,
-    //     closeOnClick: true,
-    //     isLoading: false,
-    //     autoClose: true,
-    //     closeButton: true,
-    //     pauseOnHover: false,
-    //   });
-    //   setStep(2);
-    // } catch (error) {
-    //   toast.update(id, {
-    //     type: "error",
-    //     render: error.response.data.message,
-    //     closeOnClick: true,
-    //     isLoading: false,
-    //     autoClose: true,
-    //     closeButton: true,
-    //     pauseOnHover: false,
-    //   });
-    // }
   };
-
   const validate = () => {
     console.log("no");
   };
+
   let template = {
     title: "",
     fields: [
@@ -200,13 +169,16 @@ export const Step1 = ({
   };
 
   return (
-    <ReusableForm
-      template={template}
-      onSubmit={onSubmit}
-      validate={validate}
-      btnWidth={"w-[150px] self-end"}
-      btnText={"next"}
-      addedStyles={"md:w-[400px] lg:w-[100%]"}
-    />
+    template &&
+    stepData && (
+      <ReusableForm
+        template={template}
+        onSubmit={onSubmit}
+        validate={validate}
+        btnWidth={"w-[150px] self-end"}
+        btnText={"next"}
+        addedStyles={"md:w-[400px] lg:w-[100%]"}
+      />
+    )
   );
 };

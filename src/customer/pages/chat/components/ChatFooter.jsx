@@ -25,7 +25,6 @@ function CustomerChatFooter(props) {
     data.append("file", file);
 
     const res = mutate.mutateAsync({ reportId, data });
-    console.log(res);
   };
 
   return (

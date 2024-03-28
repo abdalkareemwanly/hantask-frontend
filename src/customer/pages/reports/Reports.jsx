@@ -17,7 +17,6 @@ const getData = async (page = 1) => {
 };
 function Reports(props) {
   const user = JSON.parse(localStorage.getItem("USER"));
-  console.log(user);
   const [page, setPage] = useState(1);
   const [openDescriptionModal, setOpenDescriptionModal] = useState(false);
   const [description, setDescription] = useState("");
@@ -161,71 +160,50 @@ function Reports(props) {
     },
   };
 
-  function reducer(state, action) {
-    let res = {};
-    Object.keys(state).map((element) => {
-      if (action.type == `change_${element}`)
-        res = {
-          ...state,
-          [element]: { ...state[element], value: action.newValue },
-        };
-    });
-
-    return res;
-  }
-
-  function handleSearch() {
-    console.log(state);
-  }
-
-  const [state, dispatch] = useReducer(reducer, fields);
   if (isLoading) return <Loader />;
 
   return (
-    <>
-      <Page>
-        {console.log("reports is", reports)}
-        <div className="flex flex-col gap-[30px]">
-          {/* <Filter
+    <Page>
+      <div className="flex flex-col gap-[30px]">
+        {/* <Filter
             state={state}
             dispatch={dispatch}
             handleSearch={handleSearch}
           /> */}
-          <div className="recent-ticket xl:col-span-3 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">
-            <div className=" flex justify-between border-b border-light-text  pb-[20px]">
-              <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
-                All Reports
-              </h4>
-            </div>
-            <TableData
-              columns={COLUMNS}
-              enableSearch={false}
-              response={reports}
-              actualData={reports?.data?.data}
-              setPage={setPage}
-              paginationBool={true}
-              noDataMessage={"no reports to show!"}
-            />
+        <div className="recent-ticket xl:col-span-3 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">
+          <div className=" flex justify-between border-b border-light-text  pb-[20px]">
+            <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
+              All Reports
+            </h4>
           </div>
-        </div>
-        {openDescriptionModal && (
-          <ModalContainer
-            isModalOpen={openDescriptionModal}
-            setIsModalOpen={setOpenDescriptionModal}
-            component={
-              <div className="min-w-[30vw]">
-                <div className=" flex justify-between border-b border-light-text  pb-[20px]">
-                  <h5 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
-                    Report Details
-                  </h5>
-                </div>
-                <div className="mt-[20px]">{description}</div>
-              </div>
-            }
+          <TableData
+            columns={COLUMNS}
+            enableSearch={false}
+            response={reports}
+            actualData={reports?.data?.data}
+            setPage={setPage}
+            paginationBool={true}
+            noDataMessage={"no reports to show!"}
           />
-        )}
-      </Page>
-    </>
+        </div>
+      </div>
+      {openDescriptionModal && (
+        <ModalContainer
+          isModalOpen={openDescriptionModal}
+          setIsModalOpen={setOpenDescriptionModal}
+          component={
+            <div className="min-w-[30vw]">
+              <div className=" flex justify-between border-b border-light-text  pb-[20px]">
+                <h5 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
+                  Report Details
+                </h5>
+              </div>
+              <div className="mt-[20px]">{description}</div>
+            </div>
+          }
+        />
+      )}
+    </Page>
   );
 }
 

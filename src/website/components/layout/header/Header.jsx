@@ -9,6 +9,7 @@ import { useStateContext } from "../../../../contexts/ContextsProvider";
 import { BiSolidChevronDown } from "react-icons/bi";
 import Button from "../../../../Components/Button";
 import { MdOutlineAccountCircle } from "react-icons/md";
+import { logoLight } from "../../../../images";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,11 +31,7 @@ const Header = () => {
   return (
     <header className="py-6 lg:px-32 md:px-16 px-8 flex justify-between items-center">
       <Link>
-        <img
-          src="/src/images/logo-light.png"
-          className="w-[6rem] md:w-[9rem]"
-          alt="Logo"
-        />
+        <img src={logoLight} className="w-[6rem] md:w-[9rem]" alt="Logo" />
       </Link>
       <div className="flex items-center gap-6 text-sm">
         <div className="hidden items-center gap-6 text-sm md:flex">
