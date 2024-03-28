@@ -14,13 +14,16 @@ import { useStateContext } from "../../contexts/ContextsProvider";
 import ModalContainer from "../../Components/ModalContainer";
 import PasswordChange from "./PasswordChange";
 import Button from "../../Components/Button";
+import { userDark, userLight } from "../../images";
 
 export default function ServiceProviderLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [adminmenuOpen, setAdminMenuOpen] = useState(false);
   const [mode, setMode] = useState(localStorage.getItem("theme") || "light");
   const { setTheme } = useTWThemeContext();
-  const { token } = useStateContext({});
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
+  const { token, notifications } = useStateContext({});
   const user = JSON.parse(localStorage.getItem("USER"));
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -90,17 +93,9 @@ export default function ServiceProviderLayout() {
               onClick={handleAdminMenu}
             >
               {mode === "light" ? (
-                <img
-                  className="w-[30px]"
-                  src="/src/images/user-light.png"
-                  alt=""
-                />
+                <img className="w-[30px]" src={userLight} />
               ) : (
-                <img
-                  className="w-[30px]"
-                  src="/src/images/user-dark.png"
-                  alt=""
-                />
+                <img className="w-[30px]" src={userDark} />
               )}
               <div className="text-primary-text px-3">{user.username}</div>
               <BiSolidChevronDown
@@ -138,11 +133,47 @@ export default function ServiceProviderLayout() {
                 />
               )}
             </button>
-            <button className="me-5">
-              <BiSolidBellRing
-                style={{ fontSize: "24px" }}
-                className="text-primary-text"
-              />
+            <button className="me-5 relative block">
+              <div className="relative">
+                <BiSolidBellRing
+                  style={{ fontSize: "24px" }}
+                  onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                  className="text-primary-text"
+                />
+                {notifications?.data?.data?.filter((ele) => ele.status === 0)
+                  .length > 0 && (
+                  <span className="absolute top-[-20px]  right-[-20px] bg-greenColor rounded-full w-[25px] h-[25px] text-sm flex items-center justify-center ">
+                    {
+                      notifications.data.data.filter((ele) => ele.status === 0)
+                        .length
+                    }
+                  </span>
+                )}
+              </div>
+              <div
+                className={`absolute flex flex-col top-14 right-0 w-[380px]  text-primary-text overflow-y-auto me-[-20px] component-shadow bg-blocks-color z-10 rounded-md ${
+                  isNotificationOpen ? "h-[auto] p-4" : "h-0 p-0"
+                }`}
+              >
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold">
+                    recent notifications
+                  </h3>
+                  <Link
+                    className="text-blueColor"
+                    to={"/serviceProvider/notifications"}
+                  >
+                    show all
+                  </Link>
+                </div>
+                <div className="my-4 flex flex-col items-start  gap-2">
+                  {notifications?.data?.data?.map((ele, i) => (
+                    <span key={i} className="">
+                      {ele?.title}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </button>
           </div>
         </div>

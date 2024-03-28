@@ -6,7 +6,7 @@ html {
 }
 :root {
   /* abullah colors */
-  --main-color: rgb(255, 107, 44);
+  --main-color: rgb(79, 201, 97);
   --card-background: rgba(255, 107, 44, 0.1);
   --second-color: #4d77ff;
   --light-text: #666;
@@ -52,7 +52,7 @@ html {
   --toastify-color-dark: rgb(50, 54, 63);
 
   /* abullah colors */
-  --main-color: rgb(255, 107, 44);
+  --main-color: rgb(79, 201, 97);
   --card-background: rgba(255, 107, 44, 0.1);
   --second-color: #4d77ff;
   --second-color-rgb: 77 119 255;
@@ -87,7 +87,7 @@ html {
   --toastify-color-light: rgb(255, 255, 255);
 
   /* abullah colors */
-  --main-color: rgb(255, 107, 44);
+  --main-color: rgb(79, 201, 97);
   --card-background: rgba(255, 107, 44, 0.1);
   --second-color: #4d77ff;
   --second-color-rgb: 77 119 255;

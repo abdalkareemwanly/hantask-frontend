@@ -10,7 +10,6 @@ const postData = async (data) => {
   return res;
 };
 const ChangeStatus = ({ data, setIsModalOpen }) => {
-  console.log(data);
   let template = {
     fields: [
       {

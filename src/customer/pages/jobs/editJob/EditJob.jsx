@@ -12,6 +12,7 @@ import { Step1 } from "./components/Step1";
 import Step2 from "./components/Step2";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import QuestionsStep from "./components/QuestionsStep";
 // get the query client
 
 const getData = async (id) => {
@@ -36,7 +37,6 @@ const EditJob = () => {
   const { data: post, isLoading } = useQueryHook(["post", id], () =>
     getData(id)
   );
-  console.log(post);
   const [filteredSubCategories, setFilteredSubCategories] = useState();
   const [filteredChilds, setFilteredChilds] = useState();
   const [filteredCities, setFilteredCities] = useState();
@@ -44,7 +44,6 @@ const EditJob = () => {
   const deleteMutate = useMutationHook(deleteFunc, ["post", id]);
   const updateDataMutate = useMutationHook(updateDataFunc, ["post", id]);
   const [stepData, setStepData] = useState();
-
   useEffect(() => {
     if (
       post &&
@@ -57,6 +56,14 @@ const EditJob = () => {
       handleMainCategoryChange(post.category_id);
       handleChangeSubCategories(post.subcategory_id);
       handleCountriesChange(post.country_id);
+
+      setThumbnail(post?.image);
+      setReadyImages(post.postimages);
+    }
+  }, [post, countries, cities, categories, subCategories, childCategories]);
+
+  useEffect(() => {
+    if (filteredChilds && filteredCities && filteredSubCategories) {
       setStepData({
         category: post.category_id,
         subCategory: post.subcategory_id,
@@ -68,10 +75,8 @@ const EditJob = () => {
         deadlineDate: post.dead_line,
         description: post.description,
       });
-      setThumbnail(post?.image);
-      setReadyImages(post.post_images);
     }
-  }, [post, countries, cities, categories, subCategories, childCategories]);
+  }, [filteredChilds, filteredCities, filteredSubCategories]);
 
   const handleMainCategoryChange = (value) => {
     const selectedMainCategory = categories?.find((obj) => obj.id == value);
@@ -140,15 +145,21 @@ const EditJob = () => {
 
   const handleFinish = async () => {
     const formData = new FormData();
-    formData.append("title", stepData.title);
-    formData.append("description", stepData.description);
-    formData.append("budget", stepData.budget);
-    formData.append("dead_line", stepData.deadlineDate);
-    formData.append("category_id", stepData.category);
-    formData.append("subcategory_id", stepData.subCategory);
-    formData.append("childCategory_id", stepData.childCategory);
-    formData.append("country_id", stepData.country);
-    formData.append("city_id", stepData.city);
+    // Append each key-value pair to FormData\
+    console.log(stepData);
+    Object.entries(stepData).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        // If value is an array of objects, handle it accordingly
+        value.forEach((item, index) => {
+          Object.entries(item).forEach(([subKey, subValue]) => {
+            formData.append(`${key}[${index}][${subKey}]`, subValue);
+          });
+        });
+      } else {
+        // For non-array values, simply append
+        formData.append(key, value);
+      }
+    });
     if (thumbnail?.file) {
       formData.append("image", thumbnail.file);
     }
@@ -182,13 +193,17 @@ const EditJob = () => {
       });
     }
   };
+  console.log(stepData);
 
   if (isLoading) return <Loader />;
   return (
     <Page>
       <PageTitle text={"edit job post"} />
       {step === 1 ? (
-        stepData && (
+        stepData &&
+        filteredChilds &&
+        filteredCities &&
+        filteredSubCategories && (
           <Step1
             data={stepData}
             categories={categories}
@@ -201,8 +216,16 @@ const EditJob = () => {
             handleMainCategoryChange={handleMainCategoryChange}
             handleChangeSubCategories={handleChangeSubCategories}
             handleCountriesChange={handleCountriesChange}
+            stepData={stepData}
           />
         )
+      ) : step === 2 ? (
+        <QuestionsStep
+          data={stepData}
+          setStepData={setStepData}
+          setStep={setStep}
+          post={post}
+        />
       ) : (
         <Step2
           setImages={setImages}

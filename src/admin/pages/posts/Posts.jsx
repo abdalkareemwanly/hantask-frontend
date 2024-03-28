@@ -79,7 +79,6 @@ const Posts = () => {
                 import.meta.env.VITE_WEBSITE_URL + "/public" + row.image
               }`}
               className="w-[50px] h-[50px] rounded-full"
-              alt=""
             />
             <span>{row.title}</span>
           </div>

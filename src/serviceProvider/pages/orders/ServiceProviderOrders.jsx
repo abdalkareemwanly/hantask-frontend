@@ -34,7 +34,6 @@ const ServiceProviderOrders = () => {
             <img
               className="w-[120px] h-[100px] rounded-md"
               src={import.meta.env.VITE_WEBSITE_URL + row.post_image}
-              alt=""
             />
             <div className="flex flex-col gap-1">
               <span>
@@ -160,7 +159,7 @@ const ServiceProviderOrders = () => {
           actualData={orders?.data.data}
           setPage={setPage}
           paginationBool={true}
-          noDataMessage={"no incoming orders to show!"}
+          noDataMessage={"no outgoing orders to show!"}
         />
       </div>
     </Page>

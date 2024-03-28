@@ -52,7 +52,7 @@ function PostJobsCard({ item, withBuyer = true }) {
           textColor={"white"}
           isLink={true}
           goto={`/deal/${item?.id}`}
-          title={"apply now"}
+          title={"show"}
           color={"bg-greenColor text-xs"}
         />
       </div>

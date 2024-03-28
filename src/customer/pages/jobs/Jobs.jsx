@@ -11,9 +11,10 @@ import Loader from "../../../Components/Loader";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useMutationHook } from "../../../hooks/useMutationHook";
+import { PaginationComponent } from "../../../Components/PaginationComponent";
 
-const getData = async () => {
-  const res = await axiosClient.get("/buyer/posts");
+const getData = async (page) => {
+  const res = await axiosClient.get(`/buyer/posts?page=${page}`);
   return res;
 };
 
@@ -34,7 +35,7 @@ const Jobs = () => {
     errors,
     isLoading,
     refetch,
-  } = useQueryHook(["jobs", page], getData);
+  } = useQueryHook(["jobs", page], () => getData(page));
   const changeStatusMutation = useMutationHook(changeStatusFunc, [
     "jobs",
     page,
@@ -128,7 +129,7 @@ const Jobs = () => {
         {jobs.data.data.map((ele) => (
           <div
             key={ele.id}
-            className="flex flex-col gap-2 flex-grow-0 flex-[48%] rounded-md bg-blocks-color component-shadow"
+            className="flex flex-col gap-2 flex-grow-0 flex-1 md:flex-[48%] rounded-md bg-blocks-color component-shadow"
           >
             <div className="flex gap-1 items-center p-4">
               <div>
@@ -153,7 +154,7 @@ const Jobs = () => {
                 </label>
               </div>
               <Button
-                goto={`/job-detail/${ele.id}`}
+                goto={`/deal/${ele.id}`}
                 isLink={true}
                 hoverStyles={"rounded-full hover:bg-blueColor"}
                 Icon={<IoEye size={20} className="text-primary-text" />}
@@ -187,6 +188,8 @@ const Jobs = () => {
           </div>
         ))}
       </div>
+
+      <PaginationComponent data={jobs} setPage={setPage} />
     </Page>
   );
 };

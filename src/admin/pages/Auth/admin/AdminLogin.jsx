@@ -48,7 +48,7 @@ export default function AdminLogin() {
         getSideBar();
 
         setToken(response.data.token);
-        setUser(response.data.data);
+        setUser(response.data.admin);
 
         sessionStorage.setItem("mode", "light");
         localStorage.setItem("USER", JSON.stringify(response.data.admin));

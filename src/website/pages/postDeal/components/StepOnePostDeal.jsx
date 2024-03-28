@@ -2,26 +2,11 @@ import { useState } from "react";
 
 export const StepOnePostDeal = ({
   categories,
-  handleDataChange,
-  state,
-  setSelectedCategory,
   goToNextStep,
-  getQuestionsById,
   register,
-  setValue,
   watch,
+  errors,
 }) => {
-  const handleChange = (e) => {
-    getQuestionsById({
-      category_id: e.target.value,
-      subcategory_id: null,
-      child_category_id: null,
-    });
-    setSelectedCategory({ id: e.target.value });
-    handleDataChange("categoryId", e.target.value);
-    setValue("category_id", e.target.value);
-  };
-
   return (
     <div className="max-w-[620px] flex flex-col gap-4">
       <h2 className="text-2xl font-bold">What would you like to have done?</h2>
@@ -30,9 +15,7 @@ export const StepOnePostDeal = ({
         professional handymans.
       </p>
       <select
-        onChange={handleChange}
-        value={watch("category_id")}
-        name="category_id" // Ensure the name attribute matches the registered field name
+        {...register("category_id", { required: "This field is required" })}
         className="input-box w-full"
       >
         <option value={""}>choose a category first</option>
@@ -43,11 +26,20 @@ export const StepOnePostDeal = ({
             </option>
           ))}
       </select>
+      {errors["category_id"] && errors["category_id"].message}
       {/* <span>{isError && "this field required"}</span> */}
       <div className="flex">
         <div
-          className="bg-greenColor text-white  p-2 rounded-lg cursor-pointer"
-          onClick={goToNextStep}
+          className={`bg-greenColor text-white  p-2 rounded-lg ${
+            errors["category_id"]?.message || watch("category_id") === null
+              ? "cursor-not-allowed"
+              : "cursor-pointer"
+          }  `}
+          onClick={
+            errors["category_id"]?.message || watch("category_id") === null
+              ? null
+              : goToNextStep
+          }
         >
           next
         </div>

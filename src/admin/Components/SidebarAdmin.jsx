@@ -25,6 +25,8 @@ import {
   BiSolidCreditCardFront,
   BiSolidObjectsHorizontalCenter,
 } from "react-icons/bi";
+import { FaPager } from "react-icons/fa6";
+
 import { Link } from "react-router-dom";
 import { useTWThemeContext } from "./ThemeProvider";
 import { AiOutlineClose } from "react-icons/ai";
@@ -68,6 +70,7 @@ const iconMap = {
   "Payment Settings": <BiSolidCreditCardFront />,
   "handymans verify": <MdVerifiedUser />,
   "pages settings": <RiPagesFill />,
+  blogs: <FaPager />,
 };
 
 export default function SidebarAdmin({ setSidebarOpen }) {

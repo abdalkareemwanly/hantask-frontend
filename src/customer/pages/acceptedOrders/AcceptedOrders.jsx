@@ -14,7 +14,7 @@ import { FaEye } from "react-icons/fa6";
 import ReviewModal from "./components/ReviewModal";
 import Loader from "../../../Components/Loader";
 import EditReview from "./components/EditReview";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const getData = async () => {
   const res = await axiosClient.get("/buyer/acceptedComments");
   return res;
@@ -36,6 +36,7 @@ const AcceptedOrders = () => {
   const [reportModalOpen, setReportModalOpen] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
   const [editReviewModal, setEditReviewModal] = useState(false);
+  const nav = useNavigate();
   const {
     data: orders,
     errors,
@@ -76,7 +77,6 @@ const AcceptedOrders = () => {
             <img
               className="w-[120px] h-[100px] rounded-md"
               src={`${import.meta.env.VITE_WEBSITE_URL + row.post_image}`}
-              alt=""
             />
             <div className="flex flex-col gap-1">
               <span>
@@ -211,6 +211,21 @@ const AcceptedOrders = () => {
               color={"bg-redColor"}
               title={"report"}
               onClickFun={() => handleSelectedRowReport(row)}
+            />
+            <Button
+              isLink={false}
+              color={"bg-greenColor"}
+              title={"chat"}
+              onClickFun={() => {
+                nav("/customer/chatInbox", {
+                  state: {
+                    selectedUserFromOthers: {
+                      user_id: row.seller_id,
+                      user_name: row.seller_name,
+                    },
+                  },
+                });
+              }}
             />
           </div>
         );

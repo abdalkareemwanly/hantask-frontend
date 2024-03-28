@@ -8,8 +8,23 @@ import { HiClipboardList } from "react-icons/hi";
 import RecentOrdersItem from "./components/RecentOrdersItem";
 import TableData from "../../../Components/TableData";
 import COLUMNS from "./data/columns";
+import { useEffect, useState } from "react";
+import axiosClient from "../../../axios-client";
 
 const CustomerHomePage = () => {
+  const [alldata, setData] = useState();
+
+  useEffect(() => {
+    getAdminNumber();
+  }, []);
+
+  const getAdminNumber = () => {
+    axiosClient.get("/seller/dashboard").then((response) => {
+      setData(response.data);
+    });
+  };
+  console.log(alldata);
+
   const recentTickets = [
     {
       ticketId: 11,
@@ -87,53 +102,35 @@ const CustomerHomePage = () => {
   return (
     <Page>
       <div>
-        <div className="top-section grid grid-cols-2 gap-[20px] items-start">
+        <div className="top-section grid grid-cols-1 gap-[20px] items-start">
           <div className="xl:col-span-1 col-span-2 grid grid-cols-2 grid-rows-2 gap-[20px]">
             <StatisticsCard
               iconColor={"blueColor"}
               title={"Order In Progress"}
-              value={"40"}
+              value={alldata?.order_progress}
               icon={<GiSandsOfTime />}
             />
             <StatisticsCard
               iconColor={"orangeColor"}
               title={"Order Pending"}
-              value={"31"}
+              value={alldata?.order_pending}
               icon={<FaListUl />}
             />
             <StatisticsCard
               iconColor={"greenColor"}
               title={"Order Completed"}
-              value={"567"}
+              value={alldata?.order_completed}
               icon={<FaRegCheckSquare />}
             />
             <StatisticsCard
               iconColor={"redColor"}
               title={"Total Order"}
-              value={"782"}
+              value={alldata?.totalOrders}
               icon={<HiClipboardList />}
             />
           </div>
-          <div className="xl:col-span-1 col-span-2 bg-blocks-color p-[20px] rounded-[10px]">
-            <div className=" flex justify-between border-b border-light-text  pb-[20px]">
-              <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
-                Notifications
-              </h4>
-              <Link
-                to={"/customer/notifications"}
-                className="text-blueColor hover:text-orangeColor duration-[500ms]"
-              >
-                View all
-              </Link>
-            </div>
-            <div className="pt-[20px] ">
-              <span className="flex justify-center items-center">
-                no notificatoin
-              </span>
-            </div>
-          </div>
         </div>
-        <div className="top-section grid grid-cols-5 gap-[20px] items-start">
+        <div className="top-section grid grid-cols-1 gap-[20px] items-start">
           <div className="recent-orders xl:col-span-2 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">
             <div className=" flex justify-between border-b border-light-text  pb-[20px]">
               <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
@@ -141,12 +138,12 @@ const CustomerHomePage = () => {
               </h4>
             </div>
             <div className="pt-[20px] flex flex-col">
-              {recentOrders.map((item, index) => {
+              {alldata?.lastTenComments.map((item, index) => {
                 return <RecentOrdersItem key={index} item={item} />;
               })}
             </div>
           </div>
-          <div className="recent-ticket xl:col-span-3 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">
+          {/* <div className="recent-ticket xl:col-span-3 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">
             <div className=" flex justify-between border-b border-light-text  pb-[20px]">
               <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">
                 latest accepted orders updates
@@ -160,7 +157,7 @@ const CustomerHomePage = () => {
               paginationBool={false}
               noDataMessage={"no recent tickets to show!"}
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </Page>

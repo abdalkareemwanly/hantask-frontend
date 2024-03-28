@@ -5,6 +5,7 @@ import { FaRegClock } from "react-icons/fa";
 const CONTACT_DATA = [
   {
     icon: <TbPhoneCall />,
+    id: "phone",
     title: "Call Us",
     contactList: [
       { href: "tel:412-723-5750", text: "412-723-5750" },
@@ -13,6 +14,7 @@ const CONTACT_DATA = [
   },
   {
     icon: <IoMailOpenOutline />,
+    id: "email",
     title: "Mail Address",
     contactList: [
       { href: "mailto:Contact@mail.com", text: "Contact@mail.com" },
@@ -21,8 +23,9 @@ const CONTACT_DATA = [
   },
   {
     icon: <FaRegClock />,
+    id: "location",
     title: "Support Time",
-    contactList: [{ href: "", text: "08.00am to 11.00pm" }],
+    contactList: [{ href: "asd", text: "08.00am to 11.00pm" }],
   },
 ];
 

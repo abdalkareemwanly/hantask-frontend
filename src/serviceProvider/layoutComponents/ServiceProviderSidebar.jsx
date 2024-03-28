@@ -15,6 +15,7 @@ import { FaTasks } from "react-icons/fa";
 import { GoReport } from "react-icons/go";
 import { MdReviews } from "react-icons/md";
 import { BiSolidBellRing } from "react-icons/bi";
+import { logoDark, logoLight } from "../../images";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
@@ -58,17 +59,9 @@ export default function ServiceProviderSidebar({ setSidebarOpen }) {
     <>
       <div className="w-full sticky top-0 bg-inherit px-3 py-[20px] bg-blocks-color flex items-center justify-between">
         {theme === "light" ? (
-          <img
-            src="/src/images/logo-light.png"
-            className="w-[80%] md:w-full"
-            alt="Logo"
-          />
+          <img src={logoLight} className="w-[80%] md:w-full" alt="Logo" />
         ) : (
-          <img
-            src="/src/images/logo-dark.png"
-            className="w-[80%] md:w-full"
-            alt="Logo"
-          />
+          <img src={logoDark} className="w-[80%] md:w-full" alt="Logo" />
         )}
         <span className="md:hidden cursor-pointer" onClick={handleCloseSideBar}>
           <AiOutlineClose size={27} />

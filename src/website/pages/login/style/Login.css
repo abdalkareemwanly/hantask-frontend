@@ -1,32 +1,32 @@
 .login-container {
-    box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
 }
 
 .login-container h3 {
-    font-size: 35px;
-    line-height: 55px;
-    font-weight: 700;
-    text-align: center;
+  font-size: 35px;
+  line-height: 55px;
+  font-weight: 700;
+  text-align: center;
 }
 
 .login-container a {
-    transition: all 0.3s;
-    color: var(--light-text);
+  transition: all 0.3s;
+  color: var(--light-text);
 }
 
 .login-container .relative a {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 .login-container a:hover {
-    transition: all 0.3s;
-    color: var(--main-color);
+  transition: all 0.3s;
+  color: var(--main-color);
 }
 
 .signup-sentence {
-    display: block;
-    font-size: 14px;
-    margin-top: 20px;
+  display: block;
+  font-size: 14px;
+  margin-top: 20px;
 }

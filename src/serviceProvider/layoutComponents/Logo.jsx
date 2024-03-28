@@ -1,3 +1,5 @@
+import { logoDark, logoLight } from "../../images";
+
 export default function Logo() {
   const mode = localStorage.getItem("theme");
 
@@ -5,12 +7,12 @@ export default function Logo() {
     <div>
       {mode === "light" ? (
         <img
-          src="/src/images/logo-light.png"
+          src={logoLight}
           className="img-fluid"
           alt="Logo"
         />
       ) : (
-        <img src="/src/images/logo-dark.png" className="img-fluid" alt="Logo" />
+        <img src={logoDark} className="img-fluid" alt="Logo" />
       )}
     </div>
   );

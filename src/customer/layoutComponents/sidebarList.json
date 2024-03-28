@@ -11,6 +11,10 @@
     "name": null,
     "path": "chatInbox"
   },
+  "notifications": {
+    "name": null,
+    "path": "notifications"
+  },
   "jobs": {
     "name": null,
     "path": "jobs"
@@ -26,9 +30,13 @@
   "acceptedOrders": {
     "name": null,
     "path": "acceptedOrders"
-  }, 
+  },
   "reviews": {
     "name": null,
     "path": "reviews"
+  },
+  "saved posts": {
+    "name": null,
+    "path": "saved_posts"
   }
 }

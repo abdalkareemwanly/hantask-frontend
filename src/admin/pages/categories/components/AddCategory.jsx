@@ -75,20 +75,6 @@ export const AddCategory = ({ getCategories, setIsAddModalOpen }) => {
         },
         styles: "md:w-[45%]",
       },
-      // {
-      //   title: "icon",
-      //   name: "icon",
-      //   type: "file",
-      //   fileFor: "icon",
-      //   styles: "md:w-[45%] mt-2",
-      // },
-      // {
-      //   title: "mobile icon",
-      //   name: "mobile_icon",
-      //   type: "file",
-      //   fileFor: "icon",
-      //   styles: "md:w-[45%] mt-2",
-      // },
     ],
   };
 

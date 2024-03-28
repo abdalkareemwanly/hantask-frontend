@@ -12,6 +12,7 @@ import { useTWThemeContext } from "./ThemeProvider";
 import { useStateContext } from "../../contexts/ContextsProvider";
 import axiosClient from "../../axios-client";
 import "react-toastify/dist/ReactToastify.css";
+import { userDark, userLight } from "../../images";
 
 export default function DefaultLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -81,17 +82,9 @@ export default function DefaultLayout() {
               onClick={handleAdminMenu}
             >
               {mode === "light" ? (
-                <img
-                  className="w-[30px]"
-                  src="/src/images/user-light.png"
-                  alt=""
-                />
+                <img className="w-[30px]" src={userLight} />
               ) : (
-                <img
-                  className="w-[30px]"
-                  src="/src/images/user-dark.png"
-                  alt=""
-                />
+                <img className="w-[30px]" src={userDark} />
               )}
               <div className="text-primary-text px-3">{user?.username}</div>
               <BiSolidChevronDown

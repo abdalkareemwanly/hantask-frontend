@@ -79,13 +79,18 @@ import FormBuilderShow from "./admin/pages/formBuilderShow/FormBuilderShow";
 import ServiceProvidersVerify from "./admin/pages/serviceProviderVerify/ServiceProvidersVerify";
 import Privacy from "./admin/pages/controlPages/privacy/Privacy";
 import TermsConditions from "./admin/pages/controlPages/termsAndConditions/TermsConditions";
-import ContactSetting from "./admin/pages/general_setting/ContactSetting";
+import ContactSetting from "./admin/pages/controlPages/contactUs/ContactSetting";
+import AdminNotifications from "./admin/pages/notifications/AdminNotifications";
+import CustomerChats from "./customer/pages/customerChat/CustomerChats";
+import SavedPosts from "./customer/pages/savedPosts/SavedPosts";
+import Blogs from "./website/pages/blogs/Blogs";
+import Blog from "./website/pages/blogs/Blog";
+import AdminBlogs from "./admin/pages/blogs/AdminBlogs";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
   const userRole =
     JSON.parse(localStorage.getItem("USER"))?.user_type || "admin";
-  console.log(thereisToken);
   return thereisToken && userRole == role ? (
     element
   ) : userRole === "admin" ? (
@@ -118,6 +123,11 @@ const router = createBrowserRouter([
       { path: "archivedUsers", element: <ArchivedUsers /> },
       { path: "categories", element: <Categories /> },
       { path: "subCategories", element: <SubCategories /> },
+      { path: "blogs", element: <AdminBlogs /> },
+      {
+        path: "notifications",
+        element: <AdminNotifications />,
+      },
       {
         path: "formbuilder",
         children: [
@@ -137,7 +147,6 @@ const router = createBrowserRouter([
       { path: "posts", element: <Posts /> },
       { path: "subscriptions", element: <Subscriptions /> },
       { path: "coupons", element: <Coupons /> },
-      { path: "contact", element: <ContactSetting /> },
       {
         path: "chat",
         children: [
@@ -170,6 +179,10 @@ const router = createBrowserRouter([
           {
             path: "terms&conditions",
             element: <TermsConditions />,
+          },
+          {
+            path: "contactus",
+            element: <ContactSetting />,
           },
         ],
       },
@@ -282,31 +295,21 @@ const router = createBrowserRouter([
       },
       {
         path: "policy",
-        element: (
-          <Policy
-            policyContent={
-              <>
-                <div>policy here</div>
-              </>
-            }
-          />
-        ),
+        element: <Policy />,
       },
       {
         path: "condition",
-        element: (
-          <Condition
-            conditionContent={
-              <>
-                <div>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Placeat blanditiis accusantium hic atque magni beatae aliquam
-                  facilis cupiditate dolorum ab!
-                </div>
-              </>
-            }
-          />
-        ),
+        element: <Condition />,
+      },
+      {
+        path: "blogs",
+        children: [
+          { path: "", element: <Blogs /> },
+          {
+            path: ":id",
+            element: <Blog />,
+          },
+        ],
       },
     ],
   },
@@ -408,13 +411,13 @@ const router = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   path: "chatInbox",
-      //   element: <Custom />,
-      // },
       {
         path: "orders",
         element: <Orders />,
+      },
+      {
+        path: "chatInbox",
+        element: <CustomerChats />,
       },
       {
         path: "acceptedOrders",
@@ -423,6 +426,10 @@ const router = createBrowserRouter([
       {
         path: "reviews",
         element: <Reviews />,
+      },
+      {
+        path: "saved_posts",
+        element: <SavedPosts />,
       },
     ],
   },

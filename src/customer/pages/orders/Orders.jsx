@@ -94,7 +94,6 @@ const Orders = () => {
             <img
               className="w-[120px] h-[100px] rounded-md"
               src={`${import.meta.env.VITE_WEBSITE_URL + row.post_image}`}
-              alt=""
             />
             <div className="flex flex-col gap-1">
               <span>

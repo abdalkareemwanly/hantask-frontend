@@ -21,7 +21,6 @@ const workStatusArray = [
 ];
 
 const ChangeStatus = ({ data, setIsModalOpen }) => {
-  console.log(data);
   let template = {
     fields: [
       {

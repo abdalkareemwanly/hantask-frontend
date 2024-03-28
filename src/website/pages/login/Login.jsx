@@ -9,11 +9,17 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosClient from "../../../axios-client";
 import { useStateContext } from "../../../contexts/ContextsProvider";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
-function Login(props) {
+function Login() {
   const schema = z.object(Login_SCHEMA);
   const { token, setUser, setToken } = useStateContext();
+  console.log(token);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) navigate("/");
+  }, [token]);
 
   const {
     register,
@@ -29,7 +35,7 @@ function Login(props) {
 
     const res = await axiosClient.post("/site/login", formData);
 
-    if (res.status === 200) {
+    if (res.data.success) {
       toast.update(toastId, {
         type: "success",
         render: res.data.message,
@@ -51,7 +57,7 @@ function Login(props) {
     } else {
       toast.update(toastId, {
         type: "error",
-        render: "hello",
+        render: res.data.message,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -81,16 +87,10 @@ function Login(props) {
             label={"Your Password *"}
             errors={errors}
           />
-          <Input
-            type={"checkbox"}
-            placeholder={"Password"}
-            register={register}
-            name={"rememberme"}
-            label={"Remember Me"}
-            errors={errors}
-          />
-          <Link to={"/forgot-password"}>Forgot Password</Link>
         </div>
+        <Link className="my-4 block" to={"/forgot-password"}>
+          Forgot Password
+        </Link>
         <SubmitButton text={"Sign In"} width={"100%"} />
       </form>
       <div className="signup-sentence">
