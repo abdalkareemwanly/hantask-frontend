@@ -7,11 +7,13 @@ import DateStep from "./components/DateStep";
 import ConfirmationStep from "./components/ConfirmationStep";
 import BookingSummary from "./components/BookingSummary";
 import ServiceDetailsLoader from "./components/ServiceDetailsLoader";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axiosClient from "../../../axios-client";
+import { toast } from "react-toastify";
 
 function ApplyJob() {
   const { state } = useLocation();
+  const nav = useNavigate();
   const sellerData = JSON.parse(localStorage.getItem("USER"));
   console.log(state);
   const [step, setStep] = useState(1);
@@ -57,6 +59,12 @@ function ApplyJob() {
     );
 
     console.log(res);
+    if (res.data.success) {
+      toast.success("order sended successfully");
+      nav("/serviceProvider/orders");
+    } else {
+      toast.error("send order failed, please retry");
+    }
   };
   return (
     <>
