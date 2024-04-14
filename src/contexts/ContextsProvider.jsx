@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import Pusher from "pusher-js";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { NavigationLink } from "../router";
 import { useQueryHook } from "../hooks/useQueryHook";
 import axiosClient from "../axios-client";
@@ -30,6 +30,7 @@ const getData = async (data) => {
 };
 export const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("USER")));
+
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("USER")));
   }, []);

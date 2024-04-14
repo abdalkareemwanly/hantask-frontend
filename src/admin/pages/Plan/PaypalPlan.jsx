@@ -18,9 +18,10 @@ const CreatePlan = () => {
 
   const [languagedirection, setlanguagedirection] = useState("LTR");
   const { translation } = useStateContext();
+
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [planModalOpen, setModalOpen] = useState(false);
+  const [planModalOpen, setPlanModalOpen] = useState(false);
   const [category, setCategory] = useState();
 
   useEffect(() => {
@@ -56,6 +57,27 @@ const CreatePlan = () => {
 
   return (
     <div className="w-full">
+      {isAddModalOpen && (
+        <ModalContainer
+          isModalOpen={isAddModalOpen}
+          setIsModalOpen={setIsAddModalOpen}
+          component={
+            <AddProduct
+              category={category}
+              setIsAddModalOpen={setIsAddModalOpen}
+            />
+          }
+        />
+      )}
+      {isModalOpen && (
+        <ModalContainer
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          component={
+            <AddPlan category={category} setIsModalOpen={setIsModalOpen} />
+          }
+        />
+      )}
       <Page>
         <PageTitle
           text={"manage all Subscriptions"}
@@ -66,42 +88,22 @@ const CreatePlan = () => {
                   isLink={false}
                   color={"bg-greenColor"}
                   title={"Add New Plan"}
-                  onClickFun={() => setIsAddModalOpen((prev) => !prev)}
+                  onClickFun={() => setIsModalOpen((prev) => !prev)}
                 />
                 <Button
                   isLink={false}
                   color={"bg-orangeColor"}
                   title={"Add New Product"}
-                  onClickFun={() => setIsModalOpen((prev) => !prev)}
+                  onClickFun={() => setIsAddModalOpen((prev) => !prev)}
                 />
               </div>
             )
           }
         />
-        {isModalOpen && (
-          <ModalContainer
-            isModalOpen={isAddModalOpen}
-            setIsModalOpen={setIsAddModalOpen}
-            component={
-              <AddProduct
-                category={category}
-                setIsAddModalOpen={setIsAddModalOpen}
-              />
-            }
-          />
-        )}
-        {isAddModalOpen && (
-          <ModalContainer
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            component={
-              <AddPlan category={category} setIsModalOpen={setIsModalOpen} />
-            }
-          />
-        )}
+
         <div className="flex flex-row bg-blocks-color w-1/4 m-auto rounded-3xl border border-blocks-color">
           <button
-            onClick={() => setModalOpen(false)}
+            onClick={() => setPlanModalOpen(false)}
             className={`rounded-l-3xl p-4 w-1/2 text-center ${
               planModalOpen === false ? "bg-background-color" : ""
             }`}
@@ -110,7 +112,7 @@ const CreatePlan = () => {
             Plan
           </button>
           <button
-            onClick={() => setModalOpen(true)}
+            onClick={() => setPlanModalOpen(true)}
             className={`rounded-r-3xl p-4 w-1/2 text-center ${
               planModalOpen === true ? "bg-background-color" : ""
             }`}

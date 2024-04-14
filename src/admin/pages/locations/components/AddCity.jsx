@@ -3,11 +3,14 @@ import { toast } from "react-toastify";
 import axiosClient from "../../../../axios-client";
 import ReusableForm from "../../../../Components/ReusableForm";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
+import { useGlobalDataContext } from "../../../../contexts/GlobalDataContext";
 const postData = async (formData) => {
   const res = await axiosClient.post("/admin/city/store", formData);
   return res;
 };
-export const AddCity = ({ getCities, setIsAddModalOpen, countries }) => {
+export const AddCity = ({ setIsAddModalOpen }) => {
+  const { countries } = useGlobalDataContext();
+  console.log(countries);
   let template = {
     title: "add new category",
     fields: [
@@ -27,6 +30,7 @@ export const AddCity = ({ getCities, setIsAddModalOpen, countries }) => {
         title: "choose the country",
         name: "country_id",
         type: "select",
+        searchKey: "country",
         validationProps: {
           required: {
             value: true,

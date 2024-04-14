@@ -4,16 +4,15 @@ import { MdDelete } from "react-icons/md";
 
 const StepFivePostDeal = ({
   handleDataChange,
-  state,
   watch,
   setValue,
-  goToNextStep,
   goToPrevStep,
   _images,
   setImages,
   thumbnail,
   setThumbnail,
-  onSubmit,
+  errors,
+  register,
 }) => {
   const [selectedImage, setSelectedImage] = useState();
 
@@ -27,27 +26,7 @@ const StepFivePostDeal = ({
   return (
     <div className="flex flex-col gap-4 w-full">
       <h2 className="text-2xl font-bold">ok finally lets finish our deal</h2>
-      <p className="text-gray-500">
-        lets type our deal title with it's description and thumbnail
-      </p>
-      <div className="flex   gap-4 w-full items-start ">
-        <input
-          name="title"
-          onChange={(e) => setValue("title", e.target.value)}
-          value={watch("title")}
-          placeholder="post title"
-          type="text"
-          className="input-box w-[350px]"
-        />
-        <textarea
-          name="description"
-          onChange={(e) => setValue("description", e.target.value)}
-          value={watch("description")}
-          placeholder="post description"
-          type="text"
-          className="input-box w-[350px]"
-        />
-      </div>
+
       <div className="flex flex-col gap-2">
         <p className="text-gray-500">deal thumbnail</p>
         <CropeerImage
@@ -63,7 +42,10 @@ const StepFivePostDeal = ({
         />
       </div>
       <div className="flex flex-col gap-2">
-        <h3>add more images: </h3>
+        <h3>other photos: </h3>
+        <span>
+          <strong>you must add at least 4 photos</strong>
+        </span>
         <div className=" flex gap-4 flex-wrap ">
           <CropeerImage
             type={2}
@@ -146,9 +128,21 @@ const StepFivePostDeal = ({
         >
           Previous
         </div>
-        <button className="bg-greenColor text-white  p-2 rounded-lg">
-          submit
-        </button>
+        {console.log(!thumbnail && _images.length < 3)}
+        {!thumbnail || _images.length < 3 ? (
+          <button
+            className={`bg-greenColor text-white  p-2 rounded-lg cursor-not-allowed`}
+            disabled
+          >
+            submit
+          </button>
+        ) : (
+          <button
+            className={`bg-greenColor text-white  p-2 rounded-lg cursor-pointer`}
+          >
+            submit
+          </button>
+        )}
       </div>
     </div>
   );

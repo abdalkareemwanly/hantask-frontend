@@ -24,6 +24,11 @@
       "perId": "showArchivedUser"
     }
   },
+  "notifications": {
+    "name": null,
+    "path": "/admin/dashboard/notifications",
+    "perId": "showLanguages"
+  },
   "handymans verify": {
     "name": null,
     "path": "/admin/dashboard/handymansVerify",
@@ -271,13 +276,10 @@
     "path": "/admin/dashboard/languages",
     "perId": "showLanguages"
   },
-  "notifications": {
-    "name": null,
-    "path": "/admin/dashboard/notifications",
-    "perId": "showLanguages"
-  },
+
   "Back To Site": {
     "name": null,
-    "path": "/admin/dashboard/languages"
+    "path": "/",
+    "perId": "showLanguages"
   }
 }

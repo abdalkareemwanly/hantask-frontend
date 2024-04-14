@@ -11,6 +11,7 @@ import axiosClient from "../../../axios-client";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { usePostStore } from "../../../contexts/PostStore";
 
 const initialState = {
   categoryId: "",
@@ -65,6 +66,8 @@ const StepComponent = ({
   thumbnail,
   setThumbnail,
   onSubmit,
+  selectedOptions,
+  setSelectedOptions,
 }) => {
   const {
     categories,
@@ -74,14 +77,26 @@ const StepComponent = ({
     setSelectedSubCategory,
     filteredSubCategories,
     filteredChildCategories,
+    setSelectedCity,
+    setSelectedCountry,
+    filteredCities,
   } = useGlobalDataContext();
 
   const categoryValue = watch("category_id");
   const subcategoryValue = watch("subcategory_id");
   const childCategoryValue = watch("child_category_id");
+  const countryValue = watch("country_id");
+  const cityValue = watch("city_id");
+  useEffect(() => {
+    setSelectedCountry({ id: countryValue });
+  }, [countryValue]);
 
   useEffect(() => {
-    if (categoryValue !== null || categoryValue !== "") {
+    if (
+      categoryValue !== null ||
+      categoryValue !== "" ||
+      categoryValue?.length !== 0
+    ) {
       getQuestionsById({
         category_id: categoryValue,
         subcategory_id: null,
@@ -90,8 +105,13 @@ const StepComponent = ({
       setSelectedCategory({ id: categoryValue });
     }
   }, [categoryValue]);
+
   useEffect(() => {
-    if (subcategoryValue !== null || subcategoryValue !== "") {
+    if (
+      subcategoryValue !== null ||
+      subcategoryValue !== "" ||
+      subcategoryValue?.length !== 0
+    ) {
       getQuestionsById({
         category_id: null,
         subcategory_id: subcategoryValue,
@@ -100,8 +120,13 @@ const StepComponent = ({
       setSelectedSubCategory({ id: subcategoryValue });
     }
   }, [subcategoryValue]);
+
   useEffect(() => {
-    if (childCategoryValue !== null || childCategoryValue !== "") {
+    if (
+      childCategoryValue !== null ||
+      childCategoryValue !== "" ||
+      childCategoryValue?.length !== 0
+    ) {
       getQuestionsById({
         category_id: null,
         subcategory_id: null,
@@ -123,7 +148,6 @@ const StepComponent = ({
         >
           <StepOnePostDeal
             categories={categories}
-            getQuestionsById={getQuestionsById}
             handleDataChange={handleDataChange}
             setSelectedCategory={setSelectedCategory}
             state={state}
@@ -133,6 +157,8 @@ const StepComponent = ({
             goToNextStep={goToNextStep}
             register={register}
             setValue={setValue}
+            selectedOptions={selectedOptions}
+            setSelectedOptions={setSelectedOptions}
           />
         </motion.div>
       )}
@@ -152,13 +178,14 @@ const StepComponent = ({
             handleDataChange={handleDataChange}
             goToNextStep={goToNextStep}
             goToPrevStep={goToPrevStep}
-            getQuestionsById={getQuestionsById}
             state={state}
             watch={watch}
             trigger={trigger}
             errors={errors}
             register={register}
             setValue={setValue}
+            selectedOptions={selectedOptions}
+            setSelectedOptions={setSelectedOptions}
           />
         </motion.div>
       )}
@@ -180,8 +207,11 @@ const StepComponent = ({
                 setValue={setValue}
                 watch={watch}
                 errors={errors}
+                trigger={trigger}
                 goToNextStep={goToNextStep}
                 goToPrevStep={goToPrevStep}
+                selectedOptions={selectedOptions}
+                setSelectedOptions={setSelectedOptions}
               />
             </motion.div>
           )}
@@ -198,14 +228,18 @@ const StepComponent = ({
         >
           <StepThreePostDeal
             countries={countries}
-            cities={cities}
+            cities={filteredCities}
             handleDataChange={handleDataChange}
             state={state}
             goToNextStep={goToNextStep}
             goToPrevStep={goToPrevStep}
             watch={watch}
+            errors={errors}
             register={register}
             setValue={setValue}
+            selectedOptions={selectedOptions}
+            setSelectedOptions={setSelectedOptions}
+            trigger={trigger}
           />
         </motion.div>
       )}
@@ -224,6 +258,7 @@ const StepComponent = ({
             handleDataChange={handleDataChange}
             state={state}
             watch={watch}
+            errors={errors}
             register={register}
             setValue={setValue}
           />
@@ -250,6 +285,7 @@ const StepComponent = ({
             _images={_images}
             setImages={setImages}
             thumbnail={thumbnail}
+            errors={errors}
             setThumbnail={setThumbnail}
             onSubmit={onSubmit}
           />
@@ -268,6 +304,39 @@ const PostDeal = () => {
   const [childQuestions, setChildQuestions] = useState([]);
   const [_images, setImages] = useState([]);
   const [thumbnail, setThumbnail] = useState();
+  const { postStoreData, setPostStoreData } = usePostStore();
+  const [defaultValues, setDefaultValues] = useState({
+    category_id: [],
+    subcategory_id: [],
+    child_category_id: [],
+    country_id: "",
+    city_id: "",
+    budget: "",
+    deadline: "",
+    title: "",
+    description: "",
+    lineAddress: "",
+  });
+
+  // useEffect(() => {
+  //   if (postStoreData) {
+  //     console.log("entered post store data effect");
+  //     setDefaultValues(postStoreData.data);
+  //   }
+  // }, [postStoreData]);
+  // console.log(defaultValues);
+  const islogin = localStorage.getItem("ACCESS_TOKEN");
+
+  useEffect(() => {
+    const newDefaultValues = {};
+    questions.forEach((question) => {
+      newDefaultValues[question.content] = question.type === "write" ? "" : [];
+    });
+    setDefaultValues((prev) => ({
+      ...prev,
+      ...newDefaultValues,
+    }));
+  }, [questions]);
 
   const {
     register,
@@ -277,30 +346,42 @@ const PostDeal = () => {
     trigger,
     formState: { errors },
   } = useForm({
-    mode: "onChange",
+    mode: "all",
     defaultValues: {
-      category_id: null,
-      child_category_id: null,
-      subcategory_id: null,
+      category_id: [],
+      child_category_id: [],
+      subcategory_id: [],
+      country_id: "",
+      city_id: "",
+      budget: "",
+      deadline: "",
+      title: "",
+      description: "",
+      ...defaultValues,
     },
   });
-  const islogin = localStorage.getItem("ACCESS_TOKEN");
 
-  const isBuyer =
-    JSON.parse(localStorage.getItem("USER"))?.user_type === "buyer";
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   useEffect(() => {
-    if (!islogin) {
-      toast.info("login first to access the page");
-      setTimeout(() => {
-        nav("/login");
-      }, 300);
-    } else {
-      if (!isBuyer) {
-        toast.info("this page is only designed for homeowners");
-      }
-    }
-  }, [islogin, isBuyer, nav]);
+    setSelectedOptions((prev) =>
+      Object.entries(defaultValues).map(([key, value]) => {
+        // Check if the key already exists in the previous selected options
+        const existingOption = prev.find((option) => option.name === key);
+        if (existingOption) {
+          return {
+            ...existingOption, // Keep the existing option
+          };
+        } else {
+          // If the key doesn't exist in the previous selected options, create a new one
+          return {
+            name: key,
+            value: typeof value === "object" ? [] : null,
+          };
+        }
+      })
+    );
+  }, [defaultValues]); // Empty dependency array ensures this runs only once on mount
 
   const goToNextStep = () => {
     dispatch({
@@ -337,20 +418,39 @@ const PostDeal = () => {
   }, [catQuestions, subQuestions, childQuestions]);
 
   const getQuestionsById = async (obj) => {
-    const res = await axiosClient.post("site/question/show", obj);
-    if (res.data.success) {
-      if (obj.category_id !== null) {
-        setCatQuestions(res.data.questions);
-      } else if (obj.subcategory_id !== null) {
-        setSubQuestions(res.data.questions);
-      } else if (obj.cahild_category_id !== null) {
-        setChildQuestions(res.data.questions);
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    try {
+      const res = await axiosClient.post("site/question/show", obj, { signal });
+
+      if (res.data.success) {
+        if (obj.category_id !== null) {
+          setCatQuestions(res.data.questions);
+        } else if (obj.subcategory_id !== null) {
+          setSubQuestions(res.data.questions);
+        } else if (obj.child_category_id !== null) {
+          setChildQuestions(res.data.questions);
+        }
+      }
+    } catch (error) {
+      if (error.name === "AbortError") {
+      } else {
+        console.error("Error occurred:", error);
       }
     }
+
+    // Function to abort the request if needed
+    const abortRequest = () => {
+      controller.abort();
+    };
+
+    return abortRequest;
   };
 
   const onSubmit = async (data) => {
-    const toastID = toast.loading("storing...");
+    console.log(data);
+    const toastID = toast.loading("proccessing...");
     // Function to find question ID based on content
     function findQuestionId(content) {
       for (let i = 0; i < questions.length; i++) {
@@ -368,7 +468,6 @@ const PostDeal = () => {
       }
       return null; // Return null if question not found
     }
-    console.log(data);
     let transformedData = {
       category_id: data.category_id,
       childCategory_id: data.child_category_id,
@@ -384,23 +483,32 @@ const PostDeal = () => {
             key !== "budget" &&
             key !== "deadline" &&
             key !== "title" &&
-            key !== "description"
+            key !== "description" &&
+            key !== "lineAddress"
         )
         .map((key) => {
           const type = findQuestionType(key);
-          console.log(type);
           if (type === "singlechoisdrop") {
             return {
               question_id: findQuestionId(key),
               answer_id: data[key],
             };
-          } else {
+          } else if (type === "write") {
             return {
               question_id: findQuestionId(key),
               buyer_answer: data[key],
             };
+          } else {
+            return data[key]?.map((ele, i) => {
+              return {
+                question_id: findQuestionId(key),
+                answer_id: ele?.id,
+              };
+              // console.log(ele, findQuestionId(key));
+            });
           }
-        }),
+        })
+        .flat(),
       country_id: data.country_id,
       city_id: data.city_id,
       budget: data.budget,
@@ -409,6 +517,8 @@ const PostDeal = () => {
       description: data.description,
       image: thumbnail?.file,
     };
+
+    console.log(transformedData);
 
     const formData = new FormData();
 
@@ -426,41 +536,63 @@ const PostDeal = () => {
         formData.append(key, value);
       }
     });
-    const res = await axiosClient.post("/buyer/post/store", formData);
-    if (res.data?.success === true) {
-      const images = new FormData();
-      const id = res.data.data;
-      _images.map((ele) => {
-        images.append("image[]", ele.file);
-      });
-      toast.update(toastID, {
-        type: "success",
-        render: res.data.mes,
-        closeOnClick: true,
-        isLoading: false,
-        autoClose: true,
-        closeButton: true,
-        pauseOnHover: false,
-      });
-      nav("/customer/jobs");
-      const res2 = await axiosClient.post(
-        `/buyer/post/image/store/${id}`,
-        images
-      );
+    if (islogin) {
+      const res = await axiosClient.post("/buyer/post/store", formData);
+      if (res.data?.success === true) {
+        const images = new FormData();
+        const id = res.data.data;
+        _images.map((ele) => {
+          images.append("image[]", ele.file);
+        });
+        toast.update(toastID, {
+          type: "success",
+          render: res.data.mes,
+          closeOnClick: true,
+          isLoading: false,
+          autoClose: true,
+          closeButton: true,
+          pauseOnHover: false,
+        });
+        // nav("/customer/jobs");
+        const res2 = await axiosClient.post(
+          `/buyer/post/image/store/${id}`,
+          images
+        );
+      } else {
+        toast.update(toastID, {
+          type: "error",
+          render: res.data.mes,
+          closeOnClick: true,
+          isLoading: false,
+          autoClose: true,
+          closeButton: true,
+          pauseOnHover: false,
+        });
+      }
     } else {
       toast.update(toastID, {
-        type: "error",
-        render: res.data.mes,
+        type: "success",
+        render: "you need to login first",
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
         closeButton: true,
         pauseOnHover: false,
       });
+      setPostStoreData({
+        data: {
+          ...transformedData,
+        },
+        images: _images,
+      });
     }
+    nav("/login", {
+      state: {
+        type: "fromPostDeal",
+      },
+    });
   };
-
-  return isBuyer ? (
+  return (
     <div className="flex flex-col justify-between lg:px-20 md:px-12 px-6 ">
       <div className="my-12 relative  w-full h-[600px] overflow-y-auto overflow-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -483,11 +615,13 @@ const PostDeal = () => {
             thumbnail={thumbnail}
             setThumbnail={setThumbnail}
             onSubmit={onSubmit}
+            selectedOptions={selectedOptions}
+            setSelectedOptions={setSelectedOptions}
           />
         </form>
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default PostDeal;

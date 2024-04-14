@@ -35,6 +35,10 @@
     "name": null,
     "path": "reviews"
   },
+  "saved deals": {
+    "name": null,
+    "path": "saved"
+  },
   "verify account": {
     "name": null,
     "path": "verify"

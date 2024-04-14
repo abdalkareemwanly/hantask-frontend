@@ -36,6 +36,7 @@ import { RiCoupon3Fill } from "react-icons/ri";
 import { MdVerifiedUser } from "react-icons/md";
 import { MdManageAccounts } from "react-icons/md";
 import { RiPagesFill } from "react-icons/ri";
+import { logoDark, logoLight } from "../../images";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
@@ -71,6 +72,7 @@ const iconMap = {
   "handymans verify": <MdVerifiedUser />,
   "pages settings": <RiPagesFill />,
   blogs: <FaPager />,
+  notifications: <BiSolidBellRing />,
 };
 
 export default function SidebarAdmin({ setSidebarOpen }) {
@@ -80,7 +82,7 @@ export default function SidebarAdmin({ setSidebarOpen }) {
   const [sideList, setSideList] = useState({});
   const initialUserPermissions = JSON.parse(
     localStorage.getItem("USER")
-  ).permission;
+  )?.permission;
   const { hasPermissionFun } = useCheckPermission(initialUserPermissions);
 
   const getdropdownopen = (name) => {
@@ -119,17 +121,9 @@ export default function SidebarAdmin({ setSidebarOpen }) {
     <>
       <div className="bg-inherit px-3 py-[20px] bg-blocks-color flex items-center justify-between">
         {theme === "light" ? (
-          <img
-            src="/src/images/logo-light.png"
-            className="w-[80%] md:w-full"
-            alt="Logo"
-          />
+          <img src={logoLight} className="w-[80%] md:w-full" />
         ) : (
-          <img
-            src="/src/images/logo-dark.png"
-            className="w-[80%] md:w-full"
-            alt="Logo"
-          />
+          <img src={logoDark} className="w-[80%] md:w-full" />
         )}
         <span className="md:hidden cursor-pointer" onClick={handleCloseSideBar}>
           <AiOutlineClose size={27} />

@@ -18,13 +18,9 @@ const getData = async (page = 1) => {
   const res = await axiosClient.get(`admin/blogs?page=${page}`);
   return res;
 };
-const changeStatusFunc = async (id) => {
-  const res = await axiosClient.get(`/admin/blog/changeStatusMethod/${id}`);
-  return res;
-};
 
 const deleteFunc = async (id) => {
-  const res = await axiosClient.get(`/admin/blog/deleteMethod/${id}`);
+  const res = await axiosClient.get(`/admin/blog/delete/${id}`);
   return res;
 };
 
@@ -43,7 +39,6 @@ const AdminBlogs = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState();
   const [page, setPage] = useState(1);
-  // const [searchTerm, setSearchTerm] = useState("");
 
   const { data: blogs, queryClient } = useQueryHook(
     ["blogs", page],
@@ -51,41 +46,12 @@ const AdminBlogs = () => {
     "paginate",
     page
   );
-  const changeStatusMutation = useMutationHook(changeStatusFunc, [
-    "blogs",
-    page,
-  ]);
+
   const deleteMutation = useMutationHook(deleteFunc, ["blogs", page]);
 
   const editBtnFun = (data) => {
     setIsModalOpen(true);
     setClickedRow(data);
-  };
-
-  const handleChangeStatus = async (id) => {
-    const toastId = toast.loading("processing...");
-    try {
-      const category = await changeStatusMutation.mutateAsync(id);
-      toast.update(toastId, {
-        type: "success",
-        render: category.mes,
-        closeOnClick: true,
-        isLoading: false,
-        autoClose: true,
-        closeButton: true,
-        pauseOnHover: false,
-      });
-    } catch (error) {
-      toast.update(toastId, {
-        type: "error",
-        render: error.response.data.message,
-        closeOnClick: true,
-        isLoading: false,
-        autoClose: true,
-        closeButton: true,
-        pauseOnHover: false,
-      });
-    }
   };
 
   const deleteFun = async (id) => {
@@ -178,7 +144,12 @@ const AdminBlogs = () => {
       <div className="my-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {blogs?.data?.data?.map((ele, i) => (
-            <BlogCard key={i} data={ele} setEditModalOpen={editBtnFun} />
+            <BlogCard
+              key={i}
+              data={ele}
+              setEditModalOpen={editBtnFun}
+              onDelete={handleDelete}
+            />
           ))}
         </div>
       </div>

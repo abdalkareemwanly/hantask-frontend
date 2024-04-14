@@ -32,16 +32,27 @@ const EditJob = () => {
   const nav = useNavigate();
   const id = useParams().id;
   const queryClient = useQueryClient();
-  const { countries, cities, categories, subCategories, childCategories } =
-    useGlobalDataContext();
+  const {
+    categories,
+    countries,
+    cities,
+    subCategories,
+    childCategories,
+    setSelectedCategory,
+    setSelectedSubCategory,
+    filteredSubCategories,
+    filteredChildCategories,
+    setSelectedCountry,
+    filteredCities,
+    areas,
+    globalLoading,
+    setSelectedCity,
+    filteredAreas,
+  } = useGlobalDataContext();
   const { data: post, isLoading } = useQueryHook(["post", id], () =>
     getData(id)
   );
-  const [filteredSubCategories, setFilteredSubCategories] = useState();
-  const [filteredChilds, setFilteredChilds] = useState();
-  const [filteredCities, setFilteredCities] = useState();
 
-  const deleteMutate = useMutationHook(deleteFunc, ["post", id]);
   const updateDataMutate = useMutationHook(updateDataFunc, ["post", id]);
   const [stepData, setStepData] = useState();
   useEffect(() => {
@@ -53,54 +64,27 @@ const EditJob = () => {
       subCategories &&
       childCategories
     ) {
-      handleMainCategoryChange(post.category_id);
-      handleChangeSubCategories(post.subcategory_id);
-      handleCountriesChange(post.country_id);
-
+      setSelectedCategory(post?.category_id);
+      setSelectedSubCategory(post?.subCategory_id);
+      setSelectedCountry(post?.country_id);
       setThumbnail(post?.image);
-      setReadyImages(post.postimages);
+      setReadyImages(post?.postimages);
     }
   }, [post, countries, cities, categories, subCategories, childCategories]);
 
   useEffect(() => {
-    if (filteredChilds && filteredCities && filteredSubCategories) {
-      setStepData({
-        category: post.category_id,
-        subCategory: post.subcategory_id,
-        childCategory: post.childCategory_id,
-        country: post.country_id,
-        city: post.city_id,
-        title: post.title,
-        budget: post.budget,
-        deadlineDate: post.dead_line,
-        description: post.description,
-      });
-    }
-  }, [filteredChilds, filteredCities, filteredSubCategories]);
-
-  const handleMainCategoryChange = (value) => {
-    const selectedMainCategory = categories?.find((obj) => obj.id == value);
-    const updatedFilteredSubCategories = subCategories?.filter(
-      (obj) => obj.categoryName === selectedMainCategory?.name
-    );
-    setFilteredSubCategories(updatedFilteredSubCategories);
-  };
-
-  const handleChangeSubCategories = (value) => {
-    const selectedMainCategory = subCategories?.find((obj) => obj.id == value);
-    const updatedFilteredSubCategories = childCategories?.filter(
-      (obj) => obj.subcategoryName === selectedMainCategory?.name
-    );
-    setFilteredChilds(updatedFilteredSubCategories);
-  };
-
-  const handleCountriesChange = (value) => {
-    const selectedCountry = countries?.find((obj) => obj.id == value);
-    const updatedCiteis = cities?.filter(
-      (obj) => obj.country === selectedCountry?.country
-    );
-    setFilteredCities(updatedCiteis);
-  };
+    setStepData({
+      category: post?.category_id,
+      subCategory: post?.subcategory_id,
+      childCategory: post?.childCategory_id,
+      country: post?.country_id,
+      city: post?.city_id,
+      title: post?.title,
+      budget: post?.budget,
+      deadlineDate: post?.dead_line,
+      description: post?.description,
+    });
+  }, [post]);
 
   const [_images, setImages] = useState([]);
   const [thumbnail, setThumbnail] = useState();
@@ -133,36 +117,67 @@ const EditJob = () => {
     });
   };
 
-  const handleDeleteAddedImage = (id) => {
+  const handleDeleteAddedImage = async (id) => {
     try {
-      const user = deleteMutate.mutateAsync(id);
-      const updatedImages = readyImages.filter((ele) => ele.id == id);
-      setReadyImages(updatedImages);
+      // const user = deleteMutate.mutateAsync(id);
+      const res = await axiosClient.get(`buyer/post/image/delete/${id}`);
+      if (res.data.success) {
+        const updatedImages = readyImages.filter((ele) => ele.id == id);
+        setReadyImages(updatedImages);
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
   const handleFinish = async () => {
-    const formData = new FormData();
-    // Append each key-value pair to FormData\
     console.log(stepData);
-    Object.entries(stepData).forEach(([key, value]) => {
+    const toastID = toast.loading("Processing...");
+
+    let transformedData = {
+      category_id: stepData.category[0].id,
+      childCategory_id: stepData.subCategory[0].id,
+      subcategory_id: stepData.subCategory[0].id,
+      questions: stepData.questions
+        .map((question) => {
+          if (Array.isArray(question.buyer_answer)) {
+            return question.buyer_answer.map((answer) => ({
+              question_id: question.question_id,
+              answer_id: answer.answer_id,
+            }));
+          } else {
+            return {
+              question_id: question.question_id,
+              buyer_answer: question.buyer_answer,
+            };
+          }
+        })
+        .flat(),
+      country_id: stepData.country[0].id,
+      city_id: stepData.city[0].id,
+      budget: stepData.budget,
+      dead_line: stepData.deadlineDate,
+      title: stepData.title,
+      description: stepData.description,
+    };
+
+    const formData = new FormData();
+
+    Object.entries(transformedData).forEach(([key, value]) => {
       if (Array.isArray(value)) {
-        // If value is an array of objects, handle it accordingly
         value.forEach((item, index) => {
           Object.entries(item).forEach(([subKey, subValue]) => {
             formData.append(`${key}[${index}][${subKey}]`, subValue);
           });
         });
       } else {
-        // For non-array values, simply append
         formData.append(key, value);
       }
     });
     if (thumbnail?.file) {
       formData.append("image", thumbnail.file);
     }
+
     const toastId = toast.loading("loading...");
     const images = new FormData();
     _images.map((ele) => {
@@ -193,35 +208,110 @@ const EditJob = () => {
       });
     }
   };
-  console.log(stepData);
+  // for questions step
+  const [template, setTemplate] = useState(null);
+  const [groupedData, setGroupedData] = useState([]);
 
-  if (isLoading) return <Loader />;
+  const generateTemplate = () => {
+    if (!groupedData) return;
+    let newTemplate = {
+      title: "",
+      fields: [],
+    };
+
+    groupedData?.forEach((question) => {
+      let field = {
+        title: question.question_content,
+        name: `question_${question.question_id}`,
+        type: question?.form_answer.length > 0 ? "select" : "text",
+        optionValue: "answer_id",
+        firstOptionText: "select category",
+        optionText: "text",
+        isMultiple: question?.question_type === "multiplechoise" ? true : false,
+        validationProps: {
+          required: {
+            value: true,
+            message: "This field is required",
+          },
+        },
+        styles: "md:w-[100%]",
+        value: question.buyer_answer
+          ? question.buyer_answer.answer_id
+            ? question.buyer_answer.answer_id
+            : question.buyer_answer.buyer_answer
+          : null,
+      };
+
+      if (field.type === "select") {
+        field.options = question.form_answer.map((answer) => ({
+          answer_id: answer.id,
+          text: answer.content,
+        }));
+      }
+
+      newTemplate.fields.push(field);
+    });
+
+    setTemplate(newTemplate);
+  };
+
+  useEffect(() => {
+    const groupedDataInitial = [];
+
+    post?.questions.forEach((item) => {
+      const { question_id, question_type } = item;
+      if (question_type === "multiplechoise") {
+        const existingItem = groupedDataInitial.find(
+          (groupedItem) => groupedItem.question_id === question_id
+        );
+        if (!existingItem) {
+          groupedDataInitial.push({
+            ...item,
+            form_answer: item.form_answer,
+            buyer_answer: item.buyer_answer.answer_id
+              ? {
+                  ...item.buyer_answer,
+                  answer_id: [item.buyer_answer.answer_id],
+                }
+              : item.buyer_answer,
+          });
+        } else {
+          existingItem.form_answer.push(item.form_answer);
+          if (item.buyer_answer.answer_id) {
+            existingItem.buyer_answer.answer_id.push(
+              item.buyer_answer.answer_id
+            );
+          }
+        }
+      } else {
+        groupedDataInitial.push(item);
+      }
+    });
+    setGroupedData(groupedDataInitial);
+  }, [post]);
+
+  useEffect(() => {
+    generateTemplate();
+  }, [groupedData]); // Ensure generateTemplate runs whenever data changes
+  if (isLoading || globalLoading) return <Loader />;
   return (
     <Page>
       <PageTitle text={"edit job post"} />
       {step === 1 ? (
-        stepData &&
-        filteredChilds &&
-        filteredCities &&
-        filteredSubCategories && (
-          <Step1
-            data={stepData}
-            categories={categories}
-            countries={countries}
-            subCategories={filteredSubCategories}
-            childCategories={filteredChilds}
-            cities={filteredCities}
-            setStepData={setStepData}
-            setStep={setStep}
-            handleMainCategoryChange={handleMainCategoryChange}
-            handleChangeSubCategories={handleChangeSubCategories}
-            handleCountriesChange={handleCountriesChange}
-            stepData={stepData}
-          />
-        )
+        <Step1
+          data={post}
+          categories={categories}
+          countries={countries}
+          subCategories={filteredSubCategories}
+          childCategories={filteredChildCategories}
+          cities={filteredCities}
+          setStepData={setStepData}
+          setStep={setStep}
+          stepData={stepData}
+        />
       ) : step === 2 ? (
         <QuestionsStep
-          data={stepData}
+          template={template}
           setStepData={setStepData}
           setStep={setStep}
           post={post}

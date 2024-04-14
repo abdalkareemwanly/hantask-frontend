@@ -21,9 +21,8 @@ const FormBody = ({ setEditQuestionSelected, editQuestionSelected }) => {
             }
             className="input-box w-[60%] bg-blocks-color"
           >
-            <option value="singlechoisradio">Single Chois Radio</option>
-            <option value="singlechoisdrop">Single Chois Drop</option>
-            <option value="multiplechoise">Multiple Choise</option>
+            <option value="singlechoisdrop">Single choise</option>
+            <option value="multiplechoise">Multiple choise</option>
             <option value="write">Write</option>
           </select>
         </div>

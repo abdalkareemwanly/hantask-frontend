@@ -2,9 +2,11 @@ import { toast } from "react-toastify";
 import ReusableForm from "../../Components/ReusableForm";
 import axiosClient from "../../axios-client";
 import { useNavigate } from "react-router-dom";
+import { useStateContext } from "../../contexts/ContextsProvider";
 
 const PasswordChange = ({ data, setIsModalOpen }) => {
   const navigate = useNavigate();
+  const { setToken, setUser } = useStateContext({});
   let template = {
     title: "change password",
     fields: [
@@ -27,6 +29,8 @@ const PasswordChange = ({ data, setIsModalOpen }) => {
     ],
   };
   const handleLogout = () => {
+    setToken(null);
+    setUser(null);
     localStorage.removeItem("ACCESS_TOKEN");
     localStorage.removeItem("USER");
     navigate("/ ");

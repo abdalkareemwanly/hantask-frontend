@@ -66,16 +66,16 @@ export const AddProduct = ({ category, setIsAddModalOpen }) => {
   };
 
   const onSubmit = async (values) => {
+    console.log(values);
     setLoading(true);
     const id = toast.loading("please wait...");
-    const product = {
-      ...values,
-      image,
-    };
+
     const formData = new FormData();
-    Object.entries(product).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
+    formData.append("category", values.category[0].value);
+    formData.append("description", values.description);
+    formData.append("image", image);
+    formData.append("name", values.name);
+    formData.append("type", values.type[0].name);
     axiosClient
       .post("/admin/paypal/products/create", formData)
       .then((response) => {

@@ -1,8 +1,9 @@
 import { toast } from "react-toastify";
 import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
+import { useGlobalDataContext } from "../../../../contexts/GlobalDataContext";
 const postData = async (data) => {
   const res = await axiosClient.post(
     `/admin/child/update/${data.catId}`,
@@ -10,32 +11,20 @@ const postData = async (data) => {
   );
   return res;
 };
-export const EditChildCategory = ({
-  data,
-  getChildCategories,
-  setIsModalOpen,
-  subCategories,
-  categories,
-}) => {
+export const EditChildCategory = ({ data, setIsModalOpen }) => {
   const [image, setImage] = useState(data?.image);
+  const {
+    categories,
+    setSelectedCategory,
+    filteredSubCategories,
+    subCategories,
+  } = useGlobalDataContext();
+
   let mainCategory = categories.find((obj) => obj.name === data?.categoryName);
   let subCategory = subCategories.find(
     (obj) => obj.name === data?.subcategoryName
   );
-  const [filteredSubCategories, setFilteredSubCategories] = useState([
-    subCategory,
-  ]);
-  // const [mainCategory, setMainCategory] = useState(null);
-  const handleMainCategoryChange = (e) => {
-    const selectedMainCategory = categories.find(
-      (obj) => obj.id == e.target.value
-    );
-    // setMainCategory(selectedMainCategory);
-    const updatedFilteredSubCategories = subCategories.filter(
-      (obj) => obj.categoryName === selectedMainCategory?.name
-    );
-    setFilteredSubCategories(updatedFilteredSubCategories);
-  };
+
   let template = {
     title: "add new category",
     fields: [
@@ -71,26 +60,42 @@ export const EditChildCategory = ({
         title: "choose the main category",
         name: "category",
         type: "select",
-        options: [...categories],
-        value: mainCategory?.id,
+        options: categories,
         optionText: "name",
-        validationProps: {
-          onChange: handleMainCategoryChange,
-        },
+        searchKey: "name",
+        value: data?.category_id,
         optionValue: "id",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        onFieldChange: (option, setValue, setSelectedOptions, selectIndex) => {
+          setSelectedCategory({ id: option });
+          setValue && setValue("subCategory", null);
+          setSelectedOptions &&
+            setSelectedOptions((prev) =>
+              prev.map((ele, i) => (i === selectIndex + 1 ? [] : ele))
+            );
+        },
         styles: "md:w-[45%]",
       },
       {
-        title: "choose the main category",
+        title: "choose sub category",
         name: "subCategory",
         type: "select",
-        options: [...filteredSubCategories],
-        value: subCategory?.id,
+        options: filteredSubCategories,
         optionText: "name",
-        validationProps: {
-          required: { value: true, message: "oops, you missed me!" },
-        },
+        searchKey: "name",
+        value: data?.subcategory_id,
         optionValue: "id",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
       },
     ],
@@ -143,18 +148,17 @@ export const EditChildCategory = ({
   };
 
   return (
-    <>
-      <ReusableForm
-        template={template}
-        watchFields={["username", "fullname"]}
-        onSubmit={onSubmit}
-        validate={validate}
-        btnWidth={"w-full text-white"}
-        btnText={"submit"}
-        addedStyles={"md:w-[800px]"}
-        image={image}
-        setImage={setImage}
-      />
-    </>
+    <ReusableForm
+      template={template}
+      watchFields={["username", "fullname"]}
+      onSubmit={onSubmit}
+      validate={validate}
+      formType={"edit"}
+      btnWidth={"w-full text-white"}
+      btnText={"submit"}
+      addedStyles={"md:w-[800px]"}
+      image={image}
+      setImage={setImage}
+    />
   );
 };

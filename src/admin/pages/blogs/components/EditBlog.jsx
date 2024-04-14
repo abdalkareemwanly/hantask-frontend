@@ -4,12 +4,13 @@ import { useMutationHook } from "../../../../hooks/useMutationHook";
 import { useEffect, useState } from "react";
 import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
 import SunEditor from "suneditor-react";
-const EditBlog = ({ postData, setIsAddModalOpen, data }) => {
-  const [image, setImage] = useState();
+const EditBlog = ({ setIsAddModalOpen, data }) => {
+  const [image, setImage] = useState(data.image);
   const [value, setValue] = useState("<p>hello world</p>");
   function handleChange(content) {
     setValue(content);
   }
+  console.log(data);
   console.log(value);
   let template = {
     title: "add new category",
@@ -31,6 +32,7 @@ const EditBlog = ({ postData, setIsAddModalOpen, data }) => {
         title: "blog title",
         name: "name",
         type: "text",
+        value: data?.title,
         validationProps: {
           required: {
             value: true,
@@ -40,8 +42,8 @@ const EditBlog = ({ postData, setIsAddModalOpen, data }) => {
         styles: "md:w-[100%]",
       },
       {
-        title: "blog title",
-        name: "name",
+        title: "blog descriptions",
+        name: "description",
         type: "custom",
         customComponent: ({ setError, setValue, errors, clearErrors }) => {
           console.log(errors);
@@ -93,43 +95,43 @@ const EditBlog = ({ postData, setIsAddModalOpen, data }) => {
     ],
   };
 
-  const mutation = useMutationHook(postData, ["categories"]);
+  // const mutation = useMutationHook(postData, ["categories"]);
 
-  const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
-    const category = {
-      ...values,
-      image,
-    };
-    const formData = new FormData();
-    formData.append("name", category.name);
-    formData.append("description", category.description);
-    formData.append("image", category.image);
-    // formData.append("mobile_icon", category.mobile_icon);
-    try {
-      const category = await mutation.mutateAsync(formData);
-      setIsAddModalOpen((prev) => !prev);
-      toast.update(id, {
-        type: "success",
-        render: category.mes,
-        closeOnClick: true,
-        isLoading: false,
-        autoClose: true,
-        closeButton: true,
-        pauseOnHover: false,
-      });
-    } catch (error) {
-      toast.update(id, {
-        type: "error",
-        render: error.response.data.message,
-        closeOnClick: true,
-        isLoading: false,
-        autoClose: true,
-        closeButton: true,
-        pauseOnHover: false,
-      });
-    }
-  };
+  // const onSubmit = async (values) => {
+  //   const id = toast.loading("please wait...");
+  //   const category = {
+  //     ...values,
+  //     image,
+  //   };
+  //   const formData = new FormData();
+  //   formData.append("name", category.name);
+  //   formData.append("description", category.description);
+  //   formData.append("image", category.image);
+  //   // formData.append("mobile_icon", category.mobile_icon);
+  //   try {
+  //     const category = await mutation.mutateAsync(formData);
+  //     setIsAddModalOpen((prev) => !prev);
+  //     toast.update(id, {
+  //       type: "success",
+  //       render: category.mes,
+  //       closeOnClick: true,
+  //       isLoading: false,
+  //       autoClose: true,
+  //       closeButton: true,
+  //       pauseOnHover: false,
+  //     });
+  //   } catch (error) {
+  //     toast.update(id, {
+  //       type: "error",
+  //       render: error.response.data.message,
+  //       closeOnClick: true,
+  //       isLoading: false,
+  //       autoClose: true,
+  //       closeButton: true,
+  //       pauseOnHover: false,
+  //     });
+  //   }
+  // };
 
   const validate = () => {
     console.log("no");
@@ -139,7 +141,7 @@ const EditBlog = ({ postData, setIsAddModalOpen, data }) => {
     <ReusableForm
       template={template}
       watchFields={["username", "fullname"]}
-      onSubmit={onSubmit}
+      // onSubmit={onSubmit}
       validate={validate}
       btnWidth={"w-full"}
       btnText={"add"}

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import CustomSelect from "./formComponents/CustomSelect";
 
 const ReusableForm = ({
   template,
@@ -11,8 +12,14 @@ const ReusableForm = ({
   addedStyles,
   setImage,
   image,
+  formType,
 }) => {
   let { title, fields } = template;
+  const [fieldsState, setFieldsState] = useState(fields);
+
+  useEffect(() => {
+    setFieldsState(fields);
+  }, [fields]);
 
   let {
     register,
@@ -23,13 +30,16 @@ const ReusableForm = ({
     clearErrors,
     setValue,
     resetField,
+    trigger,
   } = useForm({
-    defaultValues: fields?.reduce((acc, field) => {
-      field?.value && (acc[field.name] = field.value);
-      return acc;
-    }, {}),
+    defaultValues:
+      fieldsState &&
+      fieldsState?.reduce((acc, field) => {
+        field?.value ? (acc[field.name] = field.value) : (acc[field.name] = "");
+        return acc;
+      }, {}),
   });
-  console.log(watch(), fields);
+
   const { errors } = formState;
 
   const [isValid, setIsValid] = useState(false);
@@ -42,6 +52,47 @@ const ReusableForm = ({
       setIsValid(true);
     }
   }, [formState]);
+
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  useEffect(() => {
+    setSelectedOptions(
+      fieldsState?.map((field) => {
+        if (field.type === "select" && field?.options) {
+          const selectedOptionsConst = field?.isMultiple
+            ? field?.options.filter((option) => {
+                // Check if field.value is an array
+                if (Array.isArray(field.value)) {
+                  // Check if option[field.optionValue] exists in field.value array
+                  return field.value.includes(option[field.optionValue]);
+                } else {
+                  // Handle if field.value is not an array
+                  return option[field.optionValue] == field?.value;
+                }
+              })
+            : field?.options.find((option) => {
+                if (Array.isArray(field.value)) {
+                  // Handle if field.value is an array
+                  return field?.value?.includes(option[field?.optionValue]);
+                } else {
+                  // Handle if field.value is not an array
+                  return option[field.optionValue] == field?.value;
+                }
+              });
+
+          if (selectedOptionsConst) {
+            if (field.onFieldChange && field.options) {
+              field.onFieldChange(selectedOptionsConst?.id);
+            }
+            return field?.isMultiple
+              ? selectedOptionsConst
+              : [selectedOptionsConst];
+          }
+        } else {
+          return null;
+        }
+      })
+    );
+  }, [fieldsState?.options]);
 
   let watchValues = watchFields && watch(watchFields);
 
@@ -93,8 +144,10 @@ const ReusableForm = ({
     }
   };
 
-  const renderFields = (fields) => {
-    return fields?.map((field, i) => {
+  // Empty dependency array ensures this runs only once on mount
+
+  const renderFields = (fieldsState) => {
+    return fieldsState?.map((field, i) => {
       let {
         title,
         type,
@@ -103,12 +156,13 @@ const ReusableForm = ({
         readOnly,
         disabled,
         optionValue,
+        searchKey,
         optionText,
         styles,
-        firstOptionText,
         acceptTypes,
         checkboxStyle,
         placeHolder,
+        connectionWith,
       } = field;
 
       switch (type) {
@@ -274,35 +328,26 @@ const ReusableForm = ({
           );
         case "select":
           return (
-            <div key={i} className={`input-field w-full ${styles}`}>
-              <label htmlFor={name}>{title}</label>
-              <select
-                className="input-box"
-                readOnly={readOnly}
-                disabled={disabled}
-                {...register(name, validationProps)}
-                id={name}
-              >
-                <option value="">
-                  {firstOptionText ? firstOptionText : "select an option"}
-                </option>
-                {field.options?.map((option) => (
-                  <option
-                    key={option[optionValue]}
-                    value={
-                      typeof option[optionValue] === "string"
-                        ? option[optionValue].toLowerCase()
-                        : option[optionValue]
-                    }
-                  >
-                    {option[optionText]}
-                  </option>
-                ))}
-              </select>
-              {errors && errors[name] && (
-                <span className="red-text">{errors[name]["message"]}</span>
-              )}
-            </div>
+            <CustomSelect
+              selectIndex={i} // Example value for i
+              styles={styles} // Example value for styles
+              title={title} // Example value for title
+              name={name} // Example value for name
+              validationProps={validationProps} // Example value for validationProps
+              register={register} // Example value for register
+              field={field}
+              errors={errors} // Pass errors object
+              optionValue={optionValue}
+              searchKey={searchKey}
+              optionText={optionText}
+              setValue={setValue}
+              trigger={trigger}
+              fields={fields}
+              watch={watch}
+              connectionWith={connectionWith}
+              selectedOptions={selectedOptions}
+              setSelectedOptions={setSelectedOptions}
+            />
           );
         case "custom":
           return field.customComponent({
@@ -388,7 +433,7 @@ const ReusableForm = ({
     >
       <h3 className="font-bold text-2xl bt-3">{title}</h3>
       <div className="flex gap-2 flex-wrap justify-between">
-        {renderFields(fields)}
+        {fieldsState && renderFields(fieldsState)}
       </div>
       <button
         type="submit"

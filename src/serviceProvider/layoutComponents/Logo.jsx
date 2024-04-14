@@ -6,13 +6,9 @@ export default function Logo() {
   return (
     <div>
       {mode === "light" ? (
-        <img
-          src={logoLight}
-          className="img-fluid"
-          alt="Logo"
-        />
+        <img src={logoLight} className="img-fluid" />
       ) : (
-        <img src={logoDark} className="img-fluid" alt="Logo" />
+        <img src={logoDark} className="img-fluid" />
       )}
     </div>
   );

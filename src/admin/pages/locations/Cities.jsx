@@ -147,7 +147,7 @@ const Cities = () => {
 
   const handleDownloadExcelFile = async () => {
     const res = await axiosClient.get("/admin/city/excel");
-    const excelUrl = "http://127.0.0.1:8000" + res.data.url;
+    const excelUrl = import.meta.env.VITE_WEBSITE_URL + res.data.url;
     const downloadLink = document.createElement("a");
     downloadLink.href = excelUrl;
     downloadLink.download = "cities.xlsx";
@@ -188,12 +188,7 @@ const Cities = () => {
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           component={
-            <EditCity
-              data={clickedRow}
-              // getCities={getCities}
-              countries={countries}
-              setIsModalOpen={setIsModalOpen}
-            />
+            <EditCity data={clickedRow} setIsModalOpen={setIsModalOpen} />
           }
         />
       )}
@@ -202,13 +197,7 @@ const Cities = () => {
         <ModalContainer
           isModalOpen={isAddModalOpen}
           setIsModalOpen={setIsAddModalOpen}
-          component={
-            <AddCity
-              // getCities={getCities}
-              setIsAddModalOpen={setIsAddModalOpen}
-              countries={countries}
-            />
-          }
+          component={<AddCity setIsAddModalOpen={setIsAddModalOpen} />}
         />
       )}
       {isImportModalOpen && (
@@ -218,6 +207,7 @@ const Cities = () => {
           component={
             <ImportExcel
               // getMethod={getCities}
+              importFor={"cities"}
               setIsModalOpen={setIsImportModalOpen}
               apiLink={"/admin/city/import"}
             />

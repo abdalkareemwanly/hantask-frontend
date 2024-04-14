@@ -113,14 +113,14 @@ const Jobs = () => {
   return (
     <Page>
       <PageTitle
-        text={"all jobs"}
+        text={"manage all deals"}
         right={
           <div>
             <Button
               isLink={true}
               color={"bg-greenColor"}
               title={"add new job"}
-              goto={"/customer/newJob"}
+              goto={"/postDeal"}
             />
           </div>
         }
@@ -174,7 +174,7 @@ const Jobs = () => {
             </div>
             <div className="flex flex-col gap-4">
               <img
-                src={`${import.meta.env.VITE_WEBSITE_URL}${ele.image}`}
+                src={`${import.meta.env.VITE_POSTS_IMAGES_URL}${ele.image}`}
                 className="w-full h-[250px] object-cover"
               />
               <div className="flex flex-col gap-2 p-4">

@@ -3,6 +3,7 @@ import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
 import { useState } from "react";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
+import { useGlobalDataContext } from "../../../../contexts/GlobalDataContext";
 const postData = async (data) => {
   const res = await axiosClient.post(
     `/admin/subCategory/update/${data.catId}`,
@@ -10,14 +11,9 @@ const postData = async (data) => {
   );
   return res;
 };
-export const EditSubCategory = ({
-  data,
-  getSubCategories,
-  setIsModalOpen,
-  categories,
-}) => {
+export const EditSubCategory = ({ data, setIsModalOpen }) => {
   const [image, setImage] = useState(data.image);
-  let mainCategory = categories.find((obj) => obj.name === data.categoryName);
+  const { categories } = useGlobalDataContext();
 
   let template = {
     title: "edit sub category info",
@@ -55,10 +51,17 @@ export const EditSubCategory = ({
         name: "category",
         type: "select",
         options: [...categories],
-        value: mainCategory.id,
         optionText: "name",
+        searchKey: "name",
         optionValue: "id",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         styles: "md:w-[45%]",
+        value: data.category_id,
       },
     ],
   };

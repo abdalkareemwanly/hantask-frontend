@@ -3,16 +3,14 @@ import { toast } from "react-toastify";
 import axiosClient from "../../../../axios-client";
 import ReusableForm from "../../../../Components/ReusableForm";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
+import { useGlobalDataContext } from "../../../../contexts/GlobalDataContext";
 const postData = async (formData) => {
   const res = await axiosClient.post("/admin/subCategory/store", formData);
   return res;
 };
-export const AddSubCategory = ({
-  getSubCategories,
-  setIsAddModalOpen,
-  categories,
-}) => {
+export const AddSubCategory = ({ setIsAddModalOpen }) => {
   const [image, setImage] = useState();
+  const { categories } = useGlobalDataContext();
 
   let template = {
     title: "add new category",
@@ -72,6 +70,7 @@ export const AddSubCategory = ({
         type: "select",
         options: [...categories],
         optionText: "name",
+        searchKey: "name",
         optionValue: "id",
         validationProps: {
           required: {

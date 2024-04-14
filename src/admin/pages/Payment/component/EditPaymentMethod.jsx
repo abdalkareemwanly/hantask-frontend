@@ -3,7 +3,11 @@ import { toast } from "react-toastify";
 import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
 
-export const EditPaymentMethod = ({ data, getPaymentMethod, setIsAddModalOpen }) => {
+export const EditPaymentMethod = ({
+  data,
+  getPaymentMethod,
+  setIsAddModalOpen,
+}) => {
   const handleSubmit = async (values) => {
     try {
       const id = toast.loading("Please wait...");
@@ -15,7 +19,10 @@ export const EditPaymentMethod = ({ data, getPaymentMethod, setIsAddModalOpen })
         locale: values.locale,
       };
 
-      const { data: responseData } = await axiosClient.post(`/admin/paymentMethod/update/${data?.id}`, paymentMethodData);
+      const { data: responseData } = await axiosClient.post(
+        `/admin/paymentMethod/update/${data?.id}`,
+        paymentMethodData
+      );
 
       if (responseData.success) {
         toast.success("Payment method updated successfully");
@@ -42,14 +49,14 @@ export const EditPaymentMethod = ({ data, getPaymentMethod, setIsAddModalOpen })
         name: "ClientId",
         type: "text",
         value: data?.client_id,
-        styles:  "md:w-[45%]",
+        styles: "md:w-[45%]",
       },
       {
         title: "Client Secret",
         name: "ClientSecret",
         type: "text",
         value: data?.client_secret,
-        styles: "md:w-[45%]" ,
+        styles: "md:w-[45%]",
       },
       {
         title: "Currency",
@@ -64,7 +71,7 @@ export const EditPaymentMethod = ({ data, getPaymentMethod, setIsAddModalOpen })
         type: "text",
         value: data?.locale,
         styles: "md:w-[45%]",
-      }
+      },
     ],
   };
 
@@ -73,7 +80,7 @@ export const EditPaymentMethod = ({ data, getPaymentMethod, setIsAddModalOpen })
       template={formTemplate}
       onSubmit={handleSubmit}
       validate={validate}
-      btnWidth="w-full text-white"
+      btnWidth="w-fit text-white"
       btnText="Update"
       addedStyles="md:w-[800px]"
     />

@@ -1,4 +1,5 @@
 import ReusableForm from "../../../../../Components/ReusableForm";
+import { useGlobalDataContext } from "../../../../../contexts/GlobalDataContext";
 
 export const Step1 = ({
   data,
@@ -7,9 +8,6 @@ export const Step1 = ({
   categories,
   cities,
   childCategories,
-  handleMainCategoryChange,
-  handleChangeSubCategories,
-  handleCountriesChange,
   subCategories,
   countries,
   stepData,
@@ -21,6 +19,9 @@ export const Step1 = ({
   const validate = () => {
     console.log("no");
   };
+
+  const { setSelectedCategory, setSelectedSubCategory, setSelectedCountry } =
+    useGlobalDataContext();
 
   let template = {
     title: "",
@@ -54,7 +55,7 @@ export const Step1 = ({
       {
         title: "deadline date to apply to this job",
         name: "deadlineDate",
-        value: data?.deadlineDate,
+        value: data?.dead_line,
         type: "date",
         validationProps: {
           required: {
@@ -65,85 +66,97 @@ export const Step1 = ({
         styles: "md:w-[30%]",
       },
       {
-        title: "category ",
-        options: [...categories],
-        value: data.category,
+        title: "choose the main category",
         name: "category",
         type: "select",
-        optionValue: "id",
+        options: categories,
         optionText: "name",
-        firstOptionText: "select category",
-        validationProps: {
-          onChange: (e) => handleMainCategoryChange(e.target.value),
-          required: {
-            value: true,
-            message: "this field is required",
-          },
-        },
-        styles: "md:w-[30%]",
-      },
-      {
-        title: "sub category ",
-        options: [...subCategories],
-        value: data.subCategory,
-        name: "subCategory",
-        type: "select",
+        searchKey: "name",
+        value: data?.category_id,
         optionValue: "id",
-        optionText: "name",
-        firstOptionText: "select sub category",
-        validationProps: {
-          onChange: (e) => handleChangeSubCategories(e.target.value),
-          required: {
-            value: true,
-            message: "this field is required",
-          },
-        },
-        styles: "md:w-[30%]",
-      },
-      {
-        title: "child category ",
-        value: data?.childCategory,
-        name: "childCategory",
-        type: "select",
-        optionValue: "id",
-        options: [...childCategories],
-        optionText: "name",
-        firstOptionText: "select subCategory",
         validationProps: {
           required: {
             value: true,
             message: "this field is required",
           },
         },
-        styles: "md:w-[30%]",
-      },
-      {
-        title: "country ",
-        name: "country",
-        value: data?.country,
-        options: [...countries],
-        optionValue: "id",
-        optionText: "country",
-        type: "select",
-        firstOptionText: "select sub category",
-        validationProps: {
-          onChange: (e) => handleCountriesChange(e.target.value),
-          required: {
-            value: true,
-            message: "this field is required",
-          },
+        onFieldChange: (option, setValue, setSelectedOptions, selectIndex) => {
+          console.log(option);
+          setSelectedCategory({ id: option });
+          setValue && setValue("subCategory", null);
+          setSelectedOptions &&
+            setSelectedOptions((prev) =>
+              prev.map((ele, i) => (i === selectIndex + 1 ? [] : ele))
+            );
         },
         styles: "md:w-[45%]",
       },
       {
-        title: "city ",
+        title: "choose sub category",
+        name: "subCategory",
+        type: "select",
+        options: subCategories,
+        optionText: "name",
+        searchKey: "name",
+        value: data?.subcategory_id,
+        optionValue: "id",
+        onFieldChange: (option, setValue, setSelectedOptions, selectIndex) => {
+          setSelectedSubCategory({ id: option });
+          setValue && setValue("child_category", null);
+          setSelectedOptions &&
+            setSelectedOptions((prev) =>
+              prev.map((ele, i) => (i === selectIndex + 1 ? [] : ele))
+            );
+        },
+        styles: "md:w-[45%]",
+      },
+      {
+        title: "choose child category",
+        name: "childCategory",
+        type: "select",
+        options: childCategories,
+        optionText: "name",
+        searchKey: "name",
+        value: data?.childcategory_id,
+        optionValue: "id",
+        styles: "md:w-[45%]",
+      },
+
+      {
+        title: "choose country",
+        name: "country",
+        type: "select",
+        options: countries,
+        optionText: "country",
+        searchKey: "country",
+        value: data?.country_id,
+        optionValue: "id",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        onFieldChange: (option, setValue, setSelectedOptions, selectIndex) => {
+          setSelectedCountry({ id: option });
+          setValue && setValue("city", null);
+          setSelectedOptions &&
+            setSelectedOptions((prev) =>
+              prev.map((ele, i) => (i === selectIndex + 1 ? [] : ele))
+            );
+        },
+        styles: "md:w-[45%]",
+      },
+
+      {
+        title: "choose city",
         name: "city",
         type: "select",
-        optionValue: "id",
-        options: [...cities],
-        value: data?.city,
+        options: cities,
         optionText: "service_city",
-        firstOptionText: "select sub category",
+        searchKey: "service_city",
+        value: data?.city_id,
+        optionValue: "id",
         validationProps: {
           required: {
             value: true,
@@ -167,18 +180,14 @@ export const Step1 = ({
       },
     ],
   };
-
   return (
-    template &&
-    stepData && (
-      <ReusableForm
-        template={template}
-        onSubmit={onSubmit}
-        validate={validate}
-        btnWidth={"w-[150px] self-end"}
-        btnText={"next"}
-        addedStyles={"md:w-[400px] lg:w-[100%]"}
-      />
-    )
+    <ReusableForm
+      template={template}
+      onSubmit={onSubmit}
+      validate={validate}
+      btnWidth={"w-[150px] self-end"}
+      btnText={"next"}
+      addedStyles={"md:w-[400px] lg:w-[100%]"}
+    />
   );
 };

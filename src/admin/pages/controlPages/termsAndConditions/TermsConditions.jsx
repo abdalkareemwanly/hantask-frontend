@@ -5,6 +5,7 @@ import PageTitle from "../../../../Components/PageTitle";
 import { useEffect, useState } from "react";
 import Button from "../../../../Components/Button";
 import axiosClient from "../../../../axios-client";
+import Loader from "./../../../../Components/Loader";
 
 const TermsConditions = () => {
   const [value, setValue] = useState("<p>hello world</p>");

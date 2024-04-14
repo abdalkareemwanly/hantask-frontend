@@ -9,12 +9,15 @@ export const useQueryHook = (queryKey, getDataFun, queryType) => {
 
   const normalQuery = {
     queryKey: queryKey,
+
     queryFn: getDataFun,
+    refetchOnWindowFocus: false,
   };
 
   const paginateQuery = {
     queryKey: queryKey,
     queryFn: getDataFun,
+    refetchOnWindowFocus: false,
     placeholderData: keepPreviousData,
     staleTime: 6000 * 5,
   };
