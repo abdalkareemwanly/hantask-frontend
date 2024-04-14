@@ -3,6 +3,7 @@ import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
 import { useState } from "react";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
+import { useGlobalDataContext } from "../../../../contexts/GlobalDataContext";
 
 const postData = async (data) => {
   const res = await axiosClient.post(
@@ -11,27 +12,12 @@ const postData = async (data) => {
   );
   return res;
 };
-export const EditArea = ({
-  data,
-  getAreas,
-  setIsModalOpen,
-  countries,
-  cities,
-}) => {
-  let country = countries.find((obj) => obj.country === data?.country);
-  let city = cities.find((obj) => obj.service_city === data?.city);
+export const EditArea = ({ data, setIsModalOpen }) => {
+  const { countries, filteredCities, setSelectedCountry, cities } =
+    useGlobalDataContext();
 
-  const [filteredCities, setFilteredCities] = useState([city]);
-
-  const handleCountryChange = (e) => {
-    const selectedCountry = countries.find((obj) => obj.id == e.target.value);
-    const updatedFilteredCities = cities.filter(
-      (obj) => obj.country === selectedCountry?.country
-    );
-    setFilteredCities(updatedFilteredCities);
-  };
   let template = {
-    title: "add new category",
+    title: "edit area details",
     fields: [
       {
         title: "area name",
@@ -50,32 +36,42 @@ export const EditArea = ({
         title: "choose the country",
         name: "country_id",
         type: "select",
+        value: data.country_id,
+        onFieldChange: (option, setValue, setSelectedOptions, selectIndex) => {
+          console.log(option);
+          setSelectedCountry({ id: option });
+          setValue && setValue("service_city_id", null);
+          setSelectedOptions &&
+            setSelectedOptions((prev) =>
+              prev.map((ele, i) => (i === selectIndex + 1 ? [] : ele))
+            );
+        },
         validationProps: {
           required: {
             value: true,
             message: "this field is required",
           },
-          onChange: handleCountryChange,
         },
-        options: [...countries],
+        options: countries,
         optionText: "country",
-        value: country?.id,
         optionValue: "id",
+        searchKey: "country",
       },
       {
         title: "choose city",
         name: "service_city_id",
+        options: filteredCities,
+        value: data?.city_id,
         type: "select",
+        optionText: "service_city",
+        searchKey: "service_city",
+        optionValue: "id",
         validationProps: {
           required: {
             value: true,
             message: "this field is required",
           },
         },
-        value: city.id,
-        options: [...filteredCities],
-        optionText: "service_city",
-        optionValue: "id",
       },
     ],
   };

@@ -1,6 +1,7 @@
 .bannerContainer {
   position: relative;
   height: 80vh;
+  max-height: 600px;
 }
 /* CSS code */
 .banner-image {

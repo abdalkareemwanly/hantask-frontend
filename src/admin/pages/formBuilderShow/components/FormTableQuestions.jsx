@@ -97,7 +97,7 @@ const FormTableQuestions = ({
       {(formbuilder === "question" || formbuilder === "answer") && (
         <motion.div
           key="step4"
-          className="px-4 py-2 w-full"
+          className="px-4 py-2 w-full z-1"
           initial={{ opacity: 0, x: "10%" }}
           animate={{ opacity: 1, x: "0" }}
           exit={{ opacity: 0, x: "-10%" }}

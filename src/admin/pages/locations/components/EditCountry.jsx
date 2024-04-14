@@ -17,16 +17,24 @@ export const EditCountry = ({
   allCountries,
 }) => {
   let template = {
-    title: "add new category",
+    title: "edit country",
     fields: [
       {
-        title: "country name",
+        title: "choose a country",
         name: "name",
         type: "select",
         options: [...allCountries],
         optionText: "name",
-        value: data?.country.toLowerCase(),
+        searchKey: "name",
+        value: data?.country,
         optionValue: "name",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        // onFieldChange: (option) => setSelectedCategory({ id: option }),
         styles: "md:w-[100%]",
       },
     ],

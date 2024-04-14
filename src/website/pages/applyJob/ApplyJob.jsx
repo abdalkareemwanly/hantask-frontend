@@ -15,12 +15,11 @@ function ApplyJob() {
   const { state } = useLocation();
   const nav = useNavigate();
   const sellerData = JSON.parse(localStorage.getItem("USER"));
-  console.log(state);
   const [step, setStep] = useState(1);
   const [bookingDefaultData, setBookingDefaultData] = useState({
-    name: sellerData.username,
-    email: sellerData.email,
-    phone: sellerData.phone,
+    name: sellerData?.username,
+    email: sellerData?.email,
+    phone: sellerData?.phone,
     address: "",
     note: "",
   });
@@ -68,10 +67,7 @@ function ApplyJob() {
   };
   return (
     <>
-      <h1 className="apply-job-title mb-[50px] mt-[40px] xl:px-[5%] sm:px-[10%] px-[2%]">
-        {state.postData.title}
-      </h1>
-      <div className="apply-job-container grid grid-cols-1 gap-[20px] xl:px-[5%] sm:px-[10%] px-[2%] pb-[40px]">
+      <div className="apply-job-container my-4 grid grid-cols-1 gap-[20px] xl:px-[5%] sm:px-[10%] px-[2%] pb-[40px]">
         <div className="apply-job-form-section lg:col-span-3 col-span-4">
           {loading ? (
             <ServiceDetailsLoader />

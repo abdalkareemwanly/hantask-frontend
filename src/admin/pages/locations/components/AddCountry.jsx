@@ -9,21 +9,24 @@ const postData = async (formData) => {
 };
 export const AddCountry = ({ setIsAddModalOpen, allCountries }) => {
   let template = {
-    title: "add new category",
+    title: "add new country",
     fields: [
       {
-        title: "country name",
+        title: "choose the main category",
         name: "name",
         type: "select",
         options: [...allCountries],
-        optionValue: "name",
         optionText: "name",
+        searchKey: "name",
+        // value: mainCategory?.id,
+        optionValue: "name",
         validationProps: {
           required: {
             value: true,
             message: "this field is required",
           },
         },
+        // onFieldChange: (option) => setSelectedCategory({ id: option }),
         styles: "md:w-[100%]",
       },
     ],

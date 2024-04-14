@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
+import LazyMedia from "../../../Components/LazyMedia";
 
 const Category = ({ image, title, servicesNumber, name, id }) => {
   return (
     <Link
       to="/subcategories"
       state={{ currentCategory: { name: name, id: id } }}
-      className="group min-w-[250px] min-h-[100px] p-6 bg-white items-center component-shadow flex  gap-6 rounded-xl border hover:border-greenColor transition-all"
+      className="group w-[300px] items-center  h-[120px] p-6 bg-white  component-shadow flex  gap-6 rounded-xl border hover:border-greenColor transition-all"
     >
-      <img
+      <LazyMedia
+        classes={"w-[60px] h-[60px] rounded-full object-cover"}
         src={import.meta.env.VITE_WEBSITE_URL + image}
-        className="w-[50px] h-[50px] rounded-full object-cover"
       />
+
       <div className="flex justify-center items-center gap-2 flex-col">
-        <h3 className="text-xl font-semibold max-w-[150px]">{name}</h3>
+        <h3 className="text-xl font-semibold max-w-[150px] ml-auto">{name}</h3>
       </div>
     </Link>
   );

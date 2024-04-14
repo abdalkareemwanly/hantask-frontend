@@ -23,7 +23,7 @@ export default function ServiceProviderLayout() {
   const { setTheme } = useTWThemeContext();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
-  const { token, notifications } = useStateContext({});
+  const { token, notifications, setUser, setToken } = useStateContext({});
   const user = JSON.parse(localStorage.getItem("USER"));
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,9 +53,11 @@ export default function ServiceProviderLayout() {
   }
 
   const handleLogout = () => {
+    setToken(null);
+    setUser(null);
     localStorage.removeItem("ACCESS_TOKEN");
     localStorage.removeItem("USER");
-    navigate("/ ");
+    navigate("/");
   };
   const handleChangePass = () => {
     setIsModalOpen(true);

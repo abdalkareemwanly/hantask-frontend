@@ -1,24 +1,37 @@
-import { formatMoney } from "../../../../functions/price";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { TbCalendarTime } from "react-icons/tb";
 import Button from "../../../../Components/Button";
 import axiosClient from "../../../../axios-client";
-
+import LazyMedia from "../../../../Components/LazyMedia";
+import { toast } from "react-toastify";
 function PostJobsCard({ item, withBuyer = true }) {
+  console.log(item);
   const saveToSaved = async (id) => {
-    const res = await axiosClient.post("/site/post/saved", { post_id: id });
-    console.log(res);
+    const isLogin = localStorage.getItem("ACCESS_TOKEN");
+    const isServiceProvider =
+      JSON.parse(localStorage.getItem("USER"))?.user_type === "seller";
+
+    if (isLogin) {
+      if (isServiceProvider) {
+        const res = await axiosClient.post("/site/post/saved", { post_id: id });
+        toast.success("saved successfully");
+      } else {
+        toast.info("only for handymans");
+      }
+    } else {
+      toast.info("you need to login first!");
+    }
   };
 
   return (
     <div className="flex flex-col gap-2 w-[400px] py-3 px-6 component-shadow border rounded-lg">
       <div className="flex justify-between items-center">
         <span className="rounded-full text-sm px-3 bg-[#9feaba78] flex justify-center items-center">
-          category name
+          {item?.category?.name}
         </span>
         <span
-          onClick={() => saveToSaved(item.id)}
+          onClick={() => saveToSaved(item?.id)}
           className="w-[30px] h-[30px] cursor-pointer rounded-full bg-[#9feaba78] flex justify-center items-center"
         >
           <FaRegBookmark size={18} />
@@ -26,18 +39,21 @@ function PostJobsCard({ item, withBuyer = true }) {
       </div>
       <div className="flex gap-4 items-center">
         <div className="w-[100px] h-[100px] rounded-full flex justify-center items-center bg-[#9feaba78]">
-          <img
-            className="w-full h-full rounded-full"
-            src={import.meta.env.VITE_WEBSITE_URL + item.image}
+          <LazyMedia
+            classes={"w-full h-full rounded-full"}
+            src={
+              import.meta.env.VITE_CATEGORIES_IMAGES_URL + item?.category?.image
+            }
           />
         </div>
         <div className="flex flex-col gap-1 flex-1">
           <h3 className="font-semibold">{item?.title}</h3>
           <div className="flex items-center gap-4 text-sm">
-            <span>{item?.buyer_name}</span>
+            <span>{item?.buyer?.name}</span>
             <span className=" w-[1px] h-[16px] bg-black block"></span>
             <span className="flex gap-1 items-center">
-              <FaLocationDot size={14} /> city
+              <FaLocationDot size={14} />{" "}
+              {item?.country?.country + ",  " + item?.city?.service_city}
             </span>
           </div>
         </div>

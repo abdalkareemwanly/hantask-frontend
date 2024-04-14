@@ -13,6 +13,7 @@ import { useQueryHook } from "../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
 import useCheckPermission from "../../../hooks/checkPermissions";
+import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
     `admin/subCategories?page=${page}${
@@ -43,15 +44,11 @@ const SubCategories = () => {
   const hasChangeMethod = hasPermissionFun("changeStatusSubCategory");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [clickedRow, setClickedRow] = useState();
-  const getCategories = async () => {
-    const res = await axiosClient.get("/admin/categories");
-    setCategories(res.data?.data);
-  };
+
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const { categories } = useGlobalDataContext();
   const { data: subCategories, queryClient } = useQueryHook(
     ["subCategories", page, searchTerm],
     () => getData(page, searchTerm),
@@ -68,10 +65,6 @@ const SubCategories = () => {
     page,
     searchTerm,
   ]);
-
-  useEffect(() => {
-    getCategories();
-  }, []);
 
   const editBtnFun = (row) => {
     setIsModalOpen(true);
@@ -250,9 +243,7 @@ const SubCategories = () => {
             setIsModalOpen={setIsModalOpen}
             component={
               <EditSubCategory
-                categories={categories}
                 data={clickedRow}
-                // getSubCategories={getSubCategories}
                 setIsModalOpen={setIsModalOpen}
               />
             }
@@ -263,13 +254,7 @@ const SubCategories = () => {
           <ModalContainer
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
-            component={
-              <AddSubCategory
-                categories={categories}
-                // getSubCategories={getSubCategories}
-                setIsAddModalOpen={setIsAddModalOpen}
-              />
-            }
+            component={<AddSubCategory setIsAddModalOpen={setIsAddModalOpen} />}
           />
         )}
 

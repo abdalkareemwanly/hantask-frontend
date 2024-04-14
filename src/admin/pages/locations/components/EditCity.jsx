@@ -3,6 +3,7 @@ import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
 import { useState } from "react";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
+import { useGlobalDataContext } from "../../../../contexts/GlobalDataContext";
 const postData = async (data) => {
   const res = await axiosClient.post(
     `/admin/city/update/${data?.cityId}`,
@@ -10,8 +11,8 @@ const postData = async (data) => {
   );
   return res;
 };
-export const EditCity = ({ data, getCities, setIsModalOpen, countries }) => {
-  let country = countries.find((obj) => obj.country === data.country);
+export const EditCity = ({ data, setIsModalOpen }) => {
+  const { countries } = useGlobalDataContext();
 
   let template = {
     title: "add new category",
@@ -33,7 +34,7 @@ export const EditCity = ({ data, getCities, setIsModalOpen, countries }) => {
         title: "choose the country",
         name: "country_id",
         type: "select",
-        value: country.id,
+        searchKey: "country",
         validationProps: {
           required: {
             value: true,
@@ -41,6 +42,7 @@ export const EditCity = ({ data, getCities, setIsModalOpen, countries }) => {
           },
         },
         options: [...countries],
+        value: data?.country_id,
         optionText: "country",
         optionValue: "id",
       },

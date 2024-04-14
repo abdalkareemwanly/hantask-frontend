@@ -1,4 +1,4 @@
-import { Link, Navigate, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import {
   BiMenuAltLeft,
   BiSolidBellRing,
@@ -19,9 +19,16 @@ export default function DefaultLayout() {
   const [adminmenuOpen, setAdminMenuOpen] = useState(false);
   const [mode, setMode] = useState(localStorage.getItem("theme") || "light");
   const { setTheme } = useTWThemeContext();
-
-  const { token, setTranslation, notifications } = useStateContext({});
-
+  const nav = useNavigate();
+  const { token, setTranslation, notifications, setToken, setUser } =
+    useStateContext({});
+  const handleLogout = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem("ACCESS_TOKEN");
+    localStorage.removeItem("USER");
+    nav("/admin/login");
+  };
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("USER"));
@@ -104,8 +111,9 @@ export default function DefaultLayout() {
                 Password Change
               </Link>
               <Link
+                onClick={handleLogout}
                 className="font-bold ps-6 py-2 text-primary-text hover:bg-background-color transition-all duration-400 ease-in-out"
-                to={"/admin/dashboard/logout"}
+                // to={"/admin/dashboard/logout"}
               >
                 Logout
               </Link>
@@ -142,7 +150,7 @@ export default function DefaultLayout() {
               </div>
               <div
                 className={`absolute flex flex-col top-14 right-0 w-[380px]  text-primary-text overflow-y-auto me-[-20px] component-shadow bg-blocks-color z-10 rounded-md ${
-                  isNotificationOpen ? "h-[auto] p-4" : "h-0 p-0"
+                  isNotificationOpen ? "h-[320px] p-4" : "h-0 p-0"
                 }`}
               >
                 <div className="flex justify-between items-center">
@@ -151,7 +159,7 @@ export default function DefaultLayout() {
                   </h3>
                   <Link
                     className="text-blueColor"
-                    to={"/admin/dashboard/notification"}
+                    to={"/admin/dashboard/notifications"}
                   >
                     show all
                   </Link>
@@ -170,22 +178,6 @@ export default function DefaultLayout() {
         <div className="text-primary-text w-full min-h-[91.7vh] px-2 md:px-14">
           <Outlet />
         </div>
-        {/* <div
-          className={`flex flex-row justify-between px-3 bg-blocks-color text-primary-text`}
-        >
-          <span>
-            &copy; Copyright 2023{" "}
-            <span
-              className={`font-bold ${
-                mode === "light" ? "text-primary-color" : "text-secondary-color"
-              }`}
-            >
-              HanTask
-            </span>
-            . All Rights Reserved.
-          </span>
-          <span>Design : Muhammed Nasser Edden</span>
-        </div> */}
       </div>
     </div>
   );

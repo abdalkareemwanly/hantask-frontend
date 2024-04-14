@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import axiosClient from "../../../../axios-client";
 import ReusableForm from "../../../../Components/ReusableForm";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
+import { useGlobalDataContext } from "../../../../contexts/GlobalDataContext";
 const postData = async (formData) => {
   const res = await axiosClient.post("/admin/category/store", formData);
   return res;
@@ -10,7 +11,7 @@ const postData = async (formData) => {
 
 export const AddCategory = ({ getCategories, setIsAddModalOpen }) => {
   const [image, setImage] = useState();
-
+  const { getGlobalCategories } = useGlobalDataContext();
   let template = {
     title: "add new category",
     fields: [
@@ -106,6 +107,7 @@ export const AddCategory = ({ getCategories, setIsAddModalOpen }) => {
         closeButton: true,
         pauseOnHover: false,
       });
+      getGlobalCategories();
     } catch (error) {
       toast.update(id, {
         type: "error",

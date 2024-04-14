@@ -58,6 +58,7 @@ export default function FormBuilder() {
       });
     }
   };
+
   const handleButtonClick = (button) => {
     setSelectedButton(button);
     setFormBuilder(null);
@@ -106,7 +107,12 @@ export default function FormBuilder() {
           />
         </div>
         <div className="flex flex-[3] flex-col gap-2 w-full component-shadow rounded-md  bg-blocks-color">
-          <FormCategory formcategory={selectedButton} createFrom={createFrom} />
+          {selectedButton && (
+            <FormCategory
+              formcategory={selectedButton}
+              createFrom={createFrom}
+            />
+          )}
           <FormBody formbuilder={formbuilder} createFrom={createFrom} />
           <FormAnswer formbuilder={formbuilder} createFrom={createFrom} />
           <FormFooter formbuilder={formbuilder} submitForm={submitForm} />

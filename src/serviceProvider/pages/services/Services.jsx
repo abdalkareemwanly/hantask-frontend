@@ -192,7 +192,7 @@ const Services = () => {
         />
       )}
 
-      <div className="flex flex-wrap gap-6 my-4">
+      <div className="grid grid-col-1 md:grid-cols-2 gap-6 my-4">
         {services.data.data.map((ele) => (
           <div
             key={ele.id}

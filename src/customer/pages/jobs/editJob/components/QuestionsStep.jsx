@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import ReusableForm from "../../../../../Components/ReusableForm";
 
-const QuestionsStep = ({ data, setStepData, setStep, post }) => {
-  console.log(post);
+const QuestionsStep = ({ template, setStepData, setStep }) => {
   const onSubmit = async (values) => {
     // Transform function
     const transformData = (submittedData) => {
       const transformedData = { ...submittedData }; // Copy submitted data
 
       const questions = [];
-
       // Extract question IDs and answer IDs or buyer answers
       Object.keys(submittedData).forEach((key) => {
         if (key.startsWith("question_")) {
@@ -17,8 +15,8 @@ const QuestionsStep = ({ data, setStepData, setStep, post }) => {
           let answer_id = null;
           let buyer_answer = null;
 
+          // Check if value is a number
           if (!isNaN(submittedData[key])) {
-            // Check if value is a number
             answer_id = parseInt(submittedData[key]);
           } else {
             buyer_answer = submittedData[key];
@@ -42,62 +40,12 @@ const QuestionsStep = ({ data, setStepData, setStep, post }) => {
 
     // Transformed data
     const transformedData = transformData(values);
-    console.log(transformedData);
     setStepData((prev) => ({
       ...prev,
       ...transformedData,
     }));
     setStep(3);
   };
-  const [template, setTemplate] = useState();
-
-  const generateTemplate = () => {
-    let newTemplate = {
-      title: "",
-      fields: [],
-    };
-
-    post?.questions?.forEach((question) => {
-      let field = {
-        title: question.question_content,
-        name: `question_${question.question_id}`,
-        type: question?.form_answer ? "select" : "text",
-        optionValue: "answer_id",
-        firstOptionText: "select category",
-        optionText: "text",
-        validationProps: {
-          required: {
-            value: true,
-            message: "This field is required",
-          },
-        },
-        styles: "md:w-[100%]",
-        value: question.buyer_answer
-          ? question.buyer_answer.answer_id
-            ? question.buyer_answer.answer_id
-            : question.buyer_answer.buyer_answer
-          : null,
-      };
-
-      if (field.type === "select") {
-        field.options = question.form_answer.map((answer) => ({
-          answer_id: answer.id,
-          text: answer.content,
-        }));
-
-        console.log(field);
-      } else {
-        console.log(field);
-      }
-
-      newTemplate.fields.push(field);
-    });
-
-    setTemplate(newTemplate);
-  };
-  useEffect(() => {
-    generateTemplate();
-  }, [data]); // Ensure generateTemplate runs whenever data changes
 
   return (
     <div>

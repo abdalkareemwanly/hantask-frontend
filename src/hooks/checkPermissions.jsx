@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 
 const useCheckPermission = () => {
   const [userPermissions, setUserPermissions] = useState(
-    JSON.parse(localStorage.getItem("USER")).permission
+    JSON.parse(localStorage.getItem("USER"))?.permission
   );
   const [permissions, setPermissions] = useState(
-    JSON.parse(localStorage.getItem("permissions"))
+    JSON.parse(localStorage?.getItem("permissions"))
   );
   const [approvedRoles, setApprovedRoles] = useState();
 

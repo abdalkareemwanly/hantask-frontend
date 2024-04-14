@@ -197,26 +197,24 @@ export const AddPlan = ({ getUsers, setIsAddModalOpen }) => {
   };
 
   return (
-    <>
-      <ReusableForm
-        template={template}
-        watchFields={[
-          "product_id",
-          "name",
-          "description",
-          "status",
-          "billing_cycles",
-          "payment_preferences",
-          "taxes",
-        ]}
-        onSubmit={onSubmit}
-        validate={validate}
-        btnWidth={"w-full text-white"}
-        btnText={"add"}
-        addedStyles={"md:w-[800px]"}
-        image={image}
-        setImage={setImage}
-      />
-    </>
+    <ReusableForm
+      template={template}
+      watchFields={[
+        "product_id",
+        "name",
+        "description",
+        "status",
+        "billing_cycles",
+        "payment_preferences",
+        "taxes",
+      ]}
+      onSubmit={onSubmit}
+      validate={validate}
+      btnWidth={"w-full text-white"}
+      btnText={"add"}
+      addedStyles={"md:w-[800px]"}
+      image={image}
+      setImage={setImage}
+    />
   );
 };

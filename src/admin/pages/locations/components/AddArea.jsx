@@ -3,21 +3,16 @@ import { toast } from "react-toastify";
 import axiosClient from "../../../../axios-client";
 import ReusableForm from "../../../../Components/ReusableForm";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
+import { useGlobalDataContext } from "../../../../contexts/GlobalDataContext";
 const postData = async (formData) => {
   const res = await axiosClient.post("/admin/area/store", formData);
   return res;
 };
-export const AddArea = ({ getAreas, setIsAddModalOpen, countries, cities }) => {
-  const [filteredCities, setFilteredCities] = useState([]);
-  const handleCountryChange = (e) => {
-    const selectedCountry = countries.find((obj) => obj.id == e.target.value);
-    const updatedFilteredCities = cities.filter(
-      (obj) => obj.country === selectedCountry?.country
-    );
-    setFilteredCities(updatedFilteredCities);
-  };
+export const AddArea = ({ setIsAddModalOpen }) => {
+  const { countries, filteredCities, setSelectedCountry } =
+    useGlobalDataContext();
   let template = {
-    title: "add new category",
+    title: "add new area",
     fields: [
       {
         title: "area name",
@@ -35,20 +30,30 @@ export const AddArea = ({ getAreas, setIsAddModalOpen, countries, cities }) => {
         title: "choose the country",
         name: "country_id",
         type: "select",
+        onFieldChange: (option, setValue, setSelectedOptions, selectIndex) => {
+          console.log(option);
+          setSelectedCountry({ id: option });
+          setValue && setValue("service_city_id", null);
+          setSelectedOptions &&
+            setSelectedOptions((prev) =>
+              prev.map((ele, i) => (i === selectIndex + 1 ? [] : ele))
+            );
+        },
         validationProps: {
           required: {
             value: true,
             message: "this field is required",
           },
-          onChange: handleCountryChange,
         },
         options: [...countries],
         optionText: "country",
         optionValue: "id",
+        searchKey: "country",
       },
       {
         title: "choose city",
         name: "service_city_id",
+        options: [...filteredCities],
         type: "select",
         validationProps: {
           required: {
@@ -56,8 +61,8 @@ export const AddArea = ({ getAreas, setIsAddModalOpen, countries, cities }) => {
             message: "this field is required",
           },
         },
-        options: [...filteredCities],
         optionText: "service_city",
+        searchKey: "service_city",
         optionValue: "id",
       },
     ],

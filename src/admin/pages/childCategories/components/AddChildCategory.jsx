@@ -3,31 +3,17 @@ import { toast } from "react-toastify";
 import axiosClient from "../../../../axios-client";
 import ReusableForm from "../../../../Components/ReusableForm";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
+import { useGlobalDataContext } from "../../../../contexts/GlobalDataContext";
 const postData = async (formData) => {
   const res = await axiosClient.post("/admin/child/store", formData);
   return res;
 };
-export const AddChildCategory = ({
-  getChildCategories,
-  setIsAddModalOpen,
-  subCategories,
-  categories,
-}) => {
+export const AddChildCategory = ({ setIsAddModalOpen }) => {
   const [image, setImage] = useState();
   const mutation = useMutationHook(postData, ["childCategories"]);
 
-  const [filteredSubCategories, setFilteredSubCategories] = useState([]);
-  // const [mainCategory, setMainCategory] = useState(null);
-  const handleMainCategoryChange = (e) => {
-    const selectedMainCategory = categories.find(
-      (obj) => obj.id == e.target.value
-    );
-    // setMainCategory(selectedMainCategory);
-    const updatedFilteredSubCategories = subCategories.filter(
-      (obj) => obj.categoryName === selectedMainCategory?.name
-    );
-    setFilteredSubCategories(updatedFilteredSubCategories);
-  };
+  const { categories, setSelectedCategory, filteredSubCategories } =
+    useGlobalDataContext();
 
   let template = {
     title: "add new child to category",
@@ -87,13 +73,21 @@ export const AddChildCategory = ({
         type: "select",
         options: [...categories],
         optionText: "name",
+        searchKey: "name",
         optionValue: "id",
         validationProps: {
           required: {
             value: true,
             message: "this field is required",
           },
-          onChange: handleMainCategoryChange,
+        },
+        onFieldChange: (option, setValue, setSelectedOptions, selectIndex) => {
+          setSelectedCategory({ id: option });
+          setValue && setValue("subCategory", null);
+          setSelectedOptions &&
+            setSelectedOptions((prev) =>
+              prev.map((ele, i) => (i === selectIndex + 1 ? [] : ele))
+            );
         },
         styles: "md:w-[45%]",
       },
@@ -101,9 +95,9 @@ export const AddChildCategory = ({
         title: "choose sub category",
         name: "subCategory",
         type: "select",
-        options: [...filteredSubCategories],
-        firstOptionText: "please select the main category first!",
+        options: filteredSubCategories,
         optionText: "name",
+        searchKey: "name",
         optionValue: "id",
         validationProps: {
           required: {

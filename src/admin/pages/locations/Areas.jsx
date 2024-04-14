@@ -38,11 +38,10 @@ const Areas = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
-  const [countries, setCountries] = useState([]);
-  const [cities, setCities] = useState([]);
   const [clickedRow, setClickedRow] = useState();
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+
   const { data: areas } = useQueryHook(
     ["areas", page, searchTerm],
     () => getData(page, searchTerm),
@@ -54,21 +53,6 @@ const Areas = () => {
     page,
     searchTerm,
   ]);
-
-  const getCities = async () => {
-    const res = await axiosClient.get("/admin/citys");
-    setCities(res.data?.data);
-  };
-  const getCountries = async () => {
-    const res = await axiosClient.get("/admin/countries");
-    setCountries(res.data?.data);
-  };
-  useEffect(() => {
-    setTimeout(() => {
-      getCountries();
-      getCities();
-    }, 500);
-  }, []);
 
   const editBtnFun = (row) => {
     setIsModalOpen(true);
@@ -165,7 +149,7 @@ const Areas = () => {
 
   const handleDownloadExcelFile = async () => {
     const res = await axiosClient.get("/admin/area/excel");
-    const excelUrl = "http://127.0.0.1:8000" + res.data.url;
+    const excelUrl = import.meta.env.VITE_WEBSITE_URL + res.data.url;
     const downloadLink = document.createElement("a");
     downloadLink.href = excelUrl;
     downloadLink.download = "cities.xlsx";
@@ -205,13 +189,7 @@ const Areas = () => {
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           component={
-            <EditArea
-              data={clickedRow}
-              // getAreas={getAreas}
-              countries={countries}
-              cities={cities}
-              setIsModalOpen={setIsModalOpen}
-            />
+            <EditArea data={clickedRow} setIsModalOpen={setIsModalOpen} />
           }
         />
       )}
@@ -220,14 +198,7 @@ const Areas = () => {
         <ModalContainer
           isModalOpen={isAddModalOpen}
           setIsModalOpen={setIsAddModalOpen}
-          component={
-            <AddArea
-              // getAreas={getAreas}
-              setIsAddModalOpen={setIsAddModalOpen}
-              countries={countries}
-              cities={cities}
-            />
-          }
+          component={<AddArea setIsAddModalOpen={setIsAddModalOpen} />}
         />
       )}
       {isImportModalOpen && (
@@ -237,6 +208,7 @@ const Areas = () => {
           component={
             <ImportExcel
               // getMethod={getAreas}
+              importFor={"areas"}
               setIsModalOpen={setIsImportModalOpen}
               apiLink={"/admin/area/import"}
             />
@@ -251,7 +223,7 @@ const Areas = () => {
           actualData={areas?.data.data}
           setPage={setPage}
           paginationBool={true}
-          noDataMessage={"no countries to show!"}
+          noDataMessage={"no cities areas to show!"}
           setSearchTerm={setSearchTerm}
         />
       </div>

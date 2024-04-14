@@ -6,40 +6,53 @@ const GlobalDataContext = createContext();
 export const GlobalDataProvider = ({ children }) => {
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
+  const [areas, setAreas] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [childCategories, setChildCategories] = useState([]);
   const [loading, setloading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubCategory, setSelectedSubCategory] = useState();
+  const [selectedCountry, setSelectedCountry] = useState();
+  const [selectedCity, setSelectedCity] = useState();
   const [filteredSubCategories, setFilteredSubCategories] = useState();
   const [filteredChildCategories, setFilteredChildCategories] = useState();
+  const [filteredCities, setFilteredCities] = useState();
+  const [filteredAreas, setFilteredAreas] = useState();
+  const [globalLoading, setGlobalLoading] = useState(true);
 
-  const getCountries = async (signal) => {
-    const res = await axiosClient.get("/site/countrys", { signal: signal });
+  const getGlobalCountries = async (signal) => {
+    const res = await axiosClient.get("/site/global/countrys", {
+      signal: signal,
+    });
     setCountries(res.data.data);
   };
 
-  const getCities = async (signal) => {
-    const res = await axiosClient.get("/site/citis", { signal: signal });
+  const getGlobalCities = async (signal) => {
+    const res = await axiosClient.get("/site/global/citis", { signal: signal });
     setCities(res.data.data);
   };
 
-  const getCategories = async (signal) => {
+  const getGlobalAreas = async (signal) => {
+    const res = await axiosClient.get("/site/global/areas", { signal: signal });
+    setAreas(res.data.data);
+  };
+
+  const getGlobalCategories = async (signal) => {
     const res = await axiosClient.get("/site/global/category", {
       signal: signal,
     });
     setCategories(res.data.data);
   };
 
-  const getSubCategories = async (signal) => {
+  const getGlobalSubCategories = async (signal) => {
     const res = await axiosClient.get("/site/global/subCategories", {
       signal: signal,
     });
     setSubCategories(res.data.data);
   };
 
-  const getChildCategories = async (signal) => {
+  const getGlobalChildCategories = async (signal) => {
     const res = await axiosClient.get("/site/global/childCategories", {
       signal: signal,
     });
@@ -53,13 +66,36 @@ export const GlobalDataProvider = ({ children }) => {
     const controller3 = new AbortController();
     const controller4 = new AbortController();
     const controller5 = new AbortController();
+    const controller6 = new AbortController();
+    const fetchCountries = () => getGlobalCountries(controller1.signal);
+    const fetchCities = () => getGlobalCities(controller2.signal);
+    const fetchAreas = () => getGlobalAreas(controller6.signal);
+    const fetchCategories = () => getGlobalCategories(controller3.signal);
+    const fetchSubCategories = () => getGlobalSubCategories(controller4.signal);
+    const fetchChildCategories = () =>
+      getGlobalChildCategories(controller5.signal);
 
-    getCountries(controller1.signal);
-    getCities(controller2.signal);
-    getCategories(controller3.signal);
-    getSubCategories(controller4.signal);
-    getChildCategories(controller5.signal);
-
+    const fetchDataSequentially = async () => {
+      try {
+        setGlobalLoading(true);
+        await fetchCategories();
+        await new Promise((resolve) => setTimeout(resolve, 500)); // Wait for 500 milliseconds
+        await fetchSubCategories();
+        await new Promise((resolve) => setTimeout(resolve, 500)); // Wait for 500 milliseconds
+        await fetchChildCategories();
+        await new Promise((resolve) => setTimeout(resolve, 500)); // Wait for 500 milliseconds
+        await fetchCountries();
+        await new Promise((resolve) => setTimeout(resolve, 500)); // Wait for 500 milliseconds
+        await fetchCities();
+        await new Promise((resolve) => setTimeout(resolve, 500)); // Wait for 500 milliseconds
+        await fetchAreas();
+        setGlobalLoading(false);
+        console.log("All data fetched successfully");
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchDataSequentially();
     return () => {
       controller1.abort();
       controller2.abort();
@@ -75,8 +111,15 @@ export const GlobalDataProvider = ({ children }) => {
     const filteredSubs = subCategories.filter(
       (sub) => sub.categoryId == selectedCategory?.id
     );
+    console.log("change in global context", filteredSubs, selectedCategory);
     setFilteredSubCategories(filteredSubs);
-  }, [selectedCategory]);
+  }, [selectedCategory, categories, subCategories]);
+
+  const handleFilterSub = (id) => {
+    if (categories.length === 0 || subCategories.length === 0) return;
+    const filteredSubs = subCategories.filter((sub) => sub.categoryId == id);
+    setFilteredSubCategories(filteredSubs);
+  };
 
   // Filter child-categories based on the selected sub-category
   useEffect(() => {
@@ -89,6 +132,25 @@ export const GlobalDataProvider = ({ children }) => {
           );
     setFilteredChildCategories(filteredChilds);
   }, [selectedSubCategory, subCategories, childCategories]);
+
+  // Filter child-categories based on the selected sub-category
+  useEffect(() => {
+    if (countries.length === 0 || cities.length === 0) return;
+    const filteredcity =
+      selectedCountry === null || selectedCountry === ""
+        ? cities
+        : cities.filter((city) => city.country_id == selectedCountry?.id);
+    setFilteredCities(filteredcity);
+  }, [selectedCountry, countries, cities]);
+
+  useEffect(() => {
+    if (cities.length === 0 || areas.length === 0) return;
+    const filteredAreas =
+      selectedCity === null || selectedCity === ""
+        ? areas
+        : areas.filter((area) => area.city_id == selectedCity?.id);
+    setFilteredAreas(filteredAreas);
+  }, [selectedCity, cities, areas]);
 
   let FILTER_DATA = {
     country: {
@@ -175,6 +237,7 @@ export const GlobalDataProvider = ({ children }) => {
       placeholder: "input what are you looking for",
     },
   };
+
   return (
     <GlobalDataContext.Provider
       value={{
@@ -191,6 +254,18 @@ export const GlobalDataProvider = ({ children }) => {
         setSelectedSubCategory,
         filteredSubCategories,
         filteredChildCategories,
+        globalLoading,
+        getGlobalCategories,
+        getGlobalSubCategories,
+        getGlobalChildCategories,
+        getGlobalCities,
+        getGlobalCountries,
+        handleFilterSub,
+        setSelectedCountry,
+        filteredCities,
+        areas,
+        setSelectedCity,
+        filteredAreas,
       }}
     >
       {children}

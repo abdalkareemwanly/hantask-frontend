@@ -15,7 +15,7 @@
     "name": null,
     "path": "notifications"
   },
-  "jobs": {
+  "deals": {
     "name": null,
     "path": "jobs"
   },
@@ -34,9 +34,5 @@
   "reviews": {
     "name": null,
     "path": "reviews"
-  },
-  "saved posts": {
-    "name": null,
-    "path": "saved_posts"
   }
 }

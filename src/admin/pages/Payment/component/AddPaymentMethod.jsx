@@ -87,33 +87,53 @@
 //   );
 // };
 
-import React from "react";
 import { toast } from "react-toastify";
 import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
 
-export const AddPaymentMethod = ({ getPaymentMethod, setIsAddModalOpen }) => {
+export const AddPaymentMethod = ({ getPaymentMethods, setIsAddModalOpen }) => {
   const handleSubmit = async (values) => {
+    console.log(values);
     try {
       const id = toast.loading("Please wait...");
 
       const paymentMethodData = {
-        name: values.name,
+        name: values.name[0].name,
         client_id: values.ClientId,
         client_secret: values.ClientSecret,
         payment_action: values.paymentAction,
-        currency: values.currency,
-        locale: values.locale,
+        currency: values.currency[0].name,
+        locale: values.locale[0].name,
       };
 
-      const { data } = await axiosClient.post("admin/paymentMethod/create-payment", paymentMethodData);
-
+      const { data } = await axiosClient.post(
+        "admin/paymentMethod/create-payment",
+        paymentMethodData
+      );
+      console.log(data);
       if (data.success) {
-        toast.success(data.mes);
-        getPaymentMethod();
+        toast.update(id, {
+          type: "success",
+          render: data.mes,
+          closeOnClick: true,
+          isLoading: false,
+          autoClose: true,
+          closeButton: true,
+          pauseOnHover: false,
+        });
+        getPaymentMethods();
         setIsAddModalOpen((prev) => !prev);
       } else {
-        toast.error(data.mes);
+        toast.update(id, {
+          type: "error",
+          render: data.message,
+          closeOnClick: true,
+          isLoading: false,
+          autoClose: true,
+          closeButton: true,
+          pauseOnHover: false,
+        });
+        setIsAddModalOpen((prev) => !prev);
       }
     } catch (error) {
       console.error("Error adding payment method:", error);
@@ -132,7 +152,7 @@ export const AddPaymentMethod = ({ getPaymentMethod, setIsAddModalOpen }) => {
         title: "Name",
         name: "name",
         type: "select",
-        options: [{ name: "Paypal" }, { name: "Strip" }, { name: 'en_US'}],
+        options: [{ name: "Paypal" }, { name: "Strip" }],
         optionValue: "name",
         optionText: "name",
         styles: "md:w-[45%]",
@@ -153,7 +173,7 @@ export const AddPaymentMethod = ({ getPaymentMethod, setIsAddModalOpen }) => {
         title: "Currency",
         name: "currency",
         type: "select",
-        options: [{ name: 'USD'}],
+        options: [{ name: "USD" }],
         optionValue: "name",
         optionText: "name",
         styles: "md:w-[45%]",
@@ -162,11 +182,11 @@ export const AddPaymentMethod = ({ getPaymentMethod, setIsAddModalOpen }) => {
         title: "Locale",
         name: "locale",
         type: "select",
-        options: [{ name: 'en_US'}],
+        options: [{ name: "en_US" }],
         optionValue: "name",
         optionText: "name",
         styles: "md:w-[45%]",
-      }
+      },
     ],
   };
 

@@ -190,12 +190,7 @@ const Countries = () => {
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           component={
-            <EditCountry
-              data={clickedRow}
-              // getCountries={getCountries}
-              setIsModalOpen={setIsModalOpen}
-              allCountries={allCountries}
-            />
+            <EditCountry data={clickedRow} setIsModalOpen={setIsModalOpen} />
           }
         />
       )}
@@ -204,13 +199,7 @@ const Countries = () => {
         <ModalContainer
           isModalOpen={isAddModalOpen}
           setIsModalOpen={setIsAddModalOpen}
-          component={
-            <AddCountry
-              // getCountries={getCountries}
-              allCountries={allCountries}
-              setIsAddModalOpen={setIsAddModalOpen}
-            />
-          }
+          component={<AddCountry allCountries={allCountries} />}
         />
       )}
 
@@ -223,6 +212,7 @@ const Countries = () => {
               // getMethod={getCountries}
               setIsModalOpen={setIsImportModalOpen}
               apiLink={"/admin/country/import"}
+              importFor={"countries"}
             />
           }
         />

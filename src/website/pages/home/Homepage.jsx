@@ -19,6 +19,24 @@ const getNewJobs = async () => {
   return res.data.data;
 };
 
+const test = [
+  {
+    id: 1,
+    title: "Post your project",
+    desc: "Easily outline your project and handpick the handyman you want to connect with.",
+  },
+  {
+    id: 2,
+    title: "Handyman reach out",
+    desc: "Talented artisans who are interested will get in touch with you via email or live chat.",
+  },
+  {
+    id: 3,
+    title: "Select your Handyman",
+    desc: "Review the profiles of the handyman and choose the ones you'd like to engage with further.",
+  },
+];
+
 const Homepage = () => {
   const { categories, subCategories, childCategories } = useGlobalDataContext();
 
@@ -39,43 +57,25 @@ const Homepage = () => {
     <div className="">
       <Banner />
       <div className=" lg:px-40 md:px-12  px-6 py-12 flex flex-row items-center flex-wrap">
-        <h3 className="text-2xl font-semibold  md:flex-[30%]  flex-grow-0">
+        <h3 className="text-2xl font-semibold  md:flex-[29%]  flex-grow-0">
           Discovering the perfect handyman for your project
         </h3>
         <div className="flex gap-4 flex-[70%] justify-between flex-wrap">
-          <div className="md:flex-[30%] flex-col border component-shadow rounded-lg p-6 flex gap-12">
-            <div className="flex gap-2 flex-col">
-              <span className="text-[#016980] text-xl font-semibold">01</span>
-              <h4 className="text-xl font-semibold">Post your projec</h4>
-              <p className="text-sm text-gray-500">
-                Easily outline your project and handpick the handyman you want
-                to connect wi
-              </p>
+          {test.map((ele, i) => (
+            <div
+              key={ele.id}
+              className="md:flex-[30%] flex-col border component-shadow rounded-lg p-6 flex gap-12"
+            >
+              <div className="flex gap-2 flex-col">
+                <span className="text-[#016980] text-xl font-semibold">
+                  {ele.id}
+                </span>
+                <h4 className="text-xl font-semibold">{ele.title}</h4>
+                <p className="text-sm text-gray-500">{ele.desc}</p>
+              </div>
+              <FaArrowRight />
             </div>
-            <FaArrowRight />
-          </div>
-          <div className="md:flex-[30%] flex-col border component-shadow rounded-lg p-6 flex gap-12">
-            <div className="flex gap-2 flex-col">
-              <span className="text-[#016980] text-xl font-semibold">01</span>
-              <h4 className="text-xl font-semibold">Post your projec</h4>
-              <p className="text-sm text-gray-500">
-                Easily outline your project and handpick the handyman you want
-                to connect wi
-              </p>
-            </div>
-            <FaArrowRight />
-          </div>
-          <div className="md:flex-[30%] flex-col border component-shadow rounded-lg p-6 flex gap-12">
-            <div className="flex gap-2 flex-col">
-              <span className="text-[#016980] text-xl font-semibold">01</span>
-              <h4 className="text-xl font-semibold">Post your projec</h4>
-              <p className="text-sm text-gray-500">
-                Easily outline your project and handpick the handyman you want
-                to connect wi
-              </p>
-            </div>
-            <FaArrowRight />
-          </div>
+          ))}
         </div>
       </div>
       <CardsContainer
@@ -84,7 +84,7 @@ const Homepage = () => {
         link={"categories"}
       >
         {categories && subCategories && childCategories
-          ? categories.map((item, index) => {
+          ? categories.slice(0, 6).map((item, index) => {
               return (
                 <Category
                   key={index}
@@ -94,7 +94,7 @@ const Homepage = () => {
                 />
               );
             })
-          : Array.from(Array(4).keys()).map((item, index) => {
+          : Array.from(Array(5).keys()).map((item, index) => {
               return <CategoryLoader key={index} />;
             })}
       </CardsContainer>
@@ -103,16 +103,18 @@ const Homepage = () => {
         link={"deals"}
       >
         {!isLoading
-          ? newJobs?.map((ele, i) => <PostJobsCard key={i} item={ele} />)
-          : Array.from(Array(4).keys()).map((item, index) => {
+          ? newJobs
+              ?.slice(0, 6)
+              ?.map((ele, i) => <PostJobsCard key={i} item={ele} />)
+          : Array.from(Array(6).keys()).map((item, index) => {
               return <PostJobsCardLoader key={index} />;
             })}
       </CardsContainer>
       <div
         className="relative w-full p-3 md:p-6 lg:p-12 min-h-[250px]"
         style={{
-          backgroundImage: banner2,
-          backgroundPosition: "center",
+          backgroundImage: `url(${banner2})`,
+          backgroundPosition: " center ",
           backgroundSize: "cover",
         }}
       >

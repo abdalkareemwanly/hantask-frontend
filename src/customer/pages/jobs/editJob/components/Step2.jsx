@@ -183,12 +183,22 @@ const Step2 = ({
         >
           back
         </button>
-        <button
-          className="bg-greenColor p-2 rounded-md self-end"
-          onClick={handleFinish}
-        >
-          finish
-        </button>
+        {_images?.concat(readyImages)?.length >= 4 ? (
+          <button
+            className="bg-greenColor p-2 rounded-md self-end"
+            onClick={handleFinish}
+          >
+            finish
+          </button>
+        ) : (
+          <button
+            className="bg-greenColor bg-opacity-75 p-2 rounded-md self-end cursor-not-allowed"
+            onClick={handleFinish}
+            disabled
+          >
+            finish
+          </button>
+        )}
       </div>
     </div>
   );

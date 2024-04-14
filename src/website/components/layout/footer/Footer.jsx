@@ -3,6 +3,7 @@ import { TiSocialFacebook } from "react-icons/ti";
 import { PiYoutubeLogo } from "react-icons/pi";
 import { FaInstagram } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
+import { logoDark } from "../../../../images";
 
 const Footer = () => {
   return (
@@ -11,11 +12,7 @@ const Footer = () => {
         <div className=" flex flex-col flex-wrap justify-between w-full gap-8 lg:flex-row lg:px-20 md:px-12 px-6">
           <div className="flex-[40%]">
             <div className="font-semibold text-xl mb-8">
-              <img
-                src="/src/images/logo-dark.png"
-                className="w-48"
-                alt="Logo"
-              />
+              <img src={logoDark} className="w-48" />
             </div>
             <div className="text-sm text-gray-300">
               It is a long established fact that a reader will be distracted by

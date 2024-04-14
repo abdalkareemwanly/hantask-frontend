@@ -23,11 +23,13 @@ export default function CustomerLayout() {
   const [adminmenuOpen, setAdminMenuOpen] = useState(false);
   const [mode, setMode] = useState(localStorage.getItem("theme") || "light");
   const { setTheme } = useTWThemeContext();
-  const { token, setTranslation, notifications } = useStateContext({});
+  const { token, setTranslation, notifications, setUser, setToken } =
+    useStateContext({});
   const user = JSON.parse(localStorage.getItem("USER"));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const navigate = useNavigate();
+  const nav = useNavigate();
+
   useEffect(() => {
     // getTranslation();
     const htmlElement = document.querySelector("html");
@@ -38,6 +40,14 @@ export default function CustomerLayout() {
       sessionStorage.setItem("mode", mode);
     }
   }, [mode]);
+
+  const handleLogout = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem("ACCESS_TOKEN");
+    localStorage.removeItem("USER");
+    nav("/");
+  };
 
   const handleSideBar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -53,20 +63,14 @@ export default function CustomerLayout() {
     return <Navigate to={"/"} />;
   }
 
-  const getTranslation = () => {
-    axiosClient.get("/admin/translation").then((response) => {
-      setTranslation(response.data);
-    });
-  };
+  // const getTranslation = () => {
+  //   axiosClient.get("/admin/translation").then((response) => {
+  //     setTranslation(response.data);
+  //   });
+  // };
 
   const handleChangePass = () => {
     setIsModalOpen(true);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("ACCESS_TOKEN");
-    localStorage.removeItem("USER");
-    navigate("/ ");
   };
 
   return (

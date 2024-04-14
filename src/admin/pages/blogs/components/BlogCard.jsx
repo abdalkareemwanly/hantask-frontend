@@ -2,7 +2,7 @@ import { IoCalendar } from "react-icons/io5";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const BlogCard = ({ data, setEditModalOpen }) => {
+const BlogCard = ({ data, setEditModalOpen, onDelete }) => {
   return (
     <div className="flex flex-col gap-4 group transition-all bg-blocks-color rounded-3xl  overflow-hidden">
       <img
@@ -36,6 +36,7 @@ const BlogCard = ({ data, setEditModalOpen }) => {
           </button>
           <button
             to={"1"}
+            onClick={() => onDelete(data?.id)}
             className="w-full block text-center text-primary-text rounded-2xl py-2 bg-redColor  transition-all text-white "
           >
             delete

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CustomSelectForManyUses from "../../../../Components/formComponents/CustomSelectForManyUses";
 
 export const StepTwoPostDeal = ({
   subCategories,
@@ -8,6 +9,10 @@ export const StepTwoPostDeal = ({
   register,
   watch,
   errors,
+  selectedOptions,
+  setSelectedOptions,
+  trigger,
+  setValue,
 }) => {
   return (
     <div className="max-w-[620px] flex flex-col gap-4">
@@ -16,7 +21,22 @@ export const StepTwoPostDeal = ({
         Detail your project on Hantask, and we'll connect you with skilled
         professional handymans.
       </p>
-      <select
+      <CustomSelectForManyUses
+        errors={errors}
+        isMultiple={false}
+        optionText={"name"}
+        optionValue={"id"}
+        options={subCategories}
+        nameOfField={"subcategory_id"}
+        register={register}
+        trigger={trigger}
+        watch={watch}
+        title={"sub category"}
+        selectedOptions={selectedOptions}
+        setSelectedOptions={setSelectedOptions}
+        setValue={setValue}
+      />
+      {/* <select
         {...register("subcategory_id", { required: "This field is required" })}
         className="input-box w-full"
       >
@@ -27,10 +47,24 @@ export const StepTwoPostDeal = ({
               {ele.name}
             </option>
           ))}
-      </select>
-      {errors["subcategory_id"] && errors["subcategory_id"].message}
-
-      <select
+      </select> */}
+      {/* {errors["subcategory_id"] && errors["subcategory_id"].message} */}
+      <CustomSelectForManyUses
+        errors={errors}
+        isMultiple={false}
+        optionText={"name"}
+        optionValue={"id"}
+        title={"child category"}
+        options={childCategories}
+        nameOfField={"child_category_id"}
+        register={register}
+        trigger={trigger}
+        watch={watch}
+        selectedOptions={selectedOptions}
+        setSelectedOptions={setSelectedOptions}
+        setValue={setValue}
+      />
+      {/* <select
         {...register("child_category_id", {
           required: "This field is required",
         })}
@@ -44,7 +78,7 @@ export const StepTwoPostDeal = ({
             </option>
           ))}
       </select>
-      {errors["child_category_id"] && errors["child_category_id"].message}
+      {errors["child_category_id"] && errors["child_category_id"].message} */}
 
       <div className="flex gap-2">
         <button

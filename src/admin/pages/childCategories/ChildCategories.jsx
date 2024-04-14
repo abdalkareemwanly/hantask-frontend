@@ -13,6 +13,7 @@ import { useQueryHook } from "../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
 import useCheckPermission from "../../../hooks/checkPermissions";
+import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
     `admin/childs?page=${page}${
@@ -35,8 +36,6 @@ const deleteFunc = async (id) => {
 const ChildCategories = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
   const [clickedRow, setClickedRow] = useState();
   const { hasPermissionFun } = useCheckPermission();
 
@@ -45,14 +44,7 @@ const ChildCategories = () => {
   const hasEditPermission = hasPermissionFun("editChildCategory");
   const hasDeletePermission = hasPermissionFun("deleteChildCategory");
   const hasChangeMethod = hasPermissionFun("changeStatusChildCategory");
-  const getCategories = async () => {
-    const res = await axiosClient.get("/admin/categories");
-    setCategories(res.data?.data);
-  };
-  const getSubCategories = async () => {
-    const res = await axiosClient.get("/admin/subCategories");
-    setSubCategories(res.data?.data);
-  };
+
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -66,7 +58,6 @@ const ChildCategories = () => {
   useEffect(() => {
     setTimeout(() => {
       getSubCategories();
-      getCategories();
     }, 500);
   }, []);
 
@@ -263,8 +254,6 @@ const ChildCategories = () => {
             setIsModalOpen={setIsModalOpen}
             component={
               <EditChildCategory
-                subCategories={subCategories}
-                categories={categories}
                 data={clickedRow}
                 setIsModalOpen={setIsModalOpen}
               />
@@ -277,11 +266,7 @@ const ChildCategories = () => {
             isModalOpen={isAddModalOpen}
             setIsModalOpen={setIsAddModalOpen}
             component={
-              <AddChildCategory
-                subCategories={subCategories}
-                categories={categories}
-                setIsAddModalOpen={setIsAddModalOpen}
-              />
+              <AddChildCategory setIsAddModalOpen={setIsAddModalOpen} />
             }
           />
         )}
