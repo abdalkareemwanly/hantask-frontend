@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axiosClient from "../../../../axios-client";
 import ReusableForm from "../../../../Components/ReusableForm";
@@ -7,44 +6,37 @@ const postData = async (formData) => {
   const res = await axiosClient.post("/admin/country/store", formData);
   return res;
 };
-export const AddCountry = ({ setIsAddModalOpen, allCountries }) => {
+export const AddCountry = ({ setIsAddModalOpen }) => {
   let template = {
     title: "add new country",
     fields: [
       {
-        title: "choose the main category",
-        name: "name",
-        type: "select",
-        options: [...allCountries],
-        optionText: "name",
-        searchKey: "name",
-        // value: mainCategory?.id,
-        optionValue: "name",
+        title: "country name",
+        name: "country",
+        type: "text",
         validationProps: {
           required: {
             value: true,
             message: "this field is required",
           },
         },
-        // onFieldChange: (option) => setSelectedCategory({ id: option }),
         styles: "md:w-[100%]",
       },
     ],
   };
   const mutation = useMutationHook(postData, ["countries"]);
+
   const onSubmit = async (values) => {
     const id = toast.loading("please wait...");
-    const country = {
-      ...values,
-    };
     const formData = new FormData();
-    formData.append("country", country.name.toLowerCase());
+    formData.append("country", values.country.toLowerCase());
     try {
       const country = await mutation.mutateAsync(formData);
+      console.log(country);
       setIsAddModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",
-        render: country.mes,
+        render: country.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

@@ -82,7 +82,7 @@ import TermsConditions from "./admin/pages/controlPages/termsAndConditions/Terms
 import ContactSetting from "./admin/pages/controlPages/contactUs/ContactSetting";
 import AdminNotifications from "./admin/pages/notifications/AdminNotifications";
 import CustomerChats from "./customer/pages/customerChat/CustomerChats";
-import SavedPosts from "./customer/pages/savedPosts/SavedPosts";
+import SavedPosts from "./serviceProvider/pages/savedPosts/SavedPosts";
 import Blogs from "./website/pages/blogs/Blogs";
 import Blog from "./website/pages/blogs/Blog";
 import AdminBlogs from "./admin/pages/blogs/AdminBlogs";
@@ -368,6 +368,10 @@ const router = createBrowserRouter([
         path: "verify",
         element: <VerifyAccountServiceProvider />,
       },
+      {
+        path: "saved_posts",
+        element: <SavedPosts />,
+      },
     ],
   },
   {
@@ -426,10 +430,6 @@ const router = createBrowserRouter([
       {
         path: "reviews",
         element: <Reviews />,
-      },
-      {
-        path: "saved_posts",
-        element: <SavedPosts />,
       },
     ],
   },

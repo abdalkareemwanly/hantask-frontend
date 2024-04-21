@@ -14,7 +14,7 @@ const postData = async (data) => {
 export const EditSubCategory = ({ data, setIsModalOpen }) => {
   const [image, setImage] = useState(data.image);
   const { categories } = useGlobalDataContext();
-
+  console.log(data);
   let template = {
     title: "edit sub category info",
     fields: [
@@ -77,7 +77,7 @@ export const EditSubCategory = ({ data, setIsModalOpen }) => {
     formData.append("name", subCategory.name);
     formData.append("description", subCategory.description);
     formData.append("slug", subCategory.slug);
-    formData.append("category_id", subCategory.category);
+    formData.append("category_id", subCategory.category[0].id);
     if (/^image/.test(image?.type)) {
       formData.append("image", subCategory.image);
     }

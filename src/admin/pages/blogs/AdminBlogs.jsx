@@ -15,12 +15,12 @@ import EditBlog from "./components/EditBlog";
 import BlogCard from "./components/BlogCard";
 
 const getData = async (page = 1) => {
-  const res = await axiosClient.get(`admin/blogs?page=${page}`);
+  const res = await axiosClient.get(`admin/blogs/all?page=${page}`);
   return res;
 };
 
 const deleteFunc = async (id) => {
-  const res = await axiosClient.get(`/admin/blog/delete/${id}`);
+  const res = await axiosClient.delete(`/admin/blogs/delete/${id}`);
   return res;
 };
 
@@ -60,7 +60,7 @@ const AdminBlogs = () => {
       const category = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
         type: "success",
-        render: category.mes,
+        render: category.data.message,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -121,6 +121,7 @@ const AdminBlogs = () => {
           component={
             <EditBlog
               data={clickedRow}
+              page={page}
               // getCategories={getCategories}
               setIsModalOpen={setIsModalOpen}
             />

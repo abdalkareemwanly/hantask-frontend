@@ -9,19 +9,19 @@ import { toast } from "react-toastify";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
 import { banner1 } from "../../../assets";
 const Blog = () => {
-  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
-  const [comments, setComments] = useState([
-    { id: 1, text: "comment 1" },
-    { id: 2, text: "comment 2" },
-    { id: 3, text: "comment 2" },
-    { id: 4, text: "comment 2" },
-    { id: 5, text: "comment 2" },
-    { id: 6, text: "comment 2" },
-    { id: 7, text: "comment 2" },
-    { id: 8, text: "comment 2" },
-    { id: 9, text: "comment 2" },
-    { id: 10, text: "comment 2" },
-  ]);
+  // const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+  // const [comments, setComments] = useState([
+  //   { id: 1, text: "comment 1" },
+  //   { id: 2, text: "comment 2" },
+  //   { id: 3, text: "comment 2" },
+  //   { id: 4, text: "comment 2" },
+  //   { id: 5, text: "comment 2" },
+  //   { id: 6, text: "comment 2" },
+  //   { id: 7, text: "comment 2" },
+  //   { id: 8, text: "comment 2" },
+  //   { id: 9, text: "comment 2" },
+  //   { id: 10, text: "comment 2" },
+  // ]);
   const path = window.location.href;
   const handleCopy = () => {
     navigator.clipboard
@@ -34,56 +34,56 @@ const Blog = () => {
       });
   };
 
-  const isUserLogin = localStorage.getItem("ACCESS_TOKEN");
-  const [isLoading, setIsLoading] = useState(false);
-  const commentsContainerRef = useRef(null);
+  // const isUserLogin = localStorage.getItem("ACCESS_TOKEN");
+  // const [isLoading, setIsLoading] = useState(false);
+  // const commentsContainerRef = useRef(null);
 
-  const [comment, setComment] = useState("");
+  // const [comment, setComment] = useState("");
 
-  // Dummy function to simulate fetching more comments
-  const fetchMoreComments = async () => {
-    console.log("hello");
-    // Simulating a delay for fetching data (replace with your actual fetch call)
-    setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+  // // Dummy function to simulate fetching more comments
+  // const fetchMoreComments = async () => {
+  //   console.log("hello");
+  //   // Simulating a delay for fetching data (replace with your actual fetch call)
+  //   setIsLoading(true);
+  //   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Dummy data to simulate fetching
-    const newComments = [
-      { id: comments.length + 1, text: "New comment 1" },
-      { id: comments.length + 2, text: "New comment 2" },
-    ];
+  //   // Dummy data to simulate fetching
+  //   const newComments = [
+  //     { id: comments.length + 1, text: "New comment 1" },
+  //     { id: comments.length + 2, text: "New comment 2" },
+  //   ];
 
-    setComments((prevComments) => [...prevComments, ...newComments]);
-    setIsLoading(false);
-  };
+  //   setComments((prevComments) => [...prevComments, ...newComments]);
+  //   setIsLoading(false);
+  // };
 
-  const handleScroll = () => {
-    const container = commentsContainerRef.current;
-    // console.log(container.scrollTop + container.clientHeight);
-    // console.log(container.scrollHeight - 3);
-    if (
-      container.scrollTop + container.clientHeight >=
-      container.scrollHeight - 1 // Adjust this threshold as needed
-    ) {
-      console.log("fetch");
-      fetchMoreComments();
-    } else {
-      console.log("no fetch");
-    }
-  };
-  useEffect(() => {
-    if (commentsContainerRef.current) {
-      commentsContainerRef.current.addEventListener("scroll", handleScroll);
-    }
-    return () => {
-      if (commentsContainerRef.current) {
-        commentsContainerRef.current.removeEventListener(
-          "scroll",
-          handleScroll
-        );
-      }
-    };
-  }, []);
+  // const handleScroll = () => {
+  //   const container = commentsContainerRef.current;
+  //   // console.log(container.scrollTop + container.clientHeight);
+  //   // console.log(container.scrollHeight - 3);
+  //   if (
+  //     container.scrollTop + container.clientHeight >=
+  //     container.scrollHeight - 1 // Adjust this threshold as needed
+  //   ) {
+  //     console.log("fetch");
+  //     fetchMoreComments();
+  //   } else {
+  //     console.log("no fetch");
+  //   }
+  // };
+  // useEffect(() => {
+  //   if (commentsContainerRef.current) {
+  //     commentsContainerRef.current.addEventListener("scroll", handleScroll);
+  //   }
+  //   return () => {
+  //     if (commentsContainerRef.current) {
+  //       commentsContainerRef.current.removeEventListener(
+  //         "scroll",
+  //         handleScroll
+  //       );
+  //     }
+  //   };
+  // }, []);
 
   return (
     <div className="my-6 flex flex-col gap-4  lg:px-64 md:px-12  px-6 py-12">
@@ -154,59 +154,6 @@ const Blog = () => {
           amet quis eveniet illum veniam quaerat quod quam minima?
         </div>
       </main>
-      <section id="comments-section">
-        <div className=" border border-gray-200 rounded-md p-4">
-          <div
-            className="cursor-pointer"
-            onClick={() => setIsCommentsOpen(!isCommentsOpen)}
-          >
-            Comments
-          </div>
-          <div>
-            <AnimatePresence>
-              {isCommentsOpen && (
-                <motion.div
-                  initial={{ height: 0 }}
-                  animate={{ height: "auto" }}
-                  exit={{ height: 0 }}
-                  transition={{ duration: 0.3 }}
-                  ref={commentsContainerRef}
-                  className="comments-container overflow-x-hidden overflow-y-auto p-4 max-h-[400px]"
-                >
-                  {/* Your comments container content here */}
-                  {comments.map((comment, index) => (
-                    <motion.div
-                      key={comment.id}
-                      className={`bg-gray-100 p-3 rounded-md mb-4`}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 20 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {comment.text}
-                    </motion.div>
-                  ))}
-                  {isLoading && <div className="loader">Loading...</div>}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-          {isUserLogin && (
-            <div className="my-4 flex items-center gap-4">
-              <input
-                placeholder="comment..."
-                type="text"
-                className="input-box w-full"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              />
-              <button className="w-[38px] h-[38px] rounded-full bg-greenColor text-white flex items-center justify-center">
-                <BsFillSendFill size={22} />
-              </button>
-            </div>
-          )}
-        </div>
-      </section>
     </div>
   );
 };

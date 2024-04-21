@@ -82,6 +82,7 @@ export const AddChildCategory = ({ setIsAddModalOpen }) => {
           },
         },
         onFieldChange: (option, setValue, setSelectedOptions, selectIndex) => {
+          console.log(option);
           setSelectedCategory({ id: option });
           setValue && setValue("subCategory", null);
           setSelectedOptions &&
@@ -121,8 +122,8 @@ export const AddChildCategory = ({ setIsAddModalOpen }) => {
     formData.append("description", subCategory.description);
     formData.append("slug", subCategory.slug);
     formData.append("image", subCategory.image);
-    formData.append("category_id", subCategory.category);
-    formData.append("sub_category_id", subCategory.subCategory);
+    formData.append("category_id", subCategory.category[0].id);
+    formData.append("sub_category_id", subCategory.subCategory[0].id);
     try {
       const category = await mutation.mutateAsync(formData);
       setIsAddModalOpen((prev) => !prev);

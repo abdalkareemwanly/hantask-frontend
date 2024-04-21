@@ -43,7 +43,7 @@ function SellerProfile(props) {
     <>
       <div className="buyer-profile-container w-full px-[10%] md:px-[5%] px-0">
         <ProfileSection data={data} />
-        <div className="buyer-jobs-section">
+        {/* <div className="buyer-jobs-section">
           <h3>services</h3>
           <TitleLine />
           <div className="py-[30px]">
@@ -59,7 +59,7 @@ function SellerProfile(props) {
               })}
             </Slider>
           </div>
-        </div>
+        </div> */}
         <div className="buyer-jobs-section">
           <h3>Reviews</h3>
           <TitleLine />

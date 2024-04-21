@@ -15,10 +15,6 @@
     "name": null,
     "path": "chatInbox"
   },
-  "services": {
-    "name": null,
-    "path": "services"
-  },
   "reports": {
     "name": null,
     "path": "reports"
@@ -37,7 +33,7 @@
   },
   "saved deals": {
     "name": null,
-    "path": "saved"
+    "path": "saved_posts"
   },
   "verify account": {
     "name": null,

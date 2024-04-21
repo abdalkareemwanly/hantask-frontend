@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const BlogCard = ({ data, setEditModalOpen, onDelete }) => {
   return (
-    <div className="flex flex-col gap-4 group transition-all bg-blocks-color rounded-3xl  overflow-hidden">
+    <div className="flex flex-col h-[450px] gap-4 group transition-all bg-blocks-color rounded-3xl  overflow-hidden">
       <img
-        className="w-full max-h-[350px] group-hover:scale-105 transition-all  component-shadow object-cover"
+        className="w-full h-[250px] group-hover:scale-105 transition-all  component-shadow object-cover"
         src={import.meta.env.VITE_WEBSITE_URL + "/" + data?.image}
       />
 
