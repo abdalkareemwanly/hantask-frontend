@@ -96,7 +96,7 @@ export const AddSubCategory = ({ setIsAddModalOpen }) => {
     formData.append("slug", subCategory.slug);
     // formData.append("code", category.code);
     formData.append("image", subCategory.image);
-    formData.append("category_id", subCategory.category);
+    formData.append("category_id", subCategory.category[0].id);
     // formData.append("icon", category.icon);
     // formData.append("mobile_icon", category.mobile_icon);
     try {

@@ -31,7 +31,6 @@ import { Link } from "react-router-dom";
 import { useTWThemeContext } from "./ThemeProvider";
 import { AiOutlineClose } from "react-icons/ai";
 import { useStateContext } from "../../contexts/ContextsProvider";
-import useCheckPermission from "../../hooks/checkPermissions";
 import { RiCoupon3Fill } from "react-icons/ri";
 import { MdVerifiedUser } from "react-icons/md";
 import { MdManageAccounts } from "react-icons/md";
@@ -80,10 +79,6 @@ export default function SidebarAdmin({ setSidebarOpen }) {
   const { translation } = useStateContext();
   const [listName, setListName] = useState(null);
   const [sideList, setSideList] = useState({});
-  const initialUserPermissions = JSON.parse(
-    localStorage.getItem("USER")
-  )?.permission;
-  const { hasPermissionFun } = useCheckPermission(initialUserPermissions);
 
   const getdropdownopen = (name) => {
     if (DropdownOpen === false) {

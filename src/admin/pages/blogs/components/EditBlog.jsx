@@ -4,14 +4,20 @@ import { useMutationHook } from "../../../../hooks/useMutationHook";
 import { useEffect, useState } from "react";
 import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
 import SunEditor from "suneditor-react";
-const EditBlog = ({ setIsAddModalOpen, data }) => {
+import axiosClient from "../../../../axios-client";
+
+const handleUpdate = async ({ dataId, formData }) => {
+  const res = await axiosClient.post(`/admin/blogs/update/${dataId}`, formData);
+  return res;
+};
+
+const EditBlog = ({ setIsModalOpen, data, page }) => {
   const [image, setImage] = useState(data.image);
-  const [value, setValue] = useState("<p>hello world</p>");
+  const [value, setValue] = useState(data?.description);
+  console.log(value);
   function handleChange(content) {
     setValue(content);
   }
-  console.log(data);
-  console.log(value);
   let template = {
     title: "add new category",
     fields: [
@@ -21,12 +27,6 @@ const EditBlog = ({ setIsAddModalOpen, data }) => {
         styles: "w-[100%] items-center",
         fileFor: "image",
         imgStyle: "w-[200px] h-[120px] rounded-md",
-        validationProps: {
-          required: {
-            value: true,
-            message: "this field is required",
-          },
-        },
       },
       {
         title: "blog title",
@@ -46,7 +46,6 @@ const EditBlog = ({ setIsAddModalOpen, data }) => {
         name: "description",
         type: "custom",
         customComponent: ({ setError, setValue, errors, clearErrors }) => {
-          console.log(errors);
           useEffect(() => {
             if (value === "<p><br></p>") {
               setError("textEditor", "description is required");
@@ -95,43 +94,41 @@ const EditBlog = ({ setIsAddModalOpen, data }) => {
     ],
   };
 
-  // const mutation = useMutationHook(postData, ["categories"]);
+  const mutation = useMutationHook(handleUpdate, ["blogs", page]);
 
-  // const onSubmit = async (values) => {
-  //   const id = toast.loading("please wait...");
-  //   const category = {
-  //     ...values,
-  //     image,
-  //   };
-  //   const formData = new FormData();
-  //   formData.append("name", category.name);
-  //   formData.append("description", category.description);
-  //   formData.append("image", category.image);
-  //   // formData.append("mobile_icon", category.mobile_icon);
-  //   try {
-  //     const category = await mutation.mutateAsync(formData);
-  //     setIsAddModalOpen((prev) => !prev);
-  //     toast.update(id, {
-  //       type: "success",
-  //       render: category.mes,
-  //       closeOnClick: true,
-  //       isLoading: false,
-  //       autoClose: true,
-  //       closeButton: true,
-  //       pauseOnHover: false,
-  //     });
-  //   } catch (error) {
-  //     toast.update(id, {
-  //       type: "error",
-  //       render: error.response.data.message,
-  //       closeOnClick: true,
-  //       isLoading: false,
-  //       autoClose: true,
-  //       closeButton: true,
-  //       pauseOnHover: false,
-  //     });
-  //   }
-  // };
+  const onSubmit = async (values) => {
+    const id = toast.loading("please wait...");
+    const formData = new FormData();
+    formData.append("title", values.name);
+    formData.append("description", value);
+    if (/^image/.test(image?.type)) {
+      formData.append("image", image);
+    }
+    const dataId = data?.id;
+    try {
+      const category = await mutation.mutateAsync({ dataId, formData });
+      setIsModalOpen((prev) => !prev);
+      toast.update(id, {
+        type: "success",
+        render: category.data?.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    } catch (error) {
+      toast.update(id, {
+        type: "error",
+        render: error.response.data.message,
+        closeOnClick: true,
+        isLoading: false,
+        autoClose: true,
+        closeButton: true,
+        pauseOnHover: false,
+      });
+    }
+  };
 
   const validate = () => {
     console.log("no");
@@ -141,10 +138,10 @@ const EditBlog = ({ setIsAddModalOpen, data }) => {
     <ReusableForm
       template={template}
       watchFields={["username", "fullname"]}
-      // onSubmit={onSubmit}
+      onSubmit={onSubmit}
       validate={validate}
       btnWidth={"w-full"}
-      btnText={"add"}
+      btnText={"update"}
       addedStyles={"md:w-[600px] lg:w-[600px]"}
       image={image}
       setImage={setImage}

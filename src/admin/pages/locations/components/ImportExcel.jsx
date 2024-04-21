@@ -3,10 +3,19 @@ import ReusableForm from "../../../../Components/ReusableForm";
 import axiosClient from "../../../../axios-client";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
 import { useGlobalDataContext } from "../../../../contexts/GlobalDataContext";
-const postData = async (formData) => {
-  const res = await axiosClient.post("/admin/country/import", formData);
-  return res;
+const postData = async ({ importFor, formData }) => {
+  if (importFor === "areas") {
+    const res = await axiosClient.post("/admin/area/import", formData);
+    return res;
+  } else if (importFor === "countries") {
+    const res = await axiosClient.post("/admin/country/import", formData);
+    return res;
+  } else {
+    const res = await axiosClient.post("/admin/city/import", formData);
+    return res;
+  }
 };
+
 const ImportExcel = ({ getMethod, setIsModalOpen, apiLink, importFor }) => {
   const { countries, setSelectedCountry, filteredCities, cities } =
     useGlobalDataContext();
@@ -100,12 +109,7 @@ const ImportExcel = ({ getMethod, setIsModalOpen, apiLink, importFor }) => {
               title: "choose country",
               name: "country_id",
               type: "select",
-              validationProps: {
-                required: {
-                  value: true,
-                  message: "this field is required",
-                },
-              },
+
               options: [...countries],
               optionText: "country",
               optionValue: "id",
@@ -129,13 +133,14 @@ const ImportExcel = ({ getMethod, setIsModalOpen, apiLink, importFor }) => {
   const mutation = useMutationHook(postData, ["countries"]);
 
   const onSubmit = async (values) => {
-    console.log(values);
     const toastId = toast.loading("please wait");
     const formData = new FormData();
-    formData.append("country_id", values.country_id[0]?.id);
+    if (values.country_id) {
+      formData.append("country_id", values.country_id[0]?.id);
+    }
     formData.append("file", values.file[0]);
     try {
-      const country = await mutation.mutateAsync(formData);
+      const country = await mutation.mutateAsync({ importFor, formData });
       setIsModalOpen((prev) => !prev);
       toast.update(toastId, {
         type: "success",

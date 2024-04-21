@@ -7,6 +7,7 @@ import axiosClient from "../../../axios-client";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 import { PaginationComponent } from "../../../Components/PaginationComponent";
 import { toast } from "react-toastify";
+import { Page } from "../../../Components/StyledComponents";
 
 const getData = async (page) => {
   const res = await axiosClient.get(`/buyer/posts?page=${page}`);

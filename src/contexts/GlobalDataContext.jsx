@@ -238,6 +238,7 @@ export const GlobalDataProvider = ({ children }) => {
     },
   };
 
+  console.log(selectedCategory);
   return (
     <GlobalDataContext.Provider
       value={{
@@ -272,5 +273,4 @@ export const GlobalDataProvider = ({ children }) => {
     </GlobalDataContext.Provider>
   );
 };
-
 export const useGlobalDataContext = () => useContext(GlobalDataContext);
