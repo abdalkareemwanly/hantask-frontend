@@ -80,14 +80,16 @@ export default function ContactSetting() {
       return;
     }
 
-    axiosClient.delete(`/DeleteContact/${id}`).then((data) => {
+    axiosClient.delete(`/admin/contact/delete/${id}`).then((data) => {
       getContact();
     });
   };
   const [editData, setEditData] = useState();
 
-  const handleEdit = async () => {
-    const res = await axiosClient.post("/admin/contact/update", editData);
+  const handleEdit = async (id) => {
+    const res = await axiosClient.post(`/admin/contact/update/${id}`, editData);
+    showFormInputEdit(false);
+    getContact();
   };
 
   return (
@@ -179,7 +181,7 @@ export default function ContactSetting() {
                   isLink={false}
                   color={"bg-greenColor w-fit"}
                   title={"save"}
-                  onClickFun={() => handleEdit()}
+                  onClickFun={() => handleEdit(editData.id)}
                 />
               </div>
             </div>
