@@ -34,19 +34,21 @@ export default function FormBuilderShow() {
         );
         setCatQuestions(questions);
       } else if (form.subcategory_id) {
-        const questions = getQuestionsById(
+        setCatQuestions([])
+        const questions = await getQuestionsById(
           form.subcategory_id,
           "subcategory_id"
         );
         setCatQuestions(questions);
       } else if (form.child_category_id) {
-        const questions = getQuestionsById(
+        const questions = await getQuestionsById(
           form.child_category_id,
           "child_category_id"
         );
         setCatQuestions(questions);
       }
     };
+    // console.log(catQuestions, 'catQuestions');
     getData();
   }, [form.category_id, form.subcategory_id, form.child_category_id]);
 

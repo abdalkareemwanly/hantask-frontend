@@ -12,6 +12,7 @@ const FormTableQuestions = ({
   setEditModal,
   setEditQuestionSelected,
 }) => {
+  console.log(data, 'data');
   const deleteFun = async (id) => {
     const toastId = toast.loading("deleting..");
     try {
@@ -38,6 +39,7 @@ const FormTableQuestions = ({
     }
   };
 
+  // console.log(data);
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -97,7 +99,7 @@ const FormTableQuestions = ({
       {(formbuilder === "question" || formbuilder === "answer") && (
         <motion.div
           key="step4"
-          className="px-4 py-2 w-full z-1"
+          className="px-4 py-2 w-full z-[10]"
           initial={{ opacity: 0, x: "10%" }}
           animate={{ opacity: 1, x: "0" }}
           exit={{ opacity: 0, x: "-10%" }}
@@ -114,7 +116,7 @@ const FormTableQuestions = ({
           />
           {/* {showEditForm && <EditFormData formbuilder={formbuilder} row={selectedRow} />} */}
         </motion.div>
-      )}
+       )} 
     </AnimatePresence>
   );
 };

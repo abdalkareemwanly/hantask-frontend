@@ -1,0 +1,42 @@
+{
+  "Dashboard": {
+    "name": null,
+    "path": "home"
+  },
+  "profile": {
+    "name": null,
+    "path": "profile"
+  },
+  "notifications": {
+    "name": null,
+    "path": "notifications"
+  },
+  "Live Chat": {
+    "name": null,
+    "path": "chatInbox"
+  },
+  "reports": {
+    "name": null,
+    "path": "reports"
+  },
+  "orders": {
+    "name": null,
+    "path": "orders"
+  },
+  "acceptedOrders": {
+    "name": null,
+    "path": "acceptedOrders"
+  },
+  "reviews": {
+    "name": null,
+    "path": "reviews"
+  },
+  "saved deals": {
+    "name": null,
+    "path": "saved_posts"
+  },
+  "verify account": {
+    "name": null,
+    "path": "verify"
+  }
+}

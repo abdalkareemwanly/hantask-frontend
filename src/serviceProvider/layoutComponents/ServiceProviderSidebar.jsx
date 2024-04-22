@@ -42,7 +42,7 @@ export default function ServiceProviderSidebar({ setSidebarOpen }) {
   }, []);
 
   const getSideBar = () => {
-    fetch("/src/serviceProvider/layoutComponents/sidebarList.json")
+    fetch("/json/serviceProvider/sidebarList.json")
       .then((response) => response.json())
       .then((data) => {
         setSideList(data);

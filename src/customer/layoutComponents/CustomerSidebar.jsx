@@ -39,7 +39,7 @@ export default function CustomerSidebar({ setSidebarOpen }) {
   }, []);
 
   const getSideBar = () => {
-    fetch("/src/customer/layoutComponents/sidebarList.json")
+    fetch("/json/customer/sidebarList.json")
       .then((response) => response.json())
       .then((data) => {
         setSideList(data);

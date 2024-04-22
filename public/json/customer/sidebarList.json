@@ -1,0 +1,38 @@
+{
+  "Dashboard": {
+    "name": null,
+    "path": "home"
+  },
+  "profile": {
+    "name": null,
+    "path": "profile"
+  },
+  "Live Chat": {
+    "name": null,
+    "path": "chatInbox"
+  },
+  "notifications": {
+    "name": null,
+    "path": "notifications"
+  },
+  "deals": {
+    "name": null,
+    "path": "jobs"
+  },
+  "reports": {
+    "name": null,
+    "path": "reports"
+  },
+  "orders": {
+    "name": null,
+    "path": "orders"
+  },
+  "acceptedOrders": {
+    "name": null,
+    "path": "acceptedOrders"
+  },
+  "reviews": {
+    "name": null,
+    "path": "reviews"
+  }
+}

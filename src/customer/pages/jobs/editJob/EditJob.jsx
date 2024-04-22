@@ -131,7 +131,7 @@ const EditJob = () => {
   };
 
   const handleFinish = async () => {
-    console.log(stepData);
+    // console.log(stepData);
     const toastID = toast.loading("Processing...");
 
     let transformedData = {

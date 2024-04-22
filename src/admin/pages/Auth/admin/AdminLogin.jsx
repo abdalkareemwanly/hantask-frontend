@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosClient from "../../../../axios-client";
 const getSideBar = () => {
-  fetch("/src/admin/Json/permissions.json")
+  fetch("/json/adminJsonFiles/permissions.json")
     .then((response) => response.json())
     .then((data) => {
       localStorage.setItem("permissions", JSON.stringify(data));
