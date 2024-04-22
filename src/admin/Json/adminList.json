@@ -55,13 +55,13 @@
       "name": null,
       "perId": "showCountries"
     },
-    "cities": {
-      "path": "/admin/dashboard/locations/cities",
+    "regions": {
+      "path": "/admin/dashboard/locations/regions",
       "name": null,
       "perId": "showCities"
     },
-    "areas": {
-      "path": "/admin/dashboard/locations/areas",
+    "cities": {
+      "path": "/admin/dashboard/locations/cities",
       "name": null,
       "perId": "showAreas"
     }

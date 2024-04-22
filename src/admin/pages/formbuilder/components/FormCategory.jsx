@@ -33,7 +33,7 @@ const FormCategory = ({ formcategory, createFrom }) => {
             optionValue: "id",
             searchKey: "name",
             onFieldChange: (option) => {
-              console.log(option);
+              // console.log(option);
               createFrom("question", { cat: option });
               setSelectedValue(option);
             },
@@ -43,7 +43,7 @@ const FormCategory = ({ formcategory, createFrom }) => {
     }
   }, [categoryForm]);
 
-  console.log(categoryForm);
+  // console.log(categoryForm);
 
   return (
     <div>

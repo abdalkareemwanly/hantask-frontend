@@ -246,9 +246,10 @@ import { useTWThemeContext } from "./ThemeProvider";
 import { AiOutlineClose } from "react-icons/ai";
 import { useStateContext } from "../../contexts/ContextsProvider";
 import useCheckPermission from "../../hooks/checkPermissions";
-import { RiCoupon3Fill } from "react-icons/ri";
+import { RiCoupon3Fill, RiPagesFill } from "react-icons/ri";
 import { MdVerifiedUser } from "react-icons/md";
 import { MdManageAccounts } from "react-icons/md";
+import { FaPager } from "react-icons/fa6";
 
 const iconMap = {
   Dashboard: <BiSolidHome />,
@@ -271,7 +272,7 @@ const iconMap = {
   Services: <BiSolidServer />,
   Orders: <BiSolidTruck />,
   Tickets: <BiSolidGift />,
-  Notifications: <BiSolidBellRing />,
+  notifications: <BiSolidBellRing />,
   coupons: <RiCoupon3Fill />,
   "Email Template Settings": <BiSolidEnvelope />,
   "Form Builder": <BiSolidLayout />,
@@ -282,6 +283,8 @@ const iconMap = {
   "Back To Site": <BiSolidArrowFromRight />,
   "Payment Settings": <BiSolidCreditCardFront />,
   "handymans verify": <MdVerifiedUser />,
+  "blogs": <FaPager />,
+  "pages settings": <RiPagesFill />,
 };
 
 export default function SidebarAdmin({ setSidebarOpen }) {
@@ -312,7 +315,7 @@ export default function SidebarAdmin({ setSidebarOpen }) {
   }, []);
 
   const getSideBar = () => {
-    fetch("/src/admin/Json/adminList.json")
+    fetch("/json/adminJsonFiles/adminList.json")
       .then((response) => response.json())
       .then((data) => {
         setSideList(data);

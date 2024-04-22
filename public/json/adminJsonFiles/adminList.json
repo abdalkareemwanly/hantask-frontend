@@ -14,7 +14,7 @@
       "perId": "showRoles"
     }
   },
-  "Users Manage": {
+  "accounts Manage": {
     "All Users": {
       "path": "/admin/dashboard/users",
       "perId": "showUsers"
@@ -23,6 +23,16 @@
       "path": "/admin/dashboard/archivedUsers",
       "perId": "showArchivedUser"
     }
+  },
+  "notifications": {
+    "name": null,
+    "path": "/admin/dashboard/notifications",
+    "perId": "showLanguages"
+  },
+  "handymans verify": {
+    "name": null,
+    "path": "/admin/dashboard/handymansVerify",
+    "perId": "showAreas"
   },
   "Categories": {
     "name": null,
@@ -45,21 +55,28 @@
       "name": null,
       "perId": "showCountries"
     },
-    "cities": {
-      "path": "/admin/dashboard/locations/cities",
+    "regions": {
+      "path": "/admin/dashboard/locations/regions",
       "name": null,
       "perId": "showCities"
     },
-    "areas": {
-      "path": "/admin/dashboard/locations/areas",
+    "cities": {
+      "path": "/admin/dashboard/locations/cities",
       "name": null,
       "perId": "showAreas"
     }
   },
-  "Tax": {
-    "name": null,
-    "path": "/admin/dashboard/locations/tax",
-    "perId": "showTaxes"
+  "Form Builder": {
+    "create": {
+      "name": null,
+      "path": "/admin/dashboard/formbuilder/create",
+      "perId": "formbuilder"
+    },
+    "view all": {
+      "name": null,
+      "path": "/admin/dashboard/formbuilder/show",
+      "perId": "formbuilder"
+    }
   },
   "posts": {
     "All posts": {
@@ -86,12 +103,7 @@
   "Subscription": {
     "path": "/admin/dashboard/subscriptions",
     "name": null,
-    "perId": "showSubscriptions"
-  },
-  "coupons": {
-    "path": "/admin/dashboard/coupons",
-    "name": null,
-    "perId": "showSubscriptionCoupons"
+    "perId": ""
   },
   "Jobs": {
     "All Jobs": "",
@@ -138,6 +150,75 @@
     "name": null,
     "path": "/admin/dashboard"
   },
+  "Payment Settings": {
+    "Add Payment Gateway": {
+      "path": "/admin/dashboard/paymentgetway",
+      "name": null,
+      "perId": "paymentgetway"
+    },
+    "Plan Settings": {
+      "path": "/admin/dashboard/paypal",
+      "name": null,
+      "perId": "paypal"
+    },
+    "coupons": {
+      "path": "/admin/dashboard/coupons",
+      "name": null,
+      "perId": "showSubscriptionCoupons"
+    },
+    "Tax": {
+      "name": null,
+      "path": "/admin/dashboard/locations/tax",
+      "perId": "showTaxes"
+    }
+  },
+  "General Settings": {
+    "Mobile Settings": "",
+    "Reading": "",
+    "Navbar Global Variant": "",
+    "Footer Global Variant": "",
+    "Payment Gateway Settings": "",
+    "Live Chat Settings": "",
+    "Site Identity": "",
+    "Basic Settings": "",
+    "OTP Settings": "",
+    "Color Settings": "",
+    "Typography Settings": "",
+    "SEO Settings": "",
+    "Third Party Scripts": "",
+    "Email Template": "",
+    "Email Settings": "",
+    "SMTP Settings": "",
+    "Custom CSS": "",
+    "Custom JS": "",
+    "Gdpr Settings": "",
+    "Licence Settings": "",
+    "SCheck Update": "",
+    "Cache Settings": "",
+    "Database Upgrade": ""
+  },
+  "blogs": {
+    "name": null,
+    "path": "/admin/dashboard/blogs",
+    "perId": "showLanguages"
+  },
+  "pages settings": {
+    "privacy page": {
+      "path": "/admin/dashboard/pagesSettings/privacy",
+      "name": null,
+      "perId": "showLanguages"
+    },
+    "terms & conditions page": {
+      "path": "/admin/dashboard/pagesSettings/terms&conditions",
+      "name": null,
+      "perId": "showLanguages"
+    },
+    "contact us": {
+      "path": "/admin/dashboard/pagesSettings/contactus",
+      "name": null,
+      "perId": "showLanguages"
+    }
+  },
   "Orders": {
     "All Orders": "",
     "Cancelled Orders": "",
@@ -155,11 +236,6 @@
   "Email Template Settings": {
     "Email Templates": ""
   },
-  "Form Builder": {
-    "name": null,
-    "path": "/admin/dashboard/formbuilder",
-    "perId": "formbuilder"
-  },
   "Appearance Settings": {
     "Seller/Buyer Panel Settings": "",
     "Media Images Manage": "",
@@ -170,7 +246,7 @@
     "404 Page Manage": "",
     "Maintain Page Manage": ""
   },
-  "General Settings": {
+  "General Settings1": {
     "Mobile Settings": "",
     "Reading": "",
     "Navbar Global Variant": "",
@@ -200,8 +276,10 @@
     "path": "/admin/dashboard/languages",
     "perId": "showLanguages"
   },
+
   "Back To Site": {
     "name": null,
-    "path": "/admin/dashboard/languages"
+    "path": "/",
+    "perId": "showLanguages"
   }
 }

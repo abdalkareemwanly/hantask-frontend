@@ -39,7 +39,7 @@ const ReusableForm = ({
         return acc;
       }, {}),
   });
-  console.log(watch());
+  // console.log(watch());
   const { errors } = formState;
 
   const [isValid, setIsValid] = useState(false);
@@ -92,7 +92,7 @@ const ReusableForm = ({
         }
       })
     );
-    console.log("hello", watch());
+    // console.log("hello", watch());
   }, [fields?.options]);
 
   let watchValues = watchFields && watch(watchFields);

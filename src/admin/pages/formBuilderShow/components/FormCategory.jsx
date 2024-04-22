@@ -46,7 +46,7 @@ const FormCategory = ({ formcategory, createFrom }) => {
   console.log(categoryForm);
 
   return (
-    <div>
+    <div className="z-[100]">
       {formcategory && (
         <AnimatePresence>
           <motion.div
