@@ -126,14 +126,14 @@ export default function SidebarAdmin({ setSidebarOpen }) {
       </div>
 
       {Object.entries(sideList).map(([title, sublist]) => {
-        const isShowen =
-          sublist?.perId === undefined
-            ? Object.entries(sublist).some(([k, val]) => {
-                return hasPermissionFun(val?.perId) ? true : false;
-              })
-            : hasPermissionFun(sublist?.perId);
+        // const isShowen =
+        // sublist?.perId === undefined
+        //   ? Object.entries(sublist).some(([k, val]) => {
+        //       return hasPermissionFun(val?.perId) ? true : false;
+        //     })
+        //   : hasPermissionFun(sublist?.perId);
 
-        return isShowen ? (
+        return (
           <div key={title}>
             {sublist && typeof sublist === "object" && sublist.name === null ? (
               <Link
@@ -191,7 +191,7 @@ export default function SidebarAdmin({ setSidebarOpen }) {
                 >
                   {sublist &&
                     Object.entries(sublist).map(([k, val]) => {
-                      return hasPermissionFun(val.perId) ? (
+                      return (
                         <Link
                           key={k}
                           className="py-[10px] px-[43px] hover:bg-background-color active:bg-background-color focus:bg-background-color transition-all duration-400 ease-in-out"
@@ -199,16 +199,12 @@ export default function SidebarAdmin({ setSidebarOpen }) {
                         >
                           {k in translation ? translation[k] : k}
                         </Link>
-                      ) : (
-                        ""
                       );
                     })}
                 </div>
               </div>
             )}
           </div>
-        ) : (
-          ""
         );
       })}
     </>
