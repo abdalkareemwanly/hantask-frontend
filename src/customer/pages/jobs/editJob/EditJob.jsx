@@ -52,6 +52,7 @@ const EditJob = () => {
   const { data: post, isLoading } = useQueryHook(["post", id], () =>
     getData(id)
   );
+  const [deletedMultipleAnswers, setDeletedMultipleAnswers] = useState([]);
 
   const updateDataMutate = useMutationHook(updateDataFunc, ["post", id]);
   const [stepData, setStepData] = useState();
@@ -208,6 +209,7 @@ const EditJob = () => {
       });
     }
   };
+
   // for questions step
   const [template, setTemplate] = useState(null);
   const [groupedData, setGroupedData] = useState([]);
@@ -218,7 +220,6 @@ const EditJob = () => {
       title: "",
       fields: [],
     };
-
     groupedData?.forEach((question) => {
       let field = {
         title: question.question_content,
@@ -234,6 +235,22 @@ const EditJob = () => {
             message: "This field is required",
           },
         },
+        onFieldChange: (option) => {
+          if (option) {
+            console.log(option);
+            setDeletedMultipleAnswers((prev) => {
+              const isExist = prev.some((ele) => ele.id === option.id);
+
+              if (isExist) {
+                // If the option already exists in the deletedMultipleAnswers, remove it
+                return prev.filter((ele) => ele.id !== option.id);
+              } else {
+                // If the option doesn't exist, add it to the deletedMultipleAnswers
+                return [...prev, option];
+              }
+            });
+          }
+        },
         styles: "md:w-[100%]",
         value: question.buyer_answer
           ? question.buyer_answer.answer_id
@@ -241,11 +258,11 @@ const EditJob = () => {
             : question.buyer_answer.buyer_answer
           : null,
       };
-
       if (field.type === "select") {
         field.options = question.form_answer.map((answer) => ({
           answer_id: answer.id,
           text: answer.content,
+          id: question.id,
         }));
       }
 
@@ -254,12 +271,13 @@ const EditJob = () => {
 
     setTemplate(newTemplate);
   };
+  console.log(groupedData);
 
   useEffect(() => {
     const groupedDataInitial = [];
 
     post?.questions.forEach((item) => {
-      const { question_id, question_type } = item;
+      const { question_id, question_type, id } = item;
       if (question_type === "multiplechoise") {
         const existingItem = groupedDataInitial.find(
           (groupedItem) => groupedItem.question_id === question_id
@@ -289,14 +307,14 @@ const EditJob = () => {
     });
     setGroupedData(groupedDataInitial);
   }, [post]);
-
+  console.log(groupedData);
   useEffect(() => {
     generateTemplate();
   }, [groupedData]); // Ensure generateTemplate runs whenever data changes
-  if (isLoading || globalLoading) return <Loader />;
+  if (globalLoading || isLoading) return <Loader />;
   return (
     <Page>
-      <PageTitle text={"edit job post"} />
+      <PageTitle text={"edit deal data"} />
       {step === 1 ? (
         <Step1
           data={post}

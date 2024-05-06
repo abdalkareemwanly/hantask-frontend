@@ -12,10 +12,10 @@ const postData = async (data) => {
   return res;
 };
 export const EditCity = ({ data, setIsModalOpen }) => {
-  const { countries } = useGlobalDataContext();
+  const { countries, setInvalidateCities } = useGlobalDataContext();
 
   let template = {
-    title: "add new category",
+    title: "add new region",
     fields: [
       {
         title: "city name",
@@ -56,10 +56,9 @@ export const EditCity = ({ data, setIsModalOpen }) => {
     };
     const formData = new FormData();
     formData.append("service_city", city.city);
-    formData.append("country_id", city.country_id);
+    formData.append("country_id", city.country_id[0].id);
     try {
       const cityId = data?.id;
-
       const city = await mutation.mutateAsync({ cityId, formData });
       setIsModalOpen((prev) => !prev);
       toast.update(id, {
@@ -71,6 +70,7 @@ export const EditCity = ({ data, setIsModalOpen }) => {
         closeButton: true,
         pauseOnHover: false,
       });
+      setInvalidateCities((prev) => !prev);
     } catch (error) {
       toast.update(id, {
         type: "error",

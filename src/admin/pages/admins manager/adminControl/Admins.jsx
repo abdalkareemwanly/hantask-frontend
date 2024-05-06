@@ -41,7 +41,7 @@ const Admins = () => {
     const res = await axiosClient.get("/admin/roles");
     setRoles(res.data?.data);
   };
-
+  console.log(roles);
   const [page, setPage] = useState(1);
   const { data: admins, queryClient } = useQueryHook(
     ["admins", page],

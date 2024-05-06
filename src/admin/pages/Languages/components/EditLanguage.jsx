@@ -58,8 +58,9 @@ const EditLanguage = ({ langData, languages, setIsModalOpen }) => {
 
   const validate = (watchedValues, methods) => {
     const { errors, setError, clearErrors, setValue, resetField } = methods;
-    if (watchedValues?.languageEdit !== "") {
-      setValue("slugEdit", watchedValues?.languageEdit);
+    console.log(watchedValues);
+    if (watchedValues?.languageEdit !== "" && watchedValues?.languageEdit) {
+      setValue("slugEdit", watchedValues?.languageEdit[0].code);
     } else {
       resetField("slugEdit");
     }

@@ -59,6 +59,13 @@ export const GlobalDataProvider = ({ children }) => {
     setChildCategories(res.data.data);
     setloading(false);
   };
+  const [invalidateCountries, setInvalidateCountries] = useState(false);
+  const [invalidateCities, setInvalidateCities] = useState(false);
+  const [invalidateAreas, setInvalidateAreas] = useState(false);
+  const [invalidateCategories, setInvalidateCategories] = useState(false);
+  const [invalidateSubCategories, setInvalidateSubCategories] = useState(false);
+  const [invalidateChildCategories, setInvalidateChildCategories] =
+    useState(false);
 
   useEffect(() => {
     const controller1 = new AbortController();
@@ -90,7 +97,6 @@ export const GlobalDataProvider = ({ children }) => {
         await new Promise((resolve) => setTimeout(resolve, 500)); // Wait for 500 milliseconds
         await fetchAreas();
         setGlobalLoading(false);
-        console.log("All data fetched successfully");
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -105,13 +111,138 @@ export const GlobalDataProvider = ({ children }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const controller1 = new AbortController();
+    if (invalidateChildCategories) {
+      const fetchChildCategories = () =>
+        getGlobalChildCategories(controller1.signal);
+      const fetchDataSequentially = async () => {
+        try {
+          setGlobalLoading(true);
+          await fetchChildCategories();
+          setGlobalLoading(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchDataSequentially();
+    }
+    return () => {
+      controller1.abort();
+    };
+  }, [invalidateChildCategories]);
+
+  useEffect(() => {
+    const controller1 = new AbortController();
+    if (invalidateSubCategories) {
+      const fetchSubCategories = () =>
+        getGlobalSubCategories(controller1.signal);
+      const fetchDataSequentially = async () => {
+        try {
+          setGlobalLoading(true);
+          await fetchSubCategories();
+          setGlobalLoading(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchDataSequentially();
+    }
+
+    return () => {
+      controller1.abort();
+    };
+  }, [invalidateSubCategories]);
+
+  useEffect(() => {
+    const controller1 = new AbortController();
+    if (invalidateCategories) {
+      const fetchCategories = () => getGlobalCategories(controller1.signal);
+      const fetchDataSequentially = async () => {
+        try {
+          setGlobalLoading(true);
+          await fetchCategories();
+          setGlobalLoading(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchDataSequentially();
+    }
+
+    return () => {
+      controller1.abort();
+    };
+  }, [invalidateCategories]);
+
+  useEffect(() => {
+    const controller1 = new AbortController();
+    if (invalidateCountries) {
+      const fetchCountries = () => getGlobalCountries(controller1.signal);
+      const fetchDataSequentially = async () => {
+        try {
+          setGlobalLoading(true);
+          await fetchCountries();
+          setGlobalLoading(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchDataSequentially();
+    }
+    return () => {
+      controller1.abort();
+    };
+  }, [invalidateCountries]);
+
+  useEffect(() => {
+    const controller1 = new AbortController();
+
+    if (invalidateCities) {
+      const fetchCities = () => getGlobalCities(controller1.signal);
+      const fetchDataSequentially = async () => {
+        try {
+          setGlobalLoading(true);
+          await fetchCities();
+          setGlobalLoading(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchDataSequentially();
+    }
+
+    return () => {
+      controller1.abort();
+    };
+  }, [invalidateCities]);
+
+  useEffect(() => {
+    const controller1 = new AbortController();
+    if (invalidateAreas) {
+      const fetchAreas = () => getGlobalAreas(controller1.signal);
+      const fetchDataSequentially = async () => {
+        try {
+          setGlobalLoading(true);
+          await fetchAreas();
+          setGlobalLoading(false);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchDataSequentially();
+    }
+    return () => {
+      controller1.abort();
+    };
+  }, [invalidateAreas]);
+
   // Filter sub-categories based on the selected category
   useEffect(() => {
     if (categories.length === 0 || subCategories.length === 0) return;
     const filteredSubs = subCategories.filter(
       (sub) => sub.categoryId == selectedCategory?.id
     );
-    console.log("change in global context", filteredSubs, selectedCategory);
     setFilteredSubCategories(filteredSubs);
   }, [selectedCategory, categories, subCategories]);
 
@@ -238,7 +369,6 @@ export const GlobalDataProvider = ({ children }) => {
     },
   };
 
-  console.log(selectedCategory);
   return (
     <GlobalDataContext.Provider
       value={{
@@ -267,6 +397,12 @@ export const GlobalDataProvider = ({ children }) => {
         areas,
         setSelectedCity,
         filteredAreas,
+        setInvalidateAreas,
+        setInvalidateCategories,
+        setInvalidateChildCategories,
+        setInvalidateCities,
+        setInvalidateCountries,
+        setInvalidateSubCategories,
       }}
     >
       {children}

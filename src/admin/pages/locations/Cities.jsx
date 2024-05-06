@@ -157,7 +157,7 @@ const Cities = () => {
   return (
     <Page>
       <PageTitle
-        text={"manage all cities"}
+        text={"manage all regions"}
         right={
           <div className="flex gap-2 flex-wrap my-2 md:my-0">
             <Button

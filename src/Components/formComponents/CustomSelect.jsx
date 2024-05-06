@@ -30,7 +30,6 @@ const CustomSelect = ({
   }, [value]);
 
   useEffect(() => {
-    console.log("options chnges");
     if (field?.options) {
       const selectedOption = field?.options.find(
         (option) => option[optionValue] == field?.value
@@ -49,7 +48,6 @@ const CustomSelect = ({
   useEffect(() => {
     setValue(name, selectedOptions[selectIndex]);
     trigger(name);
-    console.log(selectedOptions);
   }, [selectedOptions]);
 
   const handleSelectOption = (option) => {
@@ -59,12 +57,9 @@ const CustomSelect = ({
       selectedOptions[selectIndex]?.some(
         (selectedOption) => selectedOption[optionValue] === option[optionValue]
       );
-    console.log(option);
 
     // If the selection is multiple
     if (field?.isMultiple) {
-      console.log(option);
-
       // If the option is already selected, remove it
       if (isSelected) {
         setSelectedOptions((prevSelectedOptions) =>
@@ -77,7 +72,13 @@ const CustomSelect = ({
               : selectedOptionsArr
           )
         );
+        if (field?.onFieldChange) {
+          field.onFieldChange(option);
+        }
       } else {
+        if (field?.onFieldChange) {
+          field.onFieldChange(option);
+        }
         // If the option is not selected, add it
         setSelectedOptions((prevSelectedOptions) =>
           prevSelectedOptions.map((selectedOptionsArr, i) =>
@@ -110,14 +111,11 @@ const CustomSelect = ({
           field.onFieldChange(null, setValue, setSelectedOptions, selectIndex);
         }
       } else {
-        console.log(option, optionText, optionValue);
-
         // If the option is not selected, set it as the selected option
         setSelectedOptions((prev) =>
           prev.map((ele, i) => (i === selectIndex ? [option] : ele))
         );
       }
-      console.log(option[optionValue]);
       // Update form value to null or empty string depending on your requirement
       setValue(name, option[optionValue]); // or setValue(name, '')
       trigger(name);

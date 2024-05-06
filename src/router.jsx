@@ -86,6 +86,8 @@ import SavedPosts from "./serviceProvider/pages/savedPosts/SavedPosts";
 import Blogs from "./website/pages/blogs/Blogs";
 import Blog from "./website/pages/blogs/Blog";
 import AdminBlogs from "./admin/pages/blogs/AdminBlogs";
+import ResetPassword from "./website/pages/resetPassOtp/ResetPassword";
+import GeneratePassword from "./website/pages/generatePassword/GeneratePassword";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -284,6 +286,14 @@ const router = createBrowserRouter([
       {
         path: "forgot-password",
         element: <ForgotPassword />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
+      },
+      {
+        path: "generatePassword",
+        element: <GeneratePassword />,
       },
       {
         path: "register",

@@ -13,17 +13,30 @@ const postData = async (data) => {
   return res;
 };
 export const EditArea = ({ data, setIsModalOpen }) => {
-  const { countries, filteredCities, setSelectedCountry, cities } =
+  const { countries, filteredCities, setSelectedCountry, setInvalidateAreas } =
     useGlobalDataContext();
 
   let template = {
-    title: "edit area details",
+    title: "edit city details",
     fields: [
       {
         title: "area name",
         name: "service_area",
         type: "text",
         value: data?.service_area,
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "md:w-[100%]",
+      },
+      {
+        title: "zip code",
+        name: "zip_code",
+        value: data?.zip_code,
+        type: "text",
         validationProps: {
           required: {
             value: true,
@@ -84,8 +97,9 @@ export const EditArea = ({ data, setIsModalOpen }) => {
     const formData = new FormData();
 
     formData.append("service_area", city.service_area);
-    formData.append("country_id", city.country_id);
-    formData.append("service_city_id", city.service_city_id);
+    formData.append("country_id", city.country_id[0].id);
+    formData.append("service_city_id", city.service_city_id[0].id);
+    formData.append("zip_code", city.zip_code);
     const areaId = data.id;
     try {
       const city = await mutation.mutateAsync({ areaId, formData });
@@ -99,6 +113,7 @@ export const EditArea = ({ data, setIsModalOpen }) => {
         closeButton: true,
         pauseOnHover: false,
       });
+      setInvalidateAreas((prev) => !prev);
     } catch (error) {
       toast.update(id, {
         type: "error",

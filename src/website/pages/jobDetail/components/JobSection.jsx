@@ -177,41 +177,10 @@ function JobSection({ data }) {
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8  lg:px-[9%] md:px-[7%] px-[2%] ">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8  lg:px-[9%] md:px-[7%] px-[2%]">
         <div className="col-span-1 lg:col-span-2 flex flex-col gap-6">
           <h3 className="font-bold text-2xl">deal description</h3>
           <p className="text-gray-500">{data?.description}</p>
-          <div>
-            <div className="flex flex-col gap-2">
-              <h3 className="text-2xl font-bold">photos</h3>
-              <div>
-                <img
-                  className="rounded-md w-full h-[350px] object-cover"
-                  src={import.meta.env.VITE_WEBSITE_URL + data?.image}
-                />
-              </div>
-              <div className="w-full slider-contiainer">
-                <Slider {...settings}>
-                  {data?.postimages?.map((image, i) => (
-                    <div key={i}>
-                      <div
-                        onClick={() => {
-                          setSelectedImage(image);
-                          setIsModalOpen(!isModalOpen);
-                        }}
-                        className="w-[100%] p-2 h-[350px] sm:h-[300px] lg:h-[200px] "
-                      >
-                        <img
-                          className="rounded-xl w-full h-full object-cover"
-                          src={import.meta.env.VITE_WEBSITE_URL + image?.image}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </Slider>
-              </div>
-            </div>
-          </div>
         </div>
         <div className="col-span-1 lg:col-span-1 h-fit p-4 bg-[#ebf0f7] rounded-md flex flex-col gap-4">
           <h3 className="text-2xl font-bold">deal overview</h3>
@@ -221,15 +190,50 @@ function JobSection({ data }) {
           </div>
           <div className="flex items-center gap-4 mt-4">
             <BiSolidCategory size={24} color="#1c8397" />
-            {data?.country_name + ", " + data?.city_name}
+            {data?.category_name +
+              ", " +
+              data?.subcategory_name +
+              ", " +
+              data?.childCategory_name}
           </div>
           <div className="flex items-center gap-4 mt-4">
             <IoCalendarNumberSharp size={24} color="#1c8397" />
-            {data?.country_name + ", " + data?.city_name}
+            {data?.dead_line}
           </div>
           <div className="flex items-center gap-4 mt-4">
             <RiQuestionAnswerFill size={24} color="#1c8397" />
             {data?.country_name + ", " + data?.city_name}
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8  lg:px-[9%] md:px-[7%] px-[2%]">
+        <div className="flex flex-col gap-2 col-span-1 lg:col-span-2">
+          <h3 className="text-2xl font-bold">photos</h3>
+          <div>
+            <img
+              className="rounded-md w-full h-[350px] object-cover"
+              src={import.meta.env.VITE_WEBSITE_URL + data?.image}
+            />
+          </div>
+          <div className="w-full slider-contiainer">
+            <Slider {...settings}>
+              {data?.postimages?.map((image, i) => (
+                <div key={i}>
+                  <div
+                    onClick={() => {
+                      setSelectedImage(image);
+                      setIsModalOpen(!isModalOpen);
+                    }}
+                    className="w-[100%] p-2 h-[350px] sm:h-[300px] lg:h-[200px] "
+                  >
+                    <img
+                      className="rounded-xl w-full h-full object-cover"
+                      src={import.meta.env.VITE_WEBSITE_URL + image?.image}
+                    />
+                  </div>
+                </div>
+              ))}
+            </Slider>
           </div>
         </div>
       </div>

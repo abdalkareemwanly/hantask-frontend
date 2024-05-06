@@ -9,7 +9,7 @@ import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
 import QuestionComponent from "./components/QuestionComponent";
 import axiosClient from "../../../axios-client";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { usePostStore } from "../../../contexts/PostStore";
 
@@ -296,6 +296,10 @@ const StepComponent = ({
 };
 
 const PostDeal = () => {
+  const outsideStateData = useLocation().state;
+
+  useEffect(() => {}, [outsideStateData]);
+
   const [state, dispatch] = useReducer(reducer, initialState);
   const nav = useNavigate();
   const [questions, setQuestions] = useState([]);
@@ -306,7 +310,7 @@ const PostDeal = () => {
   const [thumbnail, setThumbnail] = useState();
   const { postStoreData, setPostStoreData } = usePostStore();
   const [defaultValues, setDefaultValues] = useState({
-    category_id: [],
+    category_id: 3,
     subcategory_id: [],
     child_category_id: [],
     country_id: "",
@@ -318,13 +322,6 @@ const PostDeal = () => {
     lineAddress: "",
   });
 
-  // useEffect(() => {
-  //   if (postStoreData) {
-  //     console.log("entered post store data effect");
-  //     setDefaultValues(postStoreData.data);
-  //   }
-  // }, [postStoreData]);
-  // console.log(defaultValues);
   const islogin = localStorage.getItem("ACCESS_TOKEN");
 
   useEffect(() => {
@@ -348,7 +345,7 @@ const PostDeal = () => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      category_id: [],
+      category_id: 3,
       child_category_id: [],
       subcategory_id: [],
       country_id: "",
@@ -360,7 +357,7 @@ const PostDeal = () => {
       ...defaultValues,
     },
   });
-
+  console.log(watch());
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   useEffect(() => {
@@ -376,13 +373,18 @@ const PostDeal = () => {
           // If the key doesn't exist in the previous selected options, create a new one
           return {
             name: key,
-            value: typeof value === "object" ? [] : null,
+            value:
+              key === "category_id"
+                ? [{ id: 3, name: "bulding" }]
+                : typeof value === "object"
+                ? []
+                : null,
           };
         }
       })
     );
   }, [defaultValues]); // Empty dependency array ensures this runs only once on mount
-
+  console.log(selectedOptions);
   const goToNextStep = () => {
     dispatch({
       type: "EDIT_FIELD",

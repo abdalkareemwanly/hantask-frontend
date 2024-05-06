@@ -80,7 +80,7 @@ export const EditAdmin = ({ data, getRoles, setIsAddModalOpen, roles }) => {
     formData.append("username", values.username);
     formData.append("email", values.email);
     formData.append("password", values.password);
-    formData.append("role", values.role_id);
+    formData.append("role", values.role_id[0].id);
     if (typeof values?.image !== "string") {
       formData.append("image", values.image);
     }
@@ -124,8 +124,7 @@ export const EditAdmin = ({ data, getRoles, setIsAddModalOpen, roles }) => {
       });
   };
 
-  const validate = () => {
-  };
+  const validate = () => {};
 
   return (
     <>

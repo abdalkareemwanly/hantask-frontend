@@ -241,7 +241,7 @@ import {
   BiSolidCreditCardFront,
   BiSolidObjectsHorizontalCenter,
 } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTWThemeContext } from "./ThemeProvider";
 import { AiOutlineClose } from "react-icons/ai";
 import { useStateContext } from "../../contexts/ContextsProvider";
@@ -283,7 +283,7 @@ const iconMap = {
   "Back To Site": <BiSolidArrowFromRight />,
   "Payment Settings": <BiSolidCreditCardFront />,
   "handymans verify": <MdVerifiedUser />,
-  "blogs": <FaPager />,
+  blogs: <FaPager />,
   "pages settings": <RiPagesFill />,
 };
 
@@ -292,6 +292,7 @@ export default function SidebarAdmin({ setSidebarOpen }) {
   const { translation } = useStateContext();
   const [listName, setListName] = useState(null);
   const [sideList, setSideList] = useState({});
+  const nav = useNavigate();
   const initialUserPermissions = JSON.parse(
     localStorage.getItem("USER")
   ).permission;
@@ -313,7 +314,7 @@ export default function SidebarAdmin({ setSidebarOpen }) {
   useEffect(() => {
     getSideBar();
   }, []);
-
+  console.log(sideList);
   const getSideBar = () => {
     fetch("/json/adminJsonFiles/adminList.json")
       .then((response) => response.json())
@@ -331,17 +332,19 @@ export default function SidebarAdmin({ setSidebarOpen }) {
   };
   return (
     <>
-      <div className="bg-inherit px-3 py-[20px] bg-blocks-color flex items-center justify-between">
+      <div className="bg-inherit  px-3 py-[20px] bg-blocks-color flex items-center justify-between">
         {theme === "light" ? (
           <img
+            onClick={() => nav("/")}
             src="/src/images/logo-light.png"
-            className="w-[80%] md:w-full"
+            className="w-[80%] cursor-pointer md:w-full"
             alt="Logo"
           />
         ) : (
           <img
+            onClick={() => nav("/")}
             src="/src/images/logo-dark.png"
-            className="w-[80%] md:w-full"
+            className="w-[80%] cursor-pointer md:w-full"
             alt="Logo"
           />
         )}
@@ -351,14 +354,14 @@ export default function SidebarAdmin({ setSidebarOpen }) {
       </div>
 
       {Object.entries(sideList).map(([title, sublist]) => {
-        // const isShowen =
-        // sublist?.perId === undefined
-        //   ? Object.entries(sublist).some(([k, val]) => {
-        //       return hasPermissionFun(val?.perId) ? true : false;
-        //     })
-        //   : hasPermissionFun(sublist?.perId);
-
-        return (
+        const isShowen =
+          sublist?.perId === undefined
+            ? Object.entries(sublist).some(([k, val]) => {
+                return hasPermissionFun(val?.perId) ? true : false;
+              })
+            : hasPermissionFun(sublist?.perId);
+        console.log(isShowen);
+        return isShowen ? (
           <div key={title}>
             {sublist && typeof sublist === "object" && sublist.name === null ? (
               <Link
@@ -430,6 +433,8 @@ export default function SidebarAdmin({ setSidebarOpen }) {
               </div>
             )}
           </div>
+        ) : (
+          ""
         );
       })}
     </>

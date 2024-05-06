@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../../../Components/Button";
 import PageTitle from "../../../Components/PageTitle";
 import { Page } from "../../../Components/StyledComponents";
@@ -107,12 +107,17 @@ const Areas = () => {
       maxWidth: "30%",
     },
     {
-      name: "area name",
+      name: "city name",
       selector: (row) => row.service_area,
       maxWidth: "30%",
     },
     {
-      name: "city name",
+      name: "zip code",
+      selector: (row) => row.zip_code,
+      maxWidth: "30%",
+    },
+    {
+      name: "reion name",
       selector: (row) => row.city,
       maxWidth: "30%",
     },
@@ -158,7 +163,7 @@ const Areas = () => {
   return (
     <Page>
       <PageTitle
-        text={"manage all areas"}
+        text={"manage all cities"}
         right={
           <div className="flex gap-2 flex-wrap my-2 md:my-0">
             <Button

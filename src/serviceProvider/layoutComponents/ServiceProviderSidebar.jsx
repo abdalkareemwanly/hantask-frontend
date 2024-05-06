@@ -4,7 +4,7 @@ import { BiSolidMessageRoundedDetail, BiSolidHome } from "react-icons/bi";
 import { BsPersonFill } from "react-icons/bs";
 import { MdVerifiedUser } from "react-icons/md";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import { useStateContext } from "../../contexts/ContextsProvider";
 import { useTWThemeContext } from "../../admin/Components/ThemeProvider";
@@ -36,7 +36,7 @@ const iconMap = {
 export default function ServiceProviderSidebar({ setSidebarOpen }) {
   const { translation } = useStateContext();
   const [sideList, setSideList] = useState({});
-
+  const nav = useNavigate();
   useEffect(() => {
     getSideBar();
   }, []);
@@ -59,11 +59,21 @@ export default function ServiceProviderSidebar({ setSidebarOpen }) {
   };
   return (
     <>
-      <div className="w-full sticky top-0 bg-inherit px-3 py-[20px] bg-blocks-color flex items-center justify-between">
+      <div className="w-full  sticky top-0 bg-inherit px-3 py-[20px] bg-blocks-color flex items-center justify-between">
         {theme === "light" ? (
-          <img src={logoLight} className="w-[80%] md:w-full" alt="Logo" />
+          <img
+            onClick={() => nav("/")}
+            src={logoLight}
+            className="w-[80%] cursor-pointer md:w-full"
+            alt="Logo"
+          />
         ) : (
-          <img src={logoDark} className="w-[80%] md:w-full" alt="Logo" />
+          <img
+            onClick={() => nav("/")}
+            src={logoDark}
+            className="w-[80%] cursor-pointer md:w-full"
+            alt="Logo"
+          />
         )}
         <span className="md:hidden cursor-pointer" onClick={handleCloseSideBar}>
           <AiOutlineClose size={27} />

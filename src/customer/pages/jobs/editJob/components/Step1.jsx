@@ -27,7 +27,7 @@ export const Step1 = ({
     title: "",
     fields: [
       {
-        title: "job title ",
+        title: "title ",
         name: "title",
         type: "text",
         value: data?.title,

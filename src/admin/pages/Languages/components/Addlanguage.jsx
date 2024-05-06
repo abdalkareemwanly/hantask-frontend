@@ -22,17 +22,17 @@ export default function Addlanguage(props) {
   const handleSubmit = async (values) => {
     let language;
     langs.map((ele) => {
-      if (ele.code === values.language) {
+      if (ele.code === values.language[0].code) {
         language = ele.lanName;
       }
     });
 
     const formData = {
       default: 0,
-      direction: values.direction,
+      direction: values.direction[0].name,
       name: language,
       slug: values.slug,
-      status: values.status,
+      status: values.status[0].name,
     };
 
     const id = toast.loading("please wait...");
@@ -111,9 +111,9 @@ export default function Addlanguage(props) {
 
   const validate = (watchedValues, methods) => {
     const { errors, setError, clearErrors, setValue, resetField } = methods;
-
-    if (watchedValues?.language !== "") {
-      setValue("slug", watchedValues?.language);
+    console.log(watchedValues);
+    if (watchedValues?.language !== "" && watchedValues?.language) {
+      setValue("slug", watchedValues?.language[0].code);
     } else {
       resetField("slug");
     }

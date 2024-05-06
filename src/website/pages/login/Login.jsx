@@ -31,7 +31,7 @@ function Login() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(schema) });
+  } = useForm({ resolver: zodResolver(schema), mode: "all" });
   const submitData = async (data) => {
     const toastId = toast.loading("logging in...");
     const formData = new FormData();

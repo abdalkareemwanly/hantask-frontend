@@ -1,6 +1,18 @@
 import "./style/Input.css";
 
-function Input({ type, placeholder, register, name, label, errors, element, onChange }) {
+function Input({
+  type,
+  placeholder,
+  register,
+  name,
+  label,
+  errors,
+  element,
+  onChange,
+  disabled,
+  readonly,
+  value,
+}) {
   try {
     return (
       <>
@@ -14,7 +26,16 @@ function Input({ type, placeholder, register, name, label, errors, element, onCh
         ) : (
           <div className="form-input">
             <label htmlFor={name}>{label}</label>
-            <input type={type} placeholder={placeholder} id={name} {...register(name)} onChange={onChange ? onChange : null} />
+            <input
+              type={type}
+              readOnly={readonly}
+              value={value}
+              disabled={disabled}
+              placeholder={placeholder}
+              id={name}
+              {...register(name)}
+              onChange={onChange ? onChange : null}
+            />
             {errors[name] ? <span>{errors[name].message}</span> : null}
           </div>
         )}

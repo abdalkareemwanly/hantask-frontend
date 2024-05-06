@@ -9,14 +9,26 @@ const postData = async (formData) => {
   return res;
 };
 export const AddArea = ({ setIsAddModalOpen }) => {
-  const { countries, filteredCities, setSelectedCountry } =
+  const { countries, filteredCities, setSelectedCountry, setInvalidateAreas } =
     useGlobalDataContext();
   let template = {
-    title: "add new area",
+    title: "add new city",
     fields: [
       {
-        title: "area name",
+        title: "city name",
         name: "service_area",
+        type: "text",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "md:w-[100%]",
+      },
+      {
+        title: "zip code",
+        name: "zip_code",
         type: "text",
         validationProps: {
           required: {
@@ -51,7 +63,7 @@ export const AddArea = ({ setIsAddModalOpen }) => {
         searchKey: "country",
       },
       {
-        title: "choose city",
+        title: "choose region",
         name: "service_city_id",
         options: [...filteredCities],
         type: "select",
@@ -76,8 +88,9 @@ export const AddArea = ({ setIsAddModalOpen }) => {
     };
     const formData = new FormData();
     formData.append("service_area", area.service_area);
-    formData.append("country_id", area.country_id);
-    formData.append("service_city_id", area.service_city_id);
+    formData.append("country_id", area.country_id[0].id);
+    formData.append("service_city_id", area.service_city_id[0].id);
+    formData.append("zip_code", area.zip_code);
     try {
       const city = await mutation.mutateAsync(formData);
       setIsAddModalOpen((prev) => !prev);
@@ -90,6 +103,7 @@ export const AddArea = ({ setIsAddModalOpen }) => {
         closeButton: true,
         pauseOnHover: false,
       });
+      setInvalidateAreas((prev) => !prev);
     } catch (error) {
       toast.update(id, {
         type: "error",
