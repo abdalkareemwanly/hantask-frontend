@@ -66,7 +66,6 @@ export const AddProduct = ({ category, setIsAddModalOpen }) => {
   };
 
   const onSubmit = async (values) => {
-    console.log(values);
     setLoading(true);
     const id = toast.loading("please wait...");
 

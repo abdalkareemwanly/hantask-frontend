@@ -86,8 +86,8 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("amount_off", values.amount_off);
-    formData.append("currency", values.currency);
-    formData.append("duration", values.duration);
+    formData.append("currency", values.currency[0].name);
+    formData.append("duration", values.duration[0].name);
     formData.append("duration_in_months", values.duration_in_months);
     try {
       const category = await mutation.mutateAsync(formData);

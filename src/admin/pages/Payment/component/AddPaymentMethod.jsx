@@ -142,7 +142,7 @@ export const AddPaymentMethod = ({ getPaymentMethods, setIsAddModalOpen }) => {
   };
 
   const validate = (watchValues) => {
-    console.log(watchValues);
+    // console.log(watchValues);
   };
 
   const formTemplate = {
