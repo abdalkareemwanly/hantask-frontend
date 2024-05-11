@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { usePostStore } from "../../../contexts/PostStore";
+import { StepThreePostDealt } from "./components/StepThreePostDealT";
 
 const initialState = {
   categoryId: "",
@@ -189,10 +190,37 @@ const StepComponent = ({
           />
         </motion.div>
       )}
+      {step === 3 && (
+        <motion.div
+          className="absolute h-full"
+          key="step3"
+          initial={{ opacity: 0, x: "110%" }}
+          animate={{ opacity: 1, x: "0" }}
+          exit={{ opacity: 0, x: "-110%" }}
+          transition={{ duration: 0.9, ease: "backInOut" }}
+        >
+          <StepThreePostDealt
+            subCategories={filteredSubCategories}
+            childCategories={filteredChildCategories}
+            setSelectedSubCategory={setSelectedSubCategory}
+            handleDataChange={handleDataChange}
+            goToNextStep={goToNextStep}
+            goToPrevStep={goToPrevStep}
+            state={state}
+            watch={watch}
+            trigger={trigger}
+            errors={errors}
+            register={register}
+            setValue={setValue}
+            selectedOptions={selectedOptions}
+            setSelectedOptions={setSelectedOptions}
+          />
+        </motion.div>
+      )}
       {/* Render questions dynamically for each step */}
       {questions?.map((question, index) => (
         <AnimatePresence key={`step${step}-question${index}`}>
-          {step === index + 3 && (
+          {step === index + 4 && (
             <motion.div
               className="absolute h-full"
               key={`step${step}-question${index}`}
@@ -217,7 +245,7 @@ const StepComponent = ({
           )}
         </AnimatePresence>
       ))}
-      {step === questions?.length + 3 && (
+      {step === questions?.length + 4 && (
         <motion.div
           className="absolute h-full"
           key="step3"
@@ -243,7 +271,7 @@ const StepComponent = ({
           />
         </motion.div>
       )}
-      {step === questions?.length + 4 && (
+      {step === questions?.length + 5 && (
         <motion.div
           className="absolute h-full"
           key="step4"
@@ -264,7 +292,7 @@ const StepComponent = ({
           />
         </motion.div>
       )}
-      {step === questions?.length + 5 && (
+      {step === questions?.length + 6 && (
         <motion.div
           className="absolute h-hull w-full"
           key="step5"
@@ -296,9 +324,7 @@ const StepComponent = ({
 };
 
 const PostDeal = () => {
-  const outsideStateData = useLocation().state;
-
-  useEffect(() => {}, [outsideStateData]);
+  const outsideStateData = useLocation().state?.data;
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const nav = useNavigate();
@@ -310,7 +336,7 @@ const PostDeal = () => {
   const [thumbnail, setThumbnail] = useState();
   const { postStoreData, setPostStoreData } = usePostStore();
   const [defaultValues, setDefaultValues] = useState({
-    category_id: 3,
+    category_id: [],
     subcategory_id: [],
     child_category_id: [],
     country_id: "",
@@ -345,7 +371,7 @@ const PostDeal = () => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      category_id: 3,
+      category_id: [],
       child_category_id: [],
       subcategory_id: [],
       country_id: "",
@@ -370,21 +396,62 @@ const PostDeal = () => {
             ...existingOption, // Keep the existing option
           };
         } else {
+          if (outsideStateData) {
+            if (outsideStateData?.type === "category") {
+              setValue("category_id", outsideStateData.id);
+              return {
+                name: key,
+                value:
+                  key === "category_id"
+                    ? [
+                        {
+                          id: outsideStateData?.id,
+                          name: outsideStateData?.name,
+                        },
+                      ]
+                    : typeof value === "object"
+                    ? []
+                    : null,
+              };
+            } else if (outsideStateData?.type === "subCategory") {
+              setValue("subcategory_id", outsideStateData.id);
+              setValue("category_id", outsideStateData.categoryId);
+              return {
+                name: key,
+                value:
+                  key === "category_id"
+                    ? [
+                        {
+                          id: outsideStateData?.categoryId,
+                          name: outsideStateData?.categoryName,
+                        },
+                      ]
+                    : key === "subcategory_id"
+                    ? [
+                        {
+                          id: outsideStateData?.id,
+                          name: outsideStateData?.name,
+                        },
+                      ]
+                    : typeof value === "object"
+                    ? []
+                    : null,
+              };
+            }
+          } else {
+            return {
+              name: key,
+              value: typeof value === "object" ? [] : null,
+            };
+          }
           // If the key doesn't exist in the previous selected options, create a new one
-          return {
-            name: key,
-            value:
-              key === "category_id"
-                ? [{ id: 3, name: "bulding" }]
-                : typeof value === "object"
-                ? []
-                : null,
-          };
         }
       })
     );
-  }, [defaultValues]); // Empty dependency array ensures this runs only once on mount
+  }, [defaultValues, outsideStateData]); // Empty dependency array ensures this runs only once on mount
+
   console.log(selectedOptions);
+
   const goToNextStep = () => {
     dispatch({
       type: "EDIT_FIELD",

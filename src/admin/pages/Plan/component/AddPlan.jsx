@@ -129,23 +129,23 @@ export const AddPlan = ({ getUsers, setIsAddModalOpen }) => {
     const id = toast.loading("please wait...");
 
     const productData = {
-      product_id: values.product_id.toUpperCase(),
+      product_id: values.product_id[0].value,
       name: values.name,
       description: values.description,
-      status: values.status,
+      status: values.status[0].name,
       billing_cycles: [
         {
-          tenure_type: values.billing_cycles_type,
+          tenure_type: values.billing_cycles_type[0].name,
           sequence: 1,
           total_cycles: parseInt(values.total_cycles),
           frequency: {
-            interval_unit: values.interval_unit,
+            interval_unit: values.interval_unit[0].name,
             interval_count: parseInt(values.interval_count),
           },
           pricing_scheme: {
             fixed_price: {
               value: values.value,
-              currency_code: values.currency_code.toUpperCase(),
+              currency_code: values.currency_code[0].name.toUpperCase(),
             },
           },
         },
@@ -153,10 +153,10 @@ export const AddPlan = ({ getUsers, setIsAddModalOpen }) => {
       payment_preferences: {
         auto_bill_outstanding: true,
         setup_fee: {
-          currency_code: values.currency_code.toUpperCase(),
+          currency_code: values.currency_code[0].name.toUpperCase(),
           value: values.value,
         },
-        setup_fee_failure_action: values.setup_fee_failure_action,
+        setup_fee_failure_action: values.setup_fee_failure_action[0].name,
         payment_failure_threshold: 0,
       },
       taxes: {
