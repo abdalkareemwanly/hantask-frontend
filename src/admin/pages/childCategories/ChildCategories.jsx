@@ -169,16 +169,16 @@ const ChildCategories = () => {
           : row?.description,
       maxWidth: "30%",
     },
-    {
-      name: "main category",
-      selector: (row) => row?.categoryName,
-      maxWidth: "30%",
-    },
-    {
-      name: "sub category",
-      selector: (row) => row?.subcategoryName,
-      maxWidth: "30%",
-    },
+    // {
+    //   name: "main category",
+    //   selector: (row) => row?.categoryName,
+    //   maxWidth: "30%",
+    // },
+    // {
+    //   name: "sub category",
+    //   selector: (row) => row?.subcategoryName,
+    //   maxWidth: "30%",
+    // },
     {
       name: "status",
       selector: (row) =>
