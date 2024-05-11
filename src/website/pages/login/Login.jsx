@@ -15,13 +15,13 @@ import { usePostStore } from "../../../contexts/PostStore";
 function Login() {
   const schema = z.object(Login_SCHEMA);
   const { token, setUser, setToken } = useStateContext();
-  console.log(token);
+  // console.log(token);
   const navigate = useNavigate();
   const locationState = useLocation();
   const { postStoreData, setPostStoreData } = usePostStore();
 
   const isFromPostDealPage = locationState?.state?.type === "fromPostDeal";
-  console.log(locationState, isFromPostDealPage);
+  // console.log(locationState, isFromPostDealPage);
   useEffect(() => {
     if (token) navigate("/");
   }, [token]);

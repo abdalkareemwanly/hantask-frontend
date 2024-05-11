@@ -1,8 +1,6 @@
 import Category from "../../components/common/Category";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import Service from "../../components/common/Service";
-import { FaCheck } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
 import CategoryLoader from "../../components/common/CategoryLoader";
 import axiosClient from "../../../axios-client";
@@ -11,12 +9,16 @@ import PostJobsCard from "../jobs/components/PostJobsCard";
 import PostJobsCardLoader from "../jobs/components/PostJobsCardLoader";
 import "./css/mainSection.css";
 import { FaArrowRight } from "react-icons/fa";
-import Button from "../../../Components/Button";
 import { banner2 } from "../../../assets";
 
 const getNewJobs = async () => {
   const res = await axiosClient.get("/site/posts");
   return res.data.data;
+};
+
+const getCat = async () => {
+  const cat = await axiosClient.get("/site/category/allcategories");
+  return cat.data.data;
 };
 
 const test = [
@@ -49,6 +51,8 @@ const Homepage = () => {
       setNewJobs(data1);
       setIsLoading(false);
     };
+
+    getCat();
 
     getData1();
   }, []);
@@ -135,6 +139,51 @@ const Homepage = () => {
 };
 
 export const Banner = ({ total_users }) => {
+  const dummyData = [
+    {
+      type: "category",
+      id: 3,
+      name: "building",
+    },
+    {
+      type: "subCategory",
+      id: 3,
+      name: "building",
+      categoryId: 3,
+      categoryName: "building",
+    },
+    {
+      type: "childCategory",
+      id: 10,
+      name: "building",
+      categoryId: 3,
+      categoryName: "building",
+      subCategoryId: 3,
+      subCategoryName: "building",
+    },
+  ];
+  const [searchOpen, setSearchOpen] = useState(false);
+  const nav = useNavigate();
+  const [selectedOption, setSelectedOption] = useState({});
+  const openSearch = () => {
+    setSearchOpen((prev) => !prev);
+  };
+  const [seachKey, setSearchKey] = useState();
+  useEffect(() => {
+    setSearchKey(selectedOption?.name);
+  }, [selectedOption]);
+
+  const navigateToPostDeal = () => {
+    nav("/postDeal", {
+      state: {
+        data: selectedOption,
+      },
+    });
+  };
+  const handleClickOption = (ele) => {
+    // console.log(ele);
+    setSelectedOption(ele);
+  };
   return (
     <section>
       <div className="bannerContainer">
@@ -157,8 +206,36 @@ export const Banner = ({ total_users }) => {
                 <input
                   className="absolute w-full p-4 rounded-md border-none outline-none text-black"
                   placeholder="What service do you need?"
+                  onClick={openSearch}
+                  value={seachKey}
+                  onChange={(e) => setSearchKey(e.target.value)}
+                  // onBlur={openSearch}
+                  onKeyUp={() => setSelectedOption(null)}
                 />
-                <button className="absolute right-2 bg-greenColor p-2 rounded-md">
+                {searchOpen && (
+                  <div className="absolute bg-white h-[150px] text-black overscroll-y-auto z-10  top-[25px] w-full p-4 flex flex-col gap-4">
+                    {dummyData.map((ele) => {
+                      return (
+                        <div
+                          key={ele.id}
+                          className={`${
+                            selectedOption?.id === ele.id
+                              ? "bg-greenColor"
+                              : "bg-white"
+                          } w-full `}
+                          onClick={() => handleClickOption(ele)}
+                        >
+                          {ele.name}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                <button
+                  onClick={navigateToPostDeal}
+                  className="absolute right-2 bg-greenColor p-2 rounded-md"
+                >
                   find handyman
                 </button>
               </div>

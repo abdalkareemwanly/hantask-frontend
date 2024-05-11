@@ -34,7 +34,7 @@ const getData = async (page = 1, filter) => {
 
 function PostJobs(props) {
   const { FILTER_DATA, loading } = useGlobalDataContext();
-  console.log(loading);
+  // console.log(loading);
   const [filter, setFilter] = useState({
     country: "",
     city: "",
@@ -46,7 +46,7 @@ function PostJobs(props) {
     match: "",
     chooseType: "",
   });
-  console.log(filter);
+  // console.log(filter);
   const [page, setPage] = useState(1);
   const {
     data: posts,

@@ -6,7 +6,7 @@ import axiosClient from "../../../../axios-client";
 import LazyMedia from "../../../../Components/LazyMedia";
 import { toast } from "react-toastify";
 function PostJobsCard({ item, withBuyer = true }) {
-  console.log(item);
+  // console.log(item);
   const saveToSaved = async (id) => {
     const isLogin = localStorage.getItem("ACCESS_TOKEN");
     const isServiceProvider =
