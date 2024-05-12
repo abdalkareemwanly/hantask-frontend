@@ -10,6 +10,21 @@ const getData = async () => {
   return res.data.data;
 };
 
+const test = (id) => {
+  const stripe_plan_id = id;
+  const sub = axiosClient
+    .post("site/stripe/storeSession", { stripe_plan_id: id })
+    .then((response) => {
+      const sessionUrl = response.data.data.url; // Assuming 'url' is the key for the URL in the response data
+      // Open the Stripe checkout session URL
+      console.log(sessionUrl);
+      window.open(sessionUrl, "_blank"); // '_blank' will open the URL in a new tab
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+};
+
 const Subscription = () => {
   const { data: plans, isLoading } = useQueryHook(["plans"], getData);
 
@@ -63,7 +78,7 @@ const SubscriptionCard = ({ data }) => {
         <span className="text-greenColor font-semibold text-2xl">
           {formatMoney(data?.price)}
         </span>
-        <Link
+        {/* <Link
           to="/paymentNow"
           state={{
             plan: data,
@@ -71,7 +86,10 @@ const SubscriptionCard = ({ data }) => {
           className="border py-3 px-6  bg-greenColor text-white"
         >
           subscribe now
-        </Link>
+        </Link> */}
+        <button type="button" onClick={() => test(data.stripe_plan_id)}>
+          subscribe now
+        </button>
       </div>
     </div>
   );
