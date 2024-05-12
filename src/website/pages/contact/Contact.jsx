@@ -32,8 +32,6 @@ function Contact(props) {
     });
   };
 
-  console.log(phone, email, location);
-
   return (
     <div className=" sm:px-24 px-6 py-24 flex flex-col gap-12 text-center  justify-center items-center">
       <div className="flex flex-col gap-6 w-full">

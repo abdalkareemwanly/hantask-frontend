@@ -73,7 +73,6 @@ const StepComponent = ({
   const {
     categories,
     countries,
-    cities,
     setSelectedCategory,
     setSelectedSubCategory,
     filteredSubCategories,
@@ -87,7 +86,7 @@ const StepComponent = ({
   const subcategoryValue = watch("subcategory_id");
   const childCategoryValue = watch("child_category_id");
   const countryValue = watch("country_id");
-  const cityValue = watch("city_id");
+
   useEffect(() => {
     setSelectedCountry({ id: countryValue });
   }, [countryValue]);
@@ -135,6 +134,8 @@ const StepComponent = ({
       });
     }
   }, [childCategoryValue]);
+
+  console.log(errors);
 
   return (
     <AnimatePresence>
@@ -190,7 +191,7 @@ const StepComponent = ({
           />
         </motion.div>
       )}
-      {step === 3 && (
+      {/* {step === 3 && (
         <motion.div
           className="absolute h-full"
           key="step3"
@@ -216,11 +217,11 @@ const StepComponent = ({
             setSelectedOptions={setSelectedOptions}
           />
         </motion.div>
-      )}
+      )} */}
       {/* Render questions dynamically for each step */}
       {questions?.map((question, index) => (
         <AnimatePresence key={`step${step}-question${index}`}>
-          {step === index + 4 && (
+          {step === index + 3 && (
             <motion.div
               className="absolute h-full"
               key={`step${step}-question${index}`}
@@ -245,7 +246,7 @@ const StepComponent = ({
           )}
         </AnimatePresence>
       ))}
-      {step === questions?.length + 4 && (
+      {step === questions?.length + 3 && (
         <motion.div
           className="absolute h-full"
           key="step3"
@@ -271,7 +272,7 @@ const StepComponent = ({
           />
         </motion.div>
       )}
-      {step === questions?.length + 5 && (
+      {step === questions?.length + 4 && (
         <motion.div
           className="absolute h-full"
           key="step4"
@@ -292,7 +293,7 @@ const StepComponent = ({
           />
         </motion.div>
       )}
-      {step === questions?.length + 6 && (
+      {step === questions?.length + 5 && (
         <motion.div
           className="absolute h-hull w-full"
           key="step5"
@@ -325,6 +326,7 @@ const StepComponent = ({
 
 const PostDeal = () => {
   const outsideStateData = useLocation().state?.data;
+  const islogin = localStorage.getItem("ACCESS_TOKEN");
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const nav = useNavigate();
@@ -347,20 +349,6 @@ const PostDeal = () => {
     description: "",
     lineAddress: "",
   });
-
-  const islogin = localStorage.getItem("ACCESS_TOKEN");
-
-  useEffect(() => {
-    const newDefaultValues = {};
-    questions.forEach((question) => {
-      newDefaultValues[question.content] = question.type === "write" ? "" : [];
-    });
-    setDefaultValues((prev) => ({
-      ...prev,
-      ...newDefaultValues,
-    }));
-  }, [questions]);
-
   const {
     register,
     handleSubmit,
@@ -383,14 +371,64 @@ const PostDeal = () => {
       ...defaultValues,
     },
   });
-  console.log(watch());
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  useEffect(() => {
+    if (outsideStateData) {
+      console.log(outsideStateData.type);
+      if (
+        outsideStateData.type === "subcategory" ||
+        outsideStateData.type === "childcategory"
+      ) {
+        console.log("hello 1");
+        dispatch({
+          type: "EDIT_FIELD",
+          payload: {
+            key: "step",
+            value: 2,
+          },
+        });
+      } else {
+        console.log("hello 2");
+        dispatch({
+          type: "EDIT_FIELD",
+          payload: {
+            key: "step",
+            value: 1,
+          },
+        });
+      }
+    }
+  }, [outsideStateData]);
 
+  useEffect(() => {
+    const newDefaultValues = {};
+    questions.forEach((question) => {
+      newDefaultValues[question.content] = question.type === "write" ? "" : [];
+    });
+    setDefaultValues((prev) => ({
+      ...prev,
+      ...newDefaultValues,
+    }));
+  }, [questions]);
+
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  useEffect(() => {
+    if (selectedOptions) {
+      if (selectedOptions[0] && selectedOptions[1] && selectedOptions[2]) {
+        setValue("title", selectedOptions[0].value[0]?.name);
+        setValue(
+          "description",
+          selectedOptions[1].value[0]?.name +
+            ", " +
+            selectedOptions[2].value[0]?.name
+        );
+      }
+    }
+  }, [selectedOptions]);
   useEffect(() => {
     setSelectedOptions((prev) =>
       Object.entries(defaultValues).map(([key, value]) => {
         // Check if the key already exists in the previous selected options
-        const existingOption = prev.find((option) => option.name === key);
+        const existingOption = prev.find((option) => option?.name === key);
         if (existingOption) {
           return {
             ...existingOption, // Keep the existing option
@@ -413,7 +451,7 @@ const PostDeal = () => {
                     ? []
                     : null,
               };
-            } else if (outsideStateData?.type === "subCategory") {
+            } else if (outsideStateData?.type === "subcategory") {
               setValue("subcategory_id", outsideStateData.id);
               setValue("category_id", outsideStateData.categoryId);
               return {
@@ -437,6 +475,38 @@ const PostDeal = () => {
                     ? []
                     : null,
               };
+            } else if (outsideStateData?.type === "childcategory") {
+              setValue("child_category_id", outsideStateData.id);
+              setValue("subcategory_id", outsideStateData.subCategoryId);
+              setValue("category_id", outsideStateData.categoryId);
+              return {
+                name: key,
+                value:
+                  key === "category_id"
+                    ? [
+                        {
+                          id: outsideStateData?.categoryId,
+                          name: outsideStateData?.categoryName,
+                        },
+                      ]
+                    : key === "subcategory_id"
+                    ? [
+                        {
+                          id: outsideStateData?.subCategoryId,
+                          name: outsideStateData?.subCategoryName,
+                        },
+                      ]
+                    : key === "child_category_id"
+                    ? [
+                        {
+                          id: outsideStateData?.id,
+                          name: outsideStateData?.name,
+                        },
+                      ]
+                    : typeof value === "object"
+                    ? []
+                    : null,
+              };
             }
           } else {
             return {
@@ -449,8 +519,6 @@ const PostDeal = () => {
       })
     );
   }, [defaultValues, outsideStateData]); // Empty dependency array ensures this runs only once on mount
-
-  console.log(selectedOptions);
 
   const goToNextStep = () => {
     dispatch({

@@ -6,11 +6,10 @@ import axiosClient from "../../../../axios-client";
 import LazyMedia from "../../../../Components/LazyMedia";
 import { toast } from "react-toastify";
 function PostJobsCard({ item, withBuyer = true }) {
-  // console.log(item);
+  const isServiceProvider =
+    JSON.parse(localStorage.getItem("USER"))?.user_type === "seller";
   const saveToSaved = async (id) => {
     const isLogin = localStorage.getItem("ACCESS_TOKEN");
-    const isServiceProvider =
-      JSON.parse(localStorage.getItem("USER"))?.user_type === "seller";
 
     if (isLogin) {
       if (isServiceProvider) {
@@ -30,12 +29,14 @@ function PostJobsCard({ item, withBuyer = true }) {
         <span className="rounded-full text-sm px-3 bg-[#9feaba78] flex justify-center items-center">
           {item?.category?.name}
         </span>
-        <span
-          onClick={() => saveToSaved(item?.id)}
-          className="w-[30px] h-[30px] cursor-pointer rounded-full bg-[#9feaba78] flex justify-center items-center"
-        >
-          <FaRegBookmark size={18} />
-        </span>
+        {isServiceProvider && (
+          <span
+            onClick={() => saveToSaved(item?.id)}
+            className="w-[30px] h-[30px] cursor-pointer rounded-full bg-[#9feaba78] flex justify-center items-center"
+          >
+            <FaRegBookmark size={18} />
+          </span>
+        )}
       </div>
       <div className="flex gap-4 items-center">
         <div className="w-[100px] h-[100px] rounded-full flex justify-center items-center bg-[#9feaba78]">

@@ -10,6 +10,7 @@ import PostJobsCardLoader from "../jobs/components/PostJobsCardLoader";
 import "./css/mainSection.css";
 import { FaArrowRight } from "react-icons/fa";
 import { banner2 } from "../../../assets";
+import { useQueryHook } from "../../../hooks/useQueryHook";
 
 const getNewJobs = async () => {
   const res = await axiosClient.get("/site/posts");
@@ -51,9 +52,7 @@ const Homepage = () => {
       setNewJobs(data1);
       setIsLoading(false);
     };
-
     getCat();
-
     getData1();
   }, []);
 
@@ -137,38 +136,31 @@ const Homepage = () => {
     </div>
   );
 };
+const getData = async () => {
+  const res = await axiosClient.get(`site/category/allcategories`);
+  return res;
+};
+export const Banner = () => {
+  const { data: categories } = useQueryHook(
+    ["categories"],
+    () => getData(),
+    "paginate"
+  );
+  console.log(categories);
+  const [data, setData] = useState();
+  useEffect(() => {
+    if (categories) {
+      setData(categories?.data?.data);
+    }
+  }, [categories]);
+  const [searchKey, setSearchKey] = useState("");
 
-export const Banner = ({ total_users }) => {
-  const dummyData = [
-    {
-      type: "category",
-      id: 3,
-      name: "building",
-    },
-    {
-      type: "subCategory",
-      id: 3,
-      name: "building",
-      categoryId: 3,
-      categoryName: "building",
-    },
-    {
-      type: "childCategory",
-      id: 10,
-      name: "building",
-      categoryId: 3,
-      categoryName: "building",
-      subCategoryId: 3,
-      subCategoryName: "building",
-    },
-  ];
   const [searchOpen, setSearchOpen] = useState(false);
   const nav = useNavigate();
   const [selectedOption, setSelectedOption] = useState({});
   const openSearch = () => {
     setSearchOpen((prev) => !prev);
   };
-  const [seachKey, setSearchKey] = useState();
   useEffect(() => {
     setSearchKey(selectedOption?.name);
   }, [selectedOption]);
@@ -183,7 +175,9 @@ export const Banner = ({ total_users }) => {
   const handleClickOption = (ele) => {
     // console.log(ele);
     setSelectedOption(ele);
+    setSearchOpen(false);
   };
+
   return (
     <section>
       <div className="bannerContainer">
@@ -207,28 +201,37 @@ export const Banner = ({ total_users }) => {
                   className="absolute w-full p-4 rounded-md border-none outline-none text-black"
                   placeholder="What service do you need?"
                   onClick={openSearch}
-                  value={seachKey}
+                  value={searchKey}
                   onChange={(e) => setSearchKey(e.target.value)}
                   // onBlur={openSearch}
                   onKeyUp={() => setSelectedOption(null)}
                 />
                 {searchOpen && (
-                  <div className="absolute bg-white h-[150px] text-black overscroll-y-auto z-10  top-[25px] w-full p-4 flex flex-col gap-4">
-                    {dummyData.map((ele) => {
-                      return (
-                        <div
-                          key={ele.id}
-                          className={`${
-                            selectedOption?.id === ele.id
-                              ? "bg-greenColor"
-                              : "bg-white"
-                          } w-full `}
-                          onClick={() => handleClickOption(ele)}
-                        >
-                          {ele.name}
-                        </div>
-                      );
-                    })}
+                  <div className="absolute bg-white h-[120px] text-black overflow-y-auto z-10  top-[25px] w-full p-4 flex flex-col gap-4">
+                    {data
+                      ?.filter(
+                        (option) =>
+                          searchKey
+                            ? option.name
+                                ?.toLowerCase()
+                                ?.includes(searchKey.toLowerCase())
+                            : true // Return true if searchKey is empty, indicating no filtering
+                      )
+                      ?.map((ele, i) => {
+                        return (
+                          <div
+                            key={i}
+                            className={`${
+                              selectedOption?.id === ele.id
+                                ? "bg-greenColor"
+                                : "bg-white"
+                            } w-full `}
+                            onClick={() => handleClickOption(ele)}
+                          >
+                            {ele.name}
+                          </div>
+                        );
+                      })}
                   </div>
                 )}
 

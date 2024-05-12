@@ -3,6 +3,7 @@ import Header from "../header/Header";
 import Footer from "../footer/Footer";
 import { useTWThemeContext } from "../../../../admin/Components/ThemeProvider";
 import { useEffect, useState } from "react";
+import ScrollToTop from "../../../../hooks/ScrollToTop";
 
 const Layout = () => {
   const { setTheme } = useTWThemeContext();
@@ -25,6 +26,7 @@ const Layout = () => {
   }, []);
   return (
     <div className="flex flex-col">
+      <ScrollToTop />
       <Header />
       <Outlet />
       <Footer />

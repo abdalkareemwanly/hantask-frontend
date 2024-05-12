@@ -6,9 +6,12 @@ import Input from "../../../components/form/Input";
 import SubmitButton from "../../../components/form/SubmitButton";
 import TextArea from "../../../components/form/TextArea";
 import axiosClient from "../../../../axios-client";
+import { useState } from "react";
 
 function ContactForm({ user }) {
   const schema = z.object(CONTACT_SCHEMA);
+  const [disabled, setDisabled] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -24,10 +27,13 @@ function ContactForm({ user }) {
   });
 
   const submitData = async (data) => {
-    const res = await axiosClient.post("/site/contact", {
+    setDisabled(true);
+    const res = await axiosClient.post("/site/mail", {
       ...data,
       email_support: "abojadwanly@gmail.com",
     });
+    setDisabled(false);
+    console.log(res);
   };
 
   return (
@@ -74,7 +80,7 @@ function ContactForm({ user }) {
             errors={errors}
           />
         </div>
-        <SubmitButton />
+        <SubmitButton text={"send"} disabled={disabled} />
       </form>
     </>
   );

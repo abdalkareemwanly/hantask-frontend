@@ -1,14 +1,33 @@
 import { FaFacebookF } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { RiShareFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { BsFillSendFill } from "react-icons/bs";
+// import { Link } from "react-router-dom";
+// import { AnimatePresence, motion } from "framer-motion";
+// import { useEffect, useRef, useState } from "react";
+// import { BsFillSendFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
 import { banner1 } from "../../../assets";
+import { useQueryHook } from "../../../hooks/useQueryHook";
+import axiosClient from "../../../axios-client";
+import { useParams } from "react-router-dom";
+import moment from "moment";
+import WebsiteLoader from "../../components/loader/WebsiteLoader";
+
+const getBlog = async (paramId) => {
+  const res = await axiosClient.get(`/site/blogs/show/${paramId}`);
+  return res.data.data;
+};
 const Blog = () => {
+  const paramId = useParams().id;
+  console.log(paramId);
+  const { data: blog, isLoading } = useQueryHook(
+    ["blog", paramId],
+    () => getBlog(paramId),
+    "normal"
+  );
+  // Parse the date string using Moment.js
+  const formattedDate = moment(blog?.created_at).format("MMM DD, YYYY");
   // const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   // const [comments, setComments] = useState([
   //   { id: 1, text: "comment 1" },
@@ -84,15 +103,18 @@ const Blog = () => {
   //     }
   //   };
   // }, []);
-
+  if (isLoading)
+    return (
+      <div className="min-h-[100vh]">
+        <WebsiteLoader />
+      </div>
+    );
   return (
     <div className="my-6 flex flex-col gap-4  lg:px-64 md:px-12  px-6 py-12">
-      <h2 className="text-2xl font-bold ">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit
-      </h2>
+      <h2 className="text-2xl font-bold ">{blog?.title}</h2>
       <div id="head-blog" className="flex items-center justify-between">
         <div className="flex gap-2 items-center">
-          <span className="text-gray-400">jan 14, 2024</span>
+          <span className="text-gray-400">{formattedDate}</span>
         </div>
         <div className="flex items-center gap-2">
           <FacebookShareButton url={path}>
@@ -116,43 +138,13 @@ const Blog = () => {
       <main className="flex flex-col gap-4">
         <img
           className="w-full max-h-[350px] group-hover:scale-105 transition-all rounded-lg component-shadow object-cover"
-          src={banner1}
+          src={import.meta.env.VITE_WEBSITE_URL + "/" + blog.image}
         />
-        <div className="p-4">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam quo,
-          veniam laboriosam nihil, sed eveniet sit tempora amet explicabo a
-          voluptate natus et, quam dicta! Odio deleniti natus magnam hic. Eos,
-          veniam sit. Dignissimos nihil accusamus cum exercitationem maiores
-          architecto atque natus ducimus nobis necessitatibus iusto, cumque
-          ratione aperiam soluta quaerat, nisi officia possimus libero autem
-          quisquam impedit. Eveniet, corporis! Provident possimus illum quasi
-          doloremque, cumque dolore alias fugit error, sint voluptates iusto
-          debitis veritatis at nobis. Pariatur maiores possimus atque placeat
-          quae. Blanditiis perspiciatis ipsam at cupiditate! Mollitia, dicta.
-          Unde inventore est nemo itaque ab dolor, ullam earum consequatur,
-          veniam natus minima accusantium distinctio, amet a aspernatur
-          blanditiis magni non id quae ex. Similique sed repudiandae ipsa facere
-          nihil. Aut placeat sed temporibus eveniet numquam quidem, libero
-          doloribus consequuntur possimus totam modi nam accusantium dolorum
-          beatae molestias provident unde harum vitae tempora! Ad suscipit quae
-          illum accusamus ex veniam? Illum pariatur nostrum, commodi quibusdam
-          natus voluptas fugiat libero soluta reprehenderit maiores odio
-          exercitationem totam possimus amet ratione repellat debitis dolor nemo
-          impedit eius nobis. Sit minus ex at error! Beatae iure obcaecati
-          incidunt! Voluptatibus ducimus ex cum doloribus nam aspernatur numquam
-          tempore exercitationem, velit hic provident itaque, adipisci a. Quis
-          consectetur sed voluptatibus necessitatibus incidunt non at, facilis
-          unde? Necessitatibus, eligendi quod? Harum qui iusto reprehenderit
-          sint esse cum in autem ab facilis eveniet placeat animi delectus fuga
-          asperiores, atque quam? Assumenda deserunt soluta eos repellendus
-          adipisci laudantium esse! Doloremque facilis alias quo repellat
-          ratione vitae inventore et adipisci maxime, dolorum ad incidunt.
-          Temporibus deleniti eaque, aliquid dolores accusantium molestiae
-          cupiditate, ullam, reiciendis at modi omnis suscipit nihil quo? Nam
-          dicta quaerat voluptatibus veniam, hic ab vel ex velit maiores autem
-          est. Aut blanditiis, dolore maiores facere inventore, vel molestias
-          amet quis eveniet illum veniam quaerat quod quam minima?
-        </div>
+        <div className="text-gray-400">{blog.meta_description}</div>
+        <div
+          className="py-4"
+          dangerouslySetInnerHTML={{ __html: blog.description }}
+        ></div>
       </main>
     </div>
   );
