@@ -730,7 +730,7 @@ const PostDeal = () => {
     });
   };
   return (
-    <div className="flex flex-col justify-between lg:px-20 md:px-12 px-6 ">
+    <div className="flex flex-col justify-between lg:px-32 md:px-16 px-8 ">
       <div className="my-12 relative  w-full h-[600px] overflow-y-auto overflow-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
           <StepComponent

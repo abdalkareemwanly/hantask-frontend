@@ -55,7 +55,6 @@ const Homepage = () => {
     getCat();
     getData1();
   }, []);
-
   return (
     <div className="">
       <Banner />
@@ -105,13 +104,21 @@ const Homepage = () => {
         title={"Browse the latest deals from homeowners"}
         link={"deals"}
       >
-        {!isLoading
-          ? newJobs
+        {!isLoading ? (
+          newJobs.length > 0 ? (
+            newJobs
               ?.slice(0, 6)
               ?.map((ele, i) => <PostJobsCard key={i} item={ele} />)
-          : Array.from(Array(6).keys()).map((item, index) => {
-              return <PostJobsCardLoader key={index} />;
-            })}
+          ) : (
+            <div className="mt-4 bg-greenColor bg-opacity-50 w-full  p-4 rounded-md">
+              no deals yet !
+            </div>
+          )
+        ) : (
+          Array.from(Array(6).keys()).map((item, index) => {
+            return <PostJobsCardLoader key={index} />;
+          })
+        )}
       </CardsContainer>
       <div
         className="relative w-full p-3 md:p-6 lg:p-12 min-h-[250px]"
@@ -140,6 +147,7 @@ const getData = async () => {
   const res = await axiosClient.get(`site/category/allcategories`);
   return res;
 };
+
 export const Banner = () => {
   const { data: categories } = useQueryHook(
     ["categories"],

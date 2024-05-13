@@ -60,7 +60,7 @@ function PostJobs(props) {
   );
 
   return (
-    <div className="website-page sm:px-12 px-2 py-24 flex flex-col gap-12 text-center  justify-center items-center">
+    <div className="website-page  lg:px-32 md:px-16 px-8 py-24 flex flex-col gap-12 text-center   items-center">
       {loading ? (
         <WebsiteLoader />
       ) : (
@@ -78,17 +78,27 @@ function PostJobs(props) {
                 />
               </div>
               <div className="jobs-cards grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 my-8">
-                {isLoading || isRefetching
-                  ? Array.from(Array(4).keys()).map((ele) => (
-                      <PostJobsCardLoader key={ele} />
-                    ))
-                  : posts?.data?.data.map((item, index) => {
-                      return <PostJobsCard key={index} item={item} />;
-                    })}
+                {isLoading || isRefetching ? (
+                  Array.from(Array(4).keys()).map((ele) => (
+                    <PostJobsCardLoader key={ele} />
+                  ))
+                ) : posts?.data?.data.length > 0 ? (
+                  posts?.data?.data.map((item, index) => {
+                    return <PostJobsCard key={index} item={item} />;
+                  })
+                ) : (
+                  <div className="mt-4 bg-greenColor bg-opacity-50 w-full  p-4 rounded-md">
+                    no deals yet !
+                  </div>
+                )}
               </div>
             </div>
           </div>
-          <Pagination data={posts} setPage={setPage} />
+          {posts?.data?.data.length > 0 ? (
+            <Pagination data={posts} setPage={setPage} />
+          ) : (
+            ""
+          )}
         </>
       )}
     </div>
