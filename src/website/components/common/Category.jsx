@@ -6,7 +6,7 @@ const Category = ({ image, title, servicesNumber, name, id }) => {
     <Link
       to="/subcategories"
       state={{ currentCategory: { name: name, id: id } }}
-      className="group w-[300px] items-center  h-[120px] p-6 bg-white  component-shadow flex  gap-6 rounded-xl border hover:border-greenColor transition-all"
+      className="group  items-center  h-[120px] p-6 bg-white  component-shadow flex  gap-6 rounded-xl border hover:border-greenColor transition-all"
     >
       <LazyMedia
         classes={"w-[60px] h-[60px] rounded-full object-cover"}
@@ -14,7 +14,7 @@ const Category = ({ image, title, servicesNumber, name, id }) => {
       />
 
       <div className="flex justify-center items-center gap-2 flex-col">
-        <h3 className="text-xl font-semibold max-w-[150px] ml-auto">{name}</h3>
+        <h3 className="text-xl font-semibold  ml-auto">{name}</h3>
       </div>
     </Link>
   );

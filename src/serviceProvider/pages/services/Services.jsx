@@ -15,6 +15,7 @@ import { MdDelete } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { IoEye } from "react-icons/io5";
 import Loader from "../../../Components/Loader";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
@@ -47,6 +48,7 @@ const Services = () => {
     data: services,
     queryClient,
     isLoading,
+    isError,
   } = useQueryHook(
     ["services", page, searchTerm],
     () => getData(page, searchTerm),
@@ -150,6 +152,7 @@ const Services = () => {
     }, 500);
   }, [services, page, queryClient, searchTerm]);
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       <PageTitle

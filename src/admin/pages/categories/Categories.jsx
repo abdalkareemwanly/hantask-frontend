@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
@@ -50,7 +51,11 @@ const Categories = () => {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: categories, queryClient } = useQueryHook(
+  const {
+    data: categories,
+    queryClient,
+    isError,
+  } = useQueryHook(
     ["categories", page, searchTerm],
     () => getData(page, searchTerm),
     "paginate",
@@ -214,6 +219,7 @@ const Categories = () => {
       },
     },
   ];
+  if (isError) <NetworkErrorComponent />;
 
   return (
     hasShowPermission && (

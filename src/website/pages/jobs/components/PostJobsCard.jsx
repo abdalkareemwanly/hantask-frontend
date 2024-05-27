@@ -24,7 +24,7 @@ function PostJobsCard({ item, withBuyer = true }) {
   };
 
   return (
-    <div className="flex flex-col gap-2 w-[400px] py-3 px-6 component-shadow border rounded-lg">
+    <div className="flex flex-col gap-2 w-full py-3 px-6 component-shadow border rounded-lg">
       <div className="flex justify-between items-center">
         <span className="rounded-full text-sm px-3 bg-[#9feaba78] flex justify-center items-center">
           {item?.category?.name}

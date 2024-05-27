@@ -14,6 +14,7 @@ import { useMutationHook } from "../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
 import useCheckPermission from "../../../hooks/checkPermissions";
 import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
     `admin/childs?page=${page}${
@@ -48,7 +49,11 @@ const ChildCategories = () => {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: childCategories, queryClient } = useQueryHook(
+  const {
+    data: childCategories,
+    queryClient,
+    isError,
+  } = useQueryHook(
     ["childCategories", page, searchTerm],
     () => getData(page, searchTerm),
     "paginate",
@@ -229,6 +234,7 @@ const ChildCategories = () => {
       },
     },
   ];
+  if (isError) <NetworkErrorComponent />;
 
   return (
     hasShowPermission && (

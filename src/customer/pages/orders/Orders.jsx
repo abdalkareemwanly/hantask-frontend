@@ -13,6 +13,7 @@ import ModalContainer from "../../../Components/ModalContainer";
 import { formatMoney } from "../../../functions/price";
 import Loader from "../../../Components/Loader";
 import { Link } from "react-router-dom";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async () => {
   const res = await axiosClient.get("/buyer/comments");
@@ -35,6 +36,7 @@ const Orders = () => {
     errors,
     isLoading,
     refetch,
+    isError,
   } = useQueryHook(["orders", page], getData);
   const changeStatusMutation = useMutationHook(acceptOrderFun, [
     "orders",
@@ -214,6 +216,7 @@ const Orders = () => {
     },
   ];
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       {isModalOpen && (

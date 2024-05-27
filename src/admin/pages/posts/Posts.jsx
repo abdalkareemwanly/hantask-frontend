@@ -74,12 +74,6 @@ const Posts = () => {
       selector: (row) => {
         return (
           <div className="flex items-center gap-3">
-            <img
-              src={`${
-                import.meta.env.VITE_WEBSITE_URL + "/public" + row.image
-              }`}
-              className="w-[50px] h-[50px] rounded-full"
-            />
             <span>{row.title}</span>
           </div>
         );

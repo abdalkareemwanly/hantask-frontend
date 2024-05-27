@@ -296,7 +296,7 @@ export default function SidebarAdmin({ setSidebarOpen }) {
   const initialUserPermissions = JSON.parse(
     localStorage.getItem("USER")
   ).permission;
-  const { hasPermissionFun } = useCheckPermission(initialUserPermissions);
+  const { hasPermissionFun } = useCheckPermission();
 
   const getdropdownopen = (name) => {
     if (DropdownOpen === false) {
@@ -314,9 +314,10 @@ export default function SidebarAdmin({ setSidebarOpen }) {
   useEffect(() => {
     getSideBar();
   }, []);
+
   console.log(sideList);
   const getSideBar = () => {
-    fetch("/json/adminJsonFiles/adminList.json")
+    fetch("/src/admin/Json/adminList.json")
       .then((response) => response.json())
       .then((data) => {
         setSideList(data);
@@ -325,7 +326,7 @@ export default function SidebarAdmin({ setSidebarOpen }) {
         console.error("Error fetching data:", error);
       });
   };
-
+  console.log(sideList);
   const { theme } = useTWThemeContext();
   const handleCloseSideBar = () => {
     setSidebarOpen((prev) => !prev);
@@ -354,9 +355,11 @@ export default function SidebarAdmin({ setSidebarOpen }) {
       </div>
 
       {Object.entries(sideList).map(([title, sublist]) => {
+        console.log(sublist);
         const isShowen =
           sublist?.perId === undefined
             ? Object.entries(sublist).some(([k, val]) => {
+                console.log(val);
                 return hasPermissionFun(val?.perId) ? true : false;
               })
             : hasPermissionFun(sublist?.perId);

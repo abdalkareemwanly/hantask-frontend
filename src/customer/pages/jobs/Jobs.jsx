@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 import { PaginationComponent } from "../../../Components/PaginationComponent";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async (page) => {
   const res = await axiosClient.get(`/buyer/posts?page=${page}`);
@@ -35,6 +36,7 @@ const Jobs = () => {
     errors,
     isLoading,
     refetch,
+    isError,
   } = useQueryHook(["jobs", page], () => getData(page));
   const changeStatusMutation = useMutationHook(changeStatusFunc, [
     "jobs",
@@ -110,6 +112,7 @@ const Jobs = () => {
   };
 
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       <PageTitle

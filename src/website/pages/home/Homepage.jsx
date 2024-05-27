@@ -11,6 +11,7 @@ import "./css/mainSection.css";
 import { FaArrowRight } from "react-icons/fa";
 import { banner2 } from "../../../assets";
 import { useQueryHook } from "../../../hooks/useQueryHook";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getNewJobs = async () => {
   const res = await axiosClient.get("/site/posts");
@@ -149,7 +150,7 @@ const getData = async () => {
 };
 
 export const Banner = () => {
-  const { data: categories } = useQueryHook(
+  const { data: categories, isError } = useQueryHook(
     ["categories"],
     () => getData(),
     "paginate"
@@ -186,6 +187,7 @@ export const Banner = () => {
     setSearchOpen(false);
   };
 
+  if (isError) <NetworkErrorComponent />;
   return (
     <section>
       <div className="bannerContainer">
@@ -272,7 +274,7 @@ const CardsContainer = ({ bgColor, children, title, link }) => {
           <span>view more</span> <MdOutlineKeyboardArrowRight size={25} />
         </Link>
       </div>
-      <div className="flex flex-wrap flex-col md:flex-row justify-center items-center gap-[24px]">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-[24px]">
         {children}
       </div>
     </div>

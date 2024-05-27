@@ -15,6 +15,7 @@ import Loader from "../../../Components/Loader";
 import ReviewModal from "../acceptedOrders/components/ReviewModal";
 import Edit from "./components/Edit";
 import { Link } from "react-router-dom";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async () => {
   const res = await axiosClient.get("/seller/reviews");
   return res;
@@ -38,6 +39,7 @@ const SerProReviews = () => {
     isLoading,
     isFetching,
     refetch,
+    isError,
   } = useQueryHook(["reviews", page], getData);
 
   const handleUpdateReview = (data) => {
@@ -176,6 +178,7 @@ const SerProReviews = () => {
   ];
 
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
   return isFetching ? (
     <Loader />
   ) : (

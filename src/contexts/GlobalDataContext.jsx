@@ -183,6 +183,7 @@ export const GlobalDataProvider = ({ children }) => {
         try {
           setGlobalLoading(true);
           await fetchCountries();
+          setInvalidateCountries(false);
           setGlobalLoading(false);
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -272,6 +273,7 @@ export const GlobalDataProvider = ({ children }) => {
         ? cities
         : cities.filter((city) => city.country_id == selectedCountry?.id);
     setFilteredCities(filteredcity);
+    setSelectedCountry("");
   }, [selectedCountry, countries, cities]);
 
   useEffect(() => {

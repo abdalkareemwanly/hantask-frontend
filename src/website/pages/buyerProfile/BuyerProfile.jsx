@@ -16,6 +16,7 @@ import BuyerProfileLoader from "./BuyerProfileLoader";
 import { useParams } from "react-router";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import axiosClient from "../../../axios-client";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async (id) => {
   const res = await axiosClient.get(`/site/buyer/${id}`);
@@ -26,7 +27,9 @@ function BuyerProfile(props) {
   const id = useParams()?.id;
   console.log(id);
 
-  const { data, isLoading } = useQueryHook(["buyer", id], () => getData(id));
+  const { data, isLoading, isError } = useQueryHook(["buyer", id], () =>
+    getData(id)
+  );
   console.log(data);
   const { height, width } = useWindowDimensions();
 
@@ -40,6 +43,7 @@ function BuyerProfile(props) {
   });
 
   const params = useParams();
+  if (isError) <NetworkErrorComponent />;
 
   return isLoading ? (
     <>

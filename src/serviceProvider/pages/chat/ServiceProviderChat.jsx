@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import Pusher from "pusher-js";
 import { useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getContactsFunc = async () => {
   const res = await axiosClient.get(`seller/getContact`);
@@ -36,6 +37,7 @@ const ServiceProviderChat = ({}) => {
     data: messages,
     isLoading: isLoadingMessages,
     refetch,
+    isError,
   } = useQueryHook(["usersChat", selectedUser], () =>
     getContactMessages(selectedUser)
   );
@@ -127,6 +129,7 @@ const ServiceProviderChat = ({}) => {
     };
   }, [selectedUser]);
 
+  if (isError) <NetworkErrorComponent />;
   return isLoadingContacts ? (
     <Loader />
   ) : (

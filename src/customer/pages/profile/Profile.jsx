@@ -7,6 +7,7 @@ import ModalContainer from "../../../Components/ModalContainer";
 import EditProfile from "./components/EditProfile";
 import Loader from "../../../Components/Loader";
 import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async () => {
   const res = await axiosClient.get("buyer/profile");
   return res.data.data;
@@ -24,6 +25,7 @@ const Profile = () => {
     data: profile,
     queryClient,
     isLoading,
+    isError,
   } = useQueryHook(["profile"], () => getData(), "normal");
 
   useEffect(() => {
@@ -46,6 +48,7 @@ const Profile = () => {
     setEditModalOpen((prev) => !prev);
   };
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       {editModalOpen && (

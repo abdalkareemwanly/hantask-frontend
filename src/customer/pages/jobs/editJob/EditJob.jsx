@@ -13,6 +13,7 @@ import Step2 from "./components/Step2";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
 import QuestionsStep from "./components/QuestionsStep";
+import NetworkErrorComponent from "../../../../Components/NetworkErrorComponent";
 // get the query client
 
 const getData = async (id) => {
@@ -49,9 +50,11 @@ const EditJob = () => {
     setSelectedCity,
     filteredAreas,
   } = useGlobalDataContext();
-  const { data: post, isLoading } = useQueryHook(["post", id], () =>
-    getData(id)
-  );
+  const {
+    data: post,
+    isLoading,
+    isError,
+  } = useQueryHook(["post", id], () => getData(id));
   const [deletedMultipleAnswers, setDeletedMultipleAnswers] = useState([]);
 
   const updateDataMutate = useMutationHook(updateDataFunc, ["post", id]);
@@ -318,6 +321,7 @@ const EditJob = () => {
     generateTemplate();
   }, [groupedData]); // Ensure generateTemplate runs whenever data changes
   if (globalLoading || isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       <PageTitle text={"edit deal data"} />

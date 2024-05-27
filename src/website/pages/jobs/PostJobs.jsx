@@ -8,8 +8,9 @@ import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
 import PostJobsCardLoader from "./components/PostJobsCardLoader";
 import WebsiteLoader from "../../components/loader/WebsiteLoader";
 import Pagination from "../../components/pagination/Pagination";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
-const getData = async (page = 1, filter) => {
+const getData = async (page = 1, filter, userId) => {
   const res = await axiosClient.get(
     `/site/posts?page=${page}${
       filter?.country.value ? `&country_id=${filter?.country?.value}` : ""
@@ -27,7 +28,12 @@ const getData = async (page = 1, filter) => {
       filter?.price.maxPrice ? `&maxPrice=${filter?.price?.maxPrice}` : ""
     }${
       filter?.chooseType?.value ? `&${filter.chooseType.value}=${"desc"}` : ""
-    }${filter?.search?.length > 0 ? `&text=${filter?.search}` : ""}`
+    }${filter?.search?.length > 0 ? `&text=${filter?.search}` : ""}`,
+    {
+      data: {
+        userId: userId,
+      },
+    }
   );
   return res;
 };
@@ -35,6 +41,7 @@ const getData = async (page = 1, filter) => {
 function PostJobs(props) {
   const { FILTER_DATA, loading } = useGlobalDataContext();
   // console.log(loading);
+  const userId = JSON.parse(localStorage.getItem("USER"))?.id;
   const [filter, setFilter] = useState({
     country: "",
     city: "",
@@ -52,12 +59,14 @@ function PostJobs(props) {
     data: posts,
     isLoading,
     isRefetching,
+    isError,
   } = useQueryHook(
     ["siteJobs", page, filter],
-    () => getData(page, filter),
+    () => getData(page, filter, userId),
     "paginate",
     page
   );
+  if (isError) <NetworkErrorComponent />;
 
   return (
     <div className="website-page  lg:px-32 md:px-16 px-8 py-24 flex flex-col gap-12 text-center   items-center">
@@ -77,7 +86,7 @@ function PostJobs(props) {
                   data={FILTER_DATA}
                 />
               </div>
-              <div className="jobs-cards grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 my-8">
+              <div className="jobs-cards grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4 my-8">
                 {isLoading || isRefetching ? (
                   Array.from(Array(4).keys()).map((ele) => (
                     <PostJobsCardLoader key={ele} />

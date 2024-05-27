@@ -30,7 +30,6 @@ function ContactForm({ user }) {
     setDisabled(true);
     const res = await axiosClient.post("/site/mail", {
       ...data,
-      email_support: "abojadwanly@gmail.com",
     });
     setDisabled(false);
     console.log(res);

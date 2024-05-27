@@ -13,6 +13,7 @@ import { useMutationHook } from "../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
 import { AddSubscription } from "./components/AddSubscription";
 import { EditSubscription } from "./components/EditSubscription";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const PLANSTYPES = [
   {
     id: 1,
@@ -70,7 +71,11 @@ const Subscriptions = () => {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: subscriptions, queryClient } = useQueryHook(
+  const {
+    data: subscriptions,
+    queryClient,
+    isError,
+  } = useQueryHook(
     ["subscriptions", page, searchTerm],
     () => getData(page, searchTerm),
     "paginate",
@@ -217,6 +222,7 @@ const Subscriptions = () => {
       },
     },
   ];
+  if (isError) <NetworkErrorComponent />;
 
   return (
     hasShowPermission && (

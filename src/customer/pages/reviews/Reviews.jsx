@@ -14,6 +14,7 @@ import Button from "../../../Components/Button";
 import Loader from "../../../Components/Loader";
 import ReviewModal from "../acceptedOrders/components/ReviewModal";
 import Edit from "./components/Edit";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async () => {
   const res = await axiosClient.get("/buyer/reviews");
   return res;
@@ -37,6 +38,7 @@ const Reviews = () => {
     isLoading,
     isFetching,
     refetch,
+    isError,
   } = useQueryHook(["reviews", page], getData);
 
   const handleUpdateReview = (data) => {
@@ -175,6 +177,7 @@ const Reviews = () => {
   ];
 
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
   return isFetching ? (
     <Loader />
   ) : (

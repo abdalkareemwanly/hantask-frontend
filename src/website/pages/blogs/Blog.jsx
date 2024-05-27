@@ -13,6 +13,7 @@ import axiosClient from "../../../axios-client";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import WebsiteLoader from "../../components/loader/WebsiteLoader";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getBlog = async (paramId) => {
   const res = await axiosClient.get(`/site/blogs/show/${paramId}`);
@@ -21,11 +22,11 @@ const getBlog = async (paramId) => {
 const Blog = () => {
   const paramId = useParams().id;
   console.log(paramId);
-  const { data: blog, isLoading } = useQueryHook(
-    ["blog", paramId],
-    () => getBlog(paramId),
-    "normal"
-  );
+  const {
+    data: blog,
+    isLoading,
+    isError,
+  } = useQueryHook(["blog", paramId], () => getBlog(paramId), "normal");
   // Parse the date string using Moment.js
   const formattedDate = moment(blog?.created_at).format("MMM DD, YYYY");
   // const [isCommentsOpen, setIsCommentsOpen] = useState(false);
@@ -103,6 +104,7 @@ const Blog = () => {
   //     }
   //   };
   // }, []);
+  if (isError) <NetworkErrorComponent />;
   if (isLoading)
     return (
       <div className="min-h-[100vh]">

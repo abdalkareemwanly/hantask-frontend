@@ -96,7 +96,7 @@ export const AddAdmin = ({ getAdmins, setIsAddModalOpen, roles }) => {
     formData.append("email", values.email);
     formData.append("password", values.password);
     formData.append("image", image);
-    formData.append("role", values.role_id[0].id);
+    formData.append("role", values.role_id[0].name);
     axiosClient
       .post("/admin/store", formData)
       .then((data) => {

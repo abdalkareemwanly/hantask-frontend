@@ -8,31 +8,15 @@ const postData = async (data) => {
   const res = await axiosClient.post(`/seller/profile/update`, data.formData);
   return res;
 };
-const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
+const EditProfile = ({
+  data,
+  setIsModalOpen,
+  countries,
+  cities,
+  areas,
+  setSelectedCountry,
+}) => {
   const [image, setImage] = useState(data?.image);
-  const [filteredCities, setFilteredCities] = useState(null);
-  const handleCountriesChange = (e) => {
-    const selectedCountry = countries?.find((obj) => obj.id == e);
-    const updatedCiteis = cities?.filter(
-      (obj) => obj.country === selectedCountry?.country
-    );
-    setFilteredCities(updatedCiteis);
-    setFilteredAreas([]);
-  };
-  const [filteredAreas, setFilteredAreas] = useState(null);
-  const handleCityChange = (e) => {
-    const selectedCountry = cities?.find((obj) => obj.id == e);
-    const updatedAreas = areas?.filter(
-      (obj) => obj.city === selectedCountry?.service_city
-    );
-    setFilteredAreas(updatedAreas);
-  };
-
-  useEffect(() => {
-    handleCountriesChange(data.country.id);
-    handleCityChange(data.city.id);
-  }, [data]);
-
   let template = {
     title: "update user data",
     fields: [
@@ -77,7 +61,6 @@ const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
         type: "select",
         options: [...countries],
         validationProps: {
-          onChange: (e) => handleCountriesChange(e.target.value),
           required: {
             value: true,
             message: "this field is required",
@@ -92,9 +75,8 @@ const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
         title: "city",
         name: "city",
         type: "select",
-        options: filteredCities && [...filteredCities],
+        options: cities && [...cities],
         validationProps: {
-          onChange: (e) => handleCityChange(e.target.value),
           required: {
             value: true,
             message: "this field is required",
@@ -102,16 +84,6 @@ const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
         },
         value: data.city.id,
         optionText: "service_city",
-        optionValue: "id",
-        styles: "md:w-[45%]",
-      },
-      {
-        title: "area",
-        name: "area",
-        type: "select",
-        options: filteredAreas && [...filteredAreas],
-        value: data.area.id,
-        optionText: "service_area",
         optionValue: "id",
         styles: "md:w-[45%]",
       },
@@ -167,19 +139,17 @@ const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
 
   return (
     <>
-      {filteredCities && (
-        <ReusableForm
-          template={template}
-          watchFields={["username", "fullname"]}
-          onSubmit={onSubmit}
-          validate={validate}
-          btnWidth={"w-full text-white"}
-          btnText={"submit"}
-          addedStyles={"md:w-[800px]"}
-          image={image}
-          setImage={setImage}
-        />
-      )}
+      <ReusableForm
+        template={template}
+        watchFields={["username", "fullname"]}
+        onSubmit={onSubmit}
+        validate={validate}
+        btnWidth={"w-full text-white"}
+        btnText={"submit"}
+        addedStyles={"md:w-[800px]"}
+        image={image}
+        setImage={setImage}
+      />
     </>
   );
 };

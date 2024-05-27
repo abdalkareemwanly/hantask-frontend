@@ -13,6 +13,7 @@ import ModalContainer from "../../../Components/ModalContainer";
 import AddBlog from "./components/AddBlog";
 import EditBlog from "./components/EditBlog";
 import BlogCard from "./components/BlogCard";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async (page = 1) => {
   const res = await axiosClient.get(`admin/blogs/all?page=${page}`);
@@ -40,12 +41,11 @@ const AdminBlogs = () => {
   const [clickedRow, setClickedRow] = useState();
   const [page, setPage] = useState(1);
 
-  const { data: blogs, queryClient } = useQueryHook(
-    ["blogs", page],
-    () => getData(page),
-    "paginate",
-    page
-  );
+  const {
+    data: blogs,
+    queryClient,
+    isError,
+  } = useQueryHook(["blogs", page], () => getData(page), "paginate", page);
 
   const deleteMutation = useMutationHook(deleteFunc, ["blogs", page]);
 
@@ -96,6 +96,7 @@ const AdminBlogs = () => {
       }
     });
   };
+  if (isError) <NetworkErrorComponent />;
 
   return (
     <Page>

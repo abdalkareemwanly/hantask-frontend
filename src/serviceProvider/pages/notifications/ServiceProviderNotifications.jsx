@@ -5,6 +5,7 @@ import COLUMNS from "./data/columns";
 import axiosClient from "./../../../axios-client";
 import { useQueryHook } from "./../../../hooks/useQueryHook";
 import Loader from "./../../../Components/Loader";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getNotifications = async (page) => {
   const res = await axiosClient.get(`/seller/notifications?page=${page}`);
@@ -14,10 +15,12 @@ const getNotifications = async (page) => {
 function ServiceProviderNotifications() {
   const [page, setPage] = useState(1);
 
-  const { data, isLoading } = useQueryHook(["notifications", page], () =>
-    getNotifications(page)
+  const { data, isLoading, isError } = useQueryHook(
+    ["notifications", page],
+    () => getNotifications(page)
   );
 
+  if (isError) <NetworkErrorComponents />;
   return isLoading ? (
     <Loader />
   ) : (

@@ -8,6 +8,7 @@ import { useMutationHook } from "../../../hooks/useMutationHook";
 import { PaginationComponent } from "../../../Components/PaginationComponent";
 import { toast } from "react-toastify";
 import { Page } from "../../../Components/StyledComponents";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async (page) => {
   const res = await axiosClient.get(`/buyer/posts?page=${page}`);
@@ -24,6 +25,7 @@ const SavedPosts = () => {
     errors,
     isLoading,
     refetch,
+    isError,
   } = useQueryHook(["savedPosts", page], () => getData(page));
 
   const changeStatusMutation = useMutationHook(changeStatusFunc, [
@@ -58,6 +60,7 @@ const SavedPosts = () => {
   };
 
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
 
   return (
     <Page>

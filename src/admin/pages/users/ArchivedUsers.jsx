@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 import { useEffect, useState } from "react";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async (page = 0) => {
   const res = await axiosClient.get(
     "admin/user/viewArchived" + "?page=" + page
@@ -40,6 +41,7 @@ const ArchivedUsers = () => {
     data: archivedUsers,
     isPlaceholderData,
     queryClient,
+    isError,
   } = useQueryHook(
     ["archivedUsers", page, searchTerm],
     () => getData(page, searchTerm),
@@ -200,6 +202,7 @@ const ArchivedUsers = () => {
       },
     },
   ];
+  if (isError) <NetworkErrorComponent />;
 
   if (hasShowPermission === false) return nav("/admin/dashboard");
 

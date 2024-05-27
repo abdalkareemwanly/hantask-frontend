@@ -5,6 +5,7 @@ import BlogCard from "./components/BlogCard";
 import axiosClient from "../../../axios-client";
 import WebsiteLoader from "../../components/loader/WebsiteLoader";
 import Pagination from "../../components/pagination/Pagination";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getBlogs = async () => {
   const res = await axiosClient.get("/site/blogs/all");
   return res;
@@ -12,13 +13,13 @@ const getBlogs = async () => {
 const Blogs = () => {
   const [page, setPage] = useState(1);
 
-  const { data: blogs, isLoading } = useQueryHook(
-    ["admins", page],
-    () => getBlogs(page),
-    "paginate",
-    page
-  );
+  const {
+    data: blogs,
+    isLoading,
+    isError,
+  } = useQueryHook(["admins", page], () => getBlogs(page), "paginate", page);
   console.log(blogs);
+  if (isError) <NetworkErrorComponent />;
   return (
     <div>
       <Banner />

@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useQueryHook } from "../../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
+import NetworkErrorComponent from "../../../../Components/NetworkErrorComponent";
 
 const getAdmins = async () => {
   const res = await axiosClient.get("/admin/all");
@@ -43,12 +44,11 @@ const Admins = () => {
   };
   console.log(roles);
   const [page, setPage] = useState(1);
-  const { data: admins, queryClient } = useQueryHook(
-    ["admins", page],
-    () => getAdmins(page),
-    "paginate",
-    page
-  );
+  const {
+    data: admins,
+    queryClient,
+    isError,
+  } = useQueryHook(["admins", page], () => getAdmins(page), "paginate", page);
 
   useEffect(() => {
     getRoles();
@@ -149,7 +149,7 @@ const Admins = () => {
       },
     },
   ];
-
+  if (isError) <NetworkErrorComponent />;
   return (
     hasShowPermission && (
       <Page>
@@ -204,8 +204,8 @@ const Admins = () => {
             response={admins}
             actualData={admins?.data.data}
             setPage={setPage}
-            paginationBool={true}
-            noDataMessage={"no users to show!"}
+            paginationBool={false}
+            noDataMessage={"no admins to show!"}
           />
         </div>
       </Page>

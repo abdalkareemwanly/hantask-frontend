@@ -13,6 +13,8 @@ import ImportExcel from "./components/ImportExcel";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
+import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
@@ -31,25 +33,31 @@ const Countries = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState();
-  const [allCountries, setAllCountries] = useState([]);
-  const getLanguages = () => {
-    fetch("/src/admin/Json/countries.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setAllCountries(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  };
-  useEffect(() => {
-    getLanguages();
-  }, []);
+  const { countries: allCountries, setInvalidateCountries } =
+    useGlobalDataContext();
+  // const [allCountries, setAllCountries] = useState([]);
+  // const getLanguages = () => {
+  //   fetch("/src/admin/Json/countries.json")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setAllCountries(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // };
+  // useEffect(() => {
+  //   getLanguages();
+  // }, []);
 
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: countries, queryClient } = useQueryHook(
+  const {
+    data: countries,
+    queryClient,
+    isError,
+  } = useQueryHook(
     ["countries", page, searchTerm],
     () => getData(page, searchTerm),
     "paginate",
@@ -155,7 +163,7 @@ const Countries = () => {
     downloadLink.download = "Countries.xlsx";
     downloadLink.click();
   };
-
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       <PageTitle
@@ -190,7 +198,12 @@ const Countries = () => {
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           component={
-            <EditCountry data={clickedRow} setIsModalOpen={setIsModalOpen} />
+            <EditCountry
+              data={clickedRow}
+              setIsModalOpen={setIsModalOpen}
+              setInvalidateCountries={setInvalidateCountries}
+              allCountries={allCountries}
+            />
           }
         />
       )}
@@ -199,7 +212,12 @@ const Countries = () => {
         <ModalContainer
           isModalOpen={isAddModalOpen}
           setIsModalOpen={setIsAddModalOpen}
-          component={<AddCountry allCountries={allCountries} />}
+          component={
+            <AddCountry
+              setIsAddModalOpen={setIsAddModalOpen}
+              setInvalidateCountries={setInvalidateCountries}
+            />
+          }
         />
       )}
 

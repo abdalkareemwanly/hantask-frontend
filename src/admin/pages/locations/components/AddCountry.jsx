@@ -6,7 +6,7 @@ const postData = async (formData) => {
   const res = await axiosClient.post("/admin/country/store", formData);
   return res;
 };
-export const AddCountry = ({ setIsAddModalOpen }) => {
+export const AddCountry = ({ setIsAddModalOpen, setInvalidateCountries }) => {
   let template = {
     title: "add new country",
     fields: [
@@ -34,6 +34,7 @@ export const AddCountry = ({ setIsAddModalOpen }) => {
       const country = await mutation.mutateAsync(formData);
       console.log(country);
       setIsAddModalOpen((prev) => !prev);
+      setInvalidateCountries(true);
       toast.update(id, {
         type: "success",
         render: country.data.mes,

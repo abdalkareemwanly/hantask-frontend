@@ -14,14 +14,20 @@ const StepFourPostDeal = ({
         please proivde a correct budget and a deadline so we can show it for
         handymans
       </p>
+      <label htmlFor="budget" className="">
+        enter your minumum budget price if you want
+      </label>
       <input
         name="budget"
-        {...register("budget", { required: "This field is required" })}
+        id="budget"
+        {...register("budget")}
         type="number"
         className="input-box w-full"
         placeholder="type your budget"
       />
-      {errors["budget"] && errors["budget"].message}
+      <span className="text-red-500">
+        {errors["budget"] && errors["budget"].message}
+      </span>
 
       <input
         type="date"
@@ -30,7 +36,9 @@ const StepFourPostDeal = ({
         className="input-box w-full"
         placeholder="type your budget"
       />
-      {errors["date"] && errors["date"].message}
+      <span className="text-red-500">
+        {errors["date"] && errors["date"].message}
+      </span>
 
       <div className="flex gap-2">
         <div
@@ -41,18 +49,12 @@ const StepFourPostDeal = ({
         </div>
         <div
           className={`bg-greenColor text-white  p-2 rounded-lg ${
-            errors["budget"]?.message ||
-            watch("budget") === "" ||
-            errors["deadline"]?.message ||
-            watch("deadline") === ""
+            errors["deadline"]?.message || watch("deadline") === ""
               ? "cursor-not-allowed"
               : "cursor-pointer"
           }  `}
           onClick={
-            errors["budget"]?.message ||
-            watch("budget") === "" ||
-            errors["deadline"]?.message ||
-            watch("deadline") === ""
+            errors["deadline"]?.message || watch("deadline") === ""
               ? null
               : goToNextStep
           }
