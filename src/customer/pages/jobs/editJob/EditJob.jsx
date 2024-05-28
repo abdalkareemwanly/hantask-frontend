@@ -13,6 +13,7 @@ import Step2 from "./components/Step2";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
 import QuestionsStep from "./components/QuestionsStep";
+import NetworkErrorComponent from "../../../../Components/NetworkErrorComponent";
 // get the query client
 
 const getData = async (id) => {
@@ -49,13 +50,16 @@ const EditJob = () => {
     setSelectedCity,
     filteredAreas,
   } = useGlobalDataContext();
-  const { data: post, isLoading } = useQueryHook(["post", id], () =>
-    getData(id)
-  );
+  const {
+    data: post,
+    isLoading,
+    isError,
+  } = useQueryHook(["post", id], () => getData(id));
   const [deletedMultipleAnswers, setDeletedMultipleAnswers] = useState([]);
 
   const updateDataMutate = useMutationHook(updateDataFunc, ["post", id]);
   const [stepData, setStepData] = useState();
+
   useEffect(() => {
     if (
       post &&
@@ -130,30 +134,33 @@ const EditJob = () => {
       console.log(err);
     }
   };
-
+  console.log(deletedMultipleAnswers);
+  console.log(stepData);
   const handleFinish = async () => {
-    // console.log(stepData);
     const toastID = toast.loading("Processing...");
 
     let transformedData = {
       category_id: stepData.category[0].id,
       childCategory_id: stepData.subCategory[0].id,
       subcategory_id: stepData.subCategory[0].id,
-      questions: stepData.questions
-        .map((question) => {
-          if (Array.isArray(question.buyer_answer)) {
-            return question.buyer_answer.map((answer) => ({
-              question_id: question.question_id,
-              answer_id: answer.answer_id,
-            }));
-          } else {
-            return {
-              question_id: question.question_id,
-              buyer_answer: question.buyer_answer,
-            };
-          }
-        })
-        .flat(),
+      questions: [
+        ...stepData.questions
+          .map((question) => {
+            if (Array.isArray(question.buyer_answer)) {
+              return question.buyer_answer.map((answer) => ({
+                question_id: question.question_id,
+                answer_id: answer.answer_id,
+              }));
+            } else {
+              return {
+                question_id: question.question_id,
+                buyer_answer: question.buyer_answer,
+              };
+            }
+          })
+          .flat(),
+        ...deletedMultipleAnswers,
+      ],
       country_id: stepData.country[0].id,
       city_id: stepData.city[0].id,
       budget: stepData.budget,
@@ -179,7 +186,6 @@ const EditJob = () => {
       formData.append("image", thumbnail.file);
     }
 
-    const toastId = toast.loading("loading...");
     const images = new FormData();
     _images.map((ele) => {
       images.append("image[]", ele.file);
@@ -191,7 +197,7 @@ const EditJob = () => {
       images
     );
     if (res.data?.success === true) {
-      toast.update(toastId, {
+      toast.update(toastID, {
         type: "success",
         render: res.data.mes,
         closeOnClick: true,
@@ -259,10 +265,12 @@ const EditJob = () => {
           : null,
       };
       if (field.type === "select") {
+        console.log(question);
         field.options = question.form_answer.map((answer) => ({
           answer_id: answer.id,
           text: answer.content,
-          id: question.id,
+          question_id: question.question_id,
+          post_id: id,
         }));
       }
 
@@ -277,7 +285,7 @@ const EditJob = () => {
     const groupedDataInitial = [];
 
     post?.questions.forEach((item) => {
-      const { question_id, question_type, id } = item;
+      const { question_id, question_type } = item;
       if (question_type === "multiplechoise") {
         const existingItem = groupedDataInitial.find(
           (groupedItem) => groupedItem.question_id === question_id
@@ -307,11 +315,13 @@ const EditJob = () => {
     });
     setGroupedData(groupedDataInitial);
   }, [post]);
+
   console.log(groupedData);
   useEffect(() => {
     generateTemplate();
   }, [groupedData]); // Ensure generateTemplate runs whenever data changes
   if (globalLoading || isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       <PageTitle text={"edit deal data"} />

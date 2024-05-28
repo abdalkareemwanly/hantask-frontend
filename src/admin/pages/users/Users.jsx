@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import useCheckPermission from "../../../hooks/checkPermissions";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../hooks/useMutationHook";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
@@ -49,7 +50,11 @@ const Users = () => {
 
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const { data: users, queryClient } = useQueryHook(
+  const {
+    data: users,
+    queryClient,
+    isError,
+  } = useQueryHook(
     ["users", page, searchTerm],
     () => getData(page, searchTerm),
     "paginate",
@@ -164,10 +169,6 @@ const Users = () => {
       selector: (row) => {
         return (
           <div className="flex items-center gap-2">
-            <img
-              className="w-[50px] h-[50px]  rounded-full"
-              src={`https://api.hantask.at/${row.image}`}
-            />
             <span>{row.username}</span>
           </div>
         );
@@ -236,6 +237,7 @@ const Users = () => {
     },
   ];
 
+  if (isError) <NetworkErrorComponent />;
   if (hasShowPermission === false) return nav("/admin/dashboard");
   return (
     <Page>

@@ -13,10 +13,10 @@ export const EditRole = ({ data, getRoles, setIsModalOpen }) => {
   const mutation = useMutationHook(postData, ["roles"]);
 
   let template = {
-    title: "add new category",
+    title: "edit role details",
     fields: [
       {
-        title: "tax amount",
+        title: "name",
         name: "name",
         type: "text",
         value: data.name,

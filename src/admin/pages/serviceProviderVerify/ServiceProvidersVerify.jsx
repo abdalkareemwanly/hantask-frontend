@@ -7,6 +7,7 @@ import ChangeStatus from "./components/ChangeStatus";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import axiosClient from "../../../axios-client";
 import Button from "../../../Components/Button";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async () => {
   const res = await axiosClient.get("/admin/verifySeller");
   return res;
@@ -20,6 +21,7 @@ const ServiceProvidersVerify = () => {
     errors,
     isLoading,
     refetch,
+    isError,
   } = useQueryHook(["serviceProviderVerify", page], getData);
   const [clickedRow, setClickedRow] = useState();
   const handleSelectedRow = (row) => {
@@ -118,6 +120,7 @@ const ServiceProvidersVerify = () => {
       },
     },
   ];
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       {isModalOpen && (

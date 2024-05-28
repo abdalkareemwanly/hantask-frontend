@@ -13,7 +13,7 @@ const postData = async (formData) => {
 
 const AddBlog = ({ setIsAddModalOpen }) => {
   const [image, setImage] = useState();
-  const [value, setValue] = useState("<p>hello world</p>");
+  const [value, setValue] = useState("<p>type your blog content here</p>");
   function handleChange(content) {
     setValue(content);
   }
@@ -47,19 +47,31 @@ const AddBlog = ({ setIsAddModalOpen }) => {
         styles: "md:w-[100%]",
       },
       {
+        title: "description",
+        name: "description",
+        type: "text",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "md:w-[100%]",
+      },
+      {
         type: "custom",
         customComponent: ({ setError, setValue, errors, clearErrors }) => {
           console.log(errors);
           useEffect(() => {
             if (value === "<p><br></p>") {
-              setError("textEditor", "description is required");
+              setError("textEditor", "content is required");
             } else {
               clearErrors("textEditor");
             }
           }, [value]);
           return (
             <>
-              <label htmlFor="sample">description:</label>
+              <label htmlFor="sample">content:</label>
               <SunEditor
                 id="sample"
                 defaultValue={value}
@@ -88,7 +100,7 @@ const AddBlog = ({ setIsAddModalOpen }) => {
                 }}
               />
               {errors && errors["textEditor"] && (
-                <span className="red-text">description is required</span>
+                <span className="red-text">content is required</span>
               )}
             </>
           );
@@ -105,6 +117,7 @@ const AddBlog = ({ setIsAddModalOpen }) => {
 
     const formData = new FormData();
     formData.append("title", values.title);
+    formData.append("meta_description", values.description);
     formData.append("description", value);
     formData.append("image", image);
     try {

@@ -10,6 +10,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import axiosClient from "../../../axios-client";
 import Filter from "../../../Components/Filter";
 import Loader from "../../../Components/Loader";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async (page = 1) => {
   const res = await axiosClient.get(`seller/reports?page=${page}`);
@@ -127,14 +128,14 @@ function ServiceProviderReports(props) {
     },
   ];
 
-  const { data: reports, isLoading } = useQueryHook(
-    ["reports", page],
-    () => getData(page),
-    "paginate",
-    page
-  );
+  const {
+    data: reports,
+    isLoading,
+    isError,
+  } = useQueryHook(["reports", page], () => getData(page), "paginate", page);
 
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
 
   return (
     <Page>

@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import ModalContainer from "../../../Components/ModalContainer";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../hooks/useMutationHook";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async (page) => {
   try {
     const response = await axiosClient.get(`/admin/languages?page=${page}`);
@@ -35,7 +36,7 @@ export default function Languages() {
     getLanguages();
   }, []);
   const [page, setPage] = useState(1);
-  const { data: languages } = useQueryHook(
+  const { data: languages, isError } = useQueryHook(
     ["languages", page],
     () => getData(page),
     "paginate"
@@ -175,6 +176,7 @@ export default function Languages() {
       },
     },
   ];
+  if (isError) <NetworkErrorComponent />;
 
   return (
     <Page className="flex items-start flex-col-reverse justify-between gap-2">

@@ -16,6 +16,7 @@ import Loader from "../../../Components/Loader";
 import Edit from "../reviews/components/Edit";
 import EditReview from "./components/EditReview";
 import { useNavigate } from "react-router-dom";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async () => {
   const res = await axiosClient.get("/seller/acceptedComments");
   return res;
@@ -44,6 +45,7 @@ const SerProAcceptedOrders = () => {
     errors,
     isLoading,
     refetch,
+    isError,
   } = useQueryHook(["acceptedOrders", page], getData);
 
   const changeStatusMutation = useMutationHook(acceptOrderFun, [
@@ -213,6 +215,7 @@ const SerProAcceptedOrders = () => {
     },
   ];
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       {isModalOpen && (

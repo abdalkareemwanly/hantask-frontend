@@ -16,9 +16,10 @@ const ModalContainer = ({ setIsModalOpen, component, type }) => {
           translateY: "-50%",
           top: "50%",
           left: "50%",
+          margin: "32px 0",
           zIndex: "102",
         }}
-        className="max-h-[80vh] overflow-hidden overflow-y-auto"
+        className="h-full overflow-hidden overflow-y-auto"
       >
         <div
           className={` ${
@@ -27,7 +28,7 @@ const ModalContainer = ({ setIsModalOpen, component, type }) => {
                 ? "p-1 bg-gray-700"
                 : "bg-gray-700 p-8"
               : "bg-background-color p-8"
-          }  shadow-2xl rounded-lg component-shadow md:w-fit w-fit sm:w-[350px]`}
+          }  shadow-2xl rounded-lg component-shadow h-max  md:w-fit w-fit sm:w-[350px]`}
         >
           {component}
         </div>

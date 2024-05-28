@@ -42,20 +42,31 @@ const EditBlog = ({ setIsModalOpen, data, page }) => {
         styles: "md:w-[100%]",
       },
       {
-        title: "blog descriptions",
+        title: "description",
         name: "description",
+        type: "text",
+        value: data?.meta_description,
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "md:w-[100%]",
+      },
+      {
         type: "custom",
         customComponent: ({ setError, setValue, errors, clearErrors }) => {
           useEffect(() => {
             if (value === "<p><br></p>") {
-              setError("textEditor", "description is required");
+              setError("textEditor", "content is required");
             } else {
               clearErrors("textEditor");
             }
           }, [value]);
           return (
             <>
-              <label htmlFor="sample">description:</label>
+              <label htmlFor="sample">content:</label>
               <SunEditor
                 id="sample"
                 defaultValue={value}
@@ -84,7 +95,7 @@ const EditBlog = ({ setIsModalOpen, data, page }) => {
                 }}
               />
               {errors && errors["textEditor"] && (
-                <span className="red-text">description is required</span>
+                <span className="red-text">content is required</span>
               )}
             </>
           );
@@ -100,6 +111,7 @@ const EditBlog = ({ setIsModalOpen, data, page }) => {
     const id = toast.loading("please wait...");
     const formData = new FormData();
     formData.append("title", values.name);
+    formData.append("meta_description", values.description);
     formData.append("description", value);
     if (/^image/.test(image?.type)) {
       formData.append("image", image);

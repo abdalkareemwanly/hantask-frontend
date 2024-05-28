@@ -13,6 +13,7 @@ import SellerProfileLoader from "./SellerProfileLoader";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import axiosClient from "../../../axios-client";
 import Service from "../../components/common/Service";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async (id) => {
   const res = await axiosClient.get(`/site/seller/${id}`);
   return res.data.data;
@@ -22,7 +23,7 @@ function SellerProfile(props) {
   const { height, width } = useWindowDimensions();
   const sellerId = useParams().id;
 
-  const { data, isLoading } = useQueryHook(["buyer", sellerId], () =>
+  const { data, isLoading, isError } = useQueryHook(["buyer", sellerId], () =>
     getData(sellerId)
   );
 
@@ -34,6 +35,7 @@ function SellerProfile(props) {
     autoplay: false,
     dotsClass: "slider-dots",
   });
+  if (isError) <NetworkErrorComponent />;
 
   return isLoading ? (
     <>

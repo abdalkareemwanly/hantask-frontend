@@ -12,9 +12,8 @@ const postData = async (data) => {
 };
 export const EditCountry = ({
   data,
-  getCountries,
   setIsModalOpen,
-  allCountries,
+  setInvalidateCountries,
 }) => {
   let template = {
     title: "edit country",
@@ -22,12 +21,8 @@ export const EditCountry = ({
       {
         title: "choose a country",
         name: "name",
-        type: "select",
-        options: [...allCountries],
-        optionText: "name",
-        searchKey: "name",
-        value: data?.country,
-        optionValue: "name",
+        type: "text",
+        value: data.country,
         validationProps: {
           required: {
             value: true,
@@ -53,6 +48,7 @@ export const EditCountry = ({
     try {
       const countryData = await mutation.mutateAsync({ formData, countryId });
       setIsModalOpen((prev) => !prev);
+      setInvalidateCountries(true);
       toast.update(id, {
         type: "success",
         render: countryData.mes,

@@ -7,6 +7,7 @@ import ModalContainer from "../../../Components/ModalContainer";
 import EditProfile from "./components/EditProfile";
 import Loader from "../../../Components/Loader";
 import { useGlobalDataContext } from "../../../contexts/GlobalDataContext";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async () => {
   const res = await axiosClient.get("seller/profile");
   return res.data.data;
@@ -14,38 +15,24 @@ const getData = async () => {
 
 const ServiceProviderProfile = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [areas, setAreas] = useState();
-  const { countries, cities } = useGlobalDataContext();
-  const getAreas = async (signal) => {
-    const res = await axiosClient.get(`admin/areas`, { signal: signal });
-    setAreas(res.data.data);
-  };
+  const {
+    countries,
+    cities: filteredCities,
+    setSelectedCountry,
+  } = useGlobalDataContext();
+
   const {
     data: profile,
     queryClient,
     isLoading,
+    isError,
   } = useQueryHook(["profile"], () => getData(), "normal");
-
-  useEffect(() => {
-    const controller1 = new AbortController();
-    const controller2 = new AbortController();
-    const controller3 = new AbortController();
-
-    setTimeout(() => {
-      getAreas(controller3.signal);
-    }, 500);
-
-    return () => {
-      controller1.abort();
-      controller2.abort();
-      controller3.abort();
-    };
-  }, []);
 
   const editBtn = () => {
     setEditModalOpen((prev) => !prev);
   };
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       {editModalOpen && (
@@ -55,8 +42,8 @@ const ServiceProviderProfile = () => {
           component={
             <EditProfile
               countries={countries}
-              cities={cities}
-              areas={areas}
+              cities={filteredCities}
+              setSelectedCountry={setSelectedCountry}
               data={profile[0]}
               setIsModalOpen={setEditModalOpen}
             />

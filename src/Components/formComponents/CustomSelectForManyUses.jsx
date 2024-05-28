@@ -172,7 +172,7 @@ const CustomSelectForManyUses = ({
             : "Select option"}
         </div>{" "}
         {isOpen && (
-          <div className="absolute z-[100] w-full transition-all h-[150px] overflow-y-auto p-2 bg-blocks-color">
+          <div className="absolute z-[100] w-full transition-all h-[150px] overflow-y-auto p-2 bg-blocks-color shadow-md">
             <input
               type="text"
               className="input-box w-full"

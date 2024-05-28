@@ -11,18 +11,6 @@ const EditLanguage = ({ langData, languages, setIsModalOpen }) => {
     title: "Edit language",
     fields: [
       {
-        title: "language",
-        name: "languageEdit",
-        value: langData?.slug,
-        type: "select",
-        validationProps: {
-          required: { value: true, message: "this field is required" },
-        },
-        options: [...languages],
-        optionValue: "code",
-        optionText: "lanName",
-      },
-      {
         title: "Direction",
         name: "directionEdit",
         type: "select",
@@ -77,10 +65,9 @@ const EditLanguage = ({ langData, languages, setIsModalOpen }) => {
 
     const formLanguage = {
       default: langData?.default,
-      direction: values?.directionEdit,
-      name: language,
+      direction: values?.directionEdit[0].name,
       slug: values?.slugEdit,
-      status: values?.statusEdit,
+      status: values?.statusEdit[0].name,
     };
     const toastId = toast.loading("please wait...");
     try {

@@ -35,7 +35,7 @@ function WebSiteSubcategories(props) {
           Available Jobs Sub Categories in {state.currentCategory?.name}
         </h3>
         <TitleLine />
-        <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px] mt-[30px]">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-[20px] mt-[30px]">
           {categories &&
           subCategories &&
           childCategories &&

@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <>
       <footer className="py-12  bg-[#1c1c1c] text-white relative">
-        <div className=" flex flex-col flex-wrap justify-between w-full gap-8 lg:flex-row lg:px-20 md:px-12 px-6">
+        <div className=" flex flex-col flex-wrap justify-between w-full gap-8 lg:flex-row lg:px-32 md:px-16 px-8">
           <div className="flex-[40%]">
             <div className="font-semibold text-xl mb-8">
               <img src={logoDark} className="w-48" />
@@ -55,7 +55,7 @@ const Footer = () => {
           </div>
         </div>
       </footer>
-      <div className="flex flex-col items-center md:items-start md:flex-row justify-between gap-8 lg:flex-row lg:px-20 md:px-12 px-6 py-6 bg-[#3e3e3e] text-white">
+      <div className="flex flex-col items-center md:items-start md:flex-row justify-between gap-8 lg:flex-row lg:px-32 md:px-16 px-8 py-6 bg-[#3e3e3e] text-white">
         <div>© 2024 Hantask. All rights reserved.</div>
         <div className="flex gap-4 items-center">
           <TiSocialFacebook size={25} />

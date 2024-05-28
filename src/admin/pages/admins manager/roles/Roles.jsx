@@ -13,6 +13,7 @@ import { useMutationHook } from "../../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
 import useCheckPermission from "../../../../hooks/checkPermissions";
 import { useNavigate } from "react-router-dom";
+import NetworkErrorComponent from "../../../../Components/NetworkErrorComponent";
 const getRoles = async () => {
   const res = await axiosClient.get("/admin/roles");
   return res;
@@ -35,12 +36,11 @@ const Roles = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState();
   const [page, setPage] = useState(1);
-  const { data: roles, queryClient } = useQueryHook(
-    ["roles", page],
-    () => getRoles(page),
-    "paginate",
-    page
-  );
+  const {
+    data: roles,
+    queryClient,
+    isError,
+  } = useQueryHook(["roles", page], () => getRoles(page), "paginate", page);
   const deleteMutation = useMutationHook(deleteFunc, ["roles", page]);
 
   const editBtnFun = (row) => {
@@ -135,6 +135,7 @@ const Roles = () => {
       },
     },
   ];
+  if (isError) <NetworkErrorComponent />;
 
   return (
     hasShowPermission && (

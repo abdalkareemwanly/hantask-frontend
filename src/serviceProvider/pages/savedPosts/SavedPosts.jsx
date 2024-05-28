@@ -11,6 +11,7 @@ import { Page } from "../../../Components/StyledComponents";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { IoEye } from "react-icons/io5";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async () => {
   const res = await axiosClient.get(`/seller/post/savedPosts`);
@@ -27,6 +28,7 @@ const SavedPosts = () => {
     errors,
     isLoading,
     refetch,
+    isError,
   } = useQueryHook(["savedPosts"], getData);
 
   const changeStatusMutation = useMutationHook(changeStatusFunc, [
@@ -64,6 +66,7 @@ const SavedPosts = () => {
 
   if (isLoading) return <Loader />;
 
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       <PageTitle text={"manage saved deals"} />

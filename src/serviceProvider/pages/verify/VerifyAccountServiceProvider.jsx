@@ -17,7 +17,7 @@ const VerifyAccountServiceProvider = () => {
     const getData = async () => {
       const check = await axiosClient.get("/seller/profileVerify/check");
       setIsVerefied(check.data.data?.status);
-
+      console.log(check);
       if (check.data.data.status == 3) {
         const res = await axiosClient.get("seller/profileVerify");
         setProfileInfo(res.data);
@@ -27,7 +27,7 @@ const VerifyAccountServiceProvider = () => {
       }
     };
     getData();
-  }, [profileInfo, isLoading]);
+  }, [isLoading]);
 
   useEffect(() => {
     if (profileInfo) {
@@ -126,8 +126,8 @@ const VerifyAccountServiceProvider = () => {
   };
   const onSubmit = async (values) => {
     const formData = new FormData();
-    formData.append("many_employee_id", values.employees_type);
-    formData.append("professional_status_id", values.company_type);
+    formData.append("many_employee_id", values.employees_type[0].id);
+    formData.append("professional_status_id", values.company_type[0].id);
     formData.append("gisa", values.gisa);
     formData.append("company_name", values.companyName);
     formData.append("address", values.address);

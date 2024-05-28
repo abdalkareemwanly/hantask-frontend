@@ -7,6 +7,7 @@ import CustomerChatFooter from "./components/ChatFooter";
 import CustomerChatHeader from "./components/ChatHeader";
 import { useParams } from "react-router-dom";
 import Loader from "../../../Components/Loader";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async (id) => {
   const res = await axiosClient.get(`/buyer/report/message/${id}`);
   return res.data.data;
@@ -17,6 +18,7 @@ function CustomerChat(props) {
     data: messages,
     queryClient,
     isLoading,
+    isError,
   } = useQueryHook(["messages", id], () => getData(id), "normal");
 
   const data = [
@@ -56,6 +58,7 @@ function CustomerChat(props) {
       file: "sdfk",
     },
   ];
+  if (isError) <NetworkErrorComponent />;
   if (isLoading) return <Loader />;
   return (
     <Page>

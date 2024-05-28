@@ -22,7 +22,7 @@ const BlogCard = ({ data, setEditModalOpen, onDelete }) => {
 
         <div className="flex gap-4 items-center justify-center text-secondary-text">
           <Link
-            to={"1"}
+            to={`/blogs/${data.id}`}
             className="w-full block text-center text-primary-text rounded-2xl py-2 bg-greenColor  transition-all text-white "
           >
             show

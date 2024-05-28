@@ -12,6 +12,7 @@ import { SuccessIcon, ErrorIcon } from "../../../Components/Icons";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async () => {
   const res = await axiosClient.get("/admin/taxes");
@@ -38,12 +39,11 @@ const Tax = () => {
 
   const [page, setPage] = useState(1);
 
-  const { data: tax, queryClient } = useQueryHook(
-    ["taxes", page],
-    () => getData(page),
-    "paginate",
-    page
-  );
+  const {
+    data: tax,
+    queryClient,
+    isError,
+  } = useQueryHook(["taxes", page], () => getData(page), "paginate", page);
   const deleteMutation = useMutationHook(deleteFunc, ["taxes", page]);
 
   const editBtnFun = (row) => {
@@ -132,6 +132,7 @@ const Tax = () => {
     },
   ];
 
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       <PageTitle

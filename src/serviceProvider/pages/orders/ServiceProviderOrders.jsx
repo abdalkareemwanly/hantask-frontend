@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import ModalContainer from "../../../Components/ModalContainer";
 import { formatMoney } from "../../../functions/price";
 import Loader from "../../../Components/Loader";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async () => {
   const res = await axiosClient.get("/seller/comments");
@@ -22,7 +23,11 @@ const ServiceProviderOrders = () => {
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDesc, setSelectedDesc] = useState("");
-  const { data: orders, isLoading } = useQueryHook(["orders", page], getData);
+  const {
+    data: orders,
+    isLoading,
+    isError,
+  } = useQueryHook(["orders", page], getData);
 
   const columns = [
     {
@@ -134,6 +139,7 @@ const ServiceProviderOrders = () => {
     },
   ];
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       {isModalOpen && (

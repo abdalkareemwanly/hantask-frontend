@@ -10,6 +10,7 @@ import useCheckPermission from "../../../../hooks/checkPermissions";
 import { useNavigate } from "react-router-dom";
 import { useMutationHook } from "../../../../hooks/useMutationHook";
 import { useQueryHook } from "../../../../hooks/useQueryHook";
+import NetworkErrorComponent from "../../../../Components/NetworkErrorComponent";
 
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
@@ -45,7 +46,11 @@ export default function ProductTable() {
 
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const { data: products, queryClient } = useQueryHook(
+  const {
+    data: products,
+    queryClient,
+    isError,
+  } = useQueryHook(
     ["products", page, searchTerm],
     () => getData(page, searchTerm),
     "paginate",
@@ -192,6 +197,7 @@ export default function ProductTable() {
       },
     },
   ];
+  if (isError) <NetworkErrorComponent />;
 
   if (hasShowPermission === false) return nav("/admin/dashboard");
   return (

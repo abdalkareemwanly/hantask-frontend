@@ -40,7 +40,7 @@ const ReusableForm = ({
       }, {}),
   });
   // console.log(watch());
-  const { errors } = formState;
+  const { errors, isSubmitting } = formState;
 
   const [isValid, setIsValid] = useState(false);
 
@@ -366,6 +366,7 @@ const ReusableForm = ({
                   <div className={`${field.imgStyle} relative`}>
                     <img
                       src={`https://api.hantask.at/${image}`}
+                      alt=""
                       onError="this.style.display='none'"
                       onClick={() => {
                         const fileInput = document.getElementById(name);
@@ -438,7 +439,7 @@ const ReusableForm = ({
       </div>
       <button
         type="submit"
-        disabled={!isValid}
+        disabled={!isValid || isSubmitting}
         className={`bg-greenColor   text-white  p-2 outline-none border-none ${btnWidth} text-base  px-6 rounded-[4px] disabled:bg-gray-600`}
       >
         {btnText}

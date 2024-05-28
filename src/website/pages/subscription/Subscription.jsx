@@ -4,31 +4,27 @@ import axiosClient from "../../../axios-client";
 import { Link } from "react-router-dom";
 import { formatMoney } from "../../../functions/price";
 import Loader from "../../../Components/Loader";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async () => {
   const res = await axiosClient.get("site/plans");
   return res.data.data;
 };
 
-const test = (id) => {
-  const stripe_plan_id = id;
-  const sub = axiosClient
-    .post("site/stripe/storeSession", { stripe_plan_id: id })
-    .then((response) => {
-      const sessionUrl = response.data.data.url; // Assuming 'url' is the key for the URL in the response data
-      // Open the Stripe checkout session URL
-      console.log(sessionUrl);
-      window.open(sessionUrl, "_blank"); // '_blank' will open the URL in a new tab
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+const Modal = () => {
+  return (
+    <div className="fixed grid place-items-center text-white w-[80%] h-[80%] top-[50%] left-[50%] bg-[#686868bd] z-[100] translate-x-[-50%] translate-y-[-50%]">
+      <button>subscirbe with paypal </button>
+      <button>subscirbe with stripe </button>
+    </div>
+  );
 };
 
 const Subscription = () => {
-  const { data: plans, isLoading } = useQueryHook(["plans"], getData);
+  const { data: plans, isLoading, isError } = useQueryHook(["plans"], getData);
 
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
 
   return (
     <div className="lg:px-40 md:px-12  px-6 py-24 flex flex-col gap-12 text-center  justify-center items-center">
@@ -50,11 +46,13 @@ const Subscription = () => {
   );
 };
 const SubscriptionCard = ({ data }) => {
+  const [showModal, setShowModal] = useState(false);
   return (
     <div className="flex flex-col gap-6 justify-center items-center w-[370px] component-shadow">
+      {showModal && <Modal />}
       <div className="flex flex-col justify-center items-center gap-2 bg-[#efefef] w-full p-6">
         <img
-          src={import.meta.env.VITE_WEBSITE_URL + data.image}
+          src={import.meta.env.VITE_WEBSITE_URL + "/" + data.image}
           className="w-[80px] h-[80px]  object-cover rounded-full"
         />
         <h4 className="text-xl font-semibold ">{data.name}</h4>
@@ -78,16 +76,14 @@ const SubscriptionCard = ({ data }) => {
         <span className="text-greenColor font-semibold text-2xl">
           {formatMoney(data?.price)}
         </span>
-        {/* <Link
-          to="/paymentNow"
-          state={{
-            plan: data,
-          }}
+        <button
+          // to="/paymentNow"
+          // state={{
+          //   plan: data,
+          // }}
+          onClick={() => setShowModal(true)}
           className="border py-3 px-6  bg-greenColor text-white"
         >
-          subscribe now
-        </Link> */}
-        <button type="button" onClick={() => test(data.stripe_plan_id)}>
           subscribe now
         </button>
       </div>

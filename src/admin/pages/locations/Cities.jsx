@@ -13,6 +13,7 @@ import ImportExcel from "./components/ImportExcel";
 import { useQueryHook } from "../../../hooks/useQueryHook";
 import { useMutationHook } from "../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
@@ -44,7 +45,7 @@ const Cities = () => {
 
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const { data: cities } = useQueryHook(
+  const { data: cities, isError } = useQueryHook(
     ["cities", page, searchTerm],
     () => getData(page, searchTerm),
     "paginate",
@@ -153,6 +154,7 @@ const Cities = () => {
     downloadLink.download = "cities.xlsx";
     downloadLink.click();
   };
+  if (isError) <NetworkErrorComponent />;
 
   return (
     <Page>

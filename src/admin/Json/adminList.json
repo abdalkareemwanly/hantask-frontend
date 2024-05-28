@@ -5,10 +5,6 @@
     "perId": "home"
   },
   "Live Chat": {
-    "all chats": {
-      "path": "dashboard/chat/all",
-      "perId": "showUsers"
-    },
     "reportsChats": {
       "path": "reports",
       "perId": "showRoles"
@@ -83,21 +79,6 @@
       "path": "/admin/dashboard/posts",
       "name": null,
       "perId": "showPosts"
-    },
-    "Tags": {
-      "path": "/admin/dashboard/posts/tags",
-      "name": null,
-      "perId": ""
-    },
-    "All Trashed posts": {
-      "path": "/admin/dashboard/posts/trashed",
-      "name": null,
-      "perId": "showTrashedPosts"
-    },
-    "Blog Details Settings": {
-      "path": "/admin/dashboard/locations/areas",
-      "name": null,
-      "perId": ""
     }
   },
   "Subscription": {
@@ -105,14 +86,7 @@
     "name": null,
     "perId": ""
   },
-  "Jobs": {
-    "All Jobs": "",
-    "Jobs Sitting": ""
-  },
-  "Wallet": {
-    "Wallet Lists": "",
-    "Wallet History": ""
-  },
+
   "Admin Role Manage": {
     "All Admin": {
       "path": "/admin/dashboard/admins",
@@ -125,31 +99,7 @@
       "perId": "showRoles"
     }
   },
-  "Admin Services": {
-    "Admin Service": "",
-    "Add Services": ""
-  },
-  "Services": {
-    "All Services": "",
-    "Login Register Settings": "",
-    "Service Details Settings": "",
-    "Service Create Settings": "",
-    "Service Book Settings": "",
-    "Order Create Settings": "",
-    "Load More Settings": "",
-    "Google Map Settings": ""
-  },
-  "Seller Settings": {
-    "Payout Request": "",
-    "Admin Commission": "",
-    "Amount Settings": "",
-    "User Register Settings": "",
-    "All Seller": ""
-  },
-  "Seller Buyer Report": {
-    "name": null,
-    "path": "/admin/dashboard"
-  },
+
   "Payment Settings": {
     "Add Payment Gateway": {
       "path": "/admin/dashboard/paymentgetway",
@@ -172,31 +122,7 @@
       "perId": "showTaxes"
     }
   },
-  "General Settings": {
-    "Mobile Settings": "",
-    "Reading": "",
-    "Navbar Global Variant": "",
-    "Footer Global Variant": "",
-    "Payment Gateway Settings": "",
-    "Live Chat Settings": "",
-    "Site Identity": "",
-    "Basic Settings": "",
-    "OTP Settings": "",
-    "Color Settings": "",
-    "Typography Settings": "",
-    "SEO Settings": "",
-    "Third Party Scripts": "",
-    "Email Template": "",
-    "Email Settings": "",
-    "SMTP Settings": "",
-    "Custom CSS": "",
-    "Custom JS": "",
-    "Gdpr Settings": "",
-    "Licence Settings": "",
-    "SCheck Update": "",
-    "Cache Settings": "",
-    "Database Upgrade": ""
-  },
+
   "blogs": {
     "name": null,
     "path": "/admin/dashboard/blogs",
@@ -219,58 +145,7 @@
       "perId": "showLanguages"
     }
   },
-  "Orders": {
-    "All Orders": "",
-    "Cancelled Orders": "",
-    "Order Success Settings": "",
-    "Order Request Complete": "",
-    "Decline Complete Request": "",
-    "Extra Orders": ""
-  },
-  "Tickets": {
-    "All Tickets": ""
-  },
-  "Notifications": {
-    "All Notifications": ""
-  },
-  "Email Template Settings": {
-    "Email Templates": ""
-  },
-  "Appearance Settings": {
-    "Seller/Buyer Panel Settings": "",
-    "Media Images Manage": "",
-    "Widget Builder": "",
-    "Menu Manage": ""
-  },
-  "Other Page Settings": {
-    "404 Page Manage": "",
-    "Maintain Page Manage": ""
-  },
-  "General Settings1": {
-    "Mobile Settings": "",
-    "Reading": "",
-    "Navbar Global Variant": "",
-    "Footer Global Variant": "",
-    "Payment Gateway Settings": "",
-    "Live Chat Settings": "",
-    "Site Identity": "",
-    "Basic Settings": "",
-    "OTP Settings": "",
-    "Color Settings": "",
-    "Typography Settings": "",
-    "SEO Settings": "",
-    "Third Party Scripts": "",
-    "Email Template": "",
-    "Email Settings": "",
-    "SMTP Settings": "",
-    "Custom CSS": "",
-    "Custom JS": "",
-    "Gdpr Settings": "",
-    "Licence Settings": "",
-    "SCheck Update": "",
-    "Cache Settings": "",
-    "Database Upgrade": ""
-  },
+
   "Languages": {
     "name": null,
     "path": "/admin/dashboard/languages",

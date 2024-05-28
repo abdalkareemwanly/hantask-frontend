@@ -41,7 +41,7 @@ const ChangeStatus = ({ data, setIsModalOpen }) => {
 
   const onSubmit = async (values) => {
     const toastId = toast.loading("loading...");
-    const workStatus = values.status;
+    const workStatus = values.status[0]?.id;
     try {
       const user = await changeStatusMutation.mutateAsync({
         workStatus,

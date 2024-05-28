@@ -3,10 +3,11 @@ import axiosClient from "../../../../../axios-client";
 import ReusableForm from "../../../../../Components/ReusableForm";
 import { useState } from "react";
 
-export const EditAdmin = ({ data, getRoles, setIsAddModalOpen, roles }) => {
+export const EditAdmin = ({ data, getAdmins, setIsModalOpen, roles }) => {
   const [image, setImage] = useState(data?.image);
+  console.log(data);
   let template = {
-    title: "edit new admin",
+    title: "edit  admin details",
     fields: [
       {
         name: "image",
@@ -80,26 +81,17 @@ export const EditAdmin = ({ data, getRoles, setIsAddModalOpen, roles }) => {
     formData.append("username", values.username);
     formData.append("email", values.email);
     formData.append("password", values.password);
-    formData.append("role", values.role_id[0].id);
+    formData.append("role", values.role_id[0].name);
     if (typeof values?.image !== "string") {
       formData.append("image", values.image);
     }
     axiosClient
       .post("/admin/profile/update", formData)
       .then((res) => {
-        if (res.data.success == false) {
-          toast.update(id, {
-            type: "error",
-            render: res.data.message,
-            closeOnClick: true,
-            isLoading: false,
-            autoClose: true,
-            closeButton: true,
-            pauseOnHover: false,
-          });
-        } else {
-          getRoles();
-          setIsAddModalOpen((prev) => !prev);
+        console.log(res);
+        if (res.data.success == true) {
+          getAdmins();
+          setIsModalOpen((prev) => !prev);
           toast.update(id, {
             type: "success",
             render: res.data.mes,
@@ -109,9 +101,20 @@ export const EditAdmin = ({ data, getRoles, setIsAddModalOpen, roles }) => {
             closeButton: true,
             pauseOnHover: false,
           });
+        } else {
+          toast.update(id, {
+            type: "error",
+            render: res.data.message,
+            closeOnClick: true,
+            isLoading: false,
+            autoClose: true,
+            closeButton: true,
+            pauseOnHover: false,
+          });
         }
       })
       .catch((err) => {
+        console.log(err);
         toast.update(id, {
           type: "success",
           render: err.response.data.mes,
@@ -133,7 +136,7 @@ export const EditAdmin = ({ data, getRoles, setIsAddModalOpen, roles }) => {
         onSubmit={onSubmit}
         validate={validate}
         btnWidth={"w-full"}
-        btnText={"add"}
+        btnText={"edit"}
         addedStyles={"md:w-[400px] lg:w-[500px]"}
         image={image}
         setImage={setImage}

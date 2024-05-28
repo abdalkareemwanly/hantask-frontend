@@ -14,6 +14,7 @@ import { useMutationHook } from "../../../hooks/useMutationHook";
 import Swal from "sweetalert2";
 import { AddCoupon } from "./components/AddCoupon";
 import { EditCoupon } from "./components/EditCoupon";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
@@ -53,7 +54,11 @@ const Coupons = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [plans, setPlans] = useState();
 
-  const { data: categories, queryClient } = useQueryHook(
+  const {
+    data: categories,
+    queryClient,
+    isError,
+  } = useQueryHook(
     ["coupons", page, searchTerm],
     () => getData(page, searchTerm),
     "paginate",
@@ -205,7 +210,7 @@ const Coupons = () => {
             size={45}
           />
         ),
-        maxWidth: "9%",
+      maxWidth: "9%",
     },
     {
       name: "Actions",
@@ -241,6 +246,7 @@ const Coupons = () => {
       },
     },
   ];
+  if (isError) <NetworkErrorComponent />;
 
   return (
     hasShowPermission && (

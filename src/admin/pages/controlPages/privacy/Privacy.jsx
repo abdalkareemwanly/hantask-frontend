@@ -27,13 +27,17 @@ const Privacy = () => {
   }
 
   const handleSubmit = async () => {
+    setLoading(true);
     const data = {
       title: "privacy",
       content: value,
     };
 
     const res = await axiosClient.post("/admin/pageContent/update", data);
-    setPageUpdate(!pageUpdate);
+    if (res.status === 200) {
+      setLoading(false);
+      setPageUpdate(!pageUpdate);
+    }
   };
   return loading ? (
     <Loader />

@@ -15,6 +15,7 @@ import { useQueryHook } from "../../../hooks/useQueryHook";
 import Swal from "sweetalert2";
 import useCheckPermission from "../../../hooks/checkPermissions";
 import { useNavigate } from "react-router-dom";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async (page = 1, searchTerm) => {
   const res = await axiosClient.get(
     `admin/areas?page=${page}${
@@ -42,7 +43,7 @@ const Areas = () => {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: areas } = useQueryHook(
+  const { data: areas, isError } = useQueryHook(
     ["areas", page, searchTerm],
     () => getData(page, searchTerm),
     "paginate",
@@ -160,6 +161,7 @@ const Areas = () => {
     downloadLink.download = "cities.xlsx";
     downloadLink.click();
   };
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       <PageTitle

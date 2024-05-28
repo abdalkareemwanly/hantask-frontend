@@ -6,6 +6,7 @@ import CustomerChatFooter from "./components/ChatFooter";
 import CustomerChatHeader from "./components/ChatHeader";
 import { useLocation, useParams } from "react-router-dom";
 import Loader from "../../../Components/Loader";
+import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 const getData = async (id) => {
   const res = await axiosClient.get(`/seller/report/message/${id}`);
   return res.data.data;
@@ -13,13 +14,14 @@ const getData = async (id) => {
 function ReportChat(props) {
   const { id } = useParams();
   const state = useLocation().state;
-  const { data: messages, isLoading } = useQueryHook(
-    ["messages", id],
-    () => getData(id),
-    "normal"
-  );
+  const {
+    data: messages,
+    isLoading,
+    isError,
+  } = useQueryHook(["messages", id], () => getData(id), "normal");
 
   if (isLoading) return <Loader />;
+  if (isError) <NetworkErrorComponent />;
   return (
     <Page>
       <div className="recent-ticket xl:col-span-3 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">

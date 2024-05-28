@@ -52,6 +52,7 @@ const CustomSelect = ({
 
   const handleSelectOption = (option) => {
     // Check if the option is already selected
+    console.log(option);
     const isSelected =
       selectedOptions &&
       selectedOptions[selectIndex]?.some(
@@ -152,7 +153,7 @@ const CustomSelect = ({
         </div>
 
         {isOpen && (
-          <div className="absolute z-[100] w-full transition-all h-[150px] overflow-y-auto p-2 bg-blocks-color">
+          <div className="absolute z-[100] w-full transition-all h-[150px] overflow-y-auto p-2 bg-blocks-color shadow-md">
             <input
               type="text"
               className="input-box w-full"
@@ -169,7 +170,7 @@ const CustomSelect = ({
                 )
                 .map((option, index) => (
                   <span
-                    key={index}
+                    key={option[optionValue]}
                     className={`p-1 cursor-pointer ${
                       selectedOptions &&
                       selectedOptions[selectIndex] &&

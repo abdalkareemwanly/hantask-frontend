@@ -10,7 +10,7 @@ function WebSiteCategories(props) {
       <div className="sm:w-[90%] sm:mx-[auto] w-[96%] mx-[2%] my-[30px]">
         <h3 className="font-[600] text-[32px] m-[-10px 0 0]">Categories</h3>
         <TitleLine />
-        <div className="grid  lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 lg:gap-6 mt-[30px]">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-8 lg:gap-6 mt-[30px]">
           {categories
             ? categories.map((item, index) => {
                 return (
