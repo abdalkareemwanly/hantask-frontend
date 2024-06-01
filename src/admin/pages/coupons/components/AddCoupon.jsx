@@ -43,7 +43,22 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
         title: "currency",
         name: "currency",
         type: "select",
-        options: [ { name: 'usd'}, {name: 'eur'}],
+        options: [{ name: "usd" }, { name: "eur" }],
+        optionText: "name",
+        optionValue: "name",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        styles: "md:w-[45%]",
+      },
+      {
+        title: "status",
+        name: "status",
+        type: "select",
+        options: [{ name: 'Active' }, { name: 'UnActive' }],
         optionText: "name",
         optionValue: "name",
         validationProps: {
@@ -58,7 +73,7 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
         title: "duration",
         name: "duration",
         type: "select",
-        options: [ { name: 'once'}, {name: 'repeating'}, { name: "forever"}],
+        options: [{ name: "once" }, { name: "repeating" }, { name: "forever" }],
         optionText: "name",
         optionValue: "name",
         validationProps: {
@@ -86,6 +101,7 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("amount_off", values.amount_off);
+    formData.append("status", values.status);
     formData.append("currency", values.currency[0].name);
     formData.append("duration", values.duration[0].name);
     formData.append("duration_in_months", values.duration_in_months);

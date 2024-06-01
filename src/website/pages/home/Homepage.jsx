@@ -14,7 +14,10 @@ import { useQueryHook } from "../../../hooks/useQueryHook";
 import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getNewJobs = async () => {
-  const res = await axiosClient.get("/site/posts");
+  const user = JSON.parse(localStorage.getItem("USER"));
+  const res = await axiosClient.post("/site/posts", {
+    userId: user?.id,
+  });
   return res.data.data;
 };
 
