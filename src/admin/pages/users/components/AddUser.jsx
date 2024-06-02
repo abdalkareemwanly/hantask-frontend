@@ -106,13 +106,13 @@ export const AddUser = ({ setIsAddModalOpen }) => {
     formData.append("phone", user.phone);
     formData.append("image", user.image);
 
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     try {
-      const user = await mutation.mutateAsync(formData);
+      const res = await mutation.mutateAsync(formData);
       setIsAddModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

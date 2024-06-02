@@ -203,7 +203,7 @@ export const AddService = ({ setIsAddModalOpen, sellerId }) => {
     formData.append("seller_id", sellerId);
     formData.append("image", service.image);
 
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     try {
       const res = await mutation.mutateAsync(formData);
       setIsAddModalOpen((prev) => !prev);

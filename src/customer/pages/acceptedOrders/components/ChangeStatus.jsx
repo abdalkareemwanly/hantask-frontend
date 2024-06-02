@@ -25,17 +25,17 @@ const ChangeStatus = ({ data, setIsModalOpen }) => {
   };
   const changeStatusMutation = useMutationHook(postData, ["acceptedOrders"]);
   const onSubmit = async (values) => {
-    const toastId = toast.loading("loading...");
+    const toastId = toast.loading("submitting, submitting, please wait...");
     const workStatus = values.status;
     try {
-      const user = await changeStatusMutation.mutateAsync({
+      const res = await changeStatusMutation.mutateAsync({
         workStatus,
         id: data.id,
       });
       setIsModalOpen((prev) => !prev);
       toast.update(toastId, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

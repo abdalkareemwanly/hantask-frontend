@@ -29,19 +29,19 @@ const EditReview = ({ order, setIsModalOpen }) => {
   const changeStatusMutation = useMutationHook(postData, ["acceptedOrders"]);
 
   const onSubmit = async (values) => {
-    const toastId = toast.loading("loading...");
+    const toastId = toast.loading("submitting, submitting, please wait...");
     const data = {
       review: reviewCount,
       description: values.review,
     };
     const id = order.data_review[0].id;
     try {
-      const user = await changeStatusMutation.mutateAsync({ id, data });
+      const res = await changeStatusMutation.mutateAsync({ id, data });
       setIsModalOpen((prev) => !prev);
       queryClient.invalidateQueries("reviews");
       toast.update(toastId, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

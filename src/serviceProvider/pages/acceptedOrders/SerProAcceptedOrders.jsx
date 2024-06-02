@@ -215,7 +215,7 @@ const SerProAcceptedOrders = () => {
     },
   ];
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return (
     <Page>
       {isModalOpen && (

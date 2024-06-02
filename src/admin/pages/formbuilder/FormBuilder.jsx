@@ -65,7 +65,7 @@ export default function FormBuilder() {
   };
 
   const submitForm = () => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     axiosClient
       .post("admin/question/store", form) // Use POST to create a new Form Exam
       .then((res) => {

@@ -47,7 +47,7 @@ export default function ContactSetting() {
   };
 
   const handleSubmit = () => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     axiosClient.post("admin/contact/store", inputs).then((res) => {
       if (res.data.success == true) {
         showFormInput(false);

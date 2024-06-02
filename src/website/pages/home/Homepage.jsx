@@ -15,10 +15,17 @@ import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getNewJobs = async () => {
   const user = JSON.parse(localStorage.getItem("USER"));
-  const res = await axiosClient.post("/site/posts", {
-    userId: user?.id,
-  });
-  return res.data.data;
+  if (user) {
+    const res = await axiosClient.post("/site/posts2", {
+      userId: user?.id,
+    });
+    return res.data.data;
+  } else {
+    const res = await axiosClient.post("/site/posts", {
+      userId: user?.id,
+    });
+    return res.data.data;
+  }
 };
 
 const getCat = async () => {
@@ -190,7 +197,7 @@ export const Banner = () => {
     setSearchOpen(false);
   };
 
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return (
     <section>
       <div className="bannerContainer">

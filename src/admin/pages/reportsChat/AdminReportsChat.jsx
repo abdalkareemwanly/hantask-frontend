@@ -25,7 +25,7 @@ function AdminCustomerChat(props) {
   } = useQueryHook(["messages", id], () => getData(id), "normal");
   // console.log(messages);
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   return (
     <>

@@ -104,7 +104,7 @@ export const EditSubscription = ({
 
   const mutation = useMutationHook(postData, ["subscriptiona"]);
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     const plan = {
       ...values,
       image,
@@ -120,11 +120,11 @@ export const EditSubscription = ({
     }
     const planId = data.id;
     try {
-      const user = await mutation.mutateAsync({ formData, planId });
+      const res = await mutation.mutateAsync({ formData, planId });
       setIsModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

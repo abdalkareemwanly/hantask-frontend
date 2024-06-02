@@ -131,7 +131,7 @@ const CustomerChats = ({}) => {
     };
   }, [selectedUser]);
 
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   return isLoadingContacts ? (
     <Loader />

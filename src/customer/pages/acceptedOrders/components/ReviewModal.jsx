@@ -30,7 +30,7 @@ const ReviewModal = ({ order, setIsModalOpen }) => {
   const changeStatusMutation = useMutationHook(postData, ["acceptedOrders"]);
 
   const onSubmit = async (values) => {
-    const toastId = toast.loading("loading...");
+    const toastId = toast.loading("submitting, submitting, please wait...");
     const data = {
       review: reviewCount,
       description: values.review,
@@ -38,12 +38,12 @@ const ReviewModal = ({ order, setIsModalOpen }) => {
       recipient_id: order.seller_id,
     };
     try {
-      const user = await changeStatusMutation.mutateAsync({ data });
+      const res = await changeStatusMutation.mutateAsync({ data });
       setIsModalOpen((prev) => !prev);
       queryClient.invalidateQueries("reviews");
       toast.update(toastId, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

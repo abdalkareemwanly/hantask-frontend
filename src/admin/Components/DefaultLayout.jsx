@@ -34,6 +34,7 @@ export default function DefaultLayout() {
   const user = JSON.parse(localStorage.getItem("USER"));
   const getTranslation = () => {
     axiosClient.get("/admin/translation").then((response) => {
+      console.log(response.data);
       setTranslation(response.data);
     });
   };

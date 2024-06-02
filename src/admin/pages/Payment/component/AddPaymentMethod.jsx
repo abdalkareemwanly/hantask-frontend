@@ -36,7 +36,7 @@
 //   };
 
 //   const onSubmit = async (values) => {
-//     const id = toast.loading("please wait...");
+//     const id = toast.loading("submitting, please wait...");
 //     const PaymentMethod = {
 //       ...values,
 //     };
@@ -95,7 +95,7 @@ export const AddPaymentMethod = ({ getPaymentMethods, setIsAddModalOpen }) => {
   const handleSubmit = async (values) => {
     console.log(values);
     try {
-      const id = toast.loading("Please wait...");
+      const id = toast.loading("submitting, please wait...");
 
       const paymentMethodData = {
         name: values.name[0].name,

@@ -32,16 +32,16 @@ export const EditRole = ({ data, getRoles, setIsModalOpen }) => {
   };
 
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     const formData = new FormData();
     formData.append("name", values.name);
     const roleId = data.id;
     try {
-      const user = await mutation.mutateAsync({ formData, roleId });
+      const res = await mutation.mutateAsync({ formData, roleId });
       setIsModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

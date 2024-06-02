@@ -76,12 +76,12 @@ const SubCategories = () => {
     setClickedRow(row);
   };
   const handleChangeStatus = async (id) => {
-    const toastId = toast.loading("processing...");
+    const toastId = toast.loading("submitting, please wait......");
     try {
-      const subCategory = await changeStatusMutation.mutateAsync(id);
+      const res = await changeStatusMutation.mutateAsync(id);
       toast.update(toastId, {
         type: "success",
-        render: subCategory.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -102,12 +102,12 @@ const SubCategories = () => {
   };
 
   const deleteFun = async (id) => {
-    const toastId = toast.loading("deleting..");
+    const toastId = toast.loading("submitting, please wait...");
     try {
-      const subCategory = await deleteMutation.mutateAsync(id);
+      const res = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
         type: "success",
-        render: subCategory.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -224,7 +224,7 @@ const SubCategories = () => {
     },
   ];
 
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return (
     hasShowPermission && (
       <Page>

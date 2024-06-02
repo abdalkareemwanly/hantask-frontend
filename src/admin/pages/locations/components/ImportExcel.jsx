@@ -133,7 +133,7 @@ const ImportExcel = ({ getMethod, setIsModalOpen, apiLink, importFor }) => {
   const mutation = useMutationHook(postData, ["countries"]);
 
   const onSubmit = async (values) => {
-    const toastId = toast.loading("please wait");
+    const toastId = toast.loading("submitting, please wait...");
     const formData = new FormData();
     if (values.country_id) {
       formData.append("country_id", values.country_id[0]?.id);

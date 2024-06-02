@@ -45,7 +45,7 @@ export const AddCity = ({ setIsAddModalOpen }) => {
   };
   const mutation = useMutationHook(postData, ["cities"]);
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     const country = {
       ...values,
     };

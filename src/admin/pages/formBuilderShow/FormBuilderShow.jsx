@@ -16,6 +16,8 @@ export default function FormBuilderShow() {
   const [catQuestions, setCatQuestions] = useState([]);
   const [editModal, setEditModal] = useState(false);
   const [editQuestionSelected, setEditQuestionSelected] = useState();
+  const [isUpdating, setIsUpdating] = useState(false);
+
   const [form, setForm] = useState({
     category_id: null,
     subcategory_id: null,
@@ -34,7 +36,7 @@ export default function FormBuilderShow() {
         );
         setCatQuestions(questions);
       } else if (form.subcategory_id) {
-        setCatQuestions([])
+        setCatQuestions([]);
         const questions = await getQuestionsById(
           form.subcategory_id,
           "subcategory_id"
@@ -50,7 +52,12 @@ export default function FormBuilderShow() {
     };
     // console.log(catQuestions, 'catQuestions');
     getData();
-  }, [form.category_id, form.subcategory_id, form.child_category_id]);
+  }, [
+    form.category_id,
+    form.subcategory_id,
+    form.child_category_id,
+    isUpdating,
+  ]);
 
   const createFrom = (title, value) => {
     setFormBuilder(title);
@@ -84,7 +91,7 @@ export default function FormBuilderShow() {
   };
 
   const submitForm = () => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     axiosClient
       .post("admin/question/update", editQuestionSelected) // Use POST to create a new Form Exam
       .then((res) => {
@@ -99,6 +106,7 @@ export default function FormBuilderShow() {
             closeButton: true,
             pauseOnHover: false,
           });
+          setIsUpdating(true);
         } else {
           toast.update(id, {
             type: "error",

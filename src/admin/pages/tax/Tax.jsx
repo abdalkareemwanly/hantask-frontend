@@ -67,7 +67,7 @@ const Tax = () => {
     });
   };
   const deleteFun = async (id) => {
-    const toastId = toast.loading("processing");
+    const toastId = toast.loading("submitting, please wait...");
     try {
       const country = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
@@ -132,7 +132,7 @@ const Tax = () => {
     },
   ];
 
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return (
     <Page>
       <PageTitle

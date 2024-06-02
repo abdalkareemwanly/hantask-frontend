@@ -39,7 +39,7 @@ const SavedPosts = () => {
 
   const handleDeleteClick = async (id) => {
     console.log(id);
-    const toastId = toast.loading("processing...");
+    const toastId = toast.loading("submitting, please wait......");
     try {
       const post = await changeStatusMutation.mutateAsync(id);
       toast.update(toastId, {
@@ -66,7 +66,7 @@ const SavedPosts = () => {
 
   if (isLoading) return <Loader />;
 
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return (
     <Page>
       <PageTitle text={"manage saved deals"} />

@@ -98,7 +98,7 @@ const ArchivedUsers = () => {
   };
 
   const deleteFun = async (id) => {
-    const toastId = toast.loading("processing");
+    const toastId = toast.loading("submitting, please wait...");
     try {
       const res = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
@@ -202,7 +202,7 @@ const ArchivedUsers = () => {
       },
     },
   ];
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   if (hasShowPermission === false) return nav("/admin/dashboard");
 

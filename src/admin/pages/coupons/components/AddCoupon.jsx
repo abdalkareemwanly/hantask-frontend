@@ -43,7 +43,7 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
         title: "currency",
         name: "currency",
         type: "select",
-        options: [ { name: 'usd'}, {name: 'eur'}],
+        options: [{ name: "usd" }, { name: "eur" }],
         optionText: "name",
         optionValue: "name",
         validationProps: {
@@ -58,7 +58,7 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
         title: "duration",
         name: "duration",
         type: "select",
-        options: [ { name: 'once'}, {name: 'repeating'}, { name: "forever"}],
+        options: [{ name: "once" }, { name: "repeating" }, { name: "forever" }],
         optionText: "name",
         optionValue: "name",
         validationProps: {
@@ -81,7 +81,7 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
   const mutation = useMutationHook(postData, ["coupons"]);
 
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
 
     const formData = new FormData();
     formData.append("name", values.name);
@@ -90,11 +90,11 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
     formData.append("duration", values.duration[0].name);
     formData.append("duration_in_months", values.duration_in_months);
     try {
-      const category = await mutation.mutateAsync(formData);
+      const res = await mutation.mutateAsync(formData);
       setIsAddModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",
-        render: category.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

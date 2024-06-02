@@ -28,18 +28,18 @@ const Edit = ({ order, setIsModalOpen }) => {
   const changeStatusMutation = useMutationHook(postData, ["reviews"]);
 
   const onSubmit = async (values) => {
-    const toastId = toast.loading("loading...");
+    const toastId = toast.loading("submitting, submitting, please wait...");
     const data = {
       review: reviewCount,
       description: values.review,
     };
     const id = order.id;
     try {
-      const user = await changeStatusMutation.mutateAsync({ id, data });
+      const res = await changeStatusMutation.mutateAsync({ id, data });
       setIsModalOpen((prev) => !prev);
       toast.update(toastId, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

@@ -15,12 +15,9 @@ const getData = async () => {
 
 const Profile = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [areas, setAreas] = useState();
-  const { countries, cities } = useGlobalDataContext();
-  const getAreas = async (signal) => {
-    const res = await axiosClient.get(`admin/areas`, { signal: signal });
-    setAreas(res.data.data);
-  };
+  const { countries, cities, setSelectedCountry, setSelectedCity, areas } =
+    useGlobalDataContext();
+
   const {
     data: profile,
     queryClient,
@@ -28,27 +25,12 @@ const Profile = () => {
     isError,
   } = useQueryHook(["profile"], () => getData(), "normal");
 
-  useEffect(() => {
-    const controller1 = new AbortController();
-    const controller2 = new AbortController();
-    const controller3 = new AbortController();
-
-    setTimeout(() => {
-      getAreas(controller3.signal);
-    }, 500);
-
-    return () => {
-      controller1.abort();
-      controller2.abort();
-      controller3.abort();
-    };
-  }, []);
-
   const editBtn = () => {
     setEditModalOpen((prev) => !prev);
   };
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
+  console.log(isError);
   return (
     <Page>
       {editModalOpen && (
@@ -104,13 +86,16 @@ const Profile = () => {
             <span>phone number: </span>
             <span>{profile[0]?.phone}</span>
           </div>
-          <div className="text-secondary-text flex items-center gap-9">
-            <span>full name: </span>
-            <span>{profile[0]?.name}</span>
-          </div>
+
           <div className="text-secondary-text flex items-center gap-9">
             <span>address: </span>
-            <span>{profile[0]?.name}</span>
+            <span>
+              {profile[0]?.country?.name +
+                ", " +
+                profile[0]?.city?.name +
+                ", " +
+                profile[0]?.area?.name}
+            </span>
           </div>
         </div>
       </div>

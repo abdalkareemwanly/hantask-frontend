@@ -170,9 +170,11 @@ const ReusableForm = ({
         case "text":
           return (
             <div key={i} className={`input-field w-full ${styles}`}>
-              <label htmlFor={name} className="input-label">
-                {title}
-              </label>
+              <label
+                htmlFor={name}
+                className="input-label"
+                dangerouslySetInnerHTML={{ __html: title }}
+              ></label>
               <input
                 className="input-box"
                 type="text"
@@ -191,9 +193,11 @@ const ReusableForm = ({
         case "number":
           return (
             <div key={i} className={`input-field w-full ${styles}`}>
-              <label htmlFor={name} className="input-label">
-                {title}
-              </label>
+              <label
+                htmlFor={name}
+                dangerouslySetInnerHTML={{ __html: title }}
+                className="input-label"
+              ></label>
               <input
                 className="input-box"
                 type="number"
@@ -212,9 +216,11 @@ const ReusableForm = ({
         case "date":
           return (
             <div key={i} className={`input-field w-full ${styles}`}>
-              <label htmlFor={name} className="input-label">
-                {title}
-              </label>
+              <label
+                dangerouslySetInnerHTML={{ __html: title }}
+                htmlFor={name}
+                className="input-label"
+              ></label>
               <input
                 className="input-box"
                 type="date"
@@ -233,9 +239,11 @@ const ReusableForm = ({
         case "password":
           return (
             <div key={i} className={`input-field w-full ${styles}`}>
-              <label htmlFor={name} className="input-label">
-                {title}
-              </label>
+              <label
+                dangerouslySetInnerHTML={{ __html: title }}
+                htmlFor={name}
+                className="input-label"
+              ></label>
               <input
                 className="input-box"
                 type="password"
@@ -254,9 +262,11 @@ const ReusableForm = ({
         case "email":
           return (
             <div key={i} className={`input-field w-full ${styles}`}>
-              <label htmlFor={name} className="input-label">
-                {title}
-              </label>
+              <label
+                dangerouslySetInnerHTML={{ __html: title }}
+                htmlFor={name}
+                className="input-label"
+              ></label>
               <input
                 className="input-box"
                 type="email"
@@ -275,9 +285,11 @@ const ReusableForm = ({
         case "textArea":
           return (
             <div key={i} className={`input-field w-full ${styles}`}>
-              <label htmlFor={name} className="input-label">
-                {title}
-              </label>
+              <label
+                dangerouslySetInnerHTML={{ __html: title }}
+                htmlFor={name}
+                className="input-label"
+              ></label>
               <textarea
                 className="input-box"
                 name={name}
@@ -344,6 +356,7 @@ const ReusableForm = ({
               setValue={setValue}
               trigger={trigger}
               fields={fields}
+              readOnly={readOnly}
               watch={watch}
               connectionWith={connectionWith}
               selectedOptions={selectedOptions}
@@ -365,7 +378,7 @@ const ReusableForm = ({
                 <>
                   <div className={`${field.imgStyle} relative`}>
                     <img
-                      src={`https://api.hantask.at/${image}`}
+                      src={`${import.meta.env.VITE_WEBSITE_URL + image}`}
                       alt=""
                       onError="this.style.display='none'"
                       onClick={() => {
@@ -433,7 +446,10 @@ const ReusableForm = ({
       className={`${addedStyles}  flex flex-col  gap-4 text-primary-text w-auto`}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h3 className="font-bold text-2xl bt-3">{title}</h3>
+      <h3
+        dangerouslySetInnerHTML={{ __html: title }}
+        className="font-bold text-2xl bt-3"
+      ></h3>
       <div className="flex gap-2 flex-wrap justify-between">
         {fieldsState && renderFields(fieldsState)}
       </div>

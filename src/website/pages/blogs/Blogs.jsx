@@ -19,7 +19,7 @@ const Blogs = () => {
     isError,
   } = useQueryHook(["admins", page], () => getBlogs(page), "paginate", page);
   console.log(blogs);
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return (
     <div>
       <Banner />

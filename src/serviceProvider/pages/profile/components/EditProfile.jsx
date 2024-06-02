@@ -16,6 +16,7 @@ const EditProfile = ({
   areas,
   setSelectedCountry,
 }) => {
+  console.log(data);
   const [image, setImage] = useState(data?.image);
   let template = {
     title: "update user data",
@@ -87,8 +88,25 @@ const EditProfile = ({
         optionValue: "id",
         styles: "md:w-[45%]",
       },
+      {
+        title: "area",
+        name: "area",
+        type: "select",
+        options: areas && [...areas],
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        value: data.area.id,
+        optionText: "service_area",
+        optionValue: "id",
+        styles: "md:w-[45%]",
+      },
     ],
   };
+  console.log(areas);
   const mutation = useMutationHook(postData, ["profile"]);
   let userId = data?.id;
   const onSubmit = async (values) => {
@@ -101,19 +119,19 @@ const EditProfile = ({
     formData.append("username", user.username);
     formData.append("email", user.email);
     formData.append("phone", user.phone);
-    formData.append("country_id", user.country);
-    formData.append("service_city", user.city);
-    formData.append("service_area", user.area);
+    formData.append("country_id", user.country[0]?.id);
+    formData.append("service_city", user.city[0]?.id);
+    formData.append("service_area", user.area[0]?.id);
     if (typeof user?.image !== "string") {
       formData.append("image", user.image);
     }
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     try {
-      const user = await mutation.mutateAsync({ formData, userId });
+      const res = await mutation.mutateAsync({ formData, userId });
       setIsModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -131,6 +149,7 @@ const EditProfile = ({
         pauseOnHover: false,
       });
     }
+    console.log(user);
   };
 
   const validate = () => {

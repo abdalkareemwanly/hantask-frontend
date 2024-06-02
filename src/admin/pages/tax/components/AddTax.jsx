@@ -42,7 +42,7 @@ export const AddTax = ({ getTax, setIsAddModalOpen, countries }) => {
   };
   const mutation = useMutationHook(postData, ["taxes"]);
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     const tax = {
       ...values,
     };

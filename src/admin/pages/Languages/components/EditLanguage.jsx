@@ -69,7 +69,7 @@ const EditLanguage = ({ langData, languages, setIsModalOpen }) => {
       slug: values?.slugEdit,
       status: values?.statusEdit[0].name,
     };
-    const toastId = toast.loading("please wait...");
+    const toastId = toast.loading("submitting, please wait...");
     try {
       const res = await mutation.mutateAsync({
         formLanguage,

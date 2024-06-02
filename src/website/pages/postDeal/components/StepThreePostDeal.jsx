@@ -12,7 +12,9 @@ export const StepThreePostDeal = ({
   selectedOptions,
   setSelectedOptions,
   trigger,
+  areas,
 }) => {
+  console.log(cities, areas);
   return (
     <div className="max-w-[620px] flex flex-col gap-4">
       <h2 className="text-2xl font-bold">
@@ -54,6 +56,22 @@ export const StepThreePostDeal = ({
         setSelectedOptions={setSelectedOptions}
         setValue={setValue}
       />
+
+      <CustomSelectForManyUses
+        errors={errors}
+        isMultiple={false}
+        title={"select area"}
+        optionText={"service_area"}
+        optionValue={"id"}
+        options={areas}
+        nameOfField={"area_id"}
+        register={register}
+        trigger={trigger}
+        watch={watch}
+        selectedOptions={selectedOptions}
+        setSelectedOptions={setSelectedOptions}
+        setValue={setValue}
+      />
       <div className="flex flex-1 flex-col gap-2 w-full">
         <input
           name="lineAddress"
@@ -75,6 +93,8 @@ export const StepThreePostDeal = ({
           className={`bg-greenColor text-white  p-2 rounded-lg ${
             errors["country_id"]?.message ||
             watch("country_id") === "" ||
+            errors["area_id"]?.message ||
+            watch("area_id") === "" ||
             errors["city_id"]?.message ||
             watch("country_id").length === 0 ||
             watch("city_id").length === 0 ||
@@ -87,6 +107,8 @@ export const StepThreePostDeal = ({
           onClick={
             errors["country_id"]?.message ||
             watch("country_id") === "" ||
+            errors["area_id"]?.message ||
+            watch("area_id") === "" ||
             watch("country_id").length === 0 ||
             watch("city_id").length === 0 ||
             errors["city_id"]?.message ||

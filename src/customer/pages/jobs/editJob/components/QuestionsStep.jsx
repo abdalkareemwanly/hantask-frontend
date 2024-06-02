@@ -48,8 +48,8 @@ const QuestionsStep = ({ template, setStepData, setStep }) => {
   };
 
   return (
-    <div>
-      {template && (
+    <div className="my-8">
+      {template ? (
         <ReusableForm
           template={template}
           onSubmit={onSubmit}
@@ -58,6 +58,24 @@ const QuestionsStep = ({ template, setStepData, setStep }) => {
           btnText={"next"}
           addedStyles={"md:w-[400px] lg:w-[100%]"}
         />
+      ) : (
+        <>
+          <h4>no questions to display</h4>
+          <div className="flex gap-2 items-center w-full my-4">
+            <button
+              className="bg-orangeColor p-2 rounded-md self-start"
+              onClick={() => setStep(1)}
+            >
+              back
+            </button>
+            <button
+              className="bg-greenColor p-2 rounded-md self-end"
+              onClick={() => setStep(3)}
+            >
+              next
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

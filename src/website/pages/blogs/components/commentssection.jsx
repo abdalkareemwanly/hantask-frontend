@@ -30,7 +30,11 @@
                 {comment.text}
               </motion.div>
             ))}
-            {isLoading && <div className="loader">Loading...</div>}
+            {isLoading && (
+              <div className="loader">
+                submitting, submitting, please wait...
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

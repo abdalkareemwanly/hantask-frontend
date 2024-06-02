@@ -58,7 +58,7 @@ function CustomerChat(props) {
       file: "sdfk",
     },
   ];
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   if (isLoading) return <Loader />;
   return (
     <Page>

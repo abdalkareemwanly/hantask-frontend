@@ -94,7 +94,7 @@ export const EditChildCategory = ({ data, setIsModalOpen }) => {
   const mutation = useMutationHook(postData, ["childCategories"]);
 
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     const subCategory = {
       ...values,
       image,

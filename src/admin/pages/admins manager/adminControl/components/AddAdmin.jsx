@@ -89,7 +89,7 @@ export const AddAdmin = ({ getAdmins, setIsAddModalOpen, roles }) => {
   };
 
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("username", values.username);

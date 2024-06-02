@@ -129,7 +129,7 @@ const ServiceProviderChat = ({}) => {
     };
   }, [selectedUser]);
 
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return isLoadingContacts ? (
     <Loader />
   ) : (

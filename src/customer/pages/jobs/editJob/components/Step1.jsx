@@ -1,48 +1,37 @@
 import ReusableForm from "../../../../../Components/ReusableForm";
 import { useGlobalDataContext } from "../../../../../contexts/GlobalDataContext";
 
-export const Step1 = ({
-  data,
-  setStepData,
-  setStep,
-  categories,
-  cities,
-  childCategories,
-  subCategories,
-  countries,
-  stepData,
-}) => {
+export const Step1 = ({ data, setStepData, setStep, stepData }) => {
   const onSubmit = async (values) => {
     setStepData({ ...values });
     setStep(2);
   };
+  console.log(stepData);
+
   const validate = () => {
-    console.log("no");
+    return;
   };
 
-  const { setSelectedCategory, setSelectedSubCategory, setSelectedCountry } =
-    useGlobalDataContext();
+  const {
+    categories,
+    filteredSubCategories,
+    filteredChildCategories,
+    countries,
+    filteredCities,
+    setSelectedCategory,
+    setSelectedSubCategory,
+    setSelectedCountry,
+    filteredAreas,
+    setSelectedCity,
+  } = useGlobalDataContext();
 
   let template = {
     title: "",
     fields: [
       {
-        title: "title ",
-        name: "title",
-        type: "text",
-        value: data?.title,
-        validationProps: {
-          required: {
-            value: true,
-            message: "this field is required",
-          },
-        },
-        styles: "md:w-[30%]",
-      },
-      {
         title: "budget ",
         name: "budget",
-        value: data?.budget,
+        value: stepData?.budget,
         type: "number",
         validationProps: {
           required: {
@@ -50,12 +39,12 @@ export const Step1 = ({
             message: "this field is required",
           },
         },
-        styles: "md:w-[30%]",
+        styles: "md:w-[45%]",
       },
       {
         title: "deadline date to apply to this job",
         name: "deadlineDate",
-        value: data?.dead_line,
+        value: stepData?.deadlineDate,
         type: "date",
         validationProps: {
           required: {
@@ -63,16 +52,18 @@ export const Step1 = ({
             message: "this field is required",
           },
         },
-        styles: "md:w-[30%]",
+        styles: "md:w-[45%]",
       },
       {
-        title: "choose the main category",
+        title:
+          "the main category, <strong style='color: red'>can't change</strong>",
         name: "category",
         type: "select",
+        readOnly: true,
         options: categories,
         optionText: "name",
         searchKey: "name",
-        value: data?.category_id,
+        value: stepData?.category,
         optionValue: "id",
         validationProps: {
           required: {
@@ -81,7 +72,6 @@ export const Step1 = ({
           },
         },
         onFieldChange: (option, setValue, setSelectedOptions, selectIndex) => {
-          console.log(option);
           setSelectedCategory({ id: option });
           setValue && setValue("subCategory", null);
           setSelectedOptions &&
@@ -92,36 +82,51 @@ export const Step1 = ({
         styles: "md:w-[45%]",
       },
       {
-        title: "choose sub category",
+        title:
+          "choose sub category, <strong style='color: red'>can't change</strong>",
         name: "subCategory",
         type: "select",
-        options: subCategories,
+        options: filteredSubCategories,
         optionText: "name",
+        readOnly: true,
         searchKey: "name",
-        value: data?.subcategory_id,
+        value: stepData?.subCategory,
         optionValue: "id",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         onFieldChange: (option, setValue, setSelectedOptions, selectIndex) => {
           setSelectedSubCategory({ id: option });
           setValue && setValue("child_category", null);
-          setSelectedOptions &&
-            setSelectedOptions((prev) =>
-              prev.map((ele, i) => (i === selectIndex + 1 ? [] : ele))
-            );
+          // setSelectedOptions &&
+          //   setSelectedOptions((prev) => {
+          //     prev.map((ele, i) => (i === selectIndex + 1 ? [] : ele));
+          //   });
         },
         styles: "md:w-[45%]",
       },
       {
-        title: "choose child category",
+        title:
+          "choose child category, <strong style='color: red'>can't change</strong>",
         name: "childCategory",
+        readOnly: true,
         type: "select",
-        options: childCategories,
+        options: filteredChildCategories,
         optionText: "name",
         searchKey: "name",
-        value: data?.childcategory_id,
+        value: stepData?.childCategory,
         optionValue: "id",
         styles: "md:w-[45%]",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
       },
-
       {
         title: "choose country",
         name: "country",
@@ -129,7 +134,7 @@ export const Step1 = ({
         options: countries,
         optionText: "country",
         searchKey: "country",
-        value: data?.country_id,
+        value: stepData?.country,
         optionValue: "id",
         validationProps: {
           required: {
@@ -152,10 +157,35 @@ export const Step1 = ({
         title: "choose city",
         name: "city",
         type: "select",
-        options: cities,
+        options: filteredCities,
         optionText: "service_city",
         searchKey: "service_city",
-        value: data?.city_id,
+        value: stepData?.city,
+        optionValue: "id",
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
+        onFieldChange: (option, setValue, setSelectedOptions, selectIndex) => {
+          setSelectedCity({ id: option });
+          setValue && setValue("area", null);
+          setSelectedOptions &&
+            setSelectedOptions((prev) =>
+              prev.map((ele, i) => (i === selectIndex + 1 ? [] : ele))
+            );
+        },
+        styles: "md:w-[45%]",
+      },
+      {
+        title: "choose area",
+        name: "area",
+        type: "select",
+        options: filteredAreas,
+        optionText: "service_area",
+        searchKey: "service_area",
+        value: stepData?.area,
         optionValue: "id",
         validationProps: {
           required: {
@@ -166,10 +196,10 @@ export const Step1 = ({
         styles: "md:w-[45%]",
       },
       {
-        title: "description ",
-        name: "description",
-        value: data?.description,
-        type: "textArea",
+        title: "line address ",
+        name: "line_address",
+        value: stepData?.line_address,
+        type: "text",
         validationProps: {
           required: {
             value: true,
@@ -180,14 +210,17 @@ export const Step1 = ({
       },
     ],
   };
+
   return (
-    <ReusableForm
-      template={template}
-      onSubmit={onSubmit}
-      validate={validate}
-      btnWidth={"w-[150px] self-end"}
-      btnText={"next"}
-      addedStyles={"md:w-[400px] lg:w-[100%]"}
-    />
+    stepData && (
+      <ReusableForm
+        template={template}
+        onSubmit={onSubmit}
+        validate={validate}
+        btnWidth={"w-[150px] self-end"}
+        btnText={"next"}
+        addedStyles={"md:w-[400px] lg:w-[100%]"}
+      />
+    )
   );
 };

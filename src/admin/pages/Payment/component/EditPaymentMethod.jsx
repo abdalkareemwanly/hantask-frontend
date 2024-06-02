@@ -10,7 +10,7 @@ export const EditPaymentMethod = ({
 }) => {
   const handleSubmit = async (values) => {
     try {
-      const id = toast.loading("Please wait...");
+      const id = toast.loading("submitting, please wait...");
 
       const paymentMethodData = {
         client_id: values.ClientId,

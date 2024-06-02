@@ -79,8 +79,9 @@ const ChatFooter = ({ refetch, selectedUser }) => {
           </span>
           <input
             type="file"
-            ref={fileInputRef}
-            style={{ display: "none" }}
+            name={"file"}
+            className="fileInput"
+            id={"file"}
             onChange={handleFileChange}
           />
           <span

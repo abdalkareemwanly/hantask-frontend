@@ -234,7 +234,7 @@ const AcceptedOrders = () => {
       },
     },
   ];
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   if (isLoading) return <Loader />;
   return (
     <Page>

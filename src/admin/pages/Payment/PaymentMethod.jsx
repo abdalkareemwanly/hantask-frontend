@@ -67,7 +67,7 @@ export default function PaymentMethod() {
   };
 
   const deleteFun = async (id) => {
-    const toastId = toast.loading("deleting..");
+    const toastId = toast.loading("submitting, please wait...");
     try {
       // const user = await deleteMutation.mutateAsync(id);
       const res = await axiosClient.get(`/admin/paymentMethod/delete/${id}`);

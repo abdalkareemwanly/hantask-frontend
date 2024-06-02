@@ -74,7 +74,7 @@ export default function ProductTable() {
   };
 
   const handleChangeStatus = async (id) => {
-    const toastId = toast.loading("processing...");
+    const toastId = toast.loading("submitting, please wait......");
     try {
       const product = await changeStatusMutation.mutateAsync(id);
       toast.update(toastId, {
@@ -100,7 +100,7 @@ export default function ProductTable() {
   };
 
   const deleteFun = async (id) => {
-    const toastId = toast.loading("deleting..");
+    const toastId = toast.loading("submitting, please wait...");
     try {
       const product = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
@@ -189,7 +189,7 @@ export default function ProductTable() {
                 isLink={false}
                 color={"bg-redColor"}
                 title={"delete"}
-                onClickFun={() => deleteFunc(row.id)}
+                onClickFun={() => handleDelete(row.id)}
               />
             )}
           </div>
@@ -197,7 +197,7 @@ export default function ProductTable() {
       },
     },
   ];
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   if (hasShowPermission === false) return nav("/admin/dashboard");
   return (

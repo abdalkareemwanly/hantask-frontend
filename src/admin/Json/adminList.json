@@ -4,11 +4,10 @@
     "path": "/admin/dashboard",
     "perId": "home"
   },
-  "Live Chat": {
-    "reportsChats": {
-      "path": "reports",
-      "perId": "showRoles"
-    }
+  "reports chats": {
+    "name": null,
+    "path": "reports",
+    "perId": "showRoles"
   },
   "accounts Manage": {
     "All Users": {
@@ -145,13 +144,18 @@
       "perId": "showLanguages"
     }
   },
-
+  "general settings": {
+    "place holder image": {
+      "path": "/admin/dashboard/generalSettings/placeHolderImage",
+      "name": null,
+      "perId": "showLanguages"
+    }
+  },
   "Languages": {
     "name": null,
     "path": "/admin/dashboard/languages",
     "perId": "showLanguages"
   },
-
   "Back To Site": {
     "name": null,
     "path": "/",

@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { formatMoney } from "../../../functions/price";
 import Loader from "../../../Components/Loader";
 import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
+import { FaCcPaypal } from "react-icons/fa6";
+import { FaCcStripe } from "react-icons/fa";
 
 const getData = async () => {
   const res = await axiosClient.get("site/plans");
@@ -13,9 +15,17 @@ const getData = async () => {
 
 const Modal = () => {
   return (
-    <div className="fixed grid place-items-center text-white w-[80%] h-[80%] top-[50%] left-[50%] bg-[#686868bd] z-[100] translate-x-[-50%] translate-y-[-50%]">
-      <button>subscirbe with paypal </button>
-      <button>subscirbe with stripe </button>
+    <div className="fixed grid grid-cols-2  place-items-center rounded-xl shadow-lg w-[50%] h-[50%] top-[50%] left-[50%] bg-white border border-mainBorder z-[100] translate-x-[-50%] translate-y-[-50%]">
+      <button className="capitalize flex items-center gap-4 flex-col justify-center">
+        {" "}
+        <FaCcPaypal size={80} color="#2790c2" />
+        continue with paypal{" "}
+      </button>
+      <button className="capitalize flex items-center gap-4 flex-col justify-center">
+        {" "}
+        <FaCcStripe size={80} color="#635bff" />
+        continue with stripe{" "}
+      </button>
     </div>
   );
 };
@@ -24,7 +34,7 @@ const Subscription = () => {
   const { data: plans, isLoading, isError } = useQueryHook(["plans"], getData);
 
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   return (
     <div className="lg:px-40 md:px-12  px-6 py-24 flex flex-col gap-12 text-center  justify-center items-center">

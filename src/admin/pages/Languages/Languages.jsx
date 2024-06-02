@@ -56,7 +56,7 @@ export default function Languages() {
   };
 
   const handleChangeStatus = async (id) => {
-    const toastID = toast.loading("please wait...");
+    const toastID = toast.loading("submitting, please wait...");
     try {
       const res = await changeMutation.mutateAsync(id);
       toast.update(toastID, {
@@ -87,7 +87,7 @@ export default function Languages() {
   };
 
   const deleteLang = async (Id) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     try {
       const res = await deleteMutation.mutateAsync(Id);
       toast.update(id, {
@@ -176,7 +176,7 @@ export default function Languages() {
       },
     },
   ];
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   return (
     <Page className="flex items-start flex-col-reverse justify-between gap-2">

@@ -50,7 +50,7 @@ function GeneratePassword() {
       }
     );
     if (res.status === 200) {
-      toast.success(res.data.message);
+      toast.success(res.data.mes);
       nav("/login");
     } else {
       toast.error("please go back and try again");

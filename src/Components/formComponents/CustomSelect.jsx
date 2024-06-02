@@ -17,6 +17,7 @@ const CustomSelect = ({
   watch,
   selectedOptions,
   setSelectedOptions,
+  readOnly,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -46,13 +47,14 @@ const CustomSelect = ({
   }, [field.options]);
 
   useEffect(() => {
-    setValue(name, selectedOptions[selectIndex]);
-    trigger(name);
+    if (selectIndex) {
+      setValue(name, selectedOptions[selectIndex]);
+      trigger(name);
+    }
   }, [selectedOptions]);
 
   const handleSelectOption = (option) => {
     // Check if the option is already selected
-    console.log(option);
     const isSelected =
       selectedOptions &&
       selectedOptions[selectIndex]?.some(
@@ -136,12 +138,12 @@ const CustomSelect = ({
   };
   return (
     <div key={selectIndex} className={`input-field w-full ${styles}`}>
-      <label htmlFor={name}>{title}</label>
+      <label htmlFor={name} dangerouslySetInnerHTML={{ __html: title }}></label>
       <div className="relative h-[48px] w-full bg-blocks-color border border-mainBorder rounded-md">
         <div
           className="w-full h-full  p-3 "
           {...register(name, validationProps)}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => (readOnly ? null : setIsOpen(!isOpen))}
         >
           {selectedOptions &&
           selectedOptions[selectIndex] &&

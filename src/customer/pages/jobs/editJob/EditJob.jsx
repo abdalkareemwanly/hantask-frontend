@@ -11,7 +11,7 @@ import { useMutationHook } from "../../../../hooks/useMutationHook";
 import { Step1 } from "./components/Step1";
 import Step2 from "./components/Step2";
 import { toast } from "react-toastify";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import QuestionsStep from "./components/QuestionsStep";
 import NetworkErrorComponent from "../../../../Components/NetworkErrorComponent";
 // get the query client
@@ -33,6 +33,7 @@ const EditJob = () => {
   const nav = useNavigate();
   const id = useParams().id;
   const queryClient = useQueryClient();
+
   const {
     categories,
     countries,
@@ -42,33 +43,64 @@ const EditJob = () => {
     setSelectedCategory,
     setSelectedSubCategory,
     filteredSubCategories,
+    selectedCategory,
+    selectedSubCategory,
     filteredChildCategories,
     setSelectedCountry,
     filteredCities,
     areas,
-    globalLoading,
+    loading,
     setSelectedCity,
     filteredAreas,
   } = useGlobalDataContext();
+
   const {
     data: post,
     isLoading,
     isError,
-  } = useQueryHook(["post", id], () => getData(id));
+    isRefetching,
+    error,
+  } = useQuery({
+    queryKey: ["postEdit", id],
+    queryFn: () => getData(id),
+    cacheTime: 0,
+    refetchOnWindowFocus: false,
+  });
   const [deletedMultipleAnswers, setDeletedMultipleAnswers] = useState([]);
 
-  const updateDataMutate = useMutationHook(updateDataFunc, ["post", id]);
+  const updateDataMutate = useMutationHook(updateDataFunc, ["postEdit", id]);
   const [stepData, setStepData] = useState();
-
+  const [isStepDataReady, setIsStepDataReady] = useState(false);
+  const allValuesDefined = (obj) => {
+    return Object.entries(obj).every(([key, value]) => {
+      // Exclude line_address from the check
+      if (key === "line_address") return true;
+      return value !== undefined && value !== null;
+    });
+  };
   useEffect(() => {
-    if (
-      post &&
-      countries &&
-      cities &&
-      categories &&
-      subCategories &&
-      childCategories
-    ) {
+    console.log(post);
+    if (post) {
+      const data = {
+        category: post?.category_id,
+        subCategory: post?.subcategory_id,
+        childCategory: post?.childCategory_id,
+        country: post?.country_id,
+        city: post?.city_id,
+        budget: post?.budget,
+        deadlineDate: post?.dead_line,
+        area: post?.area_id,
+        line_address: post?.line_address,
+      };
+      setStepData(data);
+      // Debugging statements to understand the state changes
+      const valuesReady = allValuesDefined(data);
+      console.log("Step Data:", data);
+      console.log("All values defined except line_address:", valuesReady);
+
+      setIsStepDataReady(valuesReady);
+
+      setIsStepDataReady(allValuesDefined);
       setSelectedCategory(post?.category_id);
       setSelectedSubCategory(post?.subCategory_id);
       setSelectedCountry(post?.country_id);
@@ -77,19 +109,7 @@ const EditJob = () => {
     }
   }, [post, countries, cities, categories, subCategories, childCategories]);
 
-  useEffect(() => {
-    setStepData({
-      category: post?.category_id,
-      subCategory: post?.subcategory_id,
-      childCategory: post?.childCategory_id,
-      country: post?.country_id,
-      city: post?.city_id,
-      title: post?.title,
-      budget: post?.budget,
-      deadlineDate: post?.dead_line,
-      description: post?.description,
-    });
-  }, [post]);
+  // useEffect(() => {}, [post]);
 
   const [_images, setImages] = useState([]);
   const [thumbnail, setThumbnail] = useState();
@@ -134,39 +154,40 @@ const EditJob = () => {
       console.log(err);
     }
   };
-  console.log(deletedMultipleAnswers);
-  console.log(stepData);
+
   const handleFinish = async () => {
-    const toastID = toast.loading("Processing...");
+    const toastID = toast.loading("submitting, please wait......");
 
     let transformedData = {
-      category_id: stepData.category[0].id,
-      childCategory_id: stepData.subCategory[0].id,
-      subcategory_id: stepData.subCategory[0].id,
-      questions: [
-        ...stepData.questions
-          .map((question) => {
-            if (Array.isArray(question.buyer_answer)) {
-              return question.buyer_answer.map((answer) => ({
-                question_id: question.question_id,
-                answer_id: answer.answer_id,
-              }));
-            } else {
-              return {
-                question_id: question.question_id,
-                buyer_answer: question.buyer_answer,
-              };
-            }
-          })
-          .flat(),
-        ...deletedMultipleAnswers,
-      ],
-      country_id: stepData.country[0].id,
-      city_id: stepData.city[0].id,
+      category_id: stepData.category[0]?.id,
+      childCategory_id: stepData.childCategory[0]?.id,
+      subcategory_id: stepData.subCategory[0]?.id,
+      questions: stepData.questions
+        ? [
+            ...stepData.questions
+              .map((question) => {
+                if (Array.isArray(question.buyer_answer)) {
+                  return question.buyer_answer.map((answer) => ({
+                    question_id: question.question_id,
+                    answer_id: answer.answer_id,
+                  }));
+                } else {
+                  return {
+                    question_id: question.question_id,
+                    buyer_answer: question.buyer_answer,
+                  };
+                }
+              })
+              .flat(),
+            ...deletedMultipleAnswers,
+          ]
+        : [],
+      country_id: stepData.country[0]?.id,
+      city_id: stepData.city[0]?.id,
+      area_id: stepData.area[0]?.id,
       budget: stepData.budget,
       dead_line: stepData.deadlineDate,
-      title: stepData.title,
-      description: stepData.description,
+      line_address: stepData.line_address,
     };
 
     const formData = new FormData();
@@ -181,11 +202,16 @@ const EditJob = () => {
       } else {
         formData.append(key, value);
       }
+      if (key === "questions") {
+        if (value === null) {
+          return;
+        }
+      }
     });
     if (thumbnail?.file) {
       formData.append("image", thumbnail.file);
     }
-
+    console.log(transformedData);
     const images = new FormData();
     _images.map((ele) => {
       images.append("image[]", ele.file);
@@ -243,7 +269,6 @@ const EditJob = () => {
         },
         onFieldChange: (option) => {
           if (option) {
-            console.log(option);
             setDeletedMultipleAnswers((prev) => {
               const isExist = prev.some((ele) => ele.id === option.id);
 
@@ -265,7 +290,6 @@ const EditJob = () => {
           : null,
       };
       if (field.type === "select") {
-        console.log(question);
         field.options = question.form_answer.map((answer) => ({
           answer_id: answer.id,
           text: answer.content,
@@ -276,10 +300,8 @@ const EditJob = () => {
 
       newTemplate.fields.push(field);
     });
-
-    setTemplate(newTemplate);
+    setTemplate(groupedData.length > 0 ? newTemplate : null);
   };
-  console.log(groupedData);
 
   useEffect(() => {
     const groupedDataInitial = [];
@@ -316,49 +338,51 @@ const EditJob = () => {
     setGroupedData(groupedDataInitial);
   }, [post]);
 
-  console.log(groupedData);
   useEffect(() => {
     generateTemplate();
   }, [groupedData]); // Ensure generateTemplate runs whenever data changes
-  if (globalLoading || isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+
+  if (loading || isRefetching || isLoading) return <Loader />;
+  if (isError) return <NetworkErrorComponent />;
+  console.log(isStepDataReady);
   return (
     <Page>
       <PageTitle text={"edit deal data"} />
-      {step === 1 ? (
-        <Step1
-          data={post}
-          categories={categories}
-          countries={countries}
-          subCategories={filteredSubCategories}
-          childCategories={filteredChildCategories}
-          cities={filteredCities}
-          setStepData={setStepData}
-          setStep={setStep}
-          stepData={stepData}
-        />
-      ) : step === 2 ? (
-        <QuestionsStep
-          template={template}
-          setStepData={setStepData}
-          setStep={setStep}
-          post={post}
-        />
+      {isStepDataReady ? (
+        <>
+          {step === 1 ? (
+            <Step1
+              data={post}
+              setStepData={setStepData}
+              setStep={setStep}
+              stepData={stepData}
+            />
+          ) : step === 2 ? (
+            <QuestionsStep
+              template={template}
+              setStepData={setStepData}
+              setStep={setStep}
+              post={post}
+            />
+          ) : (
+            <Step2
+              setImages={setImages}
+              setThumbnail={setThumbnail}
+              thumbnail={thumbnail}
+              selectedImage={selectedImage}
+              setSelectedImage={setSelectedImage}
+              _images={_images}
+              readyImages={readyImages}
+              handleDeleteImage={handleDeleteImage}
+              confirmHandleDeleteImages={confirmHandleDeleteImages}
+              handleFinish={handleFinish}
+              setStep={setStep}
+            />
+          )}
+        </>
       ) : (
-        <Step2
-          setImages={setImages}
-          setThumbnail={setThumbnail}
-          thumbnail={thumbnail}
-          selectedImage={selectedImage}
-          setSelectedImage={setSelectedImage}
-          _images={_images}
-          readyImages={readyImages}
-          handleDeleteImage={handleDeleteImage}
-          confirmHandleDeleteImages={confirmHandleDeleteImages}
-          handleFinish={handleFinish}
-          setStep={setStep}
-        />
-      )}
+        <div>Loading step data...</div>
+      )}{" "}
     </Page>
   );
 };
