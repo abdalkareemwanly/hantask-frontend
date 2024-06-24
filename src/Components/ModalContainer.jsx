@@ -1,4 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { IoMdCloseCircle } from "react-icons/io";
+
 const ModalContainer = ({ setIsModalOpen, component, type }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -28,8 +30,14 @@ const ModalContainer = ({ setIsModalOpen, component, type }) => {
                 ? "p-1 bg-gray-700"
                 : "bg-gray-700 p-8"
               : "bg-background-color p-8"
-          }  shadow-2xl rounded-lg component-shadow h-max  md:w-fit w-fit sm:w-[350px]`}
+          }  shadow-2xl rounded-lg component-shadow h-max  md:w-fit w-fit sm:w-[380px]`}
         >
+          <div
+            className="absolute top-5 right-5 cursor-pointer"
+            onClick={handleCloseModal}
+          >
+            <IoMdCloseCircle size={40} />
+          </div>
           {component}
         </div>
       </motion.div>

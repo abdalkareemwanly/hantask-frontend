@@ -10,28 +10,6 @@ const postData = async (data) => {
 };
 const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
   const [image, setImage] = useState(data?.image);
-  const [filteredCities, setFilteredCities] = useState(null);
-  const handleCountriesChange = (e) => {
-    const selectedCountry = countries?.find((obj) => obj.id == e);
-    const updatedCiteis = cities?.filter(
-      (obj) => obj.country === selectedCountry?.country
-    );
-    setFilteredCities(updatedCiteis);
-    setFilteredAreas([]);
-  };
-  const [filteredAreas, setFilteredAreas] = useState(null);
-  const handleCityChange = (e) => {
-    const selectedCountry = cities?.find((obj) => obj.id == e);
-    const updatedAreas = areas?.filter(
-      (obj) => obj.city === selectedCountry?.service_city
-    );
-    setFilteredAreas(updatedAreas);
-  };
-
-  useEffect(() => {
-    handleCountriesChange(data.country.id);
-    handleCityChange(data.city.id);
-  }, [data]);
 
   let template = {
     title: "update user data",
@@ -77,7 +55,6 @@ const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
         type: "select",
         options: [...countries],
         validationProps: {
-          onChange: (e) => handleCountriesChange(e.target.value),
           required: {
             value: true,
             message: "this field is required",
@@ -92,9 +69,8 @@ const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
         title: "city",
         name: "city",
         type: "select",
-        options: filteredCities && [...filteredCities],
+        options: cities && [...cities],
         validationProps: {
-          onChange: (e) => handleCityChange(e.target.value),
           required: {
             value: true,
             message: "this field is required",
@@ -109,7 +85,13 @@ const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
         title: "area",
         name: "area",
         type: "select",
-        options: filteredAreas && [...filteredAreas],
+        options: areas && [...areas],
+        validationProps: {
+          required: {
+            value: true,
+            message: "this field is required",
+          },
+        },
         value: data.area.id,
         optionText: "service_area",
         optionValue: "id",
@@ -129,19 +111,19 @@ const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
     formData.append("username", user.username);
     formData.append("email", user.email);
     formData.append("phone", user.phone);
-    formData.append("country_id", user.country);
-    formData.append("service_city", user.city);
-    formData.append("service_area", user.area);
+    formData.append("country_id", user.country[0]?.id);
+    formData.append("service_city", user.city[0]?.id);
+    formData.append("service_area", user.area[0]?.id);
     if (typeof user?.image !== "string") {
       formData.append("image", user.image);
     }
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     try {
-      const user = await mutation.mutateAsync({ formData, userId });
+      const res = await mutation.mutateAsync({ formData, userId });
       setIsModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -167,19 +149,17 @@ const EditProfile = ({ data, setIsModalOpen, countries, cities, areas }) => {
 
   return (
     <>
-      {filteredCities && (
-        <ReusableForm
-          template={template}
-          watchFields={["username", "fullname"]}
-          onSubmit={onSubmit}
-          validate={validate}
-          btnWidth={"w-full text-white"}
-          btnText={"submit"}
-          addedStyles={"md:w-[800px]"}
-          image={image}
-          setImage={setImage}
-        />
-      )}
+      <ReusableForm
+        template={template}
+        watchFields={["username", "fullname"]}
+        onSubmit={onSubmit}
+        validate={validate}
+        btnWidth={"w-full text-white"}
+        btnText={"submit"}
+        addedStyles={"md:w-[800px]"}
+        image={image}
+        setImage={setImage}
+      />
     </>
   );
 };

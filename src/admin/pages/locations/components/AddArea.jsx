@@ -82,7 +82,7 @@ export const AddArea = ({ setIsAddModalOpen }) => {
 
   const mutation = useMutationHook(postData, ["areas"]);
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     const area = {
       ...values,
     };

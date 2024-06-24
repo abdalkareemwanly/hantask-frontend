@@ -135,7 +135,7 @@ function ServiceProviderReports(props) {
   } = useQueryHook(["reports", page], () => getData(page), "paginate", page);
 
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   return (
     <Page>

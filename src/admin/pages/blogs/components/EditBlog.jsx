@@ -108,7 +108,7 @@ const EditBlog = ({ setIsModalOpen, data, page }) => {
   const mutation = useMutationHook(handleUpdate, ["blogs", page]);
 
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     const formData = new FormData();
     formData.append("title", values.name);
     formData.append("meta_description", values.description);

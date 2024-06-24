@@ -43,7 +43,7 @@ function BuyerProfile(props) {
   });
 
   const params = useParams();
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   return isLoading ? (
     <>

@@ -63,7 +63,7 @@ const Header = () => {
                 : "/login"
             }
             Icon={<MdOutlineAccountCircle fontSize={25} color="black" />}
-            title={user ? user.name : "account"}
+            title={user ? user.name || user?.username : "account"}
             textColor={"black"}
             color={"flex-row-reverse"}
           />

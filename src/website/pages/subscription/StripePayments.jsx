@@ -78,7 +78,7 @@ const StripePayments = () => {
       if (res.status === 200) {
         toast.update(toaster, {
           type: "success",
-          render: res.data.message,
+          render: res.data.mes,
           closeOnClick: true,
           isLoading: false,
           autoClose: true,
@@ -92,7 +92,7 @@ const StripePayments = () => {
       } else {
         toast.update(toaster, {
           type: "error",
-          render: res.data.message,
+          render: res.data.mes,
           closeOnClick: true,
           isLoading: false,
           autoClose: true,

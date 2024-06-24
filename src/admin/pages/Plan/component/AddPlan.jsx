@@ -27,7 +27,7 @@ export const AddPlan = ({ getUsers, setIsAddModalOpen }) => {
         styles: "md:w-[45%]",
       },
       {
-        title: "Product Name",
+        title: "Service Name",
         name: "product_id",
         type: "select",
         options: AllProduct?.map((product) => ({
@@ -126,7 +126,7 @@ export const AddPlan = ({ getUsers, setIsAddModalOpen }) => {
   };
 
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
 
     const productData = {
       product_id: values.product_id[0].value,
@@ -178,7 +178,7 @@ export const AddPlan = ({ getUsers, setIsAddModalOpen }) => {
         });
       } else {
         // getUsers();
-        // setIsAddModalOpen((prev) => !prev);
+        setIsAddModalOpen((prev) => !prev);
         toast.update(id, {
           type: "success",
           render: data.data.mes,

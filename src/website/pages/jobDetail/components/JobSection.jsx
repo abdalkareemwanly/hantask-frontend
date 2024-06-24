@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import { MdAttachMoney } from "react-icons/md";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { formatMoney } from "../../../../functions/price";
+import { useQueryClient } from "@tanstack/react-query";
 
 const PrevBTN = ({ onClick }) => {
   return (
@@ -100,6 +101,7 @@ function JobSection({ data }) {
       },
     ],
   };
+  const queryClient = useQueryClient();
   const isUser = localStorage.getItem("ACCESS_TOKEN");
   const isUserSeller =
     JSON.parse(localStorage.getItem("USER"))?.user_type == "seller";
@@ -119,17 +121,19 @@ function JobSection({ data }) {
           groupedDataInitial.push({
             ...item,
             form_answer: item.form_answer,
-            buyer_answer: item.buyer_answer.answer_id
+            buyer_answer: item.buyer_answer.buyer_answer
               ? {
                   ...item.buyer_answer,
-                  answers: [item.buyer_answer.answer_id],
+                  answers: [item.buyer_answer.buyer_answer],
                 }
-              : item.buyer_answer,
+              : item.buyer_answer.buyer_answer,
           });
         } else {
           existingItem.form_answer.push(item.form_answer);
           if (item.buyer_answer.answer_id) {
-            existingItem.buyer_answer.answers.push(item.buyer_answer.answer_id);
+            existingItem.buyer_answer.answers.push(
+              item.buyer_answer.buyer_answer
+            );
           }
         }
       } else {
@@ -145,10 +149,11 @@ function JobSection({ data }) {
     const isLogin = localStorage.getItem("ACCESS_TOKEN");
     if (isLogin) {
       if (isServiceProvider) {
-        const res = await axiosClient.post("/site/post/saved", {
+        const res = await axiosClient.post("/site/posts/saved", {
           post_id: data.id,
         });
-        toast.success("saved successfully");
+        toast.success(res.data.mes);
+        queryClient.invalidateQueries({ queryKey: ["post", `${data.id}`] });
       } else {
         toast.info("only for handymans");
       }
@@ -288,16 +293,32 @@ function JobSection({ data }) {
         <div className="col-span-1 lg:col-span-1 h-fit p-4 bg-[#ebf0f7] rounded-md flex flex-col gap-4">
           <h3 className="text-2xl font-bold">deal overview</h3>
           <div className="flex items-center gap-4 mt-4">
-            <FaMoneyBillTrendUp size={24} color="#1c8397" />
+            <div>
+              <FaMoneyBillTrendUp
+                className="w-[25px] h-[25px]"
+                size={24}
+                color="#1c8397"
+              />
+            </div>
             <div>{formatMoney(Number(data?.budget))}</div>
           </div>
           <div className="flex items-center gap-4 mt-4">
-            <FaLocationDot size={24} color="#1c8397" />
+            <div>
+              <FaLocationDot
+                className="w-[25px] h-[25px]"
+                size={24}
+                color="#1c8397"
+              />
+            </div>
             <div>{data?.country_name + ", " + data?.city_name}</div>
           </div>
           <div className="flex items-center gap-4 mt-4">
-            <div className="flex-1">
-              <BiSolidCategory size={24} color="#1c8397" />
+            <div>
+              <BiSolidCategory
+                className="w-[25px] h-[25px]"
+                size={24}
+                color="#1c8397"
+              />
             </div>
             <div className="flex category-con flex-col gap-2">
               <span>{data?.category_name}</span>
@@ -306,13 +327,34 @@ function JobSection({ data }) {
             </div>
           </div>
           <div className="flex items-center gap-4 mt-4">
-            <IoCalendarNumberSharp size={24} color="#1c8397" />
+            <div>
+              <IoCalendarNumberSharp
+                className="w-[25px] h-[25px]"
+                size={24}
+                color="#1c8397"
+              />
+            </div>
             <div>{data?.dead_line}</div>
           </div>
-          <div className="flex items-center gap-4 mt-4">
-            <RiQuestionAnswerFill size={24} color="#1c8397" />
-            <div>{data?.country_name + ", " + data?.city_name}</div>
-          </div>
+          {groupedData.map((ele, i) => (
+            <div key={`${ele + i}`} className="flex items-center gap-4 mt-4">
+              <div>
+                <RiQuestionAnswerFill
+                  className="w-[25px] h-[25px]"
+                  size={24}
+                  color="#1c8397"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <span className="font-semibold">{ele.question_content}</span>
+                <span className="pl-4 text-gray-500">
+                  {ele.question_type == "multiplechoise"
+                    ? ele?.buyer_answer?.answers?.join(", ")
+                    : ele?.buyer_answer?.buyer_answer}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

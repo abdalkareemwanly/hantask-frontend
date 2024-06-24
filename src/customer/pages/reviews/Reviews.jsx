@@ -49,12 +49,12 @@ const Reviews = () => {
   const deleteMutation = useMutationHook(deleteRow, ["reviews", page]);
 
   const deleteFunc = async (id) => {
-    const toastId = toast.loading("deleting..");
+    const toastId = toast.loading("submitting, please wait...");
     try {
-      const user = await deleteMutation.mutateAsync(id);
+      const res = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -177,7 +177,7 @@ const Reviews = () => {
   ];
 
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return isFetching ? (
     <Loader />
   ) : (

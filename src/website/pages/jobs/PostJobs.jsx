@@ -11,31 +11,60 @@ import Pagination from "../../components/pagination/Pagination";
 import NetworkErrorComponent from "../../../Components/NetworkErrorComponent";
 
 const getData = async (page = 1, filter, userId) => {
-  const res = await axiosClient.get(
-    `/site/posts?page=${page}${
-      filter?.country.value ? `&country_id=${filter?.country?.value}` : ""
-    }${filter?.city.value ? `&city_id=${filter?.city?.value}` : ""}${
-      filter?.category.value ? `&category_id=${filter?.category?.value}` : ""
-    }${
-      filter?.subcategory.value
-        ? `&subcategory_id=${filter?.subcategory?.value}`
-        : ""
-    }${
-      filter?.childcategory.value
-        ? `&childcategory_id=${filter?.childcategory?.value}`
-        : ""
-    }${filter?.price.minPrice ? `&minPrice=${filter?.price?.minPrice}` : ""}${
-      filter?.price.maxPrice ? `&maxPrice=${filter?.price?.maxPrice}` : ""
-    }${
-      filter?.chooseType?.value ? `&${filter.chooseType.value}=${"desc"}` : ""
-    }${filter?.search?.length > 0 ? `&text=${filter?.search}` : ""}`,
-    {
-      data: {
-        userId: userId,
-      },
-    }
-  );
-  return res;
+  const token = localStorage.getItem("ACCESS_TOKEN");
+  if (token) {
+    const res = await axiosClient.get(
+      `/site/posts2?page=${page}${
+        filter?.country.value ? `&country_id=${filter?.country?.value}` : ""
+      }${filter?.city.value ? `&city_id=${filter?.city?.value}` : ""}${
+        filter?.category.value ? `&category_id=${filter?.category?.value}` : ""
+      }${
+        filter?.subcategory.value
+          ? `&subcategory_id=${filter?.subcategory?.value}`
+          : ""
+      }${
+        filter?.childcategory.value
+          ? `&childcategory_id=${filter?.childcategory?.value}`
+          : ""
+      }${filter?.price.minPrice ? `&minPrice=${filter?.price?.minPrice}` : ""}${
+        filter?.price.maxPrice ? `&maxPrice=${filter?.price?.maxPrice}` : ""
+      }${
+        filter?.chooseType?.value ? `&${filter.chooseType.value}=${"desc"}` : ""
+      }${filter?.search?.length > 0 ? `&text=${filter?.search}` : ""}`,
+      {
+        data: {
+          userId: userId,
+        },
+      }
+    );
+    return res;
+  } else {
+    const res = await axiosClient.get(
+      `/site/posts?page=${page}${
+        filter?.country.value ? `&country_id=${filter?.country?.value}` : ""
+      }${filter?.city.value ? `&city_id=${filter?.city?.value}` : ""}${
+        filter?.category.value ? `&category_id=${filter?.category?.value}` : ""
+      }${
+        filter?.subcategory.value
+          ? `&subcategory_id=${filter?.subcategory?.value}`
+          : ""
+      }${
+        filter?.childcategory.value
+          ? `&childcategory_id=${filter?.childcategory?.value}`
+          : ""
+      }${filter?.price.minPrice ? `&minPrice=${filter?.price?.minPrice}` : ""}${
+        filter?.price.maxPrice ? `&maxPrice=${filter?.price?.maxPrice}` : ""
+      }${
+        filter?.chooseType?.value ? `&${filter.chooseType.value}=${"desc"}` : ""
+      }${filter?.search?.length > 0 ? `&text=${filter?.search}` : ""}`,
+      {
+        data: {
+          userId: userId,
+        },
+      }
+    );
+    return res;
+  }
 };
 
 function PostJobs(props) {
@@ -66,7 +95,7 @@ function PostJobs(props) {
     "paginate",
     page
   );
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   return (
     <div className="website-page  lg:px-32 md:px-16 px-8 py-24 flex flex-col gap-12 text-center   items-center">

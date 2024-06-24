@@ -120,7 +120,7 @@ const ServiceProvidersVerify = () => {
       },
     },
   ];
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return (
     <Page>
       {isModalOpen && (

@@ -74,7 +74,7 @@ export const EditAdmin = ({ data, getAdmins, setIsModalOpen, roles }) => {
   };
 
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("name", values.name);
@@ -104,7 +104,7 @@ export const EditAdmin = ({ data, getAdmins, setIsModalOpen, roles }) => {
         } else {
           toast.update(id, {
             type: "error",
-            render: res.data.message,
+            render: res.data.mes,
             closeOnClick: true,
             isLoading: false,
             autoClose: true,

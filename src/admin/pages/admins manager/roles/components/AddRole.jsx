@@ -28,7 +28,7 @@ export const AddRole = ({ getRoles, setIsAddModalOpen }) => {
   };
 
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     const formData = new FormData();
     formData.append("name", values.name);
     try {
@@ -56,8 +56,7 @@ export const AddRole = ({ getRoles, setIsAddModalOpen }) => {
     }
   };
 
-  const validate = () => {
-  };
+  const validate = () => {};
 
   return (
     <>

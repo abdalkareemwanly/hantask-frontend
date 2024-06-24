@@ -44,12 +44,12 @@ const Orders = () => {
   ]);
 
   const acceptFunc = async (id, status) => {
-    const toastId = toast.loading("deleting..");
+    const toastId = toast.loading("submitting, please wait...");
     try {
-      const user = await changeStatusMutation.mutateAsync({ id, status });
+      const res = await changeStatusMutation.mutateAsync({ id, status });
       toast.update(toastId, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -216,7 +216,7 @@ const Orders = () => {
     },
   ];
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return (
     <Page>
       {isModalOpen && (

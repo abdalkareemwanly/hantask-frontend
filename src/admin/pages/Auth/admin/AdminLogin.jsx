@@ -29,7 +29,7 @@ export default function AdminLogin() {
   }, [mode]);
 
   const handleLogin = (values) => {
-    const id = toast.loading("Please wait...");
+    const id = toast.loading("submitting, please wait...");
     const payload = {
       email: values.email,
       password: values.password,

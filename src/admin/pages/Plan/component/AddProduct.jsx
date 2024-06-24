@@ -23,15 +23,7 @@ export const AddProduct = ({ category, setIsAddModalOpen }) => {
         type: "text",
         styles: "md:w-[45%]",
       },
-      {
-        title: "type",
-        name: "type",
-        type: "select",
-        options: [{ name: "SERVICE" }, { name: "PRODUCT" }],
-        styles: "md:w-[45%]",
-        optionValue: "name",
-        optionText: "name",
-      },
+
       {
         title: "description",
         name: "description",
@@ -67,14 +59,14 @@ export const AddProduct = ({ category, setIsAddModalOpen }) => {
 
   const onSubmit = async (values) => {
     setLoading(true);
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
 
     const formData = new FormData();
     formData.append("category", values.category[0].value);
     formData.append("description", values.description);
     formData.append("image", image);
     formData.append("name", values.name);
-    formData.append("type", values.type[0].name);
+    formData.append("type", "SERVICE");
     axiosClient
       .post("/admin/paypal/products/create", formData)
       .then((response) => {

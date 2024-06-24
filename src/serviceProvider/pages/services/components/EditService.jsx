@@ -208,13 +208,13 @@ export const EditService = ({ data, setIsModalOpen }) => {
     if (typeof user?.image !== "string") {
       formData.append("image", user.image);
     }
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     try {
-      const user = await mutation.mutateAsync({ formData, userId });
+      const res = await mutation.mutateAsync({ formData, userId });
       setIsModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

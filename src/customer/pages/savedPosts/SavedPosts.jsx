@@ -34,12 +34,12 @@ const SavedPosts = () => {
   ]);
 
   const handleChangeStatus = async (id) => {
-    const toastId = toast.loading("processing...");
+    const toastId = toast.loading("submitting, please wait......");
     try {
-      const user = await changeStatusMutation.mutateAsync(id);
+      const res = await changeStatusMutation.mutateAsync(id);
       toast.update(toastId, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -60,7 +60,7 @@ const SavedPosts = () => {
   };
 
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   return (
     <Page>

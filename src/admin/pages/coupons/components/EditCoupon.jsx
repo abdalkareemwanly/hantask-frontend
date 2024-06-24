@@ -73,7 +73,7 @@ export const EditCoupon = ({ data, plans, setIsModalOpen }) => {
   };
   const mutation = useMutationHook(postData, ["coupons"]);
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
 
     const formData = new FormData();
     formData.append("name", values.name);
@@ -81,11 +81,11 @@ export const EditCoupon = ({ data, plans, setIsModalOpen }) => {
     formData.append("slug", values.slug);
     const couponId = data.id;
     try {
-      const user = await mutation.mutateAsync({ formData, couponId });
+      const res = await mutation.mutateAsync({ formData, couponId });
       setIsModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

@@ -55,21 +55,6 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
         styles: "md:w-[45%]",
       },
       {
-        title: "status",
-        name: "status",
-        type: "select",
-        options: [{ name: 'Active' }, { name: 'UnActive' }],
-        optionText: "name",
-        optionValue: "name",
-        validationProps: {
-          required: {
-            value: true,
-            message: "this field is required",
-          },
-        },
-        styles: "md:w-[45%]",
-      },
-      {
         title: "duration",
         name: "duration",
         type: "select",
@@ -96,7 +81,7 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
   const mutation = useMutationHook(postData, ["coupons"]);
 
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
 
     const formData = new FormData();
     formData.append("name", values.name);
@@ -106,11 +91,11 @@ export const AddCoupon = ({ plans, setIsAddModalOpen }) => {
     formData.append("duration", values.duration[0].name);
     formData.append("duration_in_months", values.duration_in_months);
     try {
-      const category = await mutation.mutateAsync(formData);
+      const res = await mutation.mutateAsync(formData);
       setIsAddModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",
-        render: category.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

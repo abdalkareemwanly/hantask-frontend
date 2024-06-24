@@ -37,7 +37,7 @@ export const EditCountry = ({
   const mutation = useMutationHook(postData, ["countries"]);
 
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     const country = {
       ...values,
     };

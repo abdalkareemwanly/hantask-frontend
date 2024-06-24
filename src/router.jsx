@@ -88,6 +88,7 @@ import Blog from "./website/pages/blogs/Blog";
 import AdminBlogs from "./admin/pages/blogs/AdminBlogs";
 import ResetPassword from "./website/pages/resetPassOtp/ResetPassword";
 import GeneratePassword from "./website/pages/generatePassword/GeneratePassword";
+import PlaceHolderImageSettings from "./admin/pages/generalSettings/placeHolderImage/PlaceHolderImageSettings";
 
 const PrivateRoute = ({ element, role }) => {
   const thereisToken = localStorage.getItem("ACCESS_TOKEN");
@@ -177,6 +178,23 @@ const router = createBrowserRouter([
           {
             path: "privacy",
             element: <Privacy />,
+          },
+          {
+            path: "terms&conditions",
+            element: <TermsConditions />,
+          },
+          {
+            path: "contactus",
+            element: <ContactSetting />,
+          },
+        ],
+      },
+      {
+        path: "generalSettings",
+        children: [
+          {
+            path: "placeHolderImage",
+            element: <PlaceHolderImageSettings />,
           },
           {
             path: "terms&conditions",

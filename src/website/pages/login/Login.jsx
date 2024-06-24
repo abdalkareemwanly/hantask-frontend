@@ -43,7 +43,7 @@ function Login() {
     if (res.data.success) {
       toast.update(toastId, {
         type: "success",
-        render: res.data.message,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -54,10 +54,9 @@ function Login() {
       setUser(res.data.data);
       sessionStorage.setItem("mode", "light");
       localStorage.setItem("USER", JSON.stringify(res.data.user));
-      if (res.data.user.user_type === "buyer") {
-        const postToast = toast.loading("proccessing...");
-
+      if (res.data.user.user_type == "buyer") {
         if (isFromPostDealPage && postStoreData) {
+          const postToast = toast.loading("proccessing...");
           const postFormData = new FormData();
 
           // Append each key-value pair to FormData
@@ -116,7 +115,7 @@ function Login() {
     } else {
       toast.update(toastId, {
         type: "error",
-        render: res.data.message,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

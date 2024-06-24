@@ -82,7 +82,7 @@ export const AddCategory = ({ getCategories, setIsAddModalOpen }) => {
   const mutation = useMutationHook(postData, ["categories"]);
 
   const onSubmit = async (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     const category = {
       ...values,
       image,
@@ -96,11 +96,11 @@ export const AddCategory = ({ getCategories, setIsAddModalOpen }) => {
     // formData.append("icon", category.icon);
     // formData.append("mobile_icon", category.mobile_icon);
     try {
-      const category = await mutation.mutateAsync(formData);
+      const res = await mutation.mutateAsync(formData);
       setIsAddModalOpen((prev) => !prev);
       toast.update(id, {
         type: "success",
-        render: category.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,

@@ -141,38 +141,13 @@ function Reports(props) {
     }, 500);
   }, [reports, page, queryClient]);
 
-  const fields = {
-    age: {
-      value: 42,
-      type: "text",
-      placeholder: "type anything",
-      title: "age",
-    },
-    name: {
-      value: 42,
-      type: "number",
-      placeholder: "type anything",
-      title: "name",
-    },
-    id: {
-      value: 42,
-      type: "number",
-      placeholder: "type anything",
-      title: "id",
-    },
-  };
-
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  console.log(isError);
+  if (isError) return <NetworkErrorComponent />;
 
   return (
     <Page>
       <div className="flex flex-col gap-[30px]">
-        {/* <Filter
-            state={state}
-            dispatch={dispatch}
-            handleSearch={handleSearch}
-          /> */}
         <div className="recent-ticket xl:col-span-3 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">
           <div className=" flex justify-between border-b border-light-text  pb-[20px]">
             <h4 className="text-[24px] leading-[1.2] font-[600] text-primary-text">

@@ -60,12 +60,12 @@ const Jobs = () => {
     });
   };
   const deleteFun = async (id) => {
-    const toastId = toast.loading("deleting..");
+    const toastId = toast.loading("submitting, please wait...");
     try {
-      const user = await deleteMutation.mutateAsync(id);
+      const res = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
         type: "success",
-        render: user.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -86,12 +86,12 @@ const Jobs = () => {
   };
 
   const handleChangeStatus = async (id) => {
-    const toastId = toast.loading("processing...");
+    const toastId = toast.loading("submitting, please wait......");
     try {
       const user = await changeStatusMutation.mutateAsync(id);
       toast.update(toastId, {
         type: "success",
-        render: user.mes,
+        render: user.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -112,7 +112,7 @@ const Jobs = () => {
   };
 
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return (
     <Page>
       <PageTitle

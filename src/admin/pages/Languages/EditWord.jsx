@@ -64,7 +64,7 @@ export default function EditWord() {
           <div>
             <Button
               isLink={true}
-              goto={"/admin/languages"}
+              goto={"/admin/dashboard/languages"}
               title={"All Language"}
               color={"bg-blueColor"}
             />
@@ -132,7 +132,7 @@ const AddNewWord = ({ slug, getWords, setIsModalOpen }) => {
   };
 
   const onSubmit = (values) => {
-    const id = toast.loading("please wait...");
+    const id = toast.loading("submitting, please wait...");
     axiosClient.post(`/admin/translation/update/${slug}`, values).then(() => {
       getWords();
       toast.update(id, {

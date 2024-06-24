@@ -9,7 +9,6 @@ export const useQueryHook = (queryKey, getDataFun, queryType) => {
 
   const normalQuery = {
     queryKey: queryKey,
-
     queryFn: getDataFun,
     refetchOnWindowFocus: false,
   };
@@ -30,6 +29,7 @@ export const useQueryHook = (queryKey, getDataFun, queryType) => {
     isLoading,
     isRefetching,
     status,
+    isSuccess,
     isPlaceholderData,
     refetch,
   } = useQuery(queryType === "normal" ? normalQuery : paginateQuery);
@@ -45,5 +45,6 @@ export const useQueryHook = (queryKey, getDataFun, queryType) => {
     isRefetching,
     isPlaceholderData,
     refetch,
+    isSuccess,
   };
 };

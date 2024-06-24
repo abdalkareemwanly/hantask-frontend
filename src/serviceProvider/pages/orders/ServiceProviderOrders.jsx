@@ -139,7 +139,7 @@ const ServiceProviderOrders = () => {
     },
   ];
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return (
     <Page>
       {isModalOpen && (

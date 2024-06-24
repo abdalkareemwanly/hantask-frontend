@@ -55,12 +55,12 @@ const AdminBlogs = () => {
   };
 
   const deleteFun = async (id) => {
-    const toastId = toast.loading("deleting..");
+    const toastId = toast.loading("submitting, please wait...");
     try {
-      const category = await deleteMutation.mutateAsync(id);
+      const res = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
         type: "success",
-        render: category.data.message,
+        render: res.data.message,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -96,7 +96,7 @@ const AdminBlogs = () => {
       }
     });
   };
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   return (
     <Page>

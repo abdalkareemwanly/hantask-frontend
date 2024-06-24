@@ -21,7 +21,7 @@ function ReportChat(props) {
   } = useQueryHook(["messages", id], () => getData(id), "normal");
 
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return (
     <Page>
       <div className="recent-ticket xl:col-span-3 col-span-5 bg-blocks-color p-[20px] rounded-[10px]">

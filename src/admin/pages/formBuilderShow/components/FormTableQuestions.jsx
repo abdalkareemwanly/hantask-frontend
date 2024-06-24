@@ -12,14 +12,14 @@ const FormTableQuestions = ({
   setEditModal,
   setEditQuestionSelected,
 }) => {
-  console.log(data, 'data');
+  console.log(data, "data");
   const deleteFun = async (id) => {
-    const toastId = toast.loading("deleting..");
+    const toastId = toast.loading("submitting, please wait...");
     try {
-      const category = await axiosClient.delete(`/admin/question/delete/${id}`);
+      const res = await axiosClient.delete(`/admin/question/delete/${id}`);
       toast.update(toastId, {
         type: "success",
-        render: category.mes,
+        render: res.data.mes,
         closeOnClick: true,
         isLoading: false,
         autoClose: true,
@@ -116,7 +116,7 @@ const FormTableQuestions = ({
           />
           {/* {showEditForm && <EditFormData formbuilder={formbuilder} row={selectedRow} />} */}
         </motion.div>
-       )} 
+      )}
     </AnimatePresence>
   );
 };

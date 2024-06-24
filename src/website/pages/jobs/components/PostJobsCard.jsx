@@ -1,10 +1,11 @@
 import { FaRegBookmark } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
+import { FaBookmark, FaLocationDot } from "react-icons/fa6";
 import { TbCalendarTime } from "react-icons/tb";
 import Button from "../../../../Components/Button";
 import axiosClient from "../../../../axios-client";
 import LazyMedia from "../../../../Components/LazyMedia";
 import { toast } from "react-toastify";
+import { CiBookmark } from "react-icons/ci";
 function PostJobsCard({ item, withBuyer = true }) {
   const isServiceProvider =
     JSON.parse(localStorage.getItem("USER"))?.user_type === "seller";
@@ -13,7 +14,9 @@ function PostJobsCard({ item, withBuyer = true }) {
 
     if (isLogin) {
       if (isServiceProvider) {
-        const res = await axiosClient.post("/site/post/saved", { post_id: id });
+        const res = await axiosClient.post("/site/posts/saved", {
+          post_id: id,
+        });
         toast.success("saved successfully");
       } else {
         toast.info("only for handymans");
@@ -29,14 +32,19 @@ function PostJobsCard({ item, withBuyer = true }) {
         <span className="rounded-full text-sm px-3 bg-[#9feaba78] flex justify-center items-center">
           {item?.category?.name}
         </span>
-        {isServiceProvider && (
-          <span
-            onClick={() => saveToSaved(item?.id)}
-            className="w-[30px] h-[30px] cursor-pointer rounded-full bg-[#9feaba78] flex justify-center items-center"
-          >
-            <FaRegBookmark size={18} />
-          </span>
-        )}
+        {isServiceProvider &&
+          (item?.is_saved ? (
+            <span onClick={() => saveToSaved(item?.id)}>
+              <FaBookmark size={24} color="#1c8397" />
+            </span>
+          ) : (
+            <span
+              onClick={() => saveToSaved(item?.id)}
+              className="w-[30px] h-[30px] cursor-pointer rounded-full bg-[#9feaba78] flex justify-center items-center"
+            >
+              <CiBookmark size={24} color="#1c8397" />
+            </span>
+          ))}
       </div>
       <div className="flex gap-4 items-center">
         <div className="w-[100px] h-[100px] rounded-full flex justify-center items-center bg-[#9feaba78]">

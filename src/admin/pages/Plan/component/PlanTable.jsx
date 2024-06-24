@@ -68,39 +68,8 @@ export default function ProductTable() {
     searchTerm,
   ]);
 
-  const editBtnFun = (row) => {
-    setIsModalOpen(true);
-    setClickedRow(row);
-  };
-
-  const handleChangeStatus = async (id) => {
-    const toastId = toast.loading("processing...");
-    try {
-      const product = await changeStatusMutation.mutateAsync(id);
-      toast.update(toastId, {
-        type: "success",
-        render: product.mes,
-        closeOnClick: true,
-        isLoading: false,
-        autoClose: true,
-        closeButton: true,
-        pauseOnHover: false,
-      });
-    } catch (error) {
-      toast.update(toastId, {
-        type: "error",
-        render: error.response.data.message,
-        closeOnClick: true,
-        isLoading: false,
-        autoClose: true,
-        closeButton: true,
-        pauseOnHover: false,
-      });
-    }
-  };
-
   const deleteFun = async (id) => {
-    const toastId = toast.loading("deleting..");
+    const toastId = toast.loading("submitting, please wait...");
     try {
       const product = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
@@ -201,7 +170,7 @@ export default function ProductTable() {
                 isLink={false}
                 color={"bg-redColor"}
                 title={"delete"}
-                onClickFun={() => deleteFunc(row.id)}
+                onClickFun={() => handleDelete(row.id)}
               />
             )}
           </div>
@@ -210,7 +179,7 @@ export default function ProductTable() {
     },
   ];
 
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   if (hasShowPermission === false) return nav("/admin/dashboard");
   return (
     <div className="my-4">

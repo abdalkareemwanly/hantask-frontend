@@ -15,16 +15,14 @@ const getData = async () => {
 
 const ServiceProviderProfile = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const {
-    countries,
-    cities: filteredCities,
-    setSelectedCountry,
-  } = useGlobalDataContext();
+  const { countries, cities, setSelectedCountry, setSelectedCity, areas } =
+    useGlobalDataContext();
 
   const {
     data: profile,
     queryClient,
     isLoading,
+    isSuccess,
     isError,
   } = useQueryHook(["profile"], () => getData(), "normal");
 
@@ -32,7 +30,7 @@ const ServiceProviderProfile = () => {
     setEditModalOpen((prev) => !prev);
   };
   if (isLoading) return <Loader />;
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   return (
     <Page>
       {editModalOpen && (
@@ -42,9 +40,10 @@ const ServiceProviderProfile = () => {
           component={
             <EditProfile
               countries={countries}
-              cities={filteredCities}
+              cities={cities}
               setSelectedCountry={setSelectedCountry}
               data={profile[0]}
+              areas={areas}
               setIsModalOpen={setEditModalOpen}
             />
           }
@@ -89,12 +88,14 @@ const ServiceProviderProfile = () => {
             <span>{profile[0]?.phone}</span>
           </div>
           <div className="text-secondary-text flex items-center gap-9">
-            <span>full name: </span>
-            <span>{profile[0]?.name}</span>
-          </div>
-          <div className="text-secondary-text flex items-center gap-9">
             <span>address: </span>
-            <span>{profile[0]?.name}</span>
+            <span>
+              {profile[0]?.country?.name +
+                ", " +
+                profile[0]?.city?.name +
+                ", " +
+                profile[0]?.area?.name}
+            </span>
           </div>
         </div>
       </div>

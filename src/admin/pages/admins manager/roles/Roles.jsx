@@ -64,7 +64,7 @@ const Roles = () => {
     });
   };
   const deleteCall = async (id) => {
-    const toastId = toast.loading("processing");
+    const toastId = toast.loading("submitting, please wait...");
     try {
       const role = await deleteMutation.mutateAsync(id);
       toast.update(toastId, {
@@ -135,7 +135,7 @@ const Roles = () => {
       },
     },
   ];
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   return (
     hasShowPermission && (

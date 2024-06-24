@@ -104,7 +104,7 @@ const Blog = () => {
   //     }
   //   };
   // }, []);
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
   if (isLoading)
     return (
       <div className="min-h-[100vh]">
@@ -139,7 +139,7 @@ const Blog = () => {
       </div>
       <main className="flex flex-col gap-4">
         <img
-          className="w-full max-h-[350px] group-hover:scale-105 transition-all rounded-lg component-shadow object-cover"
+          className="w-full max-h-[450px] group-hover:scale-105 transition-all rounded-lg component-shadow object-cover "
           src={import.meta.env.VITE_WEBSITE_URL + "/" + blog.image}
         />
         <div className="text-gray-400">{blog.meta_description}</div>

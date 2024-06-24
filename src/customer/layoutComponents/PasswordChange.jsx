@@ -41,7 +41,7 @@ const PasswordChange = ({ data, setIsModalOpen }) => {
     const form = new FormData();
     form.append("password", values.password);
     form.append("confirm_password", values.confirm);
-    const id = toast.loading("loading...");
+    const id = toast.loading("submitting, submitting, please wait...");
     const res = await axiosClient.post("buyer/profile/changePassword", form);
     if (res.data.success) {
       setIsModalOpen(false);

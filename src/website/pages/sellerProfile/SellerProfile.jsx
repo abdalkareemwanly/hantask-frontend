@@ -35,7 +35,7 @@ function SellerProfile(props) {
     autoplay: false,
     dotsClass: "slider-dots",
   });
-  if (isError) <NetworkErrorComponent />;
+  if (isError) return <NetworkErrorComponent />;
 
   return isLoading ? (
     <>
